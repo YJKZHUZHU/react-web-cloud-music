@@ -1,0 +1,280 @@
+// 1. 布局
+
+// 固定定位, 兼容IE6
+@mixin fixed {
+  position: fixed;
+  _position: absolute;
+  *zoom: 1;
+}
+
+// 水平竖直方向居中-translate
+@mixin center() {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+// 水平竖直方向居中-flex
+@mixin flex-center($w, $h) {
+  @include flex;
+  align-items: center;
+  justify-content: center;
+}
+
+//水平竖直方向居中-margin
+@mixin know-center($w, $h) {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -($w/2);
+  margin-top: -($h/2);
+}
+
+// 吸顶导航
+@mixin fix-header($h: 70px) {
+  @include fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: $h;
+  z-index: 1000;
+}
+
+// 吸底导航
+@mixin fix-footer($h: 70px) {
+  @include fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: $h;
+  z-index: 1000;
+}
+
+// 浮动, 兼容 IE6
+@mixin fl {
+  float: left;
+  *display: inline;
+  _display: inline;
+}
+
+@mixin fr {
+  float: right;
+  *display: inline;
+  _display: inline;
+}
+
+// 清除浮动
+@mixin clearfix {
+  *zoom: 1;
+  &:after {
+    content: "";
+    display: block;
+    height: 0;
+    visibility: hidden;
+    clear: both;
+  }
+}
+
+// 弹性盒
+@mixin flex {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+// IE盒模型
+@mixin border-box {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+// 尺寸
+@mixin size($w, $h) {
+  width: $w;
+  height: $h;
+}
+
+// 最小尺寸, 兼容IE6
+@mixin min-width($min-w) {
+  min-width: $min-w;
+  _width: $min-w;
+}
+
+@mixin min-height($min-h) {
+  min-height: $min-h;
+  _height: $min-h;
+}
+
+// 全屏大图背景
+@mixin fullscreen-bg($url) {
+  width: 100vw;
+  height: 100vh;
+  background: url($url) no-repeat 50% 50%;
+  background-size: cover;
+}
+
+// 2. 文本
+// 禁止文本被选择
+@mixin user-select {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+// 文字超出显示省略号
+@mixin ellipsis {
+  /*加宽度width属来兼容部分浏览*/
+  white-space: nowrap;
+  overflow: hidden;
+  -ms-text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+}
+
+//文字超出几行显示省略号
+@mixin ellipsis-multi($line) {
+  //     display: -webkit-box; //将对象作为弹性伸缩盒子模型显示
+  //   -webkit-box-orient: vertical; //设置或检索伸缩盒对象的子元素的排列方式
+  //   -webkit-line-clamp: 3; //用来限制在一个块元素显示的文本的行数
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $line;
+  overflow: hidden;
+  -ms-text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+}
+
+// 美化文本选中 ::selection
+@mixin beauty-select($color, $bgcolor) {
+  &::selection {
+    color: $color;
+    background-color: $bgcolor;
+  }
+}
+
+// 美化占位符 placeholder 样式
+@mixin beauty-placeholder($fz, $color: #999, $align: left) {
+  &:-moz-placeholder {
+    font-size: $fz;
+    color: $color;
+    text-align: $align;
+  }
+  &:-ms-input-placeholder {
+    font-size: $fz;
+    color: $color;
+    text-align: $align;
+  }
+  &::-webkit-input-placeholder {
+    font-size: $fz;
+    color: $color;
+    text-align: $align;
+  }
+}
+
+// 隔行换色
+@mixin zebra-lists($evenColor, $evenBgColor, $oddColor, $oddBgColor) {
+  &:nth-child(2n) {
+    color: $evenColor;
+    background-color: $evenBgColor;
+  }
+  &:nth-child(2n + 1) {
+    color: $oddColor;
+    background-color: $oddBgColor;
+  }
+}
+//1357换色
+@mixin zebra-lists-th($evenColor, $evenBgColor, $oddColor, $oddBgColor) {
+  &:nth-child(n+2) {
+    color: $evenColor;
+    background-color: $evenBgColor;
+  }
+  &:nth-child(2n + 1) {
+    color: $oddColor;
+    background-color: $oddBgColor;
+  }
+}
+
+// 首字下沉
+@mixin first-letter($font-size: 6em) {
+  &::first-letter {
+    float: left;
+    line-height: 1;
+    font-size: $font-size;
+  }
+}
+
+//keyframes
+@mixin keyframes($animationName) {
+  @-webkit-keyframes #{$animationName} {
+    @content;
+  }
+  @-moz-keyframes #{$animationName} {
+    @content;
+  }
+  @-o-keyframes #{$animationName} {
+    @content;
+  }
+  @keyframes #{$animationName} {
+    @content;
+  }
+}
+
+// 3. 图片
+// 滤镜: 将彩色照片显示为黑白照片、保留图片层次
+@mixin grayscale {
+  -webkit-filter: grayscale(100%);
+  -moz-filter: grayscale(100%);
+  -ms-filter: grayscale(100%);
+  -o-filter: grayscale(100%);
+  filter: grayscale(100%);
+}
+
+// 模糊  毛玻璃效果
+@mixin blur($blur: 10px) {
+  -webkit-filter: blur($blur);
+
+  -moz-filter: blur($blur);
+  -o-filter: blur($blur);
+  -ms-filter: blur($blur);
+  filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius='${blur}');
+  filter: blur($blur);
+  *zoom: 1;
+}
+
+// 鼠标禁用样式，但仍然可以触发事件
+@mixin disabled {
+  cursor: not-allowed;
+}
+
+// 4.图形
+
+// 三角形
+@mixin triangle($width: 4px, $color: #000) {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  vertical-align: middle;
+  border-top: $width solid $color;
+  border-left: $width solid transparent;
+  border-right: $width solid transparent;
+}
+
+//多行文本溢出
+@mixin multilineTextEllipsis($row: 1,$height: 20px) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: $row;
+  -webkit-box-orient: vertical;
+  height: $height;
+}
+

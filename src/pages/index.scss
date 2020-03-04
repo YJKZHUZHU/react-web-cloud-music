@@ -1,0 +1,45 @@
+@import "utils";
+
+.home {
+  main {
+    display: flex;
+
+    aside {
+      width: 300px;
+      background-color: #ededed;
+
+      .recommend, .myMusic {
+        text-align: left;
+        padding-left: 10px;
+
+        h2 {
+          margin-top: 15px;
+        }
+
+        .list {
+          @include fl();
+          width: 100%;
+          padding-left: 15px;
+
+          li {
+            margin-top: 10px;
+            margin-bottom: 20px;
+
+            :hover {
+              color: $bgColor;
+            }
+
+            .icon {
+              padding-right: 10px;
+            }
+          }
+        }
+      }
+    }
+
+    article {
+      flex: 1;
+      background-color: #1890ff;
+    }
+  }
+}

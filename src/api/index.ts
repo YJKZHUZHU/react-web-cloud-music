@@ -1,0 +1,134 @@
+import Axios from 'axios'
+import {appState} from '@/models/gloable'
+import qs from 'qs'
+
+
+const axios = Axios.create({
+  withCredentials: false,
+  timeout: 60 * 1000,
+  xsrfCookieName: 'csrfToken',
+  xsrfHeaderName: 'x-csrf-token',
+  headers: {}
+})
+const queryMethods = ['get', 'delete', 'head']
+const isQueryLike = (method: any) => queryMethods.includes(method.toLowerCase())
+const filterParamConfig = {
+  blackListKey: ['loading'],
+  blackListVal: [null, undefined],
+  isNotEmpty: false
+}
+
+const filterParam = (params: any) => {
+  const ret = Object.create(null)
+  for (const key in params) if (params.hasOwnProperty(key)) {
+    const val = params[key]
+    if (filterParamConfig.blackListKey.includes(key)) {
+      continue
+    }
+    if (filterParamConfig.blackListVal.some(item => item === val)) {
+      continue
+    }
+    if (filterParamConfig.isNotEmpty && val === '') {
+      continue
+    }
+    ret[key] = val
+  }
+  return ret
+}
+//拦截请求
+axios.interceptors.request.use(config => {
+  let {url, method} = config
+  const isQueryLikeTYpe = isQueryLike(method)
+  // @ts-ignore
+  const urlParamStr = url.slice(url.indexOf('?') === -1 ? url.length : url.indexOf('?') + 1)
+  const urlParamObj = urlParamStr.trim() !== '' ? qs.parse(urlParamStr) : null
+  let params = {
+    ...urlParamObj,
+    ...(typeof config.data === 'string' ? qs.parse(config.data) : config.data),
+    ...config.params
+  }
+  if (urlParamStr !== '') {
+    // @ts-ignore
+    url = url.slice(0, url.indexOf('?') + 1)
+  }
+
+  config.data = null
+  config.params = null
+  if (params.loading === true) {
+    appState.setLoading(true)
+  }
+  params = filterParam(params)
+
+  if (!isQueryLikeTYpe && typeof params === 'object') {
+    params = qs.stringify(params)
+  }
+  return {
+    ...config,
+    url,
+    [isQueryLikeTYpe ? 'params' : 'data']: params
+  }
+}, error => Promise.reject(error))
+
+
+//拦截响应
+axios.interceptors.response.use(res => {
+  appState.setLoading(false)
+  if (res.data.code === 302) {
+    return new Promise(() => {
+    })
+  }
+  return res.data
+}, error => Promise.reject(error))
+
+// @ts-ignore
+axios.get = function(url, params = {}, config = {}) {
+  return axios({
+    url,
+    method: 'get',
+    params,
+    ...config
+  })
+}
+// @ts-ignore
+axios.post = function(url, data = {}, config = {}) {
+  return axios({
+    url,
+    method: 'post',
+    data,
+    ...config
+  })
+}
+
+interface PlayListInterface {
+  id?: string | number,
+  s?: string | number
+}
+
+
+class API {
+  static login = (params: object) => axios.get('/api/login/cellphone', params)
+  static banner = (params: object) => axios.get('/api/banner', params) //0代表pc
+  static personalized = (params: object) => axios.get('/api/personalized', params)
+  //推荐新音乐
+  static newSong = (params: object) => axios.get('/api/personalized/newsong', params)
+  //歌单详情部分
+  static playList = (params: any) => axios.get('/api/playlist/detail', params)
+  //歌单收藏者
+  static playlistCollection = (params: object) => axios.get('/api/playlist/subscribers', params)
+  //歌单评论
+  static comment = (params: object) => axios.get('/api/comment/playlist', params)
+  //获取歌单音乐
+  static song = (params: object) => axios.get('/api/song/detail', params)
+  //获取音乐url
+  static playSong = (params: object) => axios.get('/api/song/url', params)
+  //获取歌词
+  static getLyric = (params: object) => axios.get('/api/lyric', params)
+  //排行榜
+  static getTopList = (params: object) => axios.get('/api/top/list', params)
+  //所有榜单
+  static getAllTopList = (params: object) => axios.get('/api/toplist', params)
+  //全部歌单
+  static getAllCatList = (params: object) => axios.get('/api/playlist/catlist', params)
+}
+
+export default API

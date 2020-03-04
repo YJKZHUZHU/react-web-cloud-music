@@ -1,0 +1,46 @@
+@import "utils";
+
+.tabPane {
+  //padding: 0 108px;
+
+  .recommend {
+    margin-top: 15px;
+    min-height: 440px;
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      h2 {
+        font-size: 18px;
+        font-weight: 400;
+        color: var(--font-color);
+      }
+
+      span {
+        cursor: pointer;
+        font-size: 12px;
+      }
+    }
+
+
+    .newMusic {
+      border: 1px solid #DFE0E0;
+      border-right: none;
+      min-height: 400px;
+
+      .item {
+        //@include zebra-lists(#333333, #FAFAFA, #333333, #F5F5F7);
+      }
+    }
+  }
+
+  .leaderBoard {
+
+  }
+
+  .divider {
+    margin: 10px 0;
+  }
+}

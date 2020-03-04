@@ -1,0 +1,89 @@
+@import "utils";
+
+._leaderBoard {
+  width: 300px;
+  border: 1px solid var(--player-bgcolor);
+  margin-bottom: 20px;
+  .top {
+    position: relative;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff;
+    background-color: #5F93E5;
+
+    .img {
+      width: 60px;
+      img {
+        width: 100%;
+      }
+    }
+
+    .description {
+      flex: 1;
+      font-size: 12px;
+      line-height: 25px;
+      padding-left: 15px;
+    }
+    .icon {
+      margin-right: 20px;
+      border-radius: 50%;
+      font-size: 20px;
+      color: #ffffff;
+      width: 40px;
+      height: 40px;
+      border: 1px solid #dddddd;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+
+      &:hover {
+        border: 1px solid #ffffff;
+      }
+    }
+  }
+
+  .list {
+    .item {
+      @include zebra-lists(#333333, #FAFAFA, #333333, #F5F5F7);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 40px;
+      padding: 0 15px;
+      font-size: 12px;
+      cursor: default;
+
+      &:hover {
+        background-color: #E3E3E5;
+      }
+      .number {
+        width: 25px;
+      }
+      .title {
+        @include ellipsis();
+        flex: 1;
+        padding-right: 12px;
+      }
+      .name {
+        width: 70px;
+        text-align: right;
+        cursor: pointer;
+        @include ellipsis();
+      }
+
+    }
+  }
+
+  .link {
+    text-align: right;
+    padding-right: 10px;
+    height: 40px;
+    line-height: 40px;
+    background-color: #F5F5F7;
+    color: #888888;
+  }
+}
+

@@ -1,0 +1,152 @@
+@import "utils";
+
+._playerLayout {
+  position: fixed;
+  top: 65px;
+  bottom: 75px;
+  left: 0;
+  right: 0;
+  padding: 0 36px;
+  background: var(--player-bgcolor);
+  z-index: 1000;
+  overflow: hidden;
+  overflow-y: auto;
+  transition: transform 0.5s;
+
+  &.show {
+    transform: none;
+  }
+
+  &.hide {
+    transform: translateY(105%);
+    -webkit-transform: translateY(105%);
+  }
+
+  .lyric {
+    display: flex;
+    padding: 0 20%;
+
+    .left {
+      position: relative;
+      padding: 80px 25px 0 25px;
+      display: flex;
+      justify-content: center;
+      width: 350px;
+
+      .playBarSupport {
+        position: absolute;
+        width: 32px;
+        height: 32px;
+        top: -16px;
+        left: 53%;
+
+      }
+
+      .playBar {
+        position: absolute;
+        top: 3px;
+        left: 56%;
+        width: 100px;
+        height: 150px;
+        z-index: 1;
+        transform-origin: 0 0;
+
+        transition: all .3s;
+
+        &.play {
+          transform: rotate(14deg);
+        }
+
+        &.stop {
+          transform: rotate(-10deg);
+          top: 4px;
+        }
+      }
+
+
+      .imgOuterBorder {
+        height: 320px;
+        background: var(--song-shallow-grey-bg);
+        border-radius: 50%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+
+        .imgOuter {
+          width: 300px;
+          height: 300px;
+
+          background: var(--song-shallow-grey-bg);
+          background: linear-gradient(-45deg, #333540, #070708, #333540);
+          animation: rotate 20s linear infinite;
+          @include flex-center(300, 300);
+          border-radius: 50%;
+          margin: 10px;
+
+          .imgWrap {
+            width: 200px;
+            height: 200px;
+            flex-shrink: 0;
+
+            img {
+              width: 100%;
+              height: 100%;
+              border-radius: 50%;
+            }
+          }
+        }
+      }
+    }
+
+    .right {
+      flex: 1;
+      padding-top: 50px;
+      margin-left: 60px;
+
+      .top {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+
+        .name {
+          font-size: 24px;
+          color: var(--font-color-white);
+        }
+      }
+
+      .middle {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 35px;
+
+        .singer {
+          font-size: 12px;
+
+          .name {
+
+          }
+
+          .link {
+
+          }
+        }
+
+      }
+
+
+    }
+  }
+
+  .noSong {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    color: var(--font-color);
+  }
+}
+

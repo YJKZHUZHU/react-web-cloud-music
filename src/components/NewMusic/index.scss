@@ -1,0 +1,62 @@
+@import "utils";
+
+._newMusic {
+  display: flex;
+  cursor: pointer;
+  padding: 15px 15px 7px 0;
+  border-right: 1px solid #DFE0E0;
+
+  &:hover {
+    background: var(--playlist-hover-bgcolor);
+  }
+
+  .number {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 15px;
+  }
+
+  .img {
+    position: relative;
+    margin: 0 15px;
+    width: 64px;
+    height: 64px;
+
+    img {
+      width: 100%;
+    }
+
+    .playIcon {
+      @include know-center(26px, 26px);
+      color: #fff;
+      width: 26px;
+      height: 26px;
+      border: 1px solid #D2CFC4;
+      background-color: #6C6D64;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &:hover {
+        background-color: #474843;
+      }
+
+      i {
+        margin-left: 2px;
+      }
+    }
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    flex: 1;
+
+    i {
+      padding-right: 10px;
+    }
+  }
+}

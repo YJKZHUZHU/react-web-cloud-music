@@ -1,0 +1,3 @@
+@function imgPath($path) {
+  @return '../assets/#{$path}'
+}

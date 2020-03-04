@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="3ac4d602-c92c-4419-bff4-268fa41f4872" name="默认的" comment="" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="JsFlowSettings">
+    <service-enabled>true</service-enabled>
+    <exe-path />
+    <other-services-enabled>true</other-services-enabled>
+    <auto-save>true</auto-save>
+  </component>
+  <component name="ProjectId" id="1YEYP7201Wd1Y2ajhkGMSCO2O3I" />
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/assets" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="stylesheet.code.style.group" />
+    <property name="ts.external.directory.path" value="D:\Program Files (x86)\WebStorm 2019.2.4\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\react-music\cloud-music-web-react\public" />
+      <recent name="E:\react-music\cloud-music-web-react\src\pages\recommend" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\react-music\cloud-music-web-react\src\assets" />
+      <recent name="E:\react-music\cloud-music-web-react\src\assets\player" />
+      <recent name="E:\react-music\cloud-music-web-react\public" />
+      <recent name="E:\react-music\cloud-music-web-react\src\pages\myMusic\collect" />
+      <recent name="E:\react-music\cloud-music-web-react\src\theme" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3ac4d602-c92c-4419-bff4-268fa41f4872" name="默认的" comment="" />
+      <created>1582509193154</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1582509193154</updated>
+      <workItem from="1582509194526" duration="88393000" />
+      <workItem from="1582703087944" duration="3559000" />
+      <workItem from="1582706843131" duration="980000" />
+      <workItem from="1582708068014" duration="45240000" />
+      <workItem from="1582802188885" duration="45337000" />
+      <workItem from="1582887719405" duration="376000" />
+      <workItem from="1582888379164" duration="9323000" />
+      <workItem from="1582947661409" duration="22022000" />
+      <workItem from="1583032056270" duration="61910000" />
+      <workItem from="1583301552710" duration="943000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+</project>

@@ -1,0 +1,31 @@
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
+import Utils from '@/help/index'
+import router from 'umi/router';
+import store from '@/help/localStorage'
+
+interface RouterInterface {
+  location: any,
+  routes: any,
+  action: any
+}
+
+let lastKey: string = ''
+
+export function onRouteChange(props: RouterInterface) {
+  console.log(props)
+  NProgress.start()
+  if (props.location.key !== lastKey) {
+    lastKey = props.location.pathname
+    NProgress.done()
+  }
+  //首次加载undefined
+  if (!props.action) {
+    // router.push('/recommend/findMusic')
+    if (!store.getStorage('theme')) {
+      store.setStorage('theme', 'red')
+    }
+    Utils.getTheme()
+  }
+}
+

@@ -1,0 +1,67 @@
+@import "utils";
+
+$logoPath: '../../assets/topbar.png';
+
+header {
+  .top {
+    //height: 65px;
+    width: 100%;
+    background-color: var(--header-bgcolor);
+    @include fix-header(65px);
+    z-index: 1001;
+
+    .row {
+      padding-top: 15px;
+    }
+
+    .skin {
+      font-size: 18px;
+      margin-top: 5px;
+      color: var(--header-font-color);
+      cursor: pointer;
+    }
+
+    .logo {
+      background: url($logoPath) 0 -18px;
+      width: 160px;
+      height: 35px;
+    }
+
+    .down {
+      color: var(--header-font-color);
+      font-size: 20px;
+      margin-top: 7px;
+    }
+  }
+
+
+}
+
+.themePop {
+  .theme {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .item {
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      .com {
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        &.black {
+          background-color: rgb(32, 32, 32);
+        }
+        &.shallow {
+          background-color: rgb(246, 246, 246);
+          border: 1px solid rgb(235, 234, 234);
+        }
+        &.red {
+          background-color: rgb(211, 58, 49);
+        }
+      }
+    }
+  }
+}
+
