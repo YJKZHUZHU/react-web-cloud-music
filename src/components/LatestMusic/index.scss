@@ -1,0 +1,75 @@
+@import "utils";
+._latestMusic {
+  .radioGroup {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+  }
+  .list {
+    font-size: 14px;
+    min-height: 300px;
+    .item {
+      cursor: default;
+      display: flex;
+      @include zebra-lists(#333333, #FAFAFA, #333333, #F5F5F7);
+      height: 80px;
+      justify-content: space-around;
+      align-items: center;
+      .number {
+        width: 30px;
+        text-align: center;
+      }
+      .img {
+        width: 50px;
+        height: 50px;
+        position: relative;
+        margin-right: 20px;
+        img {
+          width: 100%;
+        }
+        .icon {
+          @include know-center(28px,28px);
+          width: 28px;
+          height: 28px;
+          border: 1px solid #D2CFC4;
+          background-color: #6C6E63;
+          color: #ffffff;
+          border-radius: 50%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+          &:hover {
+            background-color: #474943;
+          }
+          i {
+            margin-left: 2px;
+          }
+        }
+      }
+
+      .content {
+        flex: 1;
+        @include ellipsis();
+        .smallTip {
+          color: #888888;
+          font-size: 12px;
+        }
+      }
+      .name {
+        width: 200px;
+        @include ellipsis();
+
+      }
+      .title {
+        width: 280px;
+        @include ellipsis()
+      }
+      .time {
+        width: 70px;
+        text-align: center;
+      }
+    }
+  }
+}

@@ -129,6 +129,12 @@ class API {
   static getAllTopList = (params: object) => axios.get('/api/toplist', params)
   //全部歌单
   static getAllCatList = (params: object) => axios.get('/api/playlist/catlist', params)
+  //新歌速递
+  static getLatestMusic = (params: object) => axios.get('/api/top/song', params)
+  //新碟上架
+  static getTopAlbum = (params: object) => axios.get('/api/top/album', params)
+  //获取用户播放记录
+  static getUserPlayList = (params: object) => axios.get('/api/user/record', params)
 }
 
 export default API

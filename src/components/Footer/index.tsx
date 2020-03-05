@@ -1,39 +1,91 @@
-import React, {FC} from 'react'
-import {Progress, Icon} from 'antd'
+import React, {FC, useState, useEffect, useRef} from 'react'
+import {Progress, Icon, Slider,Radio} from 'antd'
 import {Subscribe} from '@/Appcontainer'
 import {appState} from '@/models/gloable'
 import style from './index.scss'
 import classnames from 'classnames'
 import Utils from '@/help'
+import ReactPlayer from 'react-player'
+
+import store from '@/help/localStorage'
+import PlayRate from '@/components/PlayRate'
+
 
 type Props = {
   $app: any
 }
 const Footer: FC<Props> = props => {
-  const {isPlay, songObj, playerObj,showPlayer} = props.$app.state
-  const onPlay = () => {
-    return appState.setStopPlay(!appState.state.isPlay)
+  const {isPlay, songObj, playerObj, showPlayer, volume,playMode,playerRate} = props.$app.state
+  const [lastVolume, setLastVolume] = useState(0)
+  const playRef:any =useRef(null)
+
+  useEffect(() => {
+    const volume = JSON.parse(store.getStorage('volume') as string)
+    appState.setVolume(volume)
+  }, [store.getStorage('volume')])
+
+  const handleSlider = (value: any) => {
+    playRef.current.seekTo(value)
+    return appState.setPlayerObj({
+      ...playerObj,
+      playedSeconds: value
+    })
   }
+
+  const onRate = (e:any) => {
+    return appState.setPlayRate(+e.target.value)
+  }
+
+  const onVolume = (value: any) => {
+    setLastVolume(value / 100)
+    return appState.setVolume(value / 100)
+  }
+  const onMute = () => {
+    if (volume !== 0) {
+      return appState.setVolume(0)
+    }
+    return appState.setVolume(lastVolume)
+  }
+
+
+  const onStart = () => {
+    console.log('播放')
+  }
+
+  const onPause = () => {
+    console.log('暂停')
+  }
+  const onDuration = (time: any) => {
+    console.log('时间:' + time + 's')
+  }
+  const onProgress = (state:any) => {
+    console.log('onProgress', state)
+    return appState.setPlayerObj({
+      ...state,
+      playedSeconds:state.playedSeconds
+    })
+  }
+
   return (
     <footer>
       <div className={style.footerContainer}>
-        <Progress
-          percent={parseFloat(String(playerObj.playedSeconds/playerObj.loadedSeconds))*100}
-          strokeColor={{
-            '0%': '#D74D45',
-            '100%': '#87d068',
-          }}
-          status="active"
-          strokeLinecap="square"
-          showInfo={false}
-          style={{padding: '0 23px'}}
+        <Slider
+          onChange={handleSlider}
+          style={{padding: 0, margin: 0,visibility: Object.keys(songObj).length !== 0 ? 'visible' : 'hidden'}}
+          value={playerObj.playedSeconds}
+          defaultValue={0}
+          step={0.001}
+          min={0}
+          max={playerObj.loadedSeconds}
+          tipFormatter={null}
         />
+
         <div className={style.footer}>
-          <div className={style.info} style={{visibility:Object.keys(songObj).length !== 0 ? 'visible' : 'visible'}}>
+          <div className={style.info} style={{visibility: Object.keys(songObj).length !== 0 ? 'visible' : 'hidden'}}>
             <div className={style.img} onClick={() => appState.setShowPlayer(!showPlayer)}>
               <div className={style.mask}/>
               <img src={songObj.backgroundImg}/>
-              <Icon type={showPlayer ? 'fullscreen-exit' : 'fullscreen' } className={style.full}/>
+              <Icon type={showPlayer ? 'fullscreen-exit' : 'fullscreen'} className={style.full}/>
             </div>
             <div className={style.content}>
               <div className={style.top}>
@@ -58,30 +110,43 @@ const Footer: FC<Props> = props => {
             </div>
           </div>
           <div className={style.playBtnGroup}>
-            <div className={classnames(style.common,style.last)}>
-              <Icon type="step-backward" />
+            <div className={classnames(style.common, style.last)}>
+              <Icon type="step-backward"/>
             </div>
-            <div className={classnames(style.common,style.now)}>
+            <div className={classnames(style.common, style.now)} onClick={() => appState.setStopPlay(!appState.state.isPlay)}>
               {
                 isPlay ?
-                  <Icon type={'pause'} onClick={onPlay} className={style.pause} />
-                  :<Icon type={'caret-right'} onClick={onPlay} className={style.caret}/>
+                  <Icon type={'pause'} className={style.pause}/>
+                  : <Icon type={'caret-right'} className={style.caret}/>
               }
             </div>
-            <div className={classnames(style.common,style.next)}>
-              <Icon type="step-forward" />
+            <div className={classnames(style.common, style.next)}>
+              <Icon type="step-forward"/>
             </div>
+          </div>
+          <div className={style.playRate}>
+            <p className={style.tip}>播放速度</p>
+            <Radio.Group value={playerRate} onChange={onRate}>
+              <Radio.Button value={1}>1.x</Radio.Button>
+              <Radio.Button value={1.2}>1.2x</Radio.Button>
+              <Radio.Button value={1.5}>1.5x</Radio.Button>
+              <Radio.Button value={2}>2x</Radio.Button>
+            </Radio.Group>
           </div>
           <div className={style.operating}>
             <Icon type="share-alt"/>
-            <Icon type="reload"/>
+            <PlayRate/>
             <Icon type="ordered-list"/>
             <div className={style.progress}>
-              <Icon type="sound" className={style.voice}/>
-              <Progress
-                percent={50}
-                strokeColor='#D74D45'
-                status='active'
+              <Icon type={volume === 0 ? 'notification' : 'sound'} className={style.voice} onClick={onMute}/>
+              <Slider
+                onChange={onVolume}
+                min={0}
+                max={100}
+                // defaultValue={defaultValue}
+                value={volume * 100}
+                className={style.slider}
+                tipFormatter={null}
               />
             </div>
             <Icon type="github"/>
@@ -89,6 +154,22 @@ const Footer: FC<Props> = props => {
         </div>
       </div>
 
+      <ReactPlayer
+        playsinline
+        url={songObj.url}
+        playing={isPlay}
+        style={{display: 'none'}}
+        volume={volume}
+        playbackRate={playerRate}
+        onPlay={onStart}
+        onPause={onPause}
+        onDuration={onDuration}
+        onProgress={onProgress}
+        loop={playMode === 1}
+        progressInterval={500}
+        ref={playRef}
+        // progressFrequency={1}
+      />
     </footer>
   )
 }

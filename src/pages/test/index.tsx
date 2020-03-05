@@ -1,8 +1,8 @@
 import React from 'react'
 
-import ALlTopLIst from '@/components/AllTopList'
+import LatestMusic from '@/components/LatestMusic'
 export default function() {
   return (
-    <ALlTopLIst/>
+    <LatestMusic/>
   )
 }

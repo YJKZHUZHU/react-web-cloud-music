@@ -2,14 +2,17 @@ import React, {FC, useRef, useEffect, forwardRef, useImperativeHandle, useCallba
 import ReactPlayer from 'react-player'
 import {Subscribe} from '@/Appcontainer'
 import {appState} from '@/models/gloable'
-import Utils from '@/help'
 
 type Props = {
   $app: any
 }
 
-const Player: FC<Props> = (props) => {
-  const {isPlay, songObj} = props.$app.state
+const Player: FC<Props> = (props,parentRef) => {
+  console.log(parentRef)
+
+  const {isPlay, songObj,volume,playMode,playerObj} = props.$app.state
+  const playRef = useRef(null)
+  // console.log(playRef.current)
 
   const onReady = () => {
     console.log('准备')
@@ -33,20 +36,23 @@ const Player: FC<Props> = (props) => {
   }
 
   return (
-    <div>
-      <ReactPlayer
-        url={songObj.url}
-        playing={isPlay}
-        style={{display: 'none'}}
-        onReady={onReady}
-        onPlay={onPlay}
-        onPause={onPause}
-        onDuration={onDuration}
-        onProgress={onProgress}
-      />
-    </div>
-
+    <ReactPlayer
+      playsinline
+      url={songObj.url}
+      playing={isPlay}
+      style={{display: 'none'}}
+      volume={volume}
+      onReady={onReady}
+      onPlay={onPlay}
+      onPause={onPause}
+      onDuration={onDuration}
+      onProgress={onProgress}
+      loop={playMode === 1}
+      progressInterval={500}
+      ref={playRef}
+      // progressFrequency={1}
+    />
   )
 }
 // @ts-ignore
-export default Subscribe(Player)
+export default Subscribe(forwardRef(Player))

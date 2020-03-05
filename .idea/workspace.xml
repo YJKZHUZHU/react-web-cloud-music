@@ -8,6 +8,9 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="JsFlowSettings">
     <service-enabled>true</service-enabled>
     <exe-path />
@@ -15,6 +18,7 @@
     <auto-save>true</auto-save>
   </component>
   <component name="ProjectId" id="1YEYP7201Wd1Y2ajhkGMSCO2O3I" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/assets" />
@@ -70,6 +74,7 @@
       <workItem from="1582947661409" duration="22022000" />
       <workItem from="1583032056270" duration="61910000" />
       <workItem from="1583301552710" duration="943000" />
+      <workItem from="1583305981374" duration="310000" />
     </task>
     <servers />
   </component>

@@ -193,14 +193,7 @@
 }
 //1357换色
 @mixin zebra-lists-th($evenColor, $evenBgColor, $oddColor, $oddBgColor) {
-  &:nth-child(n+2) {
-    color: $evenColor;
-    background-color: $evenBgColor;
-  }
-  &:nth-child(2n + 1) {
-    color: $oddColor;
-    background-color: $oddBgColor;
-  }
+
 }
 
 // 首字下沉

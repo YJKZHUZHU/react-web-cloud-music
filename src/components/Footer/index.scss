@@ -15,6 +15,7 @@ footer {
       .info {
         display: flex;
         align-items: center;
+        width: 300px;
 
         .img {
           position: relative;
@@ -22,6 +23,11 @@ footer {
           height: 50px;
           margin-left: 25px;
           cursor: pointer;
+          &:hover {
+            .full {
+              opacity: 0.5;
+            }
+          }
 
           .mask {
             position: absolute;
@@ -37,7 +43,7 @@ footer {
             @include center();
             font-size: 50px;
             color: #ffffff;
-            opacity: 0.5;
+            opacity: 0;
           }
 
           img {
@@ -91,7 +97,7 @@ footer {
         justify-content: space-between;
         align-items: center;
         color: $fontColor;
-        margin-left: 150px;
+        margin-left: 300px;
         .common {
           width: 36px;
           height: 36px;
@@ -119,6 +125,17 @@ footer {
 
       }
 
+      .playRate {
+        display: flex;
+        width: 300px;
+        justify-content: center;
+        align-items: center;
+        .tip {
+          margin-right: 10px;
+          font-size: 14px;
+        }
+      }
+
       .operating {
         display: flex;
         width: 360px;
@@ -133,6 +150,10 @@ footer {
           width: 200px;
           justify-content: space-between;
           align-items: center;
+
+          .slider {
+            flex: 1;
+          }
 
           .voice {
             margin-right: 10px;

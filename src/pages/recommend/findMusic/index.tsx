@@ -6,6 +6,7 @@ import NewMusic from '@/components/NewMusic'
 import OfficialLeaderBoard from '@/components/OfficialLeaderBoard'
 import ALlTopLIst from '@/components/AllTopList'
 import Link from 'umi/link'
+import LatestMusic from '@/components/LatestMusic'
 import styles from './index.scss'
 import API from '@/api'
 
@@ -123,7 +124,7 @@ const FindMusic: FC = props => {
         歌手
       </TabPane>
       <TabPane tab="最新音乐" key="6" className={styles.tabPane}>
-        最新音乐
+        <LatestMusic/>
       </TabPane>
     </Tabs>
   )

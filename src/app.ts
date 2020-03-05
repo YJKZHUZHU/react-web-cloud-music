@@ -25,6 +25,12 @@ export function onRouteChange(props: RouterInterface) {
     if (!store.getStorage('theme')) {
       store.setStorage('theme', 'red')
     }
+
+    //设置默认音量
+    if(!store.getStorage('volume')) {
+      store.setStorage('volume', 0.5)
+    }
+
     Utils.getTheme()
   }
 }

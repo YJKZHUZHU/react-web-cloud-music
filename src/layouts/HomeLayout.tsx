@@ -6,8 +6,6 @@ import NavLink from 'umi/navlink'
 import {Subscribe} from '@/Appcontainer'
 import {Icon, Spin} from 'antd'
 import PlayerLayout from '@/components/PlayerLayout'
-import ReactPlayer from 'react-player'
-import Player from '@/components/Player'
 
 interface HomeInterface {
   $app: any,
@@ -15,8 +13,9 @@ interface HomeInterface {
 }
 
 const HomeLayout: FC = (props: any) => {
-  const {globalLoading,loading} = props.$app.state
-  console.log('加载：'+ loading)
+  const {globalLoading, loading} = props.$app.state
+
+  console.log('加载：' + loading)
   return (
     <Spin spinning={globalLoading} delay={100} size='large' tip='皮肤正在加载中'>
       <div className={styles.home}>
@@ -88,13 +87,6 @@ const HomeLayout: FC = (props: any) => {
         <PlayerLayout/>
         <Footer/>
       </div>
-      <Player
-      />
-      {/*<ReactPlayer*/}
-      {/*  url={props.$app.state.songObj.url}*/}
-      {/*  playing={props.$app.state.isPlay}*/}
-      {/*  style={{display:'none'}}*/}
-      {/*/>*/}
     </Spin>
   )
 }

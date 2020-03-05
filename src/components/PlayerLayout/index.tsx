@@ -89,7 +89,7 @@ const PlayerLayout: FC<Props> = props => {
               <span className={styles.name}>歌手：</span>
               {
                 Object.keys(songObj).length !== 0 && songObj.singerArr.map((item: any, index: any) => {
-                  return <span key={item.id}>{item.name}{songObj.singerArr.length === (index + 1) ? null : '/'}</span>
+                  return <span key={Utils.createRandomId()}>{item.name}{songObj.singerArr.length === (index + 1) ? null : '/'}</span>
                 })
               }
             </p>
@@ -99,7 +99,7 @@ const PlayerLayout: FC<Props> = props => {
               {
                 lyric.map((v: any, index: number) => {
                   return (
-                    <div key={v.time}
+                    <div key={Utils.createRandomId()}
                          className={classnames('wrapItem', {'active': activeLyricIndex(index)})}>
                       <p className="title">
                         {v.lyc}
