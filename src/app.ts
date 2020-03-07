@@ -21,7 +21,7 @@ export function onRouteChange(props: RouterInterface) {
   }
   //首次加载undefined
   if (!props.action) {
-    // router.push('/recommend/findMusic')
+    router.push('/recommend/findMusic')
     if (!store.getStorage('theme')) {
       store.setStorage('theme', 'red')
     }

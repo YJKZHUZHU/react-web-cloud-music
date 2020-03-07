@@ -1,0 +1,213 @@
+@import "utils";
+
+._searchContent {
+  width: 500px;
+  height: 300px;
+  overflow-y: scroll;
+
+  .history {
+    padding: 12px 16px 0 16px;
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+
+      .icon {
+        color: #666666;
+        display: flex;
+
+        span {
+          margin-right: 10px;
+        }
+
+        i {
+          cursor: pointer;
+
+          &:hover {
+            color: #000000;
+          }
+        }
+      }
+
+      .all {
+        color: #666666;
+        cursor: pointer;
+
+        &:hover {
+          color: #000000;
+        }
+      }
+    }
+
+    .tag {
+      .item {
+        margin-bottom: 8px;
+        cursor: pointer;
+        height: 25px;
+        line-height: 25px;
+
+        &:hover {
+          background-color: #EEEEEE;
+        }
+      }
+    }
+  }
+
+  .hot {
+    .title {
+      color: #717171;
+      margin: 8px 0 10px 16px;
+    }
+
+    ul {
+      @include clearfix();
+      padding-bottom: 12px;
+      font-size: 12px;
+
+      .item {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        padding: 0 16px;
+        margin-bottom: 5px;
+
+        &:hover {
+          background-color: #EDEDED;
+        }
+
+        .number {
+          width: 36px;
+          color: #999999;
+
+          &.diff {
+            color: #FF3A3A;
+          }
+
+          //text-align: center;
+        }
+
+        .content {
+          flex: 1;
+
+          .top {
+            display: flex;
+
+            .song {
+              margin-right: 8px;
+              font-weight: 700;
+            }
+
+            .img {
+              width: 15px;
+              margin-left: 10px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+
+              img {
+                width: 100%;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+._searchSuggest {
+  width: 500px;
+  height: 300px;
+  overflow-y: scroll;
+
+  .searchTitle {
+    color: #444444;
+    margin: 5px 0 5px 10px;
+  }
+
+  .linkColor {
+    color: #0C73C2;
+    cursor: pointer;
+  }
+
+  .singer {
+    ul {
+      .name {
+        padding-left: 30px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #EEEEEE;
+        }
+      }
+    }
+  }
+
+  .song {
+    ul {
+      .item {
+        display: flex;
+        padding-left: 30px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #EEEEEE;
+        }
+
+        .title {
+          .name {
+            margin-right: 5px;
+          }
+
+          .diff {
+            color: #888888;
+          }
+
+          .split {
+            margin: 0 5px;
+          }
+        }
+      }
+    }
+
+  }
+
+  .albums, .mv {
+    ul {
+      .item {
+        padding-left: 30px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+
+        &:hover {
+          background-color: #EEEEEE;
+        }
+
+        .split {
+          margin: 0 5px;
+        }
+      }
+    }
+  }
+
+  .commonTitle {
+    background-color: #F5F5F7;
+    display: flex;
+    align-items: center;
+
+    i {
+      margin-right: 8px;
+      margin-left: 10px;
+    }
+  }
+}
+
+:global {
+  ._searchPop {
+    .ant-popover-inner-content {
+      padding: 0;
+    }
+  }
+}

@@ -135,6 +135,12 @@ class API {
   static getTopAlbum = (params: object) => axios.get('/api/top/album', params)
   //获取用户播放记录
   static getUserPlayList = (params: object) => axios.get('/api/user/record', params)
+  //热搜详细
+  static getHotList = (params?: object) => axios.get('/api/search/hot/detail', params)
+  //搜索建议
+  static getSearchSuggest = (params: object) => axios.get('/api/search/suggest', params)
+  //搜索指定
+  static getSearchByType = (params: object) => axios.get('/api/search', params)
 }
 
 export default API

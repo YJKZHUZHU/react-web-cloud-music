@@ -7,9 +7,9 @@ import classnames from 'classnames'
 import router from 'umi/router'
 import {appState} from '@/models/gloable'
 import Utils from '@/help'
+import Search from '@/components/Search'
 import styles from './index.scss'
 
-const {Search} = Input
 
 interface AccountInterface {
   code: number,
@@ -72,8 +72,8 @@ const Header: FC<Props> = props => {
             }
 
           </Col>
-          <Col span={5}>
-            <Search style={{width: 300}} placeholder='搜索音乐，视频，歌词，电台'/>
+          <Col span={5} className='_search'>
+            <Search/>
           </Col>
           <Col span={3} offset={3}>
             <span style={{marginRight: 24}}>
