@@ -1,0 +1,50 @@
+@import "utils";
+._searchDetail {
+  .searchTip {
+    margin: 10px;
+    .keywords {
+      color: #0C73C2;
+    }
+  }
+
+  .tab {
+    .heartIcon {
+      padding: 0 8px;
+    }
+
+    .musicTitle {
+      display: flex;
+      flex-direction: column;
+
+      .icon {
+        margin-left: 8px;
+      }
+
+      .bottom {
+        margin-top: 8px;
+      }
+
+    }
+
+    .singer {
+      display: flex;
+
+      .split {
+        margin: 0 3px;
+      }
+    }
+  }
+}
+
+:global {
+  .demo-infinite-container {
+    border-top: 1px solid #e8e8e8;
+    border-radius: 4px;
+    overflow: auto;
+    height: 500px;
+  }
+
+  .demo-loading-container {
+    @include center();
+  }
+}

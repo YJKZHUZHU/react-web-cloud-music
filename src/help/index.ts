@@ -139,8 +139,13 @@ class Utils {
   static createRandomId() {
     return (Math.random() * 10000000).toString(16).substr(0, 4) + '-' + (new Date()).getTime() + '-' + Math.random().toString().substr(2, 5)
   }
+  //关键词高亮
 
-
+  static highLight(content:string){
+    const keywords = String(store.getStorage('keywords'))
+    const Reg = new RegExp(keywords,'g')
+    return content.replace(Reg, `<span style="color: #5D73C5; ">${keywords}</span>`)
+  }
 
 }
 

@@ -1,11 +1,17 @@
-import React, {FC, useState, useEffect} from 'react'
+import React, {FC, useState, useEffect, useMemo} from 'react'
 import {Input, Popover, Icon, Tag, Modal} from 'antd'
 import API from '@/api'
 import styles from './index.scss'
 import {useDebounceFn} from '@umijs/hooks'
 import classnames from 'classnames'
 import router from 'umi/router'
+import store from '@/help/localStorage'
+import {Subscribe} from '@/Appcontainer'
+import {appState} from '@/models/gloable'
 
+type Props = {
+  $app: any
+}
 
 const historyTag = [
   {
@@ -62,37 +68,41 @@ const historyTag = [
   }
 ]
 
-const Search: FC = props => {
+const Search: FC<Props> = (props) => {
+  // JSON.parse(String(store.getStorage('searchHistory')))
   const [visible, setVisible] = useState(false)
   const [modalVisible, setModalVisible] = useState(false)
   const [hotList, setHotList] = useState([])
   const [value, setValue] = useState('')
   const [searchList, setSearchList] = useState({})
-  const [popoverVisible,setPopoverVisible] = useState(false)
+  const [popoverVisible, setPopoverVisible] = useState(false)
+  const [historyList,setHistoryList] = useState(JSON.parse(String(store.getStorage('searchHistory'))))
+
   const {run} = useDebounceFn((keywords) => {
     setValue(keywords)
+
     setPopoverVisible(true)
+
     API.getSearchSuggest({keywords}).then((res: any) => {
       if (res.code === 200 && res.result) {
         setSearchList(res.result)
       }
     })
+    return appState.setKeywords(keywords)
   }, 500)
 
-  useEffect(() => {
-    API.getHotList().then((res: any) => {
-      if (res.code === 200) {
-        setHotList(res.data)
-      }
-    })
-  }, [])
+  // const historyList = useMemo(() => JSON.parse(String(store.getStorage('searchHistory'))), [store.getStorage('searchHistory')])
 
-  const onTag = () => {
-
+  const onTag = (e: any, items: any) => {
+    const history = JSON.parse(String(store.getStorage('searchHistory')))
+    const newHistory = history.filter((item: any) => item.id !== items.id)
+    setHistoryList(newHistory)
+    store.setStorage('searchHistory', JSON.stringify(newHistory))
   }
 
-  const toDetail = async (type: number | string,keywords:string) => {
+  const toDetail = async (type: number | string, keywords: string) => {
     await setPopoverVisible(false)
+    await appState.setKeywords(keywords)
     //type: 搜索类型；默认为 1 即单曲 , 取值意义 : 1: 单曲, 10: 专辑, 100: 歌手, 1000: 歌单, 1002: 用户, 1004: MV, 1006: 歌词, 1009: 电台, 1014: 视频, 1018:综合
     router.push({
       pathname: '/search-detail',
@@ -133,7 +143,7 @@ const Search: FC = props => {
           {
             searchList.artists && searchList.artists.map((item: any) => {
               return (
-                <li key={item.id} className={styles.name} onClick={() => toDetail(100,item.name)}>
+                <li key={item.id} className={styles.name} onClick={() => toDetail(100, item.name)}>
                   <span className={styles.linkColor}>{item.name}</span>
                 </li>
               )
@@ -150,7 +160,7 @@ const Search: FC = props => {
           {
             searchList.songs && searchList.songs.map((item: any) => {
               return (
-                <li key={item.id} className={styles.item} onClick={() => toDetail(1,item.name)}>
+                <li key={item.id} className={styles.item} onClick={() => toDetail(1, item.name)}>
                   <p className={styles.title}>
                     <span>{item.name}</span>
                     {
@@ -186,7 +196,7 @@ const Search: FC = props => {
           {
             searchList.albums && searchList.albums.map((item: any) => {
               return (
-                <li className={styles.item} key={item.id} onClick={() => toDetail(10,item.name)}>
+                <li className={styles.item} key={item.id} onClick={() => toDetail(10, item.name)}>
                   <span>{item.name}</span>
                   <span className={styles.split}>-</span>
                   <span className={styles.linkColor}>{item.artist.name}</span>
@@ -205,7 +215,7 @@ const Search: FC = props => {
           {
             searchList.mvs && searchList.mvs.map((item: any) => {
               return (
-                <li className={styles.item} key={item.id} onClick={() => toDetail(1014,item.name)}>
+                <li className={styles.item} key={item.id} onClick={() => toDetail(1014, item.name)}>
                   <span>{item.name}</span>
                   <span className={styles.split}>-</span>
                   <span className={styles.linkColor}>{item.artistName}</span>
@@ -225,22 +235,21 @@ const Search: FC = props => {
             <div>
               <Icon type="delete" onClick={onDelete}/>
             </div>
-
           </div>
           <p className={styles.all} onClick={() => setVisible(!visible)}>{visible ? '收起' : '查看全部'}</p>
         </div>
         <div className={styles.tag}>
           {
-            historyTag.map((item: any, index: number) => {
+            historyList.map((item: any, index: number) => {
               return (
                 <Tag
                   key={item.id}
                   closable
-                  onClose={onTag}
+                  onClose={(e: any) => onTag(e, item)}
                   className={styles.item}
                   visible={index < 9 ? true : visible}
                 >
-                  {item.name}
+                  {item.keywords}
                 </Tag>
               )
             })
@@ -253,7 +262,7 @@ const Search: FC = props => {
           {
             hotList.map((item: any, index: number) => {
               return (
-                <li className={styles.item} key={item.score * index} onClick={() => toDetail(1,item.searchWord)}>
+                <li className={styles.item} key={item.score * index} onClick={() => toDetail(1, item.searchWord)}>
                   <div className={classnames(styles.number, {[styles.diff]: index < 3})}>{index}</div>
                   <div className={styles.content}>
                     <div className={styles.top}>
@@ -275,14 +284,17 @@ const Search: FC = props => {
     </div>
   )
 
+  useEffect(() => {
+    API.getHotList().then((res: any) => {
+      if (res.code === 200) {
+        setHotList(res.data)
+      }
+    })
+  }, [])
 
-  // const onSearch = (e:any) => {
-  //   run()
-  //   console.log(e.target.value)
-  // }
-  const onEnter = (value: any) => {
-    console.log(value)
-  }
+  useEffect(() => {
+    setHistoryList(JSON.parse(String(store.getStorage('searchHistory'))))
+  },[store.getStorage('searchHistory')])
 
   return (
     <Popover
@@ -300,10 +312,10 @@ const Search: FC = props => {
         onClick={() => setPopoverVisible(!popoverVisible)}
         // onBlur={() => setPopoverVisible(false)}
         onChange={(e) => run(e.target.value)}
-        onSearch={onEnter}
+        onSearch={(value: string) => toDetail(1, value)}
       />
     </Popover>
   )
 }
 
-export default Search
+export default Subscribe(Search)

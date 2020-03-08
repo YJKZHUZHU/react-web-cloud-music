@@ -12,6 +12,8 @@
     "@better-scroll/mouse-wheel": "^2.0.0-beta.6",
     "@better-scroll/scroll-bar": "^2.0.0-beta.6",
     "@types/nprogress": "^0.2.0",
+    "@types/react-infinite-scroller": "^1.2.1",
+    "@types/react-virtualized": "^9.21.8",
     "@umijs/hooks": "^1.7.0",
     "axios": "^0.19.2",
     "better-scroll": "^1.15.2",
@@ -19,8 +21,10 @@
     "nprogress": "^0.2.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-infinite-scroller": "^1.2.4",
     "react-player": "^1.15.2",
     "react-transition-group": "^4.3.0",
+    "react-virtualized": "^9.21.2",
     "unstated": "^2.1.1"
   },
   "devDependencies": {

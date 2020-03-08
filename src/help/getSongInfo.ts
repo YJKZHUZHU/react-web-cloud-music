@@ -22,7 +22,7 @@ class Song {
           songTime: value[1].songs[0].dt / 1000,
           singerArr: value[1].songs[0].ar
         })
-        await appState.setLyric(Utils.formatterLyric(value[2].nolyric ? '' : value[2].lrc.lyric))
+        await appState.setLyric(Utils.formatterLyric(value[2].lrc ? value[2].lrc.lyric : '' ))
         return appState.setStopPlay(true)
       }
       return message.error('获取歌曲发生异常，请稍后再试')
