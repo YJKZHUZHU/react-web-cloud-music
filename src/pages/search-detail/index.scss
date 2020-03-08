@@ -33,6 +33,53 @@
         margin: 0 3px;
       }
     }
+
+    ._singerList {
+      ul {
+        @include clearfix();
+        .item {
+          cursor: pointer;
+          padding: 15px;
+          @include zebra-lists(#333333, #FAFAFA, #333333, #F5F5F7);
+          &:hover {
+            background-color: #E3E3E5;
+          }
+          display: flex;
+          align-items: center;
+          .img {
+            margin-right: 15px;
+            //width: 50px;
+            //img {
+            //  width: 100%;
+            //}
+          }
+          .title {
+            font-size: 12px;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            @include ellipsis();
+            .man {
+              margin-left: 8px;
+              color: #1379AB;
+            }
+            .woman {
+              margin-left: 8px;
+              color: #E495D3;
+            }
+          }
+          .singer {
+            width: 200px;
+            color: #666666;
+            @include ellipsis()
+          }
+          .nickname {
+            width: 150px;
+            @include ellipsis()
+          }
+        }
+      }
+    }
   }
 }
 

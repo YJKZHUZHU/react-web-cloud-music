@@ -3,7 +3,6 @@ import {Table, Icon, Spin} from 'antd'
 import styles from '../index.scss'
 import Utils from '@/help'
 import Song from '@/help/getSongInfo'
-import useHighLight from '@/hooks/useHighLight'
 
 type Props = {
   data: Array<any>,
@@ -12,7 +11,7 @@ type Props = {
 }
 
 const SingleList: FC<Props> = (props) => {
-  const {data, loading, hasMore} = props
+  const {data=[], loading, hasMore} = props
   const columns: any = [
     {
       title: '操作',
@@ -42,14 +41,14 @@ const SingleList: FC<Props> = (props) => {
         return (
           <div className={styles.musicTitle}>
             <p>
-              <span dangerouslySetInnerHTML={{__html: Utils.highLight(text)}}/>
+              <span dangerouslySetInnerHTML={{__html: text && Utils.highLight(text)}}/>
               {record.mvid !== 0 && <Icon type="play-square" className={styles.icon}/>}
             </p>
             {
               record.alias.length !== 0 ? (
                 <p
                   className={styles.bottom}
-                  dangerouslySetInnerHTML={{__html: Utils.highLight(record.alias.join('/'))}}/>
+                  dangerouslySetInnerHTML={{__html: record.alias && Utils.highLight(record.alias.join('/'))}}/>
               ) : null
             }
           </div>
@@ -66,7 +65,7 @@ const SingleList: FC<Props> = (props) => {
         return (
           <div className={styles.singer}>
             {
-              text.map((item: any, index: any) => {
+              text && text.map((item: any, index: any) => {
                 return (
                   <p key={item.id}>
                     <span dangerouslySetInnerHTML={{__html: Utils.highLight(item.name)}}/>
@@ -86,7 +85,7 @@ const SingleList: FC<Props> = (props) => {
       align: 'left',
       ellipsis: true,
       render: (text: any, record: any) => {
-        return <span dangerouslySetInnerHTML={{__html: Utils.highLight(text.name)}}/>
+        return <span dangerouslySetInnerHTML={{__html: text && Utils.highLight(text.name)}}/>
       }
     },
     {

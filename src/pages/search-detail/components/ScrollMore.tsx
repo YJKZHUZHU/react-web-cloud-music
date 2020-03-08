@@ -2,7 +2,8 @@ import React, {FC, useState, useEffect, useCallback, ReactChild} from 'react'
 import API from '@/api'
 import {List, message, Avatar, Spin} from 'antd'
 import InfiniteScroll from 'react-infinite-scroller'
-import SingleList from './Single'
+import SingleList from './SingleList'
+import SingerList from './SingerList'
 import '../index.scss'
 
 type Props = {
@@ -11,18 +12,17 @@ type Props = {
   getCount: any
 }
 
-const mapRes = (res: any) => {
-  const resultCount = res.result.artistCount || res.result.songCount || res.result.albums || res.result.videos || res.result.playlists || res.result.userprofiles
-  const resData = res.result.songs || res.result.artists || res.result.albumCount || res.result.videoCount || res.result.playlistCount || res.result.userprofileCount
-  return {
-    resData,
-    resultCount
-  }
-}
 
+const initDataObj = {
+  SingerList: [],
+  SingleList: [],
+  singerCount: 0,
+  singleCount: 0
+}
 
 const ScrollMore: FC<Props> = props => {
   const [data, setData] = useState([])
+
   const [count, setCount] = useState(0)
   const [loading, setLoading] = useState(false)
   const [hasMore, setHasMore] = useState(true)
@@ -31,21 +31,15 @@ const ScrollMore: FC<Props> = props => {
   const [offset, setOffset] = useState(0)
   const limit = 30
 
-  const getData = useCallback(() => {
-    API.getSearchByType({
-      keywords,
-      type,
-      offset,
-      limit,
-      loading: true
-    }).then((res: any) => {
-      if (res.code === 200) {
-        setData(mapRes(res).resData)
-        setCount(mapRes(res).resultCount)
-        getCount(mapRes(res).resultCount)
-      }
-    })
-  }, [keywords, type])
+  const mapRes = (res: any) => {
+    const resultCount = res.result.artistCount || res.result.songCount || res.result.albumCount || res.result.videoCount || res.result.playlistCount || res.result.userprofileCount
+    const resData = res.result.songs || res.result.artists || res.result.albums || res.result.videos || res.result.playlists || res.result.userprofiles
+    return {
+      resData,
+      resultCount
+    }
+  }
+
 
 
   const handleInfiniteOnLoad = () => {
@@ -75,16 +69,36 @@ const ScrollMore: FC<Props> = props => {
 
     switch (+type) {
       case 1:
-        return <SingleList data={data} loading={loading} hasMore={hasMore} />
-        break
-      default :
+        return <SingleList data={data} loading={loading} hasMore={hasMore}/>
+      case 100:
+        return <SingerList data={data} loading={loading} hasMore={hasMore} type={100}/>
+      case 10:
+        return <SingerList data={data} loading={loading} hasMore={hasMore} type={10}/>
+      case 1000:
+        return <SingerList data={data} loading={loading} hasMore={hasMore} type={1000}/>
+      case 1002:
+        return <SingerList data={data} loading={loading} hasMore={hasMore} type={1002}/>
+      default:
         return null
     }
   }
 
   useEffect(() => {
-    getData()
-  }, [type,keywords])
+    console.log('type:'+type)
+    API.getSearchByType({
+      keywords,
+      type,
+      offset,
+      limit,
+      loading: true
+    }).then((res: any) => {
+      if (res.code === 200) {
+        setData(mapRes(res).resData)
+        setCount(mapRes(res).resultCount)
+        getCount(mapRes(res).resultCount)
+      }
+    })
+  }, [])
 
 
   return (
@@ -97,27 +111,6 @@ const ScrollMore: FC<Props> = props => {
         useWindow={false}
       >
         <ListContent/>
-        {/*<List*/}
-        {/*  dataSource={data}*/}
-        {/*  renderItem={(item: any) => (*/}
-        {/*    <List.Item key={item.id}>*/}
-        {/*      <List.Item.Meta*/}
-        {/*        avatar={*/}
-        {/*          <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"/>*/}
-        {/*        }*/}
-        {/*        title={<a href="https://ant.design">{item.name.last}</a>}*/}
-        {/*        description={item.name}*/}
-        {/*      />*/}
-        {/*      <div>Content</div>*/}
-        {/*    </List.Item>*/}
-        {/*  )}*/}
-        {/*>*/}
-        {/*  {loading && hasMore && (*/}
-        {/*    <div className="demo-loading-container">*/}
-        {/*      <Spin/>*/}
-        {/*    </div>*/}
-        {/*  )}*/}
-        {/*</List>*/}
       </InfiniteScroll>
     </div>
 
