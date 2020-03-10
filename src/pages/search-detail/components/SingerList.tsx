@@ -57,11 +57,13 @@ const SingerList:FC<Props> = props => {
             data && data.map((item:any) => {
               return (
                 <li className={styles.item} key={Utils.createRandomId()}>
-
                   <div className={styles.img}>
                     <Avatar shape="square" size={64} icon="user" src={item.coverImgUrl} className={styles.icon} />
                   </div>
-                  <p className={styles.title} dangerouslySetInnerHTML={{__html:Utils.highLight(item.name)}} />
+                  {
+                    item.name && <p className={styles.title} dangerouslySetInnerHTML={{__html:Utils.highLight(item.name)}} />
+                  }
+
                   <p className={styles.singer}>{item.trackCount}首</p>
                   <p className={styles.nickname}>{item.creator && item.creator.nickname}</p>
                 </li>
@@ -102,36 +104,6 @@ const SingerList:FC<Props> = props => {
   console.log(data,type)
   return (
     <div className={styles._singerList}>
-      {/*<ul>*/}
-      {/*  {*/}
-      {/*    +type === 100 && data.length !== 0 && data.map((item:any) => {*/}
-      {/*      return (*/}
-      {/*        <li className={styles.item} key={Utils.createRandomId()}>*/}
-      {/*          <div className={styles.img}>*/}
-      {/*            <Avatar shape="square" size={64} icon="user" src={item.img1v1Url} className={styles.icon} />*/}
-      {/*          </div>*/}
-      {/*          <p className={styles.title} dangerouslySetInnerHTML={{__html:Utils.highLight(item.name)}} />*/}
-      {/*        </li>*/}
-      {/*      )*/}
-      {/*    })*/}
-      {/*  }*/}
-
-      {/*  {*/}
-      {/*    +type === 10 && data.length !== 0 && data.map((item:any) => {*/}
-      {/*      return (*/}
-      {/*        <li className={styles.item} key={Utils.createRandomId()}>*/}
-
-      {/*          <div className={styles.img}>*/}
-      {/*            <Avatar shape="square" size={64} icon="user" src={item.picUrl} className={styles.icon} />*/}
-      {/*          </div>*/}
-      {/*          <p className={styles.title} dangerouslySetInnerHTML={{__html:Utils.highLight(item.name)}} />*/}
-      {/*          <p className={styles.singer}>{item.artist && item.artist.name}</p>*/}
-      {/*        </li>*/}
-      {/*      )*/}
-      {/*    })*/}
-      {/*  }*/}
-
-      {/*</ul>*/}
       {content()}
       {loading && hasMore && (
         <div className="demo-loading-container">

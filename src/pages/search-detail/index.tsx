@@ -5,7 +5,6 @@ import Map from '@/help/map'
 import ScrollMore from './components/ScrollMore'
 import styles from './index.scss'
 import store from '@/help/localStorage'
-import SingleList from './components/Single'
 
 type Props = {
   location: any
@@ -15,7 +14,7 @@ const {TabPane} = Tabs
 
 const SearchDetail: FC<Props> = (props) => {
   const {keywords, type} = props.location.query
-  const [activeKey, setActiveKey] = useState('1')
+  const [activeKey, setActiveKey] = useState(String(type))
   const [count, setCount] = useState(0)
 
   const onTab = (value: string) => {
@@ -43,7 +42,11 @@ const SearchDetail: FC<Props> = (props) => {
         <span>找到{count}首{Map.MAP_TAB[activeKey]}</span>
       </p>
       <div className={styles.tab}>
-        <Tabs activeKey={activeKey} onChange={onTab}>
+        <Tabs
+          activeKey={activeKey}
+          onChange={onTab}
+          animated={false}
+        >
           <TabPane tab="单曲" key="1">
             <ScrollMore
               {...props}

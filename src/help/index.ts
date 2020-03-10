@@ -8,6 +8,7 @@ class Utils {
    * @param {需要保留的小数位数} point
    */
   static tranNumber(num: number, point: number) {
+    console.log(num)
     let numStr = num.toString()
     // 十万以内直接返回
     if (numStr.length < 6) {
@@ -143,7 +144,7 @@ class Utils {
 
   static highLight(content:string){
     const keywords = String(store.getStorage('keywords'))
-    const Reg = new RegExp(keywords,'g')
+    const Reg = new RegExp(keywords,'gi')
     return content.replace(Reg, `<span style="color: #5D73C5; ">${keywords}</span>`)
   }
 

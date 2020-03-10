@@ -80,6 +80,71 @@
         }
       }
     }
+
+    ._videoList {
+      .card {
+
+        margin-bottom: 15px;
+        .top {
+          width: 150px;
+          position: relative;
+
+          .img{
+            width: 150px;
+            img {
+              width: 100%;
+            }
+          }
+          .playNumber {
+            background-color: rgba(0, 0, 0, 0.4);
+            position: absolute;
+            right: 0;
+            top:0;
+            display: flex;
+            color: #FFFFFF;
+            align-items: center;
+            font-size: 12px;
+            .icon {
+              margin-right: 5px;
+            }
+          }
+          .time {
+            position: absolute;
+            left: 5px;
+            bottom: 0;
+            color: #ffffff;
+            font-size: 12px;
+          }
+        }
+
+        .bottom {
+          font-size: 12px;
+          .content {
+            display: flex;
+            margin-top: 8px;
+            .mv {
+              width: 30px;
+              height: 20px;
+              color: #E43F68;
+              border: 1px solid #E87778;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              margin-right: 5px;
+            }
+            .right {
+              flex: 1;
+              @include ellipsis();
+            }
+          }
+          .title {
+            color: #888888;
+            @include ellipsis();
+          }
+        }
+
+      }
+    }
   }
 }
 

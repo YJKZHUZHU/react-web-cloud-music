@@ -11,7 +11,7 @@ type Props = {
 }
 
 const SingleList: FC<Props> = (props) => {
-  const {data=[], loading, hasMore} = props
+  const {data = [], loading, hasMore} = props
   const columns: any = [
     {
       title: '操作',
@@ -104,7 +104,7 @@ const SingleList: FC<Props> = (props) => {
   return (
     <div>
       <Table
-        onRow={record => {
+        onRow={(record: any) => {
           return {
             onDoubleClick: () => Song.getSongUrl(record.id)
           }

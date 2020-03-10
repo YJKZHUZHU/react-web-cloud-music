@@ -4,6 +4,7 @@ import {List, message, Avatar, Spin} from 'antd'
 import InfiniteScroll from 'react-infinite-scroller'
 import SingleList from './SingleList'
 import SingerList from './SingerList'
+import VideoList from './VideoList'
 import '../index.scss'
 
 type Props = {
@@ -22,7 +23,6 @@ const initDataObj = {
 
 const ScrollMore: FC<Props> = props => {
   const [data, setData] = useState([])
-
   const [count, setCount] = useState(0)
   const [loading, setLoading] = useState(false)
   const [hasMore, setHasMore] = useState(true)
@@ -78,13 +78,14 @@ const ScrollMore: FC<Props> = props => {
         return <SingerList data={data} loading={loading} hasMore={hasMore} type={1000}/>
       case 1002:
         return <SingerList data={data} loading={loading} hasMore={hasMore} type={1002}/>
+      case 1014:
+        return <VideoList data={data} loading={loading} hasMore={hasMore} type={1014}/>
       default:
         return null
     }
   }
 
   useEffect(() => {
-    console.log('type:'+type)
     API.getSearchByType({
       keywords,
       type,
@@ -98,7 +99,7 @@ const ScrollMore: FC<Props> = props => {
         getCount(mapRes(res).resultCount)
       }
     })
-  }, [])
+  }, [keywords])
 
 
   return (
