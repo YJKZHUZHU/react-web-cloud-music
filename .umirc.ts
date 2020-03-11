@@ -48,6 +48,9 @@ const config: IConfig = {
       includePaths: ['./src/theme/']
     }
   },
+  externals: {
+    'RhythmRipple':"window.RhythmRipple"
+  },
   proxy: {
     '/api': {
       'target': 'http://106.54.31.160:3000/',
