@@ -1,4 +1,4 @@
-import React,{FC} from 'react'
+import React,{FC,useCallback} from 'react'
 import {Spin,Avatar,Icon} from 'antd'
 import styles from '../index.scss'
 import Utils from '@/help'
@@ -10,7 +10,7 @@ type Props = {
 }
 const SingerList:FC<Props> = props => {
   const {data, loading, hasMore,type} = props
-  const content = () => {
+  const content = useCallback(() => {
     console.log(data)
     if(+type === 100){
       return (
@@ -100,8 +100,7 @@ const SingerList:FC<Props> = props => {
         </ul>
       )
     }
-  }
-  console.log(data,type)
+  },[data, type])
   return (
     <div className={styles._singerList}>
       {content()}

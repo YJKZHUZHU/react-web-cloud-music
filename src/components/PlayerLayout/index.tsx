@@ -16,7 +16,9 @@ type Props = {
 const PlayerLayout: FC<Props> = props => {
   const {lyric, songObj, isPlay, playerObj, showPlayer} = props.$app.state
   const [scroller, setScroller] = useState(null)
+
   console.log(songObj)
+
   const activeLyricIndex = (index: number) => {
     return index === findLyricIndex()
   }
@@ -30,9 +32,19 @@ const PlayerLayout: FC<Props> = props => {
     }) : -1
   }
 
-  // console.log(activeLyricIndex())
+  //歌词滚动
+  const scrollToActiveLyric = () => {
+    if (findLyricIndex() !== -1) {
+      if (lyric && lyric[findLyricIndex()]) {
+        // @ts-ignore
+        scroller.scrollToElement('.active', 200, 0, true)
+      }
+    }
+  }
+
 
   useEffect(() => {
+    console.log(111)
     const wrapper: any = document.querySelector('.playerWrapper')
     //选中DOM中定义的 .wrapper 进行初始化
     const scroller: any = new BScroll(wrapper, {
@@ -43,23 +55,17 @@ const PlayerLayout: FC<Props> = props => {
       dblclick: true,
       click: true
     })
+    console.log(scroller)
     setScroller(scroller)
-  }, [])
+  }, [isPlay])
 
   useEffect(() => {
     // @ts-ignore
     console.log(scroller && scroller.scrollToElement)
     scroller && scrollToActiveLyric()
   }, [findLyricIndex()])
-  //歌词滚动
-  const scrollToActiveLyric = () => {
-    if (findLyricIndex() !== -1) {
-      if (lyric && lyric[findLyricIndex()]) {
-        // @ts-ignore
-        scroller.scrollToElement('.active', 200, 0, true)
-      }
-    }
-  }
+
+
   return (
     <div className={classnames(styles._playerLayout, showPlayer ? styles.show : styles.hide)}>
       <div className={styles.lyric}>
@@ -110,7 +116,6 @@ const PlayerLayout: FC<Props> = props => {
               }
             </div>
           </div>
-
         </div>
       </div>
       <div className={styles.commentContainer}>

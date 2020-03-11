@@ -37,14 +37,14 @@ const VideoList: FC<Props> = props => {
                       <span className={styles.right}>{item.title}</span>
                     </p>
                     {
-                      item.creator  && (
+                      item.creator && (
                         <p className={styles.title}>{item.type && +item.type === 1 ? 'by' : null}
                           {
-                            (item.creator || []).map((items: any, index: number) => {
+                            item.creator.map((items: any, index: number) => {
                               return (
                                 <span key={items.userId}>
-                             {items.userName}{item.creator.length === index + 1 ? null : '/'}
-                           </span>
+                                  {items.userName}{item.creator.length === index + 1 ? null : '/'}
+                                </span>
                               )
                             })
                           }

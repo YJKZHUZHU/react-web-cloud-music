@@ -65,8 +65,7 @@ const ScrollMore: FC<Props> = props => {
     })
   }
 
-  const ListContent = () => {
-
+  const ListContent = useCallback(() => {
     switch (+type) {
       case 1:
         return <SingleList data={data} loading={loading} hasMore={hasMore}/>
@@ -83,7 +82,7 @@ const ScrollMore: FC<Props> = props => {
       default:
         return null
     }
-  }
+  },[data])
 
   useEffect(() => {
     API.getSearchByType({

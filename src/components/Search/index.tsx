@@ -13,60 +13,9 @@ type Props = {
   $app: any
 }
 
-const historyTag = [
-  {
-    name: '叶俊宽',
-    id: 1
-  },
-  {
-    name: '叶俊宽',
-    id: 12
-  },
-  {
-    name: '叶俊宽',
-    id: 13
-  },
-  {
-    name: '叶俊宽',
-    id: 14
-  },
-  {
-    name: '叶俊宽',
-    id: 15
-  },
-  {
-    name: '叶俊宽',
-    id: 16
-  },
-  {
-    name: '叶俊宽',
-    id: 17
-  },
-  {
-    name: '叶俊宽',
-    id: 18
-  },
-  {
-    name: '叶俊宽',
-    id: 19
-  },
-  {
-    name: '叶俊宽',
-    id: 182
-  },
-  {
-    name: '叶1俊宽',
-    id: 191
-  },
-  {
-    name: '叶俊宽',
-    id: 1811
-  },
-  {
-    name: '叶俊宽',
-    id: 19111
-  }
-]
+interface SearchListInterface {
+
+}
 
 const Search: FC<Props> = (props) => {
   // JSON.parse(String(store.getStorage('searchHistory')))
@@ -74,9 +23,9 @@ const Search: FC<Props> = (props) => {
   const [modalVisible, setModalVisible] = useState(false)
   const [hotList, setHotList] = useState([])
   const [value, setValue] = useState('')
-  const [searchList, setSearchList] = useState({})
+  const [searchList, setSearchList] = useState<any>({})
   const [popoverVisible, setPopoverVisible] = useState(false)
-  const [historyList,setHistoryList] = useState(JSON.parse(String(store.getStorage('searchHistory'))))
+  const [historyList, setHistoryList] = useState(JSON.parse(String(store.getStorage('searchHistory'))))
 
   const {run} = useDebounceFn((keywords) => {
     setValue(keywords)
@@ -294,7 +243,7 @@ const Search: FC<Props> = (props) => {
 
   useEffect(() => {
     setHistoryList(JSON.parse(String(store.getStorage('searchHistory'))))
-  },[store.getStorage('searchHistory')])
+  }, [store.getStorage('searchHistory')])
 
   return (
     <Popover
@@ -311,11 +260,12 @@ const Search: FC<Props> = (props) => {
         placeholder='搜索音乐，视频，歌词，电台'
         onClick={() => setPopoverVisible(!popoverVisible)}
         // onBlur={() => setPopoverVisible(false)}
-        onChange={(e) => run(e.target.value)}
+        onChange={(e:any) => run(e.target.value)}
         onSearch={(value: string) => toDetail(1, value)}
       />
     </Popover>
   )
 }
 
+// @ts-ignore
 export default Subscribe(Search)
