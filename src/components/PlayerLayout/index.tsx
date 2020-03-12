@@ -6,12 +6,11 @@ import BScroll from '@better-scroll/core'
 import ScrollBar from '@better-scroll/scroll-bar'
 import MouseWheel from '@better-scroll/mouse-wheel'
 import Utils from '@/help'
-// @ts-ignore
-import RhythmRipple from './rhythmRipple.js'
+
 
 BScroll.use(ScrollBar)
 BScroll.use(MouseWheel)
-// console.log(new RhythmRipple())
+
 
 type Props = {
   $app: any
@@ -19,12 +18,14 @@ type Props = {
 const PlayerLayout: FC<Props> = props => {
   const {lyric, songObj, isPlay, playerObj, showPlayer} = props.$app.state
   const [scroller, setScroller] = useState(null)
+  const [rd,setRd] = useState(null)
   const imgContainerRef: any = useRef(null)
 
 
   const activeLyricIndex = (index: number) => {
     return index === findLyricIndex()
   }
+
   const detectDeviceType = () => {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? 'Mobile' : 'Desktop'
   }
@@ -52,16 +53,20 @@ const PlayerLayout: FC<Props> = props => {
   useEffect(() => {
 
     const wrapper: any = document.querySelector('.playerWrapper')
-    console.log(imgContainerRef)
+
     const mobileOption = {
       size: parseInt(imgContainerRef.current.offsetWidth),
       radius: .25,
       rippeWidth: 2,
       pointRadius: 4
     }
-
-    //const rd =new RhythmRipple('#ripple', Object.assign({cover: songObj.backgroundImg}, detectDeviceType() === 'Mobile' ? mobileOption : {}))
-
+    if (isPlay){
+      const rdx = new Ripple('#ripple', Object.assign({ cover: songObj.backgroundImg }, detectDeviceType() === 'Mobile' ? mobileOption : {}))
+      setRd(rdx)
+      rdx.animate()
+    }else {
+      rd.cancelAnimate()
+    }
     //选中DOM中定义的 .wrapper 进行初始化
     const scroller: any = new BScroll(wrapper, {
       mouseWheel: true,
@@ -71,15 +76,15 @@ const PlayerLayout: FC<Props> = props => {
       dblclick: true,
       click: true
     })
-    //rd.animate()
+   
     setScroller(scroller)
-  }, [isPlay])
+  }, [isPlay, rd, songObj.backgroundImg])
 
   useEffect(() => {
     // @ts-ignore
     console.log(scroller && scroller.scrollToElement)
     scroller && scrollToActiveLyric()
-  }, [findLyricIndex()])
+  }, [scrollToActiveLyric, scroller])
 
 
   return (
@@ -95,10 +100,10 @@ const PlayerLayout: FC<Props> = props => {
             src={require('../../assets/player/bar.png')}
           />
           <div className={styles.imgOuterBorder}>
-            <div className={styles.imgOuter} ref={imgContainerRef}>
-              <div className={styles.imgWrap}>
-                {/*<div id="ripple"/>*/}
-                <img src={songObj.backgroundImg}/>
+            <div className={styles.imgOuter} >
+              <div className={styles.imgWrap} ref={imgContainerRef}>
+                <div id="ripple"/>
+                {/* <img src={songObj.backgroundImg}/> */}
               </div>
             </div>
           </div>

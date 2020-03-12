@@ -3,6 +3,7 @@ import 'nprogress/nprogress.css'
 import Utils from '@/help/index'
 import router from 'umi/router'
 import store from '@/help/localStorage'
+// import './ripple.js'
 
 interface RouterInterface {
   location: any,
@@ -14,6 +15,8 @@ let lastKey: string = ''
 
 export function onRouteChange(props: RouterInterface) {
   console.log(props)
+  console.log(window.Ripple)
+
   NProgress.start()
   if (props.location.key !== lastKey) {
     lastKey = props.location.pathname

@@ -49,7 +49,8 @@ const config: IConfig = {
     }
   },
   externals: {
-    'RhythmRipple':"window.RhythmRipple"
+    'RhythmRipple':"window.RhythmRipple",
+    'Ripple': 'window.Ripple'
   },
   proxy: {
     '/api': {

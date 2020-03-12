@@ -2305,19 +2305,18 @@ var _utils2 = _interopRequireDefault(_utils);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 /**
  * RhythmDisk
  * @constructor
  * @param {string | HtmlElement} container - 动画容器.
- * @param {string | HtmlElement} audioElement - 关联的 audio 标签
  * @param {object} [params] - 可自定义配置的参数
  *
+ * @param {string} [params.size = ''] - 封面图路径
  * @param {number} [params.size = 500] - 画布 canvas 的尺寸
  * @param {number} [params.radius = 100] - 封面图，中心圆的半径，小于零则为容器的百分比
+ * @param {number|Array} [params.randomInterval = [500,1500]] - 涟漪更新频率，数字为固定更新，数组则为在范围内的随机数
  * @param {number} [params.minInterval = 500] - 涟漪出现的最小频率（毫秒）
  * @param {string} [params.centerColor = '#ddd'] - 封面图位置的颜色（在没有封面图时显示）
  * @param {number} [params.borderWidth = 5] -  封面图边框的宽度
@@ -2328,16 +2327,17 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  * @param {number} [params.rotateAngle = .3] -封面图每帧旋转的角度
  */
 
-var RhythmRipple = function () {
-  function RhythmRipple(container, audioElement) {
-    var params = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+var Ripple = function () {
+  function Ripple(container) {
+    var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-    _classCallCheck(this, RhythmRipple);
+    _classCallCheck(this, Ripple);
 
     var originParams = {
+      cover: '',
       size: 500, // 画布 canvas 的尺寸
       radius: 100, // 封面图，中心圆的半径，小于零则为容器的百分比
-      minInterval: 500, // 涟漪出现的最小频率（毫秒）
+      interval: [500, 1500], // 涟漪出现的最小频率（毫秒）
       centerColor: '#ddd', // 封面图位置的颜色（在没有封面图时显示）
       borderWidth: 5, //  封面图边框的宽度
       borderColor: '#aaa', // 封面图边框的颜色
@@ -2349,11 +2349,9 @@ var RhythmRipple = function () {
 
     this.container = typeof container === "string" ? document.querySelector(container) : container;
 
-    this.audio = typeof audioElement === "string" ? document.querySelector(audioElement) : audioElement;
-
     this.params = Object.assign(originParams, params);
 
-    this.cover = undefined; // 封面图，应当存在 audio 标签的 cover 属性中
+    this.cover = this.params.cover;
 
     this.radius = this.params.radius < 1 ? this.params.size * this.params.radius : this.params.radius;
 
@@ -2364,16 +2362,14 @@ var RhythmRipple = function () {
     this.rippleLines = []; // 存储涟漪圆环的半径
     this.ripplePoints = []; // 存储涟漪点距离中心点的距离
 
-    this.audioContext = null;
-    this.analyser = null;
-    this.source = null;
     this.lastripple = 0;
+    this.isRandom = Array.isArray(this.params.interval);
+    this.minInterval = this.isRandom ? _utils2.default.randomInterval(this.params.interval[0], this.params.interval[1]) : this.params.interval;
 
-    this.initAudio();
     this.initCanvas();
   }
 
-  _createClass(RhythmRipple, [{
+  _createClass(Ripple, [{
     key: 'initCanvas',
     value: function initCanvas() {
       this.container.innerHTML = '<canvas width="' + this.params.size + '" height="' + this.params.size + '"></canvas>' + (this.cover ? '<img src="' + this.cover + '" alt="">' : '');
@@ -2414,42 +2410,6 @@ var RhythmRipple = function () {
       this.strokeBorder();
     }
   }, {
-    key: 'initAudio',
-    value: function initAudio() {
-      var that = this;
-
-      this.cover = this.audio.getAttribute('cover');
-
-      this.audio.addEventListener('playing', function () {
-        that.animate();
-      });
-
-      this.audio.addEventListener('pause', function () {
-        that.cancelAnimate();
-      });
-
-      this.audio.addEventListener('ended', function () {
-        that.cancelAnimate();
-        that.strokeCenterCircle();
-        that.strokeBorder();
-        that.cover.style.transform = 'rotate(0deg)';
-      });
-    }
-  }, {
-    key: 'initAtx',
-    value: function initAtx() {
-      this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-
-      this.analyser = this.audioContext.createAnalyser();
-      this.source = this.audioContext.createMediaElementSource(this.audio);
-      this.source.connect(this.analyser);
-      this.analyser.connect(this.audioContext.destination);
-
-      this.analyser.fftSize = 32;
-      this.bufferLength = this.analyser.fftSize;
-      this.dataArray = new Float32Array(this.bufferLength);
-    }
-  }, {
     key: 'strokeCenterCircle',
     value: function strokeCenterCircle() {
       var ctx = this.ctx;
@@ -2480,9 +2440,11 @@ var RhythmRipple = function () {
         this.ripplePoints.shift();
       }
 
-      this.analyser.getFloatTimeDomainData(this.dataArray);
+      if (this.rate - this.lastripple >= this.minInterval) {
+        if (this.isRandom) {
+          this.minInterval = _utils2.default.randomInterval(this.params.interval[0], this.params.interval[1]);
+        }
 
-      if (this.rate - this.lastripple > this.params.minInterval && Math.max.apply(Math, _toConsumableArray(this.dataArray)) > .3) {
         this.rippleLines.push({
           r: this.radius + this.params.borderWidth + this.params.rippleWidth / 2,
           color: _utils2.default.getRgbColor(this.params.rippleColor)
@@ -2496,7 +2458,6 @@ var RhythmRipple = function () {
       }
 
       this.rippleLines = this.rippleLines.map(function (line, index) {
-
         line.r += 1;
         line.color[3] = (_this.center - line.r) / (_this.center - _this.radius);
         line.gapAngle = Math.asin(_this.params.pointRadius / 2 / line.r) * 2;
@@ -2552,11 +2513,8 @@ var RhythmRipple = function () {
     value: function animate() {
       this.ctx.clearRect(0, 0, this.params.size, this.params.size);
 
-      if (!this.audioContext) {
-        this.initAtx();
-      }
-
       this.strokeRipple();
+
       this.strokeBorder();
 
       if (this.cover) {
@@ -2578,16 +2536,21 @@ var RhythmRipple = function () {
     value: function cancelAnimate() {
       cancelAnimationFrame(this.frame);
     }
+  }, {
+    key: 'setCover',
+    value: function setCover(src) {
+      this.cover.setAttribute('src', src);
+    }
   }]);
 
-  return RhythmRipple;
+  return Ripple;
 }();
 
-window.RhythmRipple = RhythmRipple;
+window.Ripple = Ripple;
 
-exports.default = RhythmRipple;
+exports.default = Ripple;
 
-}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],require("timers").setImmediate,require("timers").clearImmediate,"/src/rhythmRipple.js","/src")
+}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],require("timers").setImmediate,require("timers").clearImmediate,"/src/ripple.js","/src")
 },{"./utils":7,"_process":4,"buffer":2,"timers":5}],7:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,setImmediate,clearImmediate,__filename,__dirname){
 "use strict";
