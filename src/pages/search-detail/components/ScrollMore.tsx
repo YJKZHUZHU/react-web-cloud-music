@@ -43,25 +43,26 @@ const ScrollMore: FC<Props> = props => {
 
 
   const handleInfiniteOnLoad = () => {
-    setLoading(true)
+    // setLoading(true)
     setOffset(offset + 1)
     if (data.length > count) {
-      message.warning('已经加载完了哦!')
       setLoading(false)
       setHasMore(false)
-      return
+      return message.warning('已经加载完了哦!')
     }
     API.getSearchByType({
       keywords,
       type,
       offset,
-      limit
-    }).then((res: any) => {
+      limit,
+      loading:true
+    }).then(async (res: any) => {
+      console.log(loading)
       if (res.code === 200) {
-        setData(data.concat(mapRes(res).resData))
-        setCount(mapRes(res).resultCount)
-        setLoading(false)
+        await setData(data.concat(mapRes(res).resData))
+        await setCount(mapRes(res).resultCount)
       }
+
     })
   }
 

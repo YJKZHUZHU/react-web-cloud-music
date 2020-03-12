@@ -67,7 +67,7 @@ const SingleList: FC<Props> = (props) => {
             {
               text && text.map((item: any, index: any) => {
                 return (
-                  <p key={item.id}>
+                  <p key={Utils.createRandomId()}>
                     <span dangerouslySetInnerHTML={{__html: Utils.highLight(item.name)}}/>
                     <i className={styles.split}>{text.length === (index + 1) ? null : '/'}</i>
                   </p>

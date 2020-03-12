@@ -39,7 +39,7 @@ const SearchDetail: FC<Props> = (props) => {
       <p className={styles.searchTip}>
         <span>搜索</span>
         <span className={styles.keywords}>"{keywords}"</span>
-        <span>找到{count}首{Map.MAP_TAB[activeKey]}</span>
+        <span>找到{count}相关{Map.MAP_TAB[activeKey]}</span>
       </p>
       <div className={styles.tab}>
         <Tabs

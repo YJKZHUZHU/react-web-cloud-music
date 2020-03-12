@@ -14,8 +14,6 @@ interface RouterInterface {
 let lastKey: string = ''
 
 export function onRouteChange(props: RouterInterface) {
-  console.log(props)
-  console.log(window.Ripple)
 
   NProgress.start()
   if (props.location.key !== lastKey) {

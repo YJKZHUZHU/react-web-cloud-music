@@ -18,7 +18,7 @@ type Props = {
 const PlayerLayout: FC<Props> = props => {
   const {lyric, songObj, isPlay, playerObj, showPlayer} = props.$app.state
   const [scroller, setScroller] = useState(null)
-  const [rd,setRd] = useState(null)
+  const [rd, setRd] = useState<any>(null)
   const imgContainerRef: any = useRef(null)
 
 
@@ -53,20 +53,6 @@ const PlayerLayout: FC<Props> = props => {
   useEffect(() => {
 
     const wrapper: any = document.querySelector('.playerWrapper')
-
-    const mobileOption = {
-      size: parseInt(imgContainerRef.current.offsetWidth),
-      radius: .25,
-      rippeWidth: 2,
-      pointRadius: 4
-    }
-    if (isPlay){
-      const rdx = new Ripple('#ripple', Object.assign({ cover: songObj.backgroundImg }, detectDeviceType() === 'Mobile' ? mobileOption : {}))
-      setRd(rdx)
-      rdx.animate()
-    }else {
-      rd.cancelAnimate()
-    }
     //选中DOM中定义的 .wrapper 进行初始化
     const scroller: any = new BScroll(wrapper, {
       mouseWheel: true,
@@ -76,13 +62,31 @@ const PlayerLayout: FC<Props> = props => {
       dblclick: true,
       click: true
     })
-   
     setScroller(scroller)
-  }, [isPlay, rd, songObj.backgroundImg])
+    if(rd){
+      isPlay ? rd.animate() :rd.cancelAnimate()
+    }
+  }, [isPlay])
+
+  useEffect(() => {
+    const mobileOption = {
+      size: parseInt(imgContainerRef.current.offsetWidth),
+      radius: .25,
+      rippeWidth: 2,
+      pointRadius: 4
+    }
+    const timers = setTimeout(() => {
+      const Ripple = window.Ripple
+      const rdx = new Ripple('#ripple', Object.assign({cover: songObj.backgroundImg}, detectDeviceType() === 'Mobile' ? mobileOption : {}))
+      setRd(rdx)
+      rdx.animate()
+    }, 500)
+
+    return () => clearTimeout(timers)
+  }, [songObj.backgroundImg])
 
   useEffect(() => {
     // @ts-ignore
-    console.log(scroller && scroller.scrollToElement)
     scroller && scrollToActiveLyric()
   }, [scrollToActiveLyric, scroller])
 
@@ -100,11 +104,12 @@ const PlayerLayout: FC<Props> = props => {
             src={require('../../assets/player/bar.png')}
           />
           <div className={styles.imgOuterBorder}>
-            <div className={styles.imgOuter} >
-              <div className={styles.imgWrap} ref={imgContainerRef}>
-                <div id="ripple"/>
-                {/* <img src={songObj.backgroundImg}/> */}
-              </div>
+            <div className={styles.imgOuter} ref={imgContainerRef}>
+              <div id="ripple" className={styles.ripple}/>
+              {/*<div className={styles.imgWrap}>*/}
+              {/*  <div id="ripple"/>*/}
+              {/*  /!* <img src={songObj.backgroundImg}/> *!/*/}
+              {/*</div>*/}
             </div>
           </div>
         </div>

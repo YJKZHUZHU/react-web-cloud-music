@@ -83,6 +83,10 @@
           @include flex-center(300, 300);
           border-radius: 50%;
           margin: 10px;
+          .ripple {
+            width: 300px !important;
+            height: 300px !important;
+          }
 
           .imgWrap {
             width: 200px;

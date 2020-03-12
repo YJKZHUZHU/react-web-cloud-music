@@ -8,6 +8,7 @@ import router from 'umi/router'
 import store from '@/help/localStorage'
 import {Subscribe} from '@/Appcontainer'
 import {appState} from '@/models/gloable'
+const {confirm} = Modal
 
 type Props = {
   $app: any
@@ -64,16 +65,27 @@ const Search: FC<Props> = (props) => {
 
   const onDelete = () => {
     setModalVisible(true)
-    Modal.confirm({
-      title: '搜索历史',
-      content: '确认删除历史记录吗？',
-      okText: '确认',
-      cancelText: '取消',
-      zIndex: 99999,
-      centered: true,
-      maskClosable: false,
-      visible: modalVisible
-    })
+    confirm(
+      {
+        title: '搜索历史',
+        content: '确认删除全部搜索历史记录吗？',
+        okText: '确认',
+        cancelText: '取消',
+        zIndex: 99999,
+        centered: true,
+        maskClosable: false,
+        visible: modalVisible,
+        onOk: () =>{
+          return new Promise((resolve,reject)=> {
+            store.setStorage('searchHistory', JSON.stringify([]))
+            if(store.getStorage('searchHistory') === '[]'){
+              resolve(setModalVisible(false))
+            }
+            reject(setModalVisible(false))
+          })
+        }
+      }
+    )
   }
 
   const content = value && Object.keys(searchList).length !== 0 ? (
@@ -90,7 +102,7 @@ const Search: FC<Props> = (props) => {
         </p>
         <ul>
           {
-            searchList.artists && searchList.artists.map((item: any) => {
+            searchList.artists && searchList.artists.reverse().map((item: any) => {
               return (
                 <li key={item.id} className={styles.name} onClick={() => toDetail(100, item.name)}>
                   <span className={styles.linkColor}>{item.name}</span>
@@ -260,7 +272,7 @@ const Search: FC<Props> = (props) => {
         placeholder='搜索音乐，视频，歌词，电台'
         onClick={() => setPopoverVisible(!popoverVisible)}
         // onBlur={() => setPopoverVisible(false)}
-        onChange={(e:any) => run(e.target.value)}
+        onChange={(e: any) => run(e.target.value)}
         onSearch={(value: string) => toDetail(1, value)}
       />
     </Popover>

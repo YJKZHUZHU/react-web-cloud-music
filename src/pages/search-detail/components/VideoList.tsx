@@ -11,6 +11,7 @@ type Props = {
 }
 const VideoList: FC<Props> = props => {
   const {data, loading, hasMore} = props
+  console.log(loading,hasMore)
   return (
     <div className={styles._videoList}>
       <Row justify='space-around' gutter={32} type='flex'>
@@ -60,7 +61,7 @@ const VideoList: FC<Props> = props => {
         }
 
       </Row>
-      {loading && hasMore && (
+      {loading  && (
         <div className="demo-loading-container">
           <Spin/>
         </div>
