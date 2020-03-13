@@ -1,5 +1,6 @@
 import store from './localStorage'
 import {appState} from '@/models/gloable'
+import moment from 'moment'
 
 class Utils {
   /**
@@ -145,6 +146,18 @@ class Utils {
     const keywords = String(store.getStorage('keywords'))
     const Reg = new RegExp(keywords,'gi')
     return content.replace(Reg, `<span style="color: #5D73C5; ">${keywords}</span>`)
+  }
+
+  //评论时间格式化
+  static commentFormatTime(time:any) {
+    return moment(time).calendar(moment(), {
+      sameDay: '[今天] HH:MM:ss',
+      nextDay: '[明天]',
+      nextWeek: 'dddd',
+      lastDay: '[昨天] HH:MM:ss',
+      lastWeek: '[上个] dddd HH:MM:ss',
+      sameElse: 'YYYY-MM-DD HH:MM'
+    })
   }
 
 }

@@ -8,8 +8,7 @@ import router from 'umi/router'
 const ALlTopLIst: FC  = props => {
   const [allData,setAllData] = useState([])
   useEffect(() => {
-    API.getAllTopList({loading: true}).then((res:any) => {
-      console.log(res)
+    API.getAllTopList({loading: false}).then((res:any) => {
       if(res.code === 200) {
         setAllData(res.list)
       }

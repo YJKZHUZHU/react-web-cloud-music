@@ -3,6 +3,7 @@ import {Avatar, Icon, Divider, Pagination} from 'antd'
 import Link from 'umi/link'
 import styles from '../index.scss'
 import moment from 'moment'
+import Utils from '@/help'
 import API from '@/api'
 
 type Props = {
@@ -73,7 +74,7 @@ const CommentList: FC<Props> = props => {
                   </p>
                   <div className={styles.time}>
                  <span>
-                   昨天：{moment(item.time).calendar()}
+                   {Utils.commentFormatTime(item.time)}
                  </span>
                     <div className={styles.like}>
                       <Icon

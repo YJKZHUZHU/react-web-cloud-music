@@ -18,15 +18,15 @@ type Props = {
 
 const PlayList: FC<Props> = props => {
   const {listId} = props.location.query
-  const [playlist, setPlaylist] = useState({})
-  const [creator, setCreator] = useState({})
+  const [playlist, setPlaylist] = useState<any>({})
+  const [creator, setCreator] = useState<any>({})
   const [label, setLabel] = useState([])
   const [isSearch, setSearch] = useState(true)
 
   const onTabs = (activeKey: string) => (+activeKey) === 1 ? setSearch(true) : setSearch(false)
 
   useEffect(() => {
-    API.playList({id: listId}).then((res: any) => {
+    API.playList({id: listId,loading:true}).then((res: any) => {
       if (res.code === 200) {
         setPlaylist(res.playlist)
         setCreator({

@@ -1,25 +1,25 @@
-import React, {FC, useEffect, useState, Fragment} from 'react'
+import React, {FC, useEffect, useState, Fragment,useMemo} from 'react'
 import {Table, Icon, message} from 'antd'
 import API from '@/api'
 import Utils from '@/help'
 import {Subscribe} from '@/Appcontainer'
-import {appState} from '@/models/gloable'
 import styles from '../index.scss'
 
 import Song from '@/help/getSongInfo'
 
-import useLyric from '@/hooks/useLyric'
 
 
 type Props = {
   trackIds?: any,
   tracks?: any,
-  $app: any
+  $app: any,
+  location:any
 }
 
-const TableList: FC<Props> = ({trackIds = [], tracks = [], $app}) => {
-
+const TableList: FC<Props> = ({trackIds = [], tracks = [], $app,location}) => {
   const [tableData, setTableData] = useState([])
+  const [loading,setLoading] = useState(false)
+
   const columns: any = [
     {
       title: '操作',
@@ -31,7 +31,7 @@ const TableList: FC<Props> = ({trackIds = [], tracks = [], $app}) => {
           <div>
             <span>{index < 10 ? `0${index}` : index}</span>
             <Icon type="heart" className={styles.heartIcon}/>
-            <Icon type="play-circle" className={styles.playIcon} onClick={() => getSongUrl(record.id)}/>
+            <Icon type="play-circle" className={styles.playIcon} onClick={() => Song.getSongUrl(record.id)}/>
           </div>
         )
       },
@@ -89,29 +89,28 @@ const TableList: FC<Props> = ({trackIds = [], tracks = [], $app}) => {
     }
   ]
 
-  //获取音乐地址以及歌词
-  const getSongUrl = (id: number | string) => {
-    Song.getSongUrl(id)
-  }
+
+  const trackIdsStr = useMemo(() =>{
+    return trackIds.reduce((memo: any, item: any) => {
+      return memo.concat(item.id)
+    }, []).toString()
+  },[trackIds])
 
 
   useEffect(() => {
-    const trackIdsStr = trackIds.reduce((memo: any, item: any) => {
-      return memo.concat(item.id)
-    }, [])
     trackIdsStr.length !== 0 && API.song({
-      ids: trackIdsStr.toString(),
+      ids: trackIdsStr,
       loading: true
     }).then((res: any) => {
       if (res.code === 200) {
         setTableData(res.songs)
       }
     })
-  }, [trackIds])
+  }, [trackIdsStr])
 
   return (
     <Table
-      onRow={record => {
+      onRow={(record:any) => {
         return {
           onDoubleClick: () => Song.getSongUrl(record.id)
         }

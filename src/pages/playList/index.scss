@@ -5,6 +5,8 @@
 
   .top {
     display: flex;
+    min-height: 100px;
+
 
     .left {
       width: 200px;
@@ -46,6 +48,7 @@
 
         .songIntroduction {
           display: flex;
+
 
           .divider {
             height: 100%;
@@ -107,7 +110,6 @@
       }
 
       .introduction {
-
         line-height: 28px;
       }
     }
@@ -127,6 +129,7 @@
       margin-left: 8px;
     }
     .comment {
+      min-height: 200px;
       h2 {
         margin-top: 20px;
         font-size: 20px;
@@ -176,6 +179,7 @@
 
     .collection {
       margin-top: 20px;
+      min-height: 200px;
       .content {
         display: flex;
         flex-direction: column;

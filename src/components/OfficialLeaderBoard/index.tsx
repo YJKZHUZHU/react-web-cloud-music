@@ -13,19 +13,21 @@ const initBoardData: Array<any> = []
 
 const OfficialLeaderBoard: FC<Props> = () => {
   const [boardData, setBoardData] = useState(initBoardData)
+
+
   useEffect(() => {
-    Promise.all([
-      API.getTopList({idx:3,loading:true}),
-      API.getTopList({idx:0,loading:true}),
-      API.getTopList({idx:2,loading:true}),
-      API.getTopList({idx:1,loading:true}),
-      API.getTopList({idx:17,loading:true}),
-      API.getTopList({idx:26,loading:true}),
-    ]).then((res:any) => {
-      setBoardData(res)
-    })
-    // getBoardData()
+    const getData = async () => {
+      const res1 = await API.getTopList({idx: 3, loading: true})
+      const res2 = await API.getTopList({idx: 0, loading: true})
+      const res3 = await API.getTopList({idx: 2, loading: true})
+      const res4 = await API.getTopList({idx: 1, loading: true})
+      const res5 = await API.getTopList({idx: 17, loading: true})
+      const res6 = await API.getTopList({idx: 26, loading: true})
+      setBoardData([res1, res2, res3, res4, res5, res6])
+    }
+    getData().then(r => r)
   }, [])
+
 
   return (
     <Row gutter={48}>
@@ -43,28 +45,28 @@ const OfficialLeaderBoard: FC<Props> = () => {
                     <p>最近更新：{moment(item.playlist.updateTime).format('MM-DD')}日更新</p>
                   </div>
                   <div className={styles.icon}>
-                    <Icon type="caret-right" onClick={() => Song.getSongUrl(item.playlist.tracks[0].id)} />
+                    <Icon type="caret-right" onClick={() => Song.getSongUrl(item.playlist.tracks[0].id)}/>
                   </div>
                 </div>
                 <ul className={styles.list}>
                   {
-                    item.playlist.tracks.slice(0,8).map((items: any, index: number) => {
+                    item.playlist.tracks.slice(0, 8).map((items: any, index: number) => {
                       return (
                         <li className={styles.item} key={items.id} onDoubleClick={() => Song.getSongUrl(items.id)}>
                           <span
                             className={styles.number}
-                            style={{color: (index === 0 || index === 1 || index === 2)? '#CD2929' : '#666666' }}>{index+1}</span>
+                            style={{color: (index === 0 || index === 1 || index === 2) ? '#CD2929' : '#666666'}}>{index + 1}</span>
                           <span className={styles.title}>
                             {items.name}
                             {
-                              items.alia.map((title:string) => {
+                              items.alia.map((title: string) => {
                                 return <i key={title} style={{color: '#999999'}}>{title}</i>
                               })
                             }
                           </span>
                           <span className={styles.name}>
                             {
-                              items.ar.map((sing:any) => {
+                              items.ar.map((sing: any) => {
                                 return <i key={sing.id}>{sing.name}{items.ar.length === (index + 1) ? null : '/'}</i>
                               })
                             }

@@ -1,9 +1,13 @@
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import Utils from '@/help/index'
+import moment from 'moment'
 import router from 'umi/router'
 import store from '@/help/localStorage'
 // import './ripple.js'
+
+moment.locale(window.navigator.language)
+
 
 interface RouterInterface {
   location: any,
