@@ -67,7 +67,7 @@ const Footer: FC<Props> = props => {
   }
 
   return (
-    <footer>
+    <footer className={style._footer}>
       <div className={style.footerContainer}>
         <Slider
           onChange={handleSlider}
@@ -79,7 +79,6 @@ const Footer: FC<Props> = props => {
           max={playerObj.loadedSeconds}
           tipFormatter={null}
         />
-
         <div className={style.footer}>
           <div className={style.info} style={{visibility: Object.keys(songObj).length !== 0 ? 'visible' : 'hidden'}}>
             <div className={style.img} onClick={() => appState.setShowPlayer(!showPlayer)}>
@@ -153,7 +152,6 @@ const Footer: FC<Props> = props => {
           </div>
         </div>
       </div>
-
       <ReactPlayer
         playsinline
         url={songObj.url}

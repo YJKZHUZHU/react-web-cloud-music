@@ -55,49 +55,48 @@ const Header: FC<Props> = props => {
   // @ts-ignore
   return (
     <header>
-      <div className={styles.top}>
-        <Row justify='space-between' gutter={32} align='bottom' className={styles.row}>
-          <Col span={3}>
-            <h1 className={styles.logo}>
-              <Link to='/'/>
-            </h1>
-          </Col>
-          <Col span={3} offset={2}>
-            {
-              showPlayer ? <Icon type="down" onClick={() => appState.setShowPlayer(false)} className={styles.down} /> :
-                (<Button.Group>
-                  <Button onClick={() => router.goBack()}><Icon type="left"/></Button>
-                  <Button onClick={() => router.go(1)}><Icon type="right"/></Button>
-                </Button.Group>)
-            }
+      <Row justify='space-between' gutter={32} align='bottom' className={styles.row}>
+        <Col span={3}>
+          <h1 className={styles.logo}>
+            <Link to='/'/>
+          </h1>
+        </Col>
+        <Col span={3} offset={2}>
+          {
+            showPlayer ? <Icon type="down" onClick={() => appState.setShowPlayer(false)} className={styles.down} /> :
+              (<Button.Group>
+                <Button onClick={() => router.goBack()}><Icon type="left"/></Button>
+                <Button onClick={() => router.go(1)}><Icon type="right"/></Button>
+              </Button.Group>)
+          }
 
-          </Col>
-          <Col span={5} className='_search'>
-            <Search/>
-          </Col>
-          <Col span={3} offset={3}>
+        </Col>
+        <Col span={5} className='_search'>
+          <Search/>
+        </Col>
+        <Col span={3} offset={3}>
             <span style={{marginRight: 24}}>
               <Avatar src={avatarUrl} icon="user"/>
               <i>{userName}</i>
             </span>
-          </Col>
-          <Col span={1}>
-            <Popover
-              content={content}
-              title="选择您喜欢的主题"
-              trigger='click'
-              overlayClassName={styles.themePop}
-              getPopupContainer={():any => document.getElementsByClassName('_changeSkin')[0]}
-            >
-              <Icon type="skin" className={classnames(styles.skin,'_changeSkin')}/>
-            </Popover>
+        </Col>
+        <Col span={1}>
+          <Popover
+            content={content}
+            title="选择您喜欢的主题"
+            trigger='click'
+            overlayClassName={styles.themePop}
+            getPopupContainer={():any => document.getElementsByClassName('_changeSkin')[0]}
+          >
+            <Icon type="skin" className={classnames(styles.skin,'_changeSkin')}/>
+          </Popover>
 
-          </Col>
-        </Row>
-      </div>
+        </Col>
+      </Row>
     </header>
 
   )
 }
 
+// @ts-ignore
 export default Subscribe(Header)
