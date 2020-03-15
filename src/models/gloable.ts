@@ -13,7 +13,8 @@ interface AppState {
   volume: number,
   playMode: number, //0 顺序播放 1 单曲循环 2 随机播放
   playerRate: number //播放速度,
-  keywords:string //搜索关键词
+  keywords:string //搜索关键词,
+  userInfo: any
 }
 
 export default class AppContainer extends Container<AppState> {
@@ -29,7 +30,8 @@ export default class AppContainer extends Container<AppState> {
     volume: JSON.parse(<string>store.getStorage('volume')), //默认音量
     playMode: 0,
     playerRate: 1,
-    keywords: ''
+    keywords: '',
+    userInfo: {}
   }
 
 
@@ -84,6 +86,9 @@ export default class AppContainer extends Container<AppState> {
   setKeywords(keywords:string){
     store.setStorage('keywords',keywords)
     return this.setState({keywords})
+  }
+  setUserInfo(userInfo:any){
+    return this.setState(userInfo)
   }
 
 }

@@ -42,6 +42,11 @@ const Header: FC<Props> = props => {
       </p>
     </div>
   )
+  const login = () => {
+    router.push({
+      pathname: '/login'
+    })
+  }
   useEffect(() => {
     // @ts-ignore
     API.login({phone: 18470186610, password: 'YJK960124FF'}).then((res: AccountInterface) => {
@@ -61,6 +66,7 @@ const Header: FC<Props> = props => {
             <Link to='/'/>
           </h1>
         </Col>
+
         <Col span={3} offset={2}>
           {
             showPlayer ? <Icon type="down" onClick={() => appState.setShowPlayer(false)} className={styles.down} /> :
@@ -75,11 +81,17 @@ const Header: FC<Props> = props => {
           <Search/>
         </Col>
         <Col span={3} offset={3}>
-            <span style={{marginRight: 24}}>
-              <Avatar src={avatarUrl} icon="user"/>
-              <i>{userName}</i>
-            </span>
+            <div style={{marginRight: 24}} className={styles.login} onClick={login}>
+              <Icon type="user" />
+              <p>未登录</p>
+            </div>
         </Col>
+        {/*<Col span={3} offset={3}>*/}
+        {/*    <span style={{marginRight: 24}}>*/}
+        {/*      <Avatar src={avatarUrl} icon="user"/>*/}
+        {/*      <i>{userName}</i>*/}
+        {/*    </span>*/}
+        {/*</Col>*/}
         <Col span={1}>
           <Popover
             content={content}

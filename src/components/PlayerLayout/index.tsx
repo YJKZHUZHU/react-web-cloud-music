@@ -106,10 +106,6 @@ const PlayerLayout: FC<Props> = props => {
           <div className={styles.imgOuterBorder}>
             <div className={styles.imgOuter} ref={imgContainerRef}>
               <div id="ripple" className={styles.ripple}/>
-              {/*<div className={styles.imgWrap}>*/}
-              {/*  <div id="ripple"/>*/}
-              {/*  /!* <img src={songObj.backgroundImg}/> *!/*/}
-              {/*</div>*/}
             </div>
           </div>
         </div>

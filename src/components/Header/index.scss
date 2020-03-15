@@ -10,6 +10,15 @@ header {
 
   .row {
     padding-top: 15px;
+    .login {
+      display: flex;
+      margin-top: 5px;
+      cursor: pointer;
+      i {
+        font-size: 20px;
+        margin-right: 8px;
+      }
+    }
   }
 
   .skin {

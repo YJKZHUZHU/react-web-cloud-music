@@ -141,6 +141,8 @@ class API {
   static getSearchSuggest = (params: object) => axios.get('/api/search/suggest', params)
   //搜索指定
   static getSearchByType = (params: object) => axios.get('/api/search', params)
+  //手机号登录
+  static loginByPhone = (params: object) => axios.get('/api/login/cellphone', params)
 }
 
 export default API

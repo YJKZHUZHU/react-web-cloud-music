@@ -97,14 +97,21 @@ class Utils {
   static formatterLyric(lyric: string) {
     let result: Array<any> = []
     lyric.split(/[\n]/g).forEach(item => {
-      let temp: Array<any> = item.split(/\[(.+?)\]/)
-      result.push({
-        time: this.formatterLyricTime(temp[1]),
-        lyc: temp[2]
-      })
+      //去除空的内容
+      let temp: Array<any> = decodeURIComponent(item).split(/\[(.+?)\]/).filter(item => item !== '')
+      const lyContent = temp.pop()
+      //去除最后一个空数组
+      if(temp.length !== 0){
+        temp.forEach((k) => {
+          result.push({
+            time: this.formatterLyricTime(k),
+            lyc: lyContent
+          })
+        })
+      }
     })
 
-    return result.filter(v => v['lyc'])
+    return result.sort((a,b) => (+a.time) -(+b.time))
   }
 
   //动态计算歌词长度
@@ -131,8 +138,6 @@ class Utils {
     const seconds = +sp2[0]
 
     const ms = parseFloat(String(+sp2[1] / 1000))
-    // console.log(minute,seconds,ms)
-    // console.log(parseInt(minute + seconds) + ms)
     return +(minute + seconds) + ms
   }
 

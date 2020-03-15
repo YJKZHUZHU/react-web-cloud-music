@@ -1,0 +1,58 @@
+@import "utils";
+$bgPath: '../../assets/xuebi.png';
+._login {
+  align-items: inherit;
+  display: flex;
+  justify-content: space-between;
+  .img {
+    margin-bottom: 20px;
+  }
+  .phone {
+    button {
+      margin-bottom: 12px;
+    }
+  }
+  .divider {
+    height: inherit;
+  }
+  .type {
+    .email {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+      font-size: 12px;
+      cursor: pointer;
+      &:hover{
+        text-decoration: underline;
+      }
+      .emailBg {
+        background-image: url($bgPath);
+        background-repeat: no-repeat;
+        background-position: -108px 0;
+        width: 25px;
+        height: 25px;
+        margin-right: 8px;
+      }
+    }
+    .code {
+      @extend .email;
+      .codeBg {
+        @extend .emailBg;
+        background-position: -138px 0;
+      }
+
+    }
+  }
+}
+
+.switchType {
+  text-align: left;
+  color: #0c72c3;
+  font-size: 12px;
+  cursor: pointer;
+}
+.phoneForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
