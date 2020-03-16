@@ -13,8 +13,10 @@ interface AppState {
   volume: number,
   playMode: number, //0 顺序播放 1 单曲循环 2 随机播放
   playerRate: number //播放速度,
-  keywords:string //搜索关键词,
-  userInfo: any
+  keywords: string //搜索关键词,
+  userInfo: any, //用户信息
+  loginStatus: boolean //登录状态,
+  userId: any //用户Id
 }
 
 export default class AppContainer extends Container<AppState> {
@@ -31,7 +33,9 @@ export default class AppContainer extends Container<AppState> {
     playMode: 0,
     playerRate: 1,
     keywords: '',
-    userInfo: {}
+    userInfo: {},
+    loginStatus: false,
+    userId:''
   }
 
 
@@ -76,19 +80,29 @@ export default class AppContainer extends Container<AppState> {
     return this.setState({volume})
   }
 
-  setPlayMode(playMode:number) {
+  setPlayMode(playMode: number) {
     return this.setState({playMode})
   }
-  setPlayRate(playerRate:number){
+
+  setPlayRate(playerRate: number) {
     return this.setState({playerRate})
   }
 
-  setKeywords(keywords:string){
-    store.setStorage('keywords',keywords)
+  setKeywords(keywords: string) {
+    store.setStorage('keywords', keywords)
     return this.setState({keywords})
   }
-  setUserInfo(userInfo:any){
-    return this.setState(userInfo)
+
+  setUserInfo(userInfo: any) {
+    return this.setState({userInfo})
+  }
+
+  setLoginStatus(loginStatus: boolean) {
+    return this.setState({loginStatus})
+  }
+
+  setUserId(userId:any) {
+    return this.setState({userId})
   }
 
 }

@@ -4,7 +4,7 @@ import qs from 'qs'
 
 
 const axios = Axios.create({
-  withCredentials: false,
+  withCredentials: true,
   timeout: 60 * 1000,
   xsrfCookieName: 'csrfToken',
   xsrfHeaderName: 'x-csrf-token',
@@ -73,12 +73,19 @@ axios.interceptors.request.use(config => {
 //拦截响应
 axios.interceptors.response.use(res => {
   appState.setLoading(false)
+  console.log(res)
   if (res.data.code === 302) {
     return new Promise(() => {
     })
   }
   return res.data
-}, error => Promise.reject(error))
+}, error =>{
+  //此时表示未登录
+  if(+error.response.status === 301){
+    return error.response.data
+  }
+  return Promise.reject(error)
+})
 
 // @ts-ignore
 axios.get = function(url, params = {}, config = {}) {
@@ -141,8 +148,19 @@ class API {
   static getSearchSuggest = (params: object) => axios.get('/api/search/suggest', params)
   //搜索指定
   static getSearchByType = (params: object) => axios.get('/api/search', params)
+  //获取用户详情
+  static useInfo = (params: object) => axios.get('/api/user/detail',params)
+  //登录状态
+  static status = (params?: object) => axios.post('/api/login/status',params)
+
+  //检测手机号是否注册过网易云音乐
+  static check = (params: object) => axios.post('/api/cellphone/existence/check', params)
   //手机号登录
-  static loginByPhone = (params: object) => axios.get('/api/login/cellphone', params)
+  static loginByPhone = (params: object) => axios.post('/api/login/cellphone', params)
+  //邮箱登录
+  static loginByEmail = (params: object) => axios.post('/api/login', params)
+  //退出登录
+  static logout = (params?: object) => axios.post('/api/logout', params)
 }
 
 export default API

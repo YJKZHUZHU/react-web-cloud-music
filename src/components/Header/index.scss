@@ -34,6 +34,17 @@ header {
     height: 35px;
   }
 
+  .user {
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    .name {
+      margin-left: 8px;
+      font-size: 12px;
+    }
+  }
+
+
   .down {
     color: var(--header-font-color);
     font-size: 20px;
@@ -41,6 +52,9 @@ header {
   }
 
 
+}
+.show {
+  display: none;
 }
 
 .themePop {

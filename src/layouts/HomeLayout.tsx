@@ -19,7 +19,7 @@ const HomeLayout: FC = (props: any) => {
 
   return (
     <div className={styles.home}>
-      <Spin spinning={globalLoading} delay={100} size='large' tip='皮肤正在加载中'>
+      <Spin spinning={globalLoading} delay={100} size='large' tip='资源请稍等，，，'>
         <Header/>
         <main>
           <Menu/>
