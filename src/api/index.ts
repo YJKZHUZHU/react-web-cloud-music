@@ -73,7 +73,6 @@ axios.interceptors.request.use(config => {
 //拦截响应
 axios.interceptors.response.use(res => {
   appState.setLoading(false)
-  console.log(res)
   if (res.data.code === 302) {
     return new Promise(() => {
     })

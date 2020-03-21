@@ -3,9 +3,6 @@ import {Modal, Button, Divider, Icon, Form, Input, message} from 'antd'
 import API from '@/api'
 import {Subscribe} from '@/Appcontainer'
 import router from 'umi/router'
-import Redirect from 'umi/redirect'
-import {appState} from '@/models/gloable'
-
 import styles from './index.scss'
 
 type Props = {
@@ -23,6 +20,9 @@ const initTYpe: TypeInterface = {
   title: '手机号登录'
 }
 
+message.config({
+  maxCount: 1
+})
 // @ts-ignore
 const LoginModal: FC<Props> = props => {
   const {getFieldDecorator, validateFields} = props.form
@@ -30,8 +30,8 @@ const LoginModal: FC<Props> = props => {
 
   const [type, setType] = useState(initTYpe)
 
-  console.log(loginStatus)
   if (loginStatus) {
+    router.replace('/')
     return message.success('已经登录过了哦')
   }
 
@@ -45,11 +45,9 @@ const LoginModal: FC<Props> = props => {
     e.preventDefault()
     validateFields(async (err: any, values: {phone: string, password: string, email: string}) => {
       if (!err) {
-        console.log('Received values of form: ', values)
         //手机登录
         if (type.type === 1) {
           const checkRet: any = await API.check({phone: values.phone})
-          console.log(checkRet)
           if (+checkRet.exist === -1) {
             return message.error('先注册网易云账号再来体验哦')
           }
@@ -65,6 +63,7 @@ const LoginModal: FC<Props> = props => {
             router.replace({
               pathname: '/'
             })
+            window.location.reload()
           })
         }
         //邮箱登录
@@ -81,13 +80,13 @@ const LoginModal: FC<Props> = props => {
             router.replace({
               pathname: '/'
             })
+            window.location.reload()
           })
         }
 
       }
     })
   }
-
 
   return (
     <div>

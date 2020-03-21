@@ -13,10 +13,11 @@ type Props = {
   trackIds?: any,
   tracks?: any,
   $app: any,
-  location:any
+  location:any,
+  searchValue:string
 }
 
-const TableList: FC<Props> = ({trackIds = [], tracks = [], $app,location}) => {
+const TableList: FC<Props> = ({trackIds = [],searchValue='', tracks = [], $app,location}) => {
   const [tableData, setTableData] = useState([])
   const [loading,setLoading] = useState(false)
 
@@ -31,7 +32,10 @@ const TableList: FC<Props> = ({trackIds = [], tracks = [], $app,location}) => {
           <div>
             <span>{index < 10 ? `0${index}` : index}</span>
             <Icon type="heart" className={styles.heartIcon}/>
-            <Icon type="play-circle" className={styles.playIcon} onClick={() => Song.getSongUrl(record.id)}/>
+            {
+              record.mv ? <Icon type="play-circle" className={styles.playIcon} /> : null
+            }
+            {/*<Icon type="play-circle" className={styles.playIcon} onClick={() => Song.getSongUrl(record.id)}/>*/}
           </div>
         )
       },
@@ -117,7 +121,7 @@ const TableList: FC<Props> = ({trackIds = [], tracks = [], $app,location}) => {
       }}
       columns={columns}
       size='small'
-      dataSource={tableData}
+      dataSource={searchValue? tableData.filter((item:{name:string}) =>item.name.includes(searchValue)) : tableData}
       pagination={false}
       rowKey={(record: any) => record.id}
     />

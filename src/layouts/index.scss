@@ -6,6 +6,8 @@
 
   main {
     display: flex;
+    width: 100%;
+
     aside {
       height: calc(100vh - 75px);
       background: var(--menu-bgcolor);
@@ -86,11 +88,12 @@
         position: absolute;
         left: 0;
         top: 0;
-        padding: 0  108px 90px 108px;
+        padding: 0 108px 90px 108px;
 
       }
     }
   }
+
   ._footer {
     @include fix-footer(75px);
     display: flex;
@@ -119,6 +122,26 @@
             height: 50px;
             margin-left: 25px;
             cursor: pointer;
+            background: #333333;
+            //margin: 0 auto;
+            //position: relative;
+            overflow: hidden;
+
+            &::after {
+              content: "";
+              height: 150%;
+              width: 25px;
+              background: #fff;
+              position: absolute;
+              left: 0;
+              right: 0;
+              top: 0;
+              bottom:0;
+              margin: auto;
+              opacity: .6;
+              filter: blur(6px);
+              animation: move 1s infinite ease-out;
+            }
 
             &:hover {
               .full {
@@ -265,6 +288,15 @@
           }
         }
       }
+    }
+  }
+
+  @keyframes move {
+    0% {
+      transform: translate(-200px, -200px) rotate(45deg);
+    }
+    100% {
+      transform: translate(200px, 200px) rotate(45deg);
     }
   }
 }

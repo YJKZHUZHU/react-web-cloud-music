@@ -58,7 +58,6 @@ class Utils {
       body.className = `body-wrap-${theme}`  // 切换自定义组件的主题
     }
     document.body.append(styleLink)
-
   }
 
   static formatSeconds(value: any) {

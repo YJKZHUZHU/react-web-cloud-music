@@ -100,5 +100,12 @@ a {
 .ant-progress-bg {
   height: 3px !important;
 }
+.ant-table-small {
+  border:none !important;
+}
+.ant-table-small > .ant-table-content > .ant-table-body {
+  margin: 0 !important;
+}
+
 
 

@@ -2,16 +2,25 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3ac4d602-c92c-4419-bff4-268fa41f4872" name="默认的" comment="">
+      <change afterPath="$PROJECT_DIR$/src/rem.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.umirc.ts" beforeDir="false" afterPath="$PROJECT_DIR$/.umirc.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/api/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/index.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Header/index.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header/index.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Header/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/LoginModal/index.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/LoginModal/index.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/LoginModal/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/LoginModal/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/layouts/HomeLayout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/HomeLayout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/gloable.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/gloable.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/NewMusic/index.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/NewMusic/index.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Search/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Search/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/global.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/global.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/help/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/help/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layouts/Menu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/Menu.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layouts/index.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/index.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/playList/components/ListTable.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/playList/components/ListTable.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/playList/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/playList/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/recommend/findMusic/index.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/recommend/findMusic/index.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/theme/_reset.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/theme/_reset.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/themeConfig.ts" beforeDir="false" afterPath="$PROJECT_DIR$/themeConfig.ts" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -46,16 +55,16 @@
     <property name="ts.external.directory.path" value="D:\Program Files (x86)\WebStorm 2019.2.4\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\react-music\cloud-music-web-react\public" />
+      <recent name="E:\react-music\cloud-music-web-react\src\pages\recommend" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\react-music\cloud-music-web-react\src\assets" />
       <recent name="E:\react-music\cloud-music-web-react\src\assets\player" />
       <recent name="E:\react-music\cloud-music-web-react\public" />
       <recent name="E:\react-music\cloud-music-web-react\src\pages\myMusic\collect" />
       <recent name="E:\react-music\cloud-music-web-react\src\theme" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="E:\react-music\cloud-music-web-react\public" />
-      <recent name="E:\react-music\cloud-music-web-react\src\pages\recommend" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -92,7 +101,8 @@
       <workItem from="1583301552710" duration="943000" />
       <workItem from="1583305981374" duration="310000" />
       <workItem from="1584171795626" duration="39111000" />
-      <workItem from="1584316365129" duration="20026000" />
+      <workItem from="1584316365129" duration="39884000" />
+      <workItem from="1584778695728" duration="10245000" />
     </task>
     <servers />
   </component>

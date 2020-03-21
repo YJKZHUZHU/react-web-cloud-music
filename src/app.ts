@@ -20,38 +20,24 @@ interface RouterInterface {
 let lastKey: string = ''
 
 const getUserInfo = async () => {
-  await appState.setGlobalLoading(true)
-  const Ret: any = await API.status()
+  const Ret: any = await API.status({loading: true})
   if (Ret.code === 200) {
     const loginRet = await API.useInfo({uid: Ret.profile.userId})
     await appState.setLoginStatus(true)
     await appState.setUserInfo(loginRet)
   }
-  appState.setGlobalLoading(false)
 }
 
 export function onRouteChange(props: RouterInterface) {
-  console.log(props)
-  const {pathname} = props.location
   NProgress.start()
+
   if (props.location.key !== lastKey) {
     lastKey = props.location.pathname
     NProgress.done()
   }
-  //暂时加载首页判断登录态，该接口有点慢
-  // if (pathname === '/recommend/findMusic') {
-  //   getUserInfo()
-  //   //获取登录态
-  //   // await getUserInfo()
-  // }
-
   //首次加载undefined
   if (!props.action) {
-    console.log(111)
-    getUserInfo()
-    // await getUserInfo()
-    // router.push('/recommend/findMusic')
-
+    getUserInfo().then(r => r)
     if (!store.getStorage('theme')) {
       store.setStorage('theme', 'red')
     }

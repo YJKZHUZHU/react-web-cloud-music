@@ -4,7 +4,7 @@
   display: flex;
   cursor: pointer;
   padding: 15px 15px 7px 0;
-  border-right: 1px solid #DFE0E0;
+  border-right: 1px solid var(--border);
 
   &:hover {
     background: var(--playlist-hover-bgcolor);

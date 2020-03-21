@@ -22,8 +22,10 @@ const PlayList: FC<Props> = props => {
   const [creator, setCreator] = useState<any>({})
   const [label, setLabel] = useState([])
   const [isSearch, setSearch] = useState(true)
+  const [searchValue,setSearchValue] = useState('')
 
   const onTabs = (activeKey: string) => (+activeKey) === 1 ? setSearch(true) : setSearch(false)
+
 
   useEffect(() => {
     API.playList({id: listId,loading:true}).then((res: any) => {
@@ -115,7 +117,7 @@ const PlayList: FC<Props> = props => {
       <Tabs
         animated={false}
         defaultActiveKey="1"
-        tabBarExtraContent={isSearch ? <Search placeholder='搜索歌单音乐'/> : null}
+        tabBarExtraContent={isSearch ? <Search placeholder='搜索歌单音乐' onChange={(e) => setSearchValue(e.target.value)} /> : null}
         className={styles.tabs}
         tabBarStyle={{margin: 0}}
         onChange={onTabs}
@@ -125,6 +127,7 @@ const PlayList: FC<Props> = props => {
             {...props}
             trackIds={playlist.trackIds}
             tracks={playlist.tracks}
+            searchValue={searchValue}
           />
         </TabPane>
         <TabPane tab={playlist.commentCount ? `评论(${playlist.commentCount})` : '评论'} key="2">

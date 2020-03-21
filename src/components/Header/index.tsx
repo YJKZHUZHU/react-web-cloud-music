@@ -1,5 +1,5 @@
 import React, {FC, Fragment, useEffect, useState} from 'react'
-import {Row, Col, Icon, Divider, Input, Badge, Avatar, Button, Radio, Popover, Dropdown, Menu} from 'antd'
+import {Row, Col, Icon, Divider, Input, Badge, Avatar, Button, Radio, Popover, Dropdown, Menu,message} from 'antd'
 import Link from 'umi/link'
 import API from '@/api'
 import {Subscribe} from '@/Appcontainer'
@@ -49,8 +49,14 @@ const Header: FC<Props> = props => {
   const onMenu = (value: any) => {
     console.log(value)
     if (+value.key === 2) {
-      API.logout({timestamp: Date.now()})
-      window.location.reload()
+      API.logout({loading:true}).then((res:any) =>  {
+        if(res.code !== 200){
+          return message.info('服务器开小差了，，')
+        }
+        message.success('退出成功')
+        return  window.location.reload()
+      })
+
     }
   }
   const menu = (
