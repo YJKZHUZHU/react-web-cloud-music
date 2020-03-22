@@ -2,24 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3ac4d602-c92c-4419-bff4-268fa41f4872" name="默认的" comment="">
-      <change afterPath="$PROJECT_DIR$/src/assets/mylevel.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assets/toplist.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/care/components/Care.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/care/dynamic.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/care/fan.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/care/follows.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/care/index.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/rhythmRipple.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/api/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Header/index.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header/index.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Header/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/global.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/global.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/LoginModal/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/LoginModal/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/global.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/global.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/document.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/document.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rem.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ripple.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/themeConfig.ts" beforeDir="false" afterPath="$PROJECT_DIR$/themeConfig.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/care/dynamic.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/care/dynamic.tsx" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -102,7 +90,8 @@
       <workItem from="1584171795626" duration="39111000" />
       <workItem from="1584316365129" duration="39884000" />
       <workItem from="1584778695728" duration="12573000" />
-      <workItem from="1584838270355" duration="25323000" />
+      <workItem from="1584838270355" duration="25832000" />
+      <workItem from="1584877819274" duration="4314000" />
     </task>
     <servers />
   </component>

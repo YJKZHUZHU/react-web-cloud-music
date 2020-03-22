@@ -27,8 +27,8 @@ message.config({
 const LoginModal: FC<Props> = props => {
   const {getFieldDecorator, validateFields} = props.form
   const {loginStatus} = props.$app.state
-
   const [type, setType] = useState(initTYpe)
+  const [visible,setVisible] = useState(true)
 
   if (loginStatus) {
     router.replace('/')
@@ -41,6 +41,7 @@ const LoginModal: FC<Props> = props => {
       title: e.target.title
     })
   }
+
   const phoneLogin = (e: any) => {
     e.preventDefault()
     validateFields(async (err: any, values: {phone: string, password: string, email: string}) => {
@@ -88,12 +89,18 @@ const LoginModal: FC<Props> = props => {
     })
   }
 
+  const onCancel = () => {
+    setVisible(false)
+    router.push('/')
+  }
+
   return (
     <div>
       <Modal
-        visible={true}
+        visible={visible}
         title={'账号登录'}
         centered={true}
+        onCancel={() => onCancel()}
         footer={null}
       >
         <div className={styles._login}>

@@ -16,22 +16,44 @@ type Props = {
 const Dynamic: FC<Props> = (props) => {
   const {userInfo} = props.$app.state
   const [dynamicArr, setDynamicArr] = useState([])
-  const [like,setLike] = useState(false)
+  const [like, setLike] = useState(false)
 
-  const commentLike = (info: any,t: number) => {
-    console.log(info)
-    API.commentLike({
+  const commentLike = async (info: any, t: number) => {
+    const Ret: any = await API.commentLike({
       t,
-      type:6,
-      threadId:info.threadId,
-      cid:'12324144371',
-      timestamp:Date.now()
-    }).then((res:any) => {
-      console.log(res)
+      type: 6,
+      threadId: info.threadId,
+      cid: info.resourceId,
+      timestamp: Date.now()
     })
+    console.log(Ret)
+    if (Ret.code !== 200) {
+      return message.info('稍后再试哦。。')
+    }
+    message.success('好吧，现在点赞还有点问题，')
+  }
+  const onDel = async (evId: string) => {
+    const Ret: any = await API.del({evId})
+    if (Ret.code !== 200) {
+      return message.info('删除失败，请稍后再试')
+    }
+    await message.success('删除成功')
+    return getData()
   }
 
-  const description = (item: any, ) => {
+  const getData = () => {
+    if (userInfo.userPoint) {
+      const {userId} = userInfo.userPoint
+      API.event({loading: true, uid: userId}).then((res: any) => {
+        if (res.code !== 200) {
+          return message.info('暂无动态哦，，，')
+        }
+        setDynamicArr(res.events)
+      })
+    }
+  }
+
+  const description = (item: any) => {
     const info = JSON.parse(item.json)
     console.log(info)
     const artistsName = info.song.artists.map((item: any) => item.name).join('/')
@@ -66,7 +88,7 @@ const Dynamic: FC<Props> = (props) => {
           }
 
           <Divider type='vertical' className={classnames(styles.divider, styles.diff)}/>
-          <Icon type="delete"/>
+          <Icon type="delete" onClick={() => onDel(item.info.resourceId)}/>
         </div>
       </div>
     )
@@ -83,17 +105,11 @@ const Dynamic: FC<Props> = (props) => {
     )
   }
 
+
   useEffect(() => {
-    if (userInfo.userPoint) {
-      const {userId} = userInfo.userPoint
-      API.event({loading: true, uid: userId}).then((res: any) => {
-        if (res.code !== 200) {
-          return message.info('暂无动态哦，，，')
-        }
-        setDynamicArr(res.events)
-      })
-    }
+    getData()
   }, [userInfo.userPoint])
+
   return (
     <div className={styles._dynamic}>
       <h2 className={styles.title}>{userInfo.profile && userInfo.profile.nickname + '的动态'}</h2>

@@ -24,6 +24,34 @@ type Props = {
 
 const Header: FC<Props> = props => {
   const {showPlayer, loginStatus, userInfo} = props.$app.state
+  const [visible, setVisible] = useState(false)
+
+  const onRoute = (path: string) => {
+    setVisible(false)
+    router.push(path)
+  }
+
+
+  const onLogout = async () => {
+    const Ret: any = API.logout({loading: true})
+    if (Ret.code !== 200) {
+      return message.info('服务器开小差了哦。。')
+    }
+    await message.success('退出成功')
+    await setVisible(false)
+    window.location.reload()
+
+  }
+
+  const dailySignIn = () => {
+    API.dailySignIn({type: 1}).then((res: any) => {
+      console.log(res)
+      if (res.code !== 200) {
+        return message.info('已经签到过了哦')
+      }
+      return message.success('签到成功')
+    })
+  }
 
   const content = (
     <div className={styles.theme}>
@@ -41,27 +69,6 @@ const Header: FC<Props> = props => {
       </p>
     </div>
   )
-
-
-  const onLogout = () => {
-    API.logout({loading: true}).then((res: any) => {
-      if (res.code !== 200) {
-        return message.info('服务器开小差了，，')
-      }
-      message.success('退出成功')
-      return window.location.reload()
-    })
-  }
-  const dailySignIn = () => {
-    API.dailySignIn({type: 1}).then((res: any) => {
-      console.log(res)
-      if (res.code !== 200) {
-        return message.info('已经签到过了哦')
-      }
-      return message.success('签到成功')
-    })
-  }
-
   const userContent = (
     <div className={styles._main}>
       <div className={styles.top}>
@@ -82,17 +89,17 @@ const Header: FC<Props> = props => {
           </Button>
         </div>
         <div className={styles.attention}>
-          <p className={styles.item} onClick={() => router.push('/care/dynamic')}>
+          <p className={styles.item} onClick={() => onRoute('/care/dynamic')}>
             <i>{userInfo.profile && userInfo.profile.eventCount}</i>
             <em>动态</em>
           </p>
           <Divider type='vertical' className={styles.divider}/>
-          <p className={styles.item} onClick={() => router.push('/care/follows')}>
+          <p className={styles.item} onClick={() => onRoute('/care/follows')}>
             <i>{userInfo.profile && userInfo.profile.follows}</i>
             <em>关注</em>
           </p>
           <Divider type='vertical' className={styles.divider}/>
-          <p className={styles.item} onClick={() => router.push('/care/fan')}>
+          <p className={styles.item} onClick={() => onRoute('/care/fan')}>
             <i>{userInfo.profile && userInfo.profile.followeds}</i>
             <em>粉丝</em>
           </p>
@@ -161,6 +168,8 @@ const Header: FC<Props> = props => {
           {
             loginStatus ? (
               <Popover
+                visible={visible}
+                onVisibleChange={() => setVisible(!visible)}
                 content={userContent}
                 overlayClassName={classnames(styles.userPop, '_userPop')}
                 getPopupContainer={(): any => document.getElementsByClassName('_userInfoPop')[0]}

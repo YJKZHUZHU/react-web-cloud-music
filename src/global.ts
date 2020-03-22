@@ -1,4 +1,9 @@
+import {message} from 'antd'
 
+message.config({
+  duration:1,
+  maxCount:1
+})
 
 // toFixed兼容方法
 Number.prototype.toFixed = function(len:number) {

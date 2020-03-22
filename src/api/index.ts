@@ -172,8 +172,9 @@ class API {
   //获取用户动态
   static event = (params:any) => axios.get('/api/user/event', params)
   //给评论点赞
-
   static commentLike = (params:any) => axios.get('/api/comment/like', params)
+  //删除用户动态
+  static del = (params:any) => axios.get('/api/event/del', params)
 
 
 }
