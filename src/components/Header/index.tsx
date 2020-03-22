@@ -33,7 +33,7 @@ const Header: FC<Props> = props => {
 
 
   const onLogout = async () => {
-    const Ret: any = API.logout({loading: true})
+    const Ret: any = await API.logout({loading: true})
     if (Ret.code !== 200) {
       return message.info('服务器开小差了哦。。')
     }
