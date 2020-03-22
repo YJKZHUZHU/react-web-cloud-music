@@ -1,0 +1,99 @@
+@import "utils";
+
+._follows {
+  .divider {
+    margin: 5px 0;
+  }
+
+  .title {
+    margin-top: 20px;
+  }
+
+  .description {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .left {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .right {
+
+    }
+
+  }
+}
+
+._dynamic {
+  .divider {
+    margin: 5px 0;
+  }
+
+  .title {
+    margin-top: 20px;
+  }
+
+  .infoTitle {
+    .name {
+      font-size: 14px;
+      display: flex;
+
+      .link {
+        color: #0C73C2;
+        margin-right: 10px;
+      }
+    }
+
+    .time {
+      font-size: 12px;
+    }
+
+
+  }
+
+  .infoDescription {
+    .content {
+      color: var(--font-color);
+      margin-bottom: 8px;
+    }
+
+    .item {
+      background-color: #EEEEEF;
+      padding-left: 12px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #EAEAEB;
+      }
+    }
+
+    .operator {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      margin-top: 10px;
+
+      .diff {
+        margin: 0 8px;
+      }
+
+      .linkNumber {
+        display: flex;
+        cursor: pointer;
+        .active {
+          color: #C93C3C;
+        }
+
+        span {
+          font-size: 12px;
+          margin-left: 5px;
+        }
+      }
+    }
+  }
+}
+
+

@@ -79,8 +79,9 @@ axios.interceptors.response.use(res => {
   }
   return res.data
 }, error =>{
+  const code = [301,400,404,405,302]
   //此时表示未登录
-  if(+error.response.status === 301){
+  if(code.includes(+error.response.status)){
     return error.response.data
   }
   return Promise.reject(error)
@@ -160,6 +161,21 @@ class API {
   static loginByEmail = (params: object) => axios.post('/api/login', params)
   //退出登录
   static logout = (params?: object) => axios.post('/api/logout', params)
+  //签到
+  static dailySignIn = (params?: object) => axios.get('/api/daily_signin', params)
+  //获取用户关注列表
+  static follows = (params:any) => axios.get('/api/user/follows', params)
+  //获取用户粉丝列表
+  static followeds = (params:any) => axios.get('/api/user/followeds', params)
+  //关注取消用户
+  static follow = (params:any) => axios.get('/api/follow', params)
+  //获取用户动态
+  static event = (params:any) => axios.get('/api/user/event', params)
+  //给评论点赞
+
+  static commentLike = (params:any) => axios.get('/api/comment/like', params)
+
+
 }
 
 export default API

@@ -2,6 +2,8 @@
 
 $logoPath: '../../assets/topbar.png';
 
+$lvBackground: '../../assets/mylevel.png';
+
 header {
   display: flex;
   height: 65px;
@@ -10,10 +12,12 @@ header {
 
   .row {
     padding-top: 15px;
+
     .login {
       display: flex;
       margin-top: 5px;
       cursor: pointer;
+
       i {
         font-size: 20px;
         margin-right: 8px;
@@ -38,9 +42,13 @@ header {
     display: flex;
     cursor: pointer;
     align-items: center;
+    color: var(--font-color);
+
     .name {
       margin-left: 8px;
       font-size: 12px;
+      margin-right: 8px;
+      font: inherit;
     }
   }
 
@@ -53,6 +61,7 @@ header {
 
 
 }
+
 .show {
   display: none;
 }
@@ -90,3 +99,101 @@ header {
   }
 }
 
+.userPop {
+  width: 300px;
+
+  ._main {
+    font-size: 12px;
+    color: var(--font-color);
+
+    .divider {
+      margin: 5px 0 0 0 ;
+    }
+
+    .top {
+      padding: 12px 18px;
+
+      .user {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .attention {
+        margin-top: 10px;
+        @extend .user;
+
+        .item {
+          @extend .user;
+          flex-direction: column;
+        }
+      }
+
+    }
+
+    .middle {
+
+      ul {
+        @include clearfix();
+
+        .item {
+          padding: 0 18px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          cursor: pointer;
+          height: 30px;
+
+          &:hover {
+            background-color: #ECEDEE;
+          }
+
+          .level {
+            display: flex;
+            align-items: center;
+
+            i {
+              background: url($lvBackground) no-repeat left 5px;
+              width: 30px;
+              height: 30px;
+            }
+
+            em {
+              font-weight: 800;
+            }
+
+          }
+
+          p:first-child {
+            display: flex;
+            align-items: center;
+
+            i {
+              margin-right: 8px;
+            }
+          }
+        }
+      }
+    }
+
+    .bottom {
+      cursor: pointer;
+      height: 30px;
+      padding: 0 18px;
+      display: flex;
+      align-items: center;
+
+      &:hover {
+        background-color: #ECEDEE;
+      }
+    }
+  }
+}
+
+:global {
+  ._userPop {
+    .ant-popover-inner-content {
+      padding: 0;
+    }
+  }
+}

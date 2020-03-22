@@ -37,6 +37,9 @@ a {
 #root {
   background: var(--body-bgcolor);
 }
+i,em {
+  font: inherit !important;
+}
 
 .playerWrapper {
   //white-space: nowrap; //让子元素超出不换行

@@ -1,3 +1,5 @@
+
+
 // toFixed兼容方法
 Number.prototype.toFixed = function(len:number) {
   if (len > 20 || len < 0) {
