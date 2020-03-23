@@ -25,6 +25,7 @@ type Props = {
 const Header: FC<Props> = props => {
   const {showPlayer, loginStatus, userInfo} = props.$app.state
   const [visible, setVisible] = useState(false)
+  const [signIn,setSignIn] = useState(false)
 
   const onRoute = (path: string) => {
     setVisible(false)
@@ -40,15 +41,14 @@ const Header: FC<Props> = props => {
     await message.success('退出成功')
     await setVisible(false)
     window.location.reload()
-
   }
 
   const dailySignIn = () => {
     API.dailySignIn({type: 1}).then((res: any) => {
-      console.log(res)
       if (res.code !== 200) {
         return message.info('已经签到过了哦')
       }
+      setSignIn(true)
       return message.success('签到成功')
     })
   }
@@ -84,7 +84,7 @@ const Header: FC<Props> = props => {
           <Button size='small' onClick={dailySignIn} disabled={userInfo.pcSign}>
             <Icon type="carry-out"/>
             {
-              userInfo.pcSign ? '已签到' : '签到'
+              userInfo.pcSign || signIn ? '已签到' : '签到'
             }
           </Button>
         </div>
@@ -121,8 +121,8 @@ const Header: FC<Props> = props => {
               <em>会员等级</em>
             </p>
             <p className={styles.level}>
-              <i/>
-              <em>7</em>
+              {/*<i/>*/}
+              <em>LV.7</em>
             </p>
           </li>
           <li className={styles.item}>

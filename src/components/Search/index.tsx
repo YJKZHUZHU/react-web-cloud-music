@@ -30,9 +30,6 @@ const Search: FC<Props> = (props) => {
 
   const {run} = useDebounceFn((keywords) => {
     setValue(keywords)
-
-    setPopoverVisible(true)
-
     API.getSearchSuggest({keywords}).then((res: any) => {
       if (res.code === 200 && res.result) {
         setSearchList(res.result)
@@ -272,6 +269,7 @@ const Search: FC<Props> = (props) => {
         placeholder='搜索音乐，视频，歌词，电台'
         onClick={() => setPopoverVisible(!popoverVisible)}
         // onBlur={() => setPopoverVisible(false)}
+        onMouseEnter={() => setPopoverVisible(false)}
         onChange={(e: any) => run(e.target.value)}
         onSearch={(value: string) => toDetail(1, value)}
       />

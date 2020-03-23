@@ -175,7 +175,14 @@ class API {
   static commentLike = (params:any) => axios.get('/api/comment/like', params)
   //删除用户动态
   static del = (params:any) => axios.get('/api/event/del', params)
-
+  //收藏的歌手列表
+  static artistSublist = (params?:any) => axios.get('/api/artist/sublist', params)
+  //收藏的专辑列表
+  static albumSublist = (params?:any) => axios.get('/api/album/sublist', params)
+  //收藏的mv列表
+  static mvSublist = (params?:any) => axios.get('/api/mv/sublist', params)
+  //获取用户订阅信息
+  static subCount = (params?:any) => axios.get('/api/user/subcount', params)
 
 }
 

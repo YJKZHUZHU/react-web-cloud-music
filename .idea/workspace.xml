@@ -2,12 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3ac4d602-c92c-4419-bff4-268fa41f4872" name="默认的" comment="">
+      <change afterPath="$PROJECT_DIR$/src/assets/mask.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/album/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/myMusic/collect/index.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/singer/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/api/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/index.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Header/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/LoginModal/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/LoginModal/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/global.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/global.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/care/dynamic.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/care/dynamic.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/LatestMusic/index.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/LatestMusic/index.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/LatestMusic/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/LatestMusic/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Search/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Search/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/myMusic/collect/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/myMusic/collect/index.tsx" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -42,16 +47,16 @@
     <property name="ts.external.directory.path" value="D:\Program Files (x86)\WebStorm 2019.2.4\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\react-music\cloud-music-web-react\public" />
+      <recent name="E:\react-music\cloud-music-web-react\src\pages\recommend" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\react-music\cloud-music-web-react\src\assets" />
       <recent name="E:\react-music\cloud-music-web-react\src\assets\player" />
       <recent name="E:\react-music\cloud-music-web-react\public" />
       <recent name="E:\react-music\cloud-music-web-react\src\pages\myMusic\collect" />
       <recent name="E:\react-music\cloud-music-web-react\src\theme" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="E:\react-music\cloud-music-web-react\public" />
-      <recent name="E:\react-music\cloud-music-web-react\src\pages\recommend" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -92,6 +97,7 @@
       <workItem from="1584778695728" duration="12573000" />
       <workItem from="1584838270355" duration="25832000" />
       <workItem from="1584877819274" duration="4314000" />
+      <workItem from="1584886999452" duration="10215000" />
     </task>
     <servers />
   </component>

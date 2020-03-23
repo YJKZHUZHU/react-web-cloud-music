@@ -16,6 +16,9 @@
       height: 80px;
       justify-content: space-around;
       align-items: center;
+      &:hover{
+        background-color: #F2F2F3;
+      }
       .number {
         width: 30px;
         text-align: center;

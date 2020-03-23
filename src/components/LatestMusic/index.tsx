@@ -17,7 +17,6 @@ const List: FC<Props> = ({active}) => {
       type: active,
       loading: true
     }).then((res: any) => {
-      console.log(res)
       if (res.code === 200) {
         setDataList(res.data)
       }
