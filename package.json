@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "start": "umi dev",
-    "build": "umi build",
+    "build": "UMI_ENV=build umi build",
     "test": "umi test",
     "lint": "eslint {src,mock,tests}/**/*.{ts,tsx} --fix",
     "precommit": "lint-staged"

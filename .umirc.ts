@@ -56,7 +56,7 @@ const config: IConfig = {
           'react-infinite-scroller'
         ]
       },
-      hd: true
+      // hd: true
     }]
   ],
   targets: {
@@ -71,13 +71,13 @@ const config: IConfig = {
       includePaths: ['./src/theme/']
     }
   },
-  extraPostCSSPlugins: [
-    px2rem({
-      rootValue: 200,//开启hd后需要换算：rootValue=designWidth*100/750,此处设计稿为1920，所以1920*100/750=256
-      propBlackList: ['*'],//这些属性不需要转换
-      selectorBlackList: []//
-    })
-  ],
+  // extraPostCSSPlugins: [
+  //   px2rem({
+  //     rootValue: 200,//开启hd后需要换算：rootValue=designWidth*100/750,此处设计稿为1920，所以1920*100/750=256
+  //     propBlackList: ['*'],//这些属性不需要转换
+  //     selectorBlackList: []//
+  //   })
+  // ],
   ignoreMomentLocale: true,
   externals: {},
   devServer: {

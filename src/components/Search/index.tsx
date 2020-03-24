@@ -265,7 +265,8 @@ const Search: FC<Props> = (props) => {
       getPopupContainer={(): any => document.getElementsByClassName('_search')[0]}
     >
       <Input.Search
-        style={{width: '1.5rem'}}
+        // style={{width: '1.5rem'}}
+        className={styles.search}
         placeholder='搜索音乐，视频，歌词，电台'
         onClick={() => setPopoverVisible(!popoverVisible)}
         // onBlur={() => setPopoverVisible(false)}
