@@ -4,7 +4,6 @@ import {List, Avatar, Button, Skeleton, Divider, message, Icon} from 'antd'
 import Link from 'umi/link'
 import classnames from 'classnames'
 import Utils from '@/help/index'
-
 import API from '@/api'
 import styles from '@/pages/care/index.scss'
 
@@ -16,7 +15,6 @@ type Props = {
 const Dynamic: FC<Props> = (props) => {
   const {userInfo} = props.$app.state
   const [dynamicArr, setDynamicArr] = useState([])
-  const [like, setLike] = useState(false)
 
   const commentLike = async (info: any, t: number) => {
     const Ret: any = await API.commentLike({
@@ -26,7 +24,6 @@ const Dynamic: FC<Props> = (props) => {
       cid: info.resourceId,
       timestamp: Date.now()
     })
-    console.log(Ret)
     if (Ret.code !== 200) {
       return message.info('稍后再试哦。。')
     }
@@ -55,7 +52,6 @@ const Dynamic: FC<Props> = (props) => {
 
   const description = (item: any) => {
     const info = JSON.parse(item.json)
-    console.log(info)
     const artistsName = info.song.artists.map((item: any) => item.name).join('/')
 
     return (

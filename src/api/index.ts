@@ -106,10 +106,6 @@ axios.post = function(url, data = {}, config = {}) {
   })
 }
 
-interface PlayListInterface {
-  id?: string | number,
-  s?: string | number
-}
 
 
 class API {
@@ -183,6 +179,13 @@ class API {
   static mvSublist = (params?:any) => axios.get('/api/mv/sublist', params)
   //获取用户订阅信息
   static subCount = (params?:any) => axios.get('/api/user/subcount', params)
+  //获取用户歌单
+  static userPlaylist = (params:any) => axios.get('/api/user/playlist', params)
+  //新建歌单
+  static playlistCreate = (params:any) => axios.get('/api/playlist/create', params)
+  //删除歌单
+  static playlistDelete = (params:any) => axios.get('/api/playlist/delete', params)
+
 
 }
 

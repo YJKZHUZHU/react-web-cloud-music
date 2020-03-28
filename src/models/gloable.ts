@@ -15,8 +15,9 @@ interface AppState {
   playerRate: number //播放速度,
   keywords: string //搜索关键词,
   userInfo: any, //用户信息
-  loginStatus: boolean //登录状态,
+  loginStatus: boolean, //登录状态
   userId: any //用户Id
+  playList:{creator:Array<any>,favorite:Array<any>}
 }
 
 export default class AppContainer extends Container<AppState> {
@@ -35,7 +36,8 @@ export default class AppContainer extends Container<AppState> {
     keywords: '',
     userInfo: {},
     loginStatus: false,
-    userId:''
+    userId:'',
+    playList:{creator:[],favorite:[]}
   }
 
 
@@ -103,6 +105,15 @@ export default class AppContainer extends Container<AppState> {
 
   setUserId(userId:any) {
     return this.setState({userId})
+  }
+
+  setPlayList(playList:Array<any>){
+    return this.setState({
+      playList: {
+        creator:playList.filter((item:any) => !item.subscribed),
+        favorite:playList.filter((item:any) => item.subscribed)
+      }
+    })
   }
 
 }

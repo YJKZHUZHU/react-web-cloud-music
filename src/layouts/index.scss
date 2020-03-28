@@ -28,10 +28,11 @@
         overflow: hidden;
         overflow-y: auto;
 
-        .recommend, .myMusic {
+        .recommend, .myMusic, .songList {
           text-align: left;
           @include fl();
           width: 100%;
+
 
           h2 {
             margin-top: 15px;
@@ -66,6 +67,107 @@
                 background: var(--menu-item-active-bg);
               }
 
+              .creator {
+                display: flex;
+
+                &:hover {
+                  .title {
+                    .operator {
+                      .icon {
+                        display: block;
+                      }
+                      .privacy {
+                        display: none;
+                      }
+                    }
+                  }
+                }
+
+                .title {
+                  display: flex;
+                  flex-direction: column;
+                  line-height: 16px;
+                  width: 100%;
+                  justify-content: space-between;
+                  padding: 0 10px;
+                  overflow: hidden;
+
+                  .content {
+                    @include ellipsis();
+                  }
+
+                  .operator {
+                    display: flex;
+                    justify-content: space-between;
+                    padding-bottom: 5px;
+
+                    .icon {
+                      display: none;
+
+                      i:nth-child(1) {
+                        margin-right: 8px;
+                      }
+                    }
+                  }
+                }
+
+              }
+
+
+            }
+          }
+        }
+
+        .songList {
+          .createList {
+            margin-top: 15px;
+            margin-bottom: 10px;
+            margin-left: 10px;
+            color: var(--font-color);
+            font-size: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+
+            .addSongList {
+              .bottom {
+                display: flex;
+                margin-top: 10px;
+                margin-bottom: 10px;
+                align-items: center;
+
+                .tip {
+                  margin-left: 5px;
+                }
+              }
+
+              .btnGroup {
+                text-align: center;
+
+                button:nth-child(1) {
+                  margin-right: 10px;
+                }
+              }
+            }
+
+            &:hover {
+              .icon, .iconAdd {
+                color: #939394;
+                font-weight: 800;
+              }
+            }
+
+            .icon {
+              color: #C4C4C5;
+              font-size: 14px;
+              margin-right: 10px;
+            }
+
+            .iconAdd {
+              margin-left: 100px;
+              color: #C4C4C5;
+              font-size: 14px;
             }
           }
         }
@@ -136,7 +238,7 @@
               left: 0;
               right: 0;
               top: 0;
-              bottom:0;
+              bottom: 0;
               margin: auto;
               opacity: .6;
               filter: blur(6px);
@@ -299,4 +401,72 @@
       transform: translate(200px, 200px) rotate(45deg);
     }
   }
+}
+
+:global {
+  //进场前的瞬间
+  ._song_list_an-enter, ._song_list_an-appear {
+    opacity: 0;
+  }
+
+  //进场过程中
+  ._song_list_an-enter-active, ._song_list_an-appear-active {
+    opacity: 1;
+    transition: opacity 2000ms;
+  }
+
+  //进场之后
+  ._song_list_an-enter-done {
+    opacity: 1;
+  }
+
+  //离开前的瞬间
+  ._song_list_an-exit {
+    opacity: 1;
+  }
+
+  //离开过程中
+  ._song_list_an-exit-active {
+    opacity: 0;
+    transition: opacity 2000ms;
+  }
+
+  //离开后
+  ._song_list_an-exit-done {
+    opacity: 0;
+  }
+
+
+  //进场前的瞬间
+  ._favorite_list_an-enter, ._favorite_list_an-appear {
+    opacity: 0;
+  }
+
+  //进场过程中
+  ._favorite_list_an-enter-active, ._favorite_list_an-appear-active {
+    opacity: 1;
+    transition: opacity 2000ms;
+  }
+
+  //进场之后
+  ._favorite_list_an-enter-done {
+    opacity: 1;
+  }
+
+  //离开前的瞬间
+  ._favorite_list_an-exit {
+    opacity: 1;
+  }
+
+  //离开过程中
+  ._favorite_list_an-exit-active {
+    opacity: 0;
+    transition: opacity 2000ms;
+  }
+
+  //离开后
+  ._favorite_list_an-exit-done {
+    opacity: 0;
+  }
+
 }

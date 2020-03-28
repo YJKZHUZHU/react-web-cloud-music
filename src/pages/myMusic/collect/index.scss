@@ -14,27 +14,33 @@ $mvBg: '../../../assets/mask.png';
     padding: 8px 20px;
     @include zebra-lists(#333333, #FAFAFA, #333333, #F5F5F7);
     cursor: pointer;
+
     &:hover {
       background-color: #F2F2F3;
     }
+
     .albumDescription {
 
       display: flex;
       justify-content: space-between;
       align-items: center;
-      .time,.mvSize {
+
+      .time, .mvSize {
         //padding-right: 20px;
       }
+
     }
   }
 
   .mvItem {
     position: relative;
+
     .img {
       img {
         width: 100%;
       }
     }
+
     .player {
       position: absolute;
       top: 0;
@@ -45,13 +51,15 @@ $mvBg: '../../../assets/mask.png';
       text-align: right;
       color: #fff;
       box-sizing: border-box;
-      text-shadow: -2px 1px rgba(0,0,0,.4);
+      text-shadow: -2px 1px rgba(0, 0, 0, .4);
       width: 35%;
       background: url($mvBg) no-repeat 0 0;
+
       i {
         padding-right: 5px;
       }
     }
+
     .time {
       position: absolute;
       bottom: 41px;
@@ -60,13 +68,17 @@ $mvBg: '../../../assets/mask.png';
       height: 20px;
       line-height: 20px;
       color: #fff;
-      text-shadow: -2px 1px rgba(0,0,0,.4);
+      text-shadow: -2px 1px rgba(0, 0, 0, .4);
       width: 40%;
       background: url($mvBg) no-repeat 0 -25px;
     }
 
     .singer {
       font-size: 14px;
+    }
+
+    .title {
+
     }
 
   }

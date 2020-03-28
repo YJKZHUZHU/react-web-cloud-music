@@ -1,13 +1,14 @@
 import React, {FC, useEffect, useState} from 'react'
 import API from '@/api'
 import styles from './index.scss'
-import {Divider, Button, Icon, Tabs, Input} from 'antd'
+import {Divider, Button, Icon, Tabs, Input,message} from 'antd'
 import Link from 'umi/link'
 import TableList from './components/ListTable'
 import CommentList from './components/CommentList'
 import Collection from './components/Collection'
 import moment from 'moment'
 import Utils from '@/help'
+import router from 'umi/router'
 
 const {TabPane} = Tabs
 const {Search} = Input
@@ -29,15 +30,17 @@ const PlayList: FC<Props> = props => {
 
   useEffect(() => {
     API.playList({id: listId,loading:true}).then((res: any) => {
-      if (res.code === 200) {
-        setPlaylist(res.playlist)
-        setCreator({
-          ...res.playlist.creator
-        })
-        setLabel(res.playlist.creator.expertTags || [])
+      if(res.code !== 200){
+        message.info(res.msg)
+        return router.push('/')
       }
+      setPlaylist(res.playlist)
+      setCreator({
+        ...res.playlist.creator
+      })
+      setLabel(res.playlist.creator.expertTags || [])
     })
-  }, [])
+  }, [listId])
 
   return (
     <div className={styles._playList}>
@@ -65,9 +68,9 @@ const PlayList: FC<Props> = props => {
             </div>
           </div>
           <div className={styles.creator}>
-            <a className={styles.link}>
-              <img src={creator.avatarUrl}/>
-            </a>
+            <div className={styles.link} >
+              <img src={creator.avatarUrl} alt={creator.avatarUrl}/>
+            </div>
             <span className={styles.name}>{creator.nickname}</span>
             <span className={styles.time}>
               {moment(playlist.createTime).format('YYYY-MM-DD')}

@@ -5,6 +5,17 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.umirc.build.ts" beforeDir="false" afterPath="$PROJECT_DIR$/.umirc.build.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Header/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layouts/Menu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/Menu.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layouts/index.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/index.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/gloable.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/gloable.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/care/dynamic.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/care/dynamic.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/myMusic/collect/index.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/myMusic/collect/index.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/myMusic/collect/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/myMusic/collect/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/playList/index.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/playList/index.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/playList/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/playList/index.tsx" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -35,8 +46,9 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.standard" value="" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="stylesheet.code.style.group" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
     <property name="ts.external.directory.path" value="D:\Program Files (x86)\WebStorm 2019.2.4\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
+    <property name="typescript.add.unambiguous.imports.on.the.fly" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -92,6 +104,9 @@
       <workItem from="1584886999452" duration="10662000" />
       <workItem from="1585050027309" duration="6617000" />
       <workItem from="1585140283943" duration="4629000" />
+      <workItem from="1585379068630" duration="1048000" />
+      <workItem from="1585380134056" duration="330000" />
+      <workItem from="1585380478387" duration="18528000" />
     </task>
     <servers />
   </component>

@@ -3,8 +3,6 @@ const fs = require('fs')
 const lessToJs = require('less-vars-to-js')
 import {IConfig} from 'umi-types'
 // @ts-ignore
-import postcssPxToRem from 'postcss-pxtorem'
-// @ts-ignore
 import themeConfig from './themeConfig'
 // @ts-ignore
 import px2rem from 'postcss-plugin-px2rem'

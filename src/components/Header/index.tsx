@@ -81,7 +81,7 @@ const Header: FC<Props> = props => {
               }
             </i>
           </div>
-          <Button size='small' onClick={dailySignIn} disabled={userInfo.pcSign}>
+          <Button size='small' onClick={dailySignIn} disabled={userInfo.pcSign || signIn}>
             <Icon type="carry-out"/>
             {
               userInfo.pcSign || signIn ? '已签到' : '签到'

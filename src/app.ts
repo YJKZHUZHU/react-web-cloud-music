@@ -6,6 +6,7 @@ import API from '@/api'
 import {appState} from '@/models/gloable'
 import router from 'umi/router'
 import store from '@/help/localStorage'
+import PlayList from '@/pages/playList'
 // import './ripple.js'
 
 moment.locale(window.navigator.language)
@@ -22,9 +23,14 @@ let lastKey: string = ''
 const getUserInfo = async () => {
   const Ret: any = await API.status({loading: true})
   if (Ret.code === 200) {
-    const loginRet = await API.useInfo({uid: Ret.profile.userId})
+    const loginRet:any = await API.useInfo({uid: Ret.profile.userId})
     await appState.setLoginStatus(true)
     await appState.setUserInfo(loginRet)
+    await appState.setUserId(loginRet.userPoint.userId)
+    const playListRet:any = await API.userPlaylist({uid:loginRet.userPoint.userId})
+    if(playListRet.code === 200){
+      await appState.setPlayList(playListRet.playlist)
+    }
   }
 }
 
