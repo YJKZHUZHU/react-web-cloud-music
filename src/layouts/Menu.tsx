@@ -40,7 +40,7 @@ const MenuList: FC<Props> = props => {
   const onAdd = async () => {
     const Ret: any = await API.playlistCreate({
       name: value,
-      privacy: checked && 10
+      privacy: checked ? 10 : 0
     })
     if (Ret.code !== 200) {
       return message.info('歌单创建失败，请稍后再试')

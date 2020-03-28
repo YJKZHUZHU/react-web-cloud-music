@@ -19,7 +19,6 @@ type Props = {
 
 const TableList: FC<Props> = ({trackIds = [],searchValue='', tracks = [], $app,location}) => {
   const [tableData, setTableData] = useState([])
-  const [loading,setLoading] = useState(false)
 
   const columns: any = [
     {
