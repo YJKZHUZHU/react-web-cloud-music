@@ -2,13 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3ac4d602-c92c-4419-bff4-268fa41f4872" name="默认的" comment="">
-      <change afterPath="$PROJECT_DIR$/.umirc.build.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/webpack.config.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.umirc.ts" beforeDir="false" afterPath="$PROJECT_DIR$/.umirc.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.umirc.build.ts" beforeDir="false" afterPath="$PROJECT_DIR$/.umirc.build.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Search/index.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Search/index.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Search/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Search/index.tsx" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -94,7 +90,8 @@
       <workItem from="1584838270355" duration="25832000" />
       <workItem from="1584877819274" duration="4314000" />
       <workItem from="1584886999452" duration="10662000" />
-      <workItem from="1585050027309" duration="6318000" />
+      <workItem from="1585050027309" duration="6617000" />
+      <workItem from="1585140283943" duration="4629000" />
     </task>
     <servers />
   </component>
