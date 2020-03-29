@@ -185,7 +185,8 @@ class API {
   static playlistCreate = (params:any) => axios.get('/api/playlist/create', params)
   //删除歌单
   static playlistDelete = (params:any) => axios.get('/api/playlist/delete', params)
-
+  //更新歌单
+  static playlistUpdate= (params:any) => axios.get('/api/playlist/update', params)
 
 }
 

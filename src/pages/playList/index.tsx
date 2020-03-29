@@ -1,7 +1,7 @@
 import React, {FC, useEffect, useState} from 'react'
 import API from '@/api'
 import styles from './index.scss'
-import {Divider, Button, Icon, Tabs, Input,message} from 'antd'
+import {Divider, Button, Icon, Tabs, Input, message} from 'antd'
 import Link from 'umi/link'
 import TableList from './components/ListTable'
 import CommentList from './components/CommentList'
@@ -23,14 +23,14 @@ const PlayList: FC<Props> = props => {
   const [creator, setCreator] = useState<any>({})
   const [label, setLabel] = useState([])
   const [isSearch, setSearch] = useState(true)
-  const [searchValue,setSearchValue] = useState('')
+  const [searchValue, setSearchValue] = useState('')
 
   const onTabs = (activeKey: string) => (+activeKey) === 1 ? setSearch(true) : setSearch(false)
 
 
   useEffect(() => {
-    API.playList({id: listId,loading:true}).then((res: any) => {
-      if(res.code !== 200){
+    API.playList({id: listId, loading: true}).then((res: any) => {
+      if (res.code !== 200) {
         message.info(res.msg)
         return router.push('/')
       }
@@ -38,7 +38,7 @@ const PlayList: FC<Props> = props => {
       setCreator({
         ...res.playlist.creator
       })
-      setLabel(res.playlist.creator.expertTags || [])
+      setLabel(res.playlist.creator.expertTags || res.playlist.tags || [])
     })
   }, [listId])
 
@@ -54,7 +54,6 @@ const PlayList: FC<Props> = props => {
               <span className={styles.colorLabel}>歌单</span>
               <h2 className={styles.markTitle}>{playlist.name}</h2>
             </div>
-
             <div className={styles.songIntroduction}>
               <p>
                 <span>歌曲数</span>
@@ -68,7 +67,7 @@ const PlayList: FC<Props> = props => {
             </div>
           </div>
           <div className={styles.creator}>
-            <div className={styles.link} >
+            <div className={styles.link}>
               <img src={creator.avatarUrl} alt={creator.avatarUrl}/>
             </div>
             <span className={styles.name}>{creator.nickname}</span>
@@ -98,12 +97,11 @@ const PlayList: FC<Props> = props => {
                 <p>标签：</p>
                 <div>
                   {
-                    label.map((item: any) => {
+                    label.map((item: any, index: number) => {
                       return (
                         <span key={item}>
-                      <Link to='/' className={styles.link}>{item}</Link>
-                      /
-                    </span>
+                          <Link to='/' className={styles.link}>{item}{index + 1 === label.length ? null : '/'}</Link>
+                        </span>
                       )
                     })
                   }
@@ -120,7 +118,8 @@ const PlayList: FC<Props> = props => {
       <Tabs
         animated={false}
         defaultActiveKey="1"
-        tabBarExtraContent={isSearch ? <Search placeholder='搜索歌单音乐' onChange={(e) => setSearchValue(e.target.value)} /> : null}
+        tabBarExtraContent={isSearch ?
+          <Search placeholder='搜索歌单音乐' onChange={(e) => setSearchValue(e.target.value)}/> : null}
         className={styles.tabs}
         tabBarStyle={{margin: 0}}
         onChange={onTabs}

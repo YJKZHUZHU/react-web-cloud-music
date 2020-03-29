@@ -6,6 +6,7 @@ import {Subscribe} from '@/Appcontainer'
 import {CSSTransition} from 'react-transition-group'
 import API from '@/api'
 import {appState} from '@/models/gloable'
+import router from 'umi/router'
 
 type Props = {
   $app: any
@@ -19,6 +20,7 @@ const MenuList: FC<Props> = props => {
   const {creator, favorite} = props.$app.state.playList
   const [checked, setChecked] = useState(false)
   const [value, setValue] = useState('')
+
 
   const getPlayList = async () => {
     const ListRet: any = await API.userPlaylist({uid: userId})
@@ -156,7 +158,7 @@ const MenuList: FC<Props> = props => {
                     trigger="click"
                     arrowPointAtCenter
                     visible={visible}
-                    getPopupContainer={() => document.getElementById('_add_song_item')}
+                    getPopupContainer={() => document.getElementById('_add_song_item') || document.body}
                     onVisibleChange={() => setVisible(!visible)}
                   >
                     <Icon type="plus" className={styles.add}/>
@@ -196,7 +198,9 @@ const MenuList: FC<Props> = props => {
                                   {
                                     index !== 0 && (
                                       <p className={styles.icon} onClick={e => stopPropagation(e)}>
-                                        <Icon type="edit"/>
+                                        <NavLink to={`/edit-song-list?id=${item.id}`}>
+                                          <Icon type="edit"/>
+                                        </NavLink>
                                         <Popconfirm
                                           title="确定删除该歌单吗?"
                                           onConfirm={() => onConfirm(item.id)}

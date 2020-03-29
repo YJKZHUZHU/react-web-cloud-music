@@ -74,7 +74,8 @@
                   .title {
                     .operator {
                       .icon {
-                        display: block;
+                        display: flex;
+                        align-items: center;
                       }
                       .privacy {
                         display: none;
@@ -103,6 +104,9 @@
 
                     .icon {
                       display: none;
+                      a {
+                        line-height: 14px;
+                      }
 
                       i:nth-child(1) {
                         margin-right: 8px;
