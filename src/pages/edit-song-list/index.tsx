@@ -16,12 +16,13 @@ type Props = {
   form?: any,
   initTag?: any
 }
+type SelectedTags = string[]
 
 const AddLabel: FC<Props> = (props, ref) => {
 
   const {getFieldValue, setFieldsValue} = props.form
   const [visible, setVisible] = useState(false)
-  const [selectedTags, setSelectedTags] = useState([])
+  const [selectedTags, setSelectedTags] = useState<SelectedTags>([])
 
   const onTag = (item: string, checked: boolean) => {
     const nextSelectedTags: any = checked ? [...selectedTags, item] : selectedTags.filter((t: any) => t !== item)

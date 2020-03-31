@@ -148,7 +148,10 @@ const Footer: FC<Props> = props => {
                 tipFormatter={null}
               />
             </div>
-            <Icon type="github"/>
+            <a href='https://github.com/YJKZHUZHU/react-web-cloud-music' target='_blank'>
+              <Icon type="github"/>
+            </a>
+
           </div>
         </div>
       </div>
