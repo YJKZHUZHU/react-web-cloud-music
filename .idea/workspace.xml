@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="3ac4d602-c92c-4419-bff4-268fa41f4872" name="默认的" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/layouts/Footer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/Footer.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/edit-song-list/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/edit-song-list/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Search/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Search/index.tsx" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -96,7 +95,8 @@
       <workItem from="1585140283943" duration="4629000" />
       <workItem from="1585379068630" duration="1048000" />
       <workItem from="1585380134056" duration="330000" />
-      <workItem from="1585380478387" duration="40486000" />
+      <workItem from="1585380478387" duration="40728000" />
+      <workItem from="1585915427242" duration="2146000" />
     </task>
     <servers />
   </component>
@@ -109,7 +109,6 @@
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/node_modules/_antd@3.26.12@antd/lib/tooltip/index.d.ts</url>
           <line>27</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>

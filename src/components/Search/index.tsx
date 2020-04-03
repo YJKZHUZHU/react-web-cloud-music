@@ -8,18 +8,15 @@ import router from 'umi/router'
 import store from '@/help/localStorage'
 import {Subscribe} from '@/Appcontainer'
 import {appState} from '@/models/gloable'
+
 const {confirm} = Modal
 
 type Props = {
   $app: any
 }
 
-interface SearchListInterface {
-
-}
 
 const Search: FC<Props> = (props) => {
-  // JSON.parse(String(store.getStorage('searchHistory')))
   const [visible, setVisible] = useState(false)
   const [modalVisible, setModalVisible] = useState(false)
   const [hotList, setHotList] = useState([])
@@ -28,17 +25,16 @@ const Search: FC<Props> = (props) => {
   const [popoverVisible, setPopoverVisible] = useState(false)
   const [historyList, setHistoryList] = useState(JSON.parse(String(store.getStorage('searchHistory'))))
 
-  const {run} = useDebounceFn((keywords) => {
+
+  const {run} = useDebounceFn(async (keywords) => {
+    const Ret:any = await API.getSearchSuggest({keywords})
     setValue(keywords)
-    API.getSearchSuggest({keywords}).then((res: any) => {
-      if (res.code === 200 && res.result) {
-        setSearchList(res.result)
-      }
-    })
-    return appState.setKeywords(keywords)
+    if(Ret.code === 200 && Ret.result){
+      setSearchList(Ret.result)
+    }
+    await appState.setKeywords(keywords)
   }, 500)
 
-  // const historyList = useMemo(() => JSON.parse(String(store.getStorage('searchHistory'))), [store.getStorage('searchHistory')])
 
   const onTag = (e: any, items: any) => {
     const history = JSON.parse(String(store.getStorage('searchHistory')))
@@ -72,10 +68,10 @@ const Search: FC<Props> = (props) => {
         centered: true,
         maskClosable: false,
         visible: modalVisible,
-        onOk: () =>{
-          return new Promise((resolve,reject)=> {
+        onOk: () => {
+          return new Promise((resolve, reject) => {
             store.setStorage('searchHistory', JSON.stringify([]))
-            if(store.getStorage('searchHistory') === '[]'){
+            if (store.getStorage('searchHistory') === '[]') {
               resolve(setModalVisible(false))
             }
             reject(setModalVisible(false))
@@ -83,6 +79,17 @@ const Search: FC<Props> = (props) => {
         }
       }
     )
+  }
+
+  const onHistory = (keywords:string) => {
+    setPopoverVisible(false)
+    router.push({
+      pathname: '/search-detail',
+      query: {
+        keywords,
+        type:1
+      }
+    })
   }
 
   const content = value && Object.keys(searchList).length !== 0 ? (
@@ -201,8 +208,9 @@ const Search: FC<Props> = (props) => {
             historyList.map((item: any, index: number) => {
               return (
                 <Tag
-                  key={item.id}
                   closable
+                  key={item.id}
+                  onClick={() => onHistory(item.keywords)}
                   onClose={(e: any) => onTag(e, item)}
                   className={styles.item}
                   visible={index < 9 ? true : visible}
@@ -227,7 +235,7 @@ const Search: FC<Props> = (props) => {
                       <span className={styles.song}>{item.searchWord}</span>
                       <span className={styles.hotNumber}>{item.score}</span>
                       {
-                        item.iconUrl ? <div className={styles.img}><img src={item.iconUrl}/></div> : null
+                        item.iconUrl ? <div className={styles.img}><img src={item.iconUrl} alt={item.iconUrl}/></div> : null
                       }
                     </div>
                     <p className={styles.bottom}>{item.content}</p>
