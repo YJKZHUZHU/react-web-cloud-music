@@ -9,6 +9,10 @@ import store from '@/help/localStorage'
 type Props = {
   location: any
 }
+interface HistoryInterface {
+  id: number
+  keywords: string
+}
 const {TabPane} = Tabs
 
 
@@ -21,14 +25,10 @@ const SearchDetail: FC<Props> = (props) => {
     setActiveKey(value)
   }
   useEffect(() => {
-    let history = JSON.parse(String(store.getStorage('searchHistory')))
-    let id = history.length === 0 ? 0 : history.sort((a: any, b: any) => b.id - a.id)[0].id + 1
-    history = history.filter((item: any) => item.keywords !== keywords)
-    history.push({
-      id: id,
-      keywords: keywords
-    })
-    store.setStorage('searchHistory', JSON.stringify(history))
+    let history:HistoryInterface[] = store.getValue('searchHistory')
+    let id = history.length === 0 ? 0 : history.sort((a, b) => b.id - a.id)[0].id + 1
+    history = history.filter((item) => item.keywords !== keywords)
+    store.setStorage('searchHistory', JSON.stringify([...history,{id,keywords}]))
   }, [keywords])
 
 

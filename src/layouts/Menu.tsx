@@ -181,7 +181,7 @@ const MenuList: FC<Props> = props => {
                     creator.map((item: any, index: number) => {
                       return (
                         <li key={item.id}>
-                          <NavLink to={`/playList?listId=${item.id}`}>
+                          <NavLink to={`/playList?listId=${item.id}`} target='div'>
                             <div className={styles.creator}>
                               <img src={`${item.coverImgUrl}?param=40y40`} alt={item.coverImgUrl}/>
 

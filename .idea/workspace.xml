@@ -1,11 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="3ac4d602-c92c-4419-bff4-268fa41f4872" name="默认的" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/PlayRecord/index.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/PlayRecord/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Search/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Search/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.prettierrc" beforeDir="false" afterPath="$PROJECT_DIR$/.prettierrc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Appcontainer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Appcontainer.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Carousel/index.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Carousel/index.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/LoginModal/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/LoginModal/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Player/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Player/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/global.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/global.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/help/getSongInfo.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/help/getSongInfo.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/help/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/help/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/help/localStorage.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/help/localStorage.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/help/map.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/help/map.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layouts/Footer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/Footer.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layouts/HomeLayout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/HomeLayout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layouts/Menu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/Menu.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layouts/index.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/index.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layouts/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/gloable.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/gloable.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/care/dynamic.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/care/dynamic.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/edit-song-list/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/edit-song-list/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/myMusic/collect/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/myMusic/collect/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/playList/components/ListTable.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/playList/components/ListTable.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/search-detail/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/search-detail/index.tsx" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -22,21 +65,31 @@
   </component>
   <component name="ProjectId" id="1YEYP7201Wd1Y2ajhkGMSCO2O3I" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
-    <ConfirmationsSetting value="2" id="添加" />
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="js.last.introduce.type" value="CONST" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/assets" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.path.for.package.standard" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.standard" value="" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="preferences.keymap" />
-    <property name="ts.external.directory.path" value="D:\Program Files (x86)\WebStorm 2019.2.4\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
+    <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
     <property name="typescript.add.unambiguous.imports.on.the.fly" value="true" />
   </component>
   <component name="RecentsManager">
@@ -51,18 +104,6 @@
       <recent name="E:\react-music\cloud-music-web-react\src\pages\myMusic\collect" />
       <recent name="E:\react-music\cloud-music-web-react\src\theme" />
     </key>
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -97,11 +138,35 @@
       <workItem from="1585380134056" duration="330000" />
       <workItem from="1585380478387" duration="40728000" />
       <workItem from="1585915427242" duration="2146000" />
+      <workItem from="1589549473293" duration="1610000" />
+      <workItem from="1589700006036" duration="8268000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="version" value="2" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="596" y="195" width="600" height="729" key="find.popup" timestamp="1589703586425">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state x="596" y="195" width="600" height="729" key="find.popup/0.0.1792.1120@0.0.1792.1120" timestamp="1589703586425" />
+    <state x="561" y="251" width="670" height="676" key="search.everywhere.popup" timestamp="1589551427026">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state x="561" y="251" width="670" height="676" key="search.everywhere.popup/0.0.1792.1120@0.0.1792.1120" timestamp="1589551427026" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

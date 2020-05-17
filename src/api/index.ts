@@ -1,5 +1,5 @@
 import Axios from 'axios'
-import {appState} from '@/models/gloable'
+import { appState } from '@/models/gloable'
 import qs from 'qs'
 
 
@@ -37,7 +37,7 @@ const filterParam = (params: any) => {
 }
 //拦截请求
 axios.interceptors.request.use(config => {
-  let {url, method} = config
+  let { url, method } = config
   const isQueryLikeTYpe = isQueryLike(method)
   // @ts-ignore
   const urlParamStr = url.slice(url.indexOf('?') === -1 ? url.length : url.indexOf('?') + 1)
@@ -78,17 +78,16 @@ axios.interceptors.response.use(res => {
     })
   }
   return res.data
-}, error =>{
-  const code = [301,400,404,405,302]
+}, error => {
+  const code = [301, 400, 404, 405, 302]
   //此时表示未登录
-  if(code.includes(+error.response.status)){
+  if (code.includes(+error.response.status)) {
     return error.response.data
   }
   return Promise.reject(error)
 })
 
-// @ts-ignore
-axios.get = function(url, params = {}, config = {}) {
+axios.get = function (url, params = {}, config = {}): Promise<any> {
   return axios({
     url,
     method: 'get',
@@ -96,8 +95,7 @@ axios.get = function(url, params = {}, config = {}) {
     ...config
   })
 }
-// @ts-ignore
-axios.post = function(url, data = {}, config = {}) {
+axios.post = function (url, data = {}, config = {}):Promise<any> {
   return axios({
     url,
     method: 'post',
@@ -145,9 +143,9 @@ class API {
   //搜索指定
   static getSearchByType = (params: object) => axios.get('/api/search', params)
   //获取用户详情
-  static useInfo = (params: object) => axios.get('/api/user/detail',params)
+  static useInfo = (params: object) => axios.get('/api/user/detail', params)
   //登录状态
-  static status = (params?: object) => axios.post('/api/login/status',params)
+  static status = (params?: object) => axios.post('/api/login/status', params)
 
   //检测手机号是否注册过网易云音乐
   static check = (params: object) => axios.post('/api/cellphone/existence/check', params)
@@ -160,33 +158,35 @@ class API {
   //签到
   static dailySignIn = (params?: object) => axios.get('/api/daily_signin', params)
   //获取用户关注列表
-  static follows = (params:any) => axios.get('/api/user/follows', params)
+  static follows = (params: any) => axios.get('/api/user/follows', params)
   //获取用户粉丝列表
-  static followeds = (params:any) => axios.get('/api/user/followeds', params)
+  static followeds = (params: any) => axios.get('/api/user/followeds', params)
   //关注取消用户
-  static follow = (params:any) => axios.get('/api/follow', params)
+  static follow = (params: any) => axios.get('/api/follow', params)
   //获取用户动态
-  static event = (params:any) => axios.get('/api/user/event', params)
+  static event = (params: any) => axios.get('/api/user/event', params)
   //给评论点赞
-  static commentLike = (params:any) => axios.get('/api/comment/like', params)
+  static commentLike = (params: any) => axios.get('/api/comment/like', params)
   //删除用户动态
-  static del = (params:any) => axios.get('/api/event/del', params)
+  static del = (params: any) => axios.get('/api/event/del', params)
   //收藏的歌手列表
-  static artistSublist = (params?:any) => axios.get('/api/artist/sublist', params)
+  static artistSublist = (params?: any) => axios.get('/api/artist/sublist', params)
   //收藏的专辑列表
-  static albumSublist = (params?:any) => axios.get('/api/album/sublist', params)
+  static albumSublist = (params?: any) => axios.get('/api/album/sublist', params)
   //收藏的mv列表
-  static mvSublist = (params?:any) => axios.get('/api/mv/sublist', params)
+  static mvSublist = (params?: any) => axios.get('/api/mv/sublist', params)
   //获取用户订阅信息
-  static subCount = (params?:any) => axios.get('/api/user/subcount', params)
+  static subCount = (params?: any) => axios.get('/api/user/subcount', params)
   //获取用户歌单
-  static userPlaylist = (params:any) => axios.get('/api/user/playlist', params)
+  static userPlaylist = (params: any) => axios.get('/api/user/playlist', params)
   //新建歌单
-  static playlistCreate = (params:any) => axios.get('/api/playlist/create', params)
+  static playlistCreate = (params: any) => axios.get('/api/playlist/create', params)
   //删除歌单
-  static playlistDelete = (params:any) => axios.get('/api/playlist/delete', params)
+  static playlistDelete = (params: any) => axios.get('/api/playlist/delete', params)
   //更新歌单
-  static playlistUpdate= (params:any) => axios.get('/api/playlist/update', params)
+  static playlistUpdate = (params: any) => axios.get('/api/playlist/update', params)
+  //获取播放列表
+  static getPlayRecord = (params:any) => axios.get('/api/user/record',params)
 
 }
 

@@ -5,7 +5,11 @@ import {message} from 'antd'
 
 //获取音乐地址以及歌词
 class Song {
-  static getSongUrl = (id: number | string) =>  {
+  static getSongUrl = (id: number) =>  {
+    if(id === 0){
+      console.log('点击了直播')
+      return false
+    }
     Promise.all(
       [
         API.playSong({id}),
@@ -23,6 +27,7 @@ class Song {
           singerArr: value[1].songs[0].ar
         })
         await appState.setLyric(Utils.formatterLyric(value[2].lrc ? value[2].lrc.lyric : '' ))
+        await appState.setPlayHistory(id)
         return appState.setStopPlay(true)
       }
       return message.error('获取歌曲发生异常，请稍后再试')

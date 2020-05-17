@@ -6,16 +6,21 @@ import style from './index.scss'
 import classnames from 'classnames'
 import Utils from '@/help'
 import ReactPlayer from 'react-player'
-
 import store from '@/help/localStorage'
 import PlayRate from '@/components/PlayRate'
 
+interface PlayerInterface {
+  loaded?:number
+  loadedSeconds?:number
+  played?:number
+  playedSeconds?:number
+}
 
 type Props = {
   $app: any
 }
 const Footer: FC<Props> = props => {
-  const {isPlay, songObj, playerObj, showPlayer, volume,playMode,playerRate} = props.$app.state
+  const {isPlay, songObj, playerObj, showPlayer, volume,playMode,playerRate,showPlayRecord} = props.$app.state
   const [lastVolume, setLastVolume] = useState(0)
   const playRef:any =useRef(null)
 
@@ -58,11 +63,11 @@ const Footer: FC<Props> = props => {
   const onDuration = (time: any) => {
     console.log('时间:' + time + 's')
   }
-  const onProgress = (state:any) => {
-    console.log('onProgress', state)
+  const onProgress = (state: PlayerInterface) => {
+    console.log("onProgress", state.loaded)
     return appState.setPlayerObj({
       ...state,
-      playedSeconds:state.playedSeconds
+      playedSeconds: state.playedSeconds,
     })
   }
 
@@ -76,7 +81,7 @@ const Footer: FC<Props> = props => {
           defaultValue={0}
           step={0.001}
           min={0}
-          max={playerObj.loadedSeconds}
+          max={songObj.songTime}
           tipFormatter={null}
         />
         <div className={style.footer}>
@@ -135,7 +140,7 @@ const Footer: FC<Props> = props => {
           <div className={style.operating}>
             <Icon type="share-alt"/>
             <PlayRate/>
-            <Icon type="ordered-list"/>
+            <Icon type="ordered-list" onClick={() => appState.setShowPlayRecord(!showPlayRecord)} />
             <div className={style.progress}>
               <Icon type={volume === 0 ? 'notification' : 'sound'} className={style.voice} onClick={onMute}/>
               <Slider

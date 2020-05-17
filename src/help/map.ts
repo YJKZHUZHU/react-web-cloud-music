@@ -1,9 +1,9 @@
 interface EditInterface {
-  language: Array<any>,
-  style: Array<any>,
-  scenes: Array<any>,
-  emotion: Array<any>,
-  theme: Array<any>
+  language: string[],
+  style: string[],
+  scenes: string[],
+  emotion: string[],
+  theme: string[]
 }
 
 class Map {

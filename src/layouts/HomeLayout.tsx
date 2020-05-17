@@ -4,7 +4,8 @@ import Header from '@/components/Header'
 import styles from './index.scss'
 import NavLink from 'umi/navlink'
 import {Subscribe} from '@/Appcontainer'
-import {Icon, Spin} from 'antd'
+import {Drawer, Icon, Spin} from 'antd'
+import PlayRecord from '@/components/PlayRecord'
 import PlayerLayout from '@/components/PlayerLayout'
 import Menu from '@/layouts/Menu'
 import Footer from './Footer'
@@ -15,7 +16,7 @@ interface HomeInterface {
 }
 
 const HomeLayout: FC = (props: any) => {
-  const {globalLoading, loading} = props.$app.state
+  const {globalLoading, loading,showPlayRecord} = props.$app.state
 
   return (
     <div className={styles.home}>
@@ -32,10 +33,21 @@ const HomeLayout: FC = (props: any) => {
               </Spin>
             </div>
           </article>
+          <Drawer
+            placement="right"
+            closable={false}
+            visible={showPlayRecord}
+            width={640}
+            getContainer={false}
+            mask={false}
+            style={{position: "absolute"}}>
+            <PlayRecord/>
+          </Drawer>
         </main>
         <PlayerLayout/>
         <Footer/>
       </Spin>
+
     </div>
   )
 }

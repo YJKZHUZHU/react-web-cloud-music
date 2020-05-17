@@ -1,38 +1,28 @@
-import React, {FC} from 'react'
-import AppContainer from '@/models/gloable'
-import {Container, Subscribe, Provider} from 'unstated'
+import React, {FC} from "react"
+import AppContainer from "@/models/gloable"
+import {Container, Subscribe, Provider} from "unstated"
 
-
-// @ts-ignore
-const UnstatedSubscribe:FC = (Element) => {
-  return function(props:any) {
+const UnstatedSubscribe = (Element: FC) => {
+  return function(props: FC) {
     return (
       <Subscribe to={[AppContainer]}>
-        {
-          $app => {
-            // @ts-ignore
-            return <Element {...props} $app={$app}/>
-          }
-        }
+        {($app) => {
+          return <Element {...props} $app={$app} />
+        }}
       </Subscribe>
     )
   }
 }
-
-const UnstatedProvider = (props:any) => {
+interface Prop {
+  inject: any
+  children: FC
+}
+const UnstatedProvider = (props: Prop) => {
   let models = props.inject
   if (!Array.isArray(models)) {
     models = [models]
   }
-  return (
-    <Provider inject={models}>
-      {props.children}
-    </Provider>
-  )
+  return <Provider inject={models}>{props.children}</Provider>
 }
 
-export {
-  UnstatedSubscribe as Subscribe,
-  UnstatedProvider as Provider,
-  Container
-}
+export {UnstatedSubscribe as Subscribe, UnstatedProvider as Provider, Container}

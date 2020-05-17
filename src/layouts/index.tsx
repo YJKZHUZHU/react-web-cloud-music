@@ -1,12 +1,11 @@
-import React from 'react'
+import React,{FC} from 'react'
 import {Provider} from 'unstated'
 import {appState} from '@/models/gloable'
 import HomeLayout from '@/layouts/HomeLayout'
 type Props = {
   location: any
 }
-const BasicLayout: React.FC<Props> = (props:any) => {
-  // @ts-ignore
+const BasicLayout: FC<Props> = (props) => {
   return (
     <Provider inject={[appState]}>
       <HomeLayout>

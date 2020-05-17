@@ -18,7 +18,7 @@ interface RouterInterface {
   action: any
 }
 
-let lastKey: string = ''
+let lastKey = ''
 
 const getUserInfo = async () => {
   const Ret: any = await API.status({loading: true})
@@ -49,18 +49,15 @@ export function onRouteChange(props: RouterInterface) {
     }
 
     //设置默认音量
-    if (!store.getStorage('volume')) {
-      store.setStorage('volume', 0.5)
-    }
+    if (!store.getStorage('volume')) store.setValue('volume', 0.5)
     //搜索关键词
-    if (!store.getStorage('keywords')) {
-      store.setStorage('keywords', '')
-    }
+    if (!store.getStorage('keywords')) store.setValue('keywords', '')
 
     //搜索历史
-    if (!store.getStorage('searchHistory')) {
-      store.setStorage('searchHistory', JSON.stringify([]))
-    }
+    if (!store.getStorage('searchHistory')) store.setValue('searchHistory', [])
+
+    //播放历史
+    if (!store.getStorage('playHistory')) store.setValue('playHistory', [])
 
     Utils.getTheme()
   }

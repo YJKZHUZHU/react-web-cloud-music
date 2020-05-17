@@ -1,0 +1,18 @@
+@import "utils";
+
+._playRecord {
+  .header {
+    display: flex;
+    justify-content: space-between;
+
+    .delete {
+      i {
+        margin-right: 8px;
+      }
+    }
+  }
+
+  .divider {
+    margin: 8px 0;
+  }
+}

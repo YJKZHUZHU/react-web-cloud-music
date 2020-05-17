@@ -38,7 +38,7 @@ const Collect: FC = (props) => {
   const [subData, setSubData] = useState(initSubData)
 
   const callback = (e: any) => {
-    console.log(e)
+    // console.log(e)
   }
 
   const albumDescription = (item: any) => {

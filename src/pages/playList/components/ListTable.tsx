@@ -2,10 +2,20 @@ import React, {FC, useEffect, useState, Fragment,useMemo} from 'react'
 import {Table, Icon, message} from 'antd'
 import API from '@/api'
 import Utils from '@/help'
+import { ColumnProps } from 'antd/es/table'
 import {Subscribe} from '@/Appcontainer'
 import styles from '../index.scss'
 
 import Song from '@/help/getSongInfo'
+import {appState} from '@/models/gloable'
+
+interface PlayRecordInterface {
+  name:string
+  ar: any[],
+  dt: string,
+  id:number
+  [propName: string]: any
+}
 
 
 
@@ -17,10 +27,12 @@ type Props = {
   searchValue:string
 }
 
+let clickTime = 0
+
 const TableList: FC<Props> = ({trackIds = [],searchValue='', tracks = [], $app,location}) => {
   const [tableData, setTableData] = useState([])
 
-  const columns: any = [
+  const columns:any = [
     {
       title: '操作',
       dataIndex: 'operator',
@@ -45,10 +57,7 @@ const TableList: FC<Props> = ({trackIds = [],searchValue='', tracks = [], $app,l
       dataIndex: 'name',
       key: 'name',
       align: 'left',
-      ellipsis: true,
-      render: (text: any, record: any) => {
-        return <span>{text}</span>
-      }
+      ellipsis: true
     },
     {
       title: '歌手',
@@ -56,17 +65,7 @@ const TableList: FC<Props> = ({trackIds = [],searchValue='', tracks = [], $app,l
       key: 'singer',
       align: 'left',
       ellipsis: true,
-      render: (text: any, record: any) => {
-        return (
-          <Fragment>
-            {
-              record.ar.map((item: any, index: any) => {
-                return <span key={item.id}>{item.name}{record.ar.length === (index + 1) ? null : '/'}</span>
-              })
-            }
-          </Fragment>
-        )
-      }
+      render: (text: any, record: any) => Utils.formatName(record.ar)
     },
     {
       title: '专辑',
@@ -74,20 +73,14 @@ const TableList: FC<Props> = ({trackIds = [],searchValue='', tracks = [], $app,l
       key: 'album',
       align: 'left',
       ellipsis: true,
-      render: (text: any, record: any) => {
-        return (<span>{record.al.name}</span>)
-      }
+      render: (text: any, record: any) => record.al.name
     },
     {
       title: '时长',
       dataIndex: 'dt',
       key: 'dt',
       align: 'left',
-      render: (text: any) => {
-        return (
-          <span>{Utils.formatSeconds(text)}</span>
-        )
-      },
+      render: (text: any) => Utils.formatSeconds(text),
       width: 150
     }
   ]
@@ -98,6 +91,23 @@ const TableList: FC<Props> = ({trackIds = [],searchValue='', tracks = [], $app,l
       return memo.concat(item.id)
     }, []).toString()
   },[trackIds])
+
+  const onSong = (id:number) => {
+    Song.getSongUrl(id)
+    clickTime +=1
+    if(clickTime === 1){
+      const mapData = tableData.map((item:PlayRecordInterface) => {
+        return {
+          title: item.name,
+          singer:Utils.formatName(item.ar),
+          time:Utils.formatSeconds(item.dt),
+          id: item.id
+        }
+      })
+      return appState.setPlayRecord(mapData)
+    }
+  }
+
 
 
   useEffect(() => {
@@ -115,7 +125,7 @@ const TableList: FC<Props> = ({trackIds = [],searchValue='', tracks = [], $app,l
     <Table
       onRow={(record:any) => {
         return {
-          onDoubleClick: () => Song.getSongUrl(record.id)
+          onDoubleClick: () => onSong(record.id)
         }
       }}
       columns={columns}

@@ -122,7 +122,6 @@ const EditSongList: FC<Props> = props => {
     e.preventDefault()
     props.form.validateFields(async (err: any, values: any) => {
       if (!err) {
-        console.log('Received values of form: ', values)
         const Ret: any = await API.playlistUpdate({
           ...values,
           tags: values.tags.join(';'),

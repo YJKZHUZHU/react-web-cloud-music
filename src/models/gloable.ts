@@ -1,23 +1,69 @@
-import {Container} from 'unstated'
+import { Container } from 'unstated'
 import store from '@/help/localStorage'
+import PlayList from '@/pages/playList'
+interface SingerInterface {
+  alias?: any[]
+  id?: number
+  name?: string
+  tns?: any[]
+}
+interface SongInterface {
+  url?: string,
+  id?: number
+  name?: string
+  singerArr?: SingerInterface[]
+  songTime?: number
+  backgroundImg?: string
+}
+interface PlayerInterface {
+  loaded?: number
+  loadedSeconds?: number
+  played?: number
+  playedSeconds?: number
+}
+interface LyricInterface {
+  time?: number
+  lyc?: string
+}
+interface PlayRecordInterface {
+  title:string
+  singer: string,
+  time: string,
+  id:number
+}
+
+const enum playModeEnum {
+  InOrder,//顺序播放
+  SingleCycle,//循环播放
+  ShufflePlayback//随机播放
+}
+const enum PlayerRateEnum {//倍速
+  Multiple_1 = 1,
+  Multiple_1_2 = 1.2,
+  Multiple_1_5 = 1.5,
+  Multiple_2 = 2
+}
 
 
 interface AppState {
   loading: boolean,
   globalLoading: boolean,
-  songObj: any,
+  songObj: SongInterface,
   isPlay: boolean,
-  playerObj: any,
-  lyric: Array<any>,
+  playerObj: PlayerInterface,
+  lyric: LyricInterface[],
   showPlayer: boolean,
   volume: number,
-  playMode: number, //0 顺序播放 1 单曲循环 2 随机播放
-  playerRate: number //播放速度,
+  playMode: playModeEnum, //0 顺序播放 1 单曲循环 2 随机播放
+  playerRate: PlayerRateEnum //播放速度,
   keywords: string //搜索关键词,
   userInfo: any, //用户信息
   loginStatus: boolean, //登录状态
   userId: any //用户Id
-  playList:{creator:Array<any>,favorite:Array<any>}
+  playList: { creator: any[], favorite: any[] },
+  playHistory:number[]//播放历史
+  showPlayRecord: boolean
+  playRecord:PlayRecordInterface[]
 }
 
 export default class AppContainer extends Container<AppState> {
@@ -30,92 +76,77 @@ export default class AppContainer extends Container<AppState> {
     playerObj: {},
     lyric: [],
     showPlayer: false,
-    volume: JSON.parse(<string>store.getStorage('volume')), //默认音量
+    volume: store.getValue('volume'), //默认音量
     playMode: 0,
     playerRate: 1,
     keywords: '',
     userInfo: {},
     loginStatus: false,
-    userId:'',
-    playList:{creator:[],favorite:[]}
+    userId: '',
+    playList: { creator: [], favorite: [] },
+    playHistory:store.getValue('playHistory'),
+    showPlayRecord: false,
+    playRecord:[]
   }
 
 
-  setLoading(loading: boolean) {
+  setLoading = (loading: boolean) => {
     if (loading === this.state.loading) {
       return false
     }
     return this.setState({
-      loading: loading
+      loading
     })
   }
 
-  setGlobalLoading(globalLoading: boolean) {
-    return this.setState({
-      globalLoading
-    })
+  setShowPlayRecord = (showPlayRecord:boolean) => this.setState({showPlayRecord})
+
+  setGlobalLoading = (globalLoading: boolean) => this.setState({ globalLoading })
+
+  setSongObj = (songObj: SongInterface) => this.setState({ songObj })
+
+  setStopPlay = (isPlay: boolean) => this.setState({ isPlay })
+
+  setPlayerObj = (playerObj: PlayerInterface) => this.setState({ playerObj })
+
+  setLyric = (lyric: LyricInterface[]) => this.setState({ lyric })
+
+  setShowPlayer = (showPlayer: boolean) => this.setState({ showPlayer })
+
+  setVolume = (volume: number) => {
+    store.setValue('volume', volume)
+    return this.setState({ volume })
   }
 
-  setSongObj(songObj: any) {
-    return this.setState({songObj})
+  setPlayMode = (playMode: playModeEnum) => this.setState({ playMode })
+
+  setPlayRate = (playerRate: PlayerRateEnum) => this.setState({ playerRate })
+  setKeywords = (keywords: string) => {
+    store.setValue('keywords', keywords)
+    return this.setState({ keywords })
   }
 
-  setStopPlay(isPlay: boolean) {
-    return this.setState({isPlay})
-  }
+  setUserInfo = (userInfo: any) => this.setState({ userInfo })
 
-  setPlayerObj(playerObj: any) {
-    return this.setState({playerObj})
-  }
+  setLoginStatus = (loginStatus: boolean) => this.setState({ loginStatus })
 
-  setLyric(lyric: any) {
-    console.log(lyric)
-    return this.setState({lyric})
-  }
+  setUserId = (userId: string | number) => this.setState({ userId })
 
-  setShowPlayer(showPlayer: boolean) {
-    return this.setState({showPlayer})
-  }
-
-  setVolume(volume: number) {
-    store.setStorage('volume', volume)
-    return this.setState({volume})
-  }
-
-  setPlayMode(playMode: number) {
-    return this.setState({playMode})
-  }
-
-  setPlayRate(playerRate: number) {
-    return this.setState({playerRate})
-  }
-
-  setKeywords(keywords: string) {
-    store.setStorage('keywords', keywords)
-    return this.setState({keywords})
-  }
-
-  setUserInfo(userInfo: any) {
-    return this.setState({userInfo})
-  }
-
-  setLoginStatus(loginStatus: boolean) {
-    return this.setState({loginStatus})
-  }
-
-  setUserId(userId:any) {
-    return this.setState({userId})
-  }
-
-  setPlayList(playList:Array<any>){
+  setPlayList = (playList: any[]) => {
     return this.setState({
       playList: {
-        creator:playList.filter((item:any) => !item.subscribed),
-        favorite:playList.filter((item:any) => item.subscribed)
+        creator: playList.filter((item: any) => !item.subscribed),
+        favorite: playList.filter((item: any) => item.subscribed)
       }
     })
   }
 
+  setPlayHistory = (id:number) => {
+    store.setValue('playHistory', [...new Set([...this.state.playHistory, id])])
+
+    return this.setState({ playHistory: [...new Set([...this.state.playHistory, id])]})
+  }
+  setPlayRecord = (playRecord:PlayRecordInterface[]) => this.setState({playRecord})
 }
 
 export const appState = new AppContainer()

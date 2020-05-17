@@ -164,7 +164,14 @@ class Utils {
     })
   }
 
+  //歌手序列化['华晨宇'，'张杰] -> 华晨宇/张杰
+
+  static formatName(name:string[],link:string = '/',target:any = 'name'){
+    return name.map(item => item[target]).join(link)
+  }
 }
+
+
 
 
 export default Utils

@@ -3,6 +3,13 @@ import ReactPlayer from 'react-player'
 import {Subscribe} from '@/Appcontainer'
 import {appState} from '@/models/gloable'
 
+interface PlayerInterface {
+  loaded?:number
+  loadedSeconds?:number
+  played?:number
+  playedSeconds?:number
+}
+
 type Props = {
   $app: any
 }
@@ -26,12 +33,13 @@ const Player: FC<Props> = (props,parentRef) => {
   const onDuration = (time: any) => {
     console.log('时间:' + time + 's')
   }
-  const onProgress = (state:any) => {
-    console.log('onProgress', state)
+  const onProgress = (state: PlayerInterface) => {
+    console.log(state.loaded)
+    console.log("哈哈哈", state)
     // console.log(Utils.aaa(state.playedSeconds))
     return appState.setPlayerObj({
       ...state,
-      playedSeconds:state.playedSeconds
+      playedSeconds: state.playedSeconds,
     })
   }
 
