@@ -9,7 +9,8 @@
     "prefer-const":[false],
     "no-shadowed-variable":[false],
     "variable-name":[false],
-    "no-console":[false]
+    "no-console":[false],
+    "no-unused-expression":[false]
   },
   "rulesDirectory": []
 }

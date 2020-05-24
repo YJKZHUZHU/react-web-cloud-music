@@ -4,10 +4,15 @@
   .header {
     display: flex;
     justify-content: space-between;
-
-    .delete {
-      i {
-        margin-right: 8px;
+    .right {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      .delete {
+        i {
+          margin-right: 8px;
+        }
       }
     }
   }

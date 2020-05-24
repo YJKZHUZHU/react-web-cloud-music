@@ -2,6 +2,11 @@ import Axios from 'axios'
 import { appState } from '@/models/gloable'
 import qs from 'qs'
 
+export interface ResInterface {
+  code?: number
+  [propName: string]: any
+}
+
 
 const axios = Axios.create({
   withCredentials: true,
@@ -71,7 +76,7 @@ axios.interceptors.request.use(config => {
 
 
 //拦截响应
-axios.interceptors.response.use(res => {
+axios.interceptors.response.use((res:ResInterface) => {
   appState.setLoading(false)
   if (res.data.code === 302) {
     return new Promise(() => {

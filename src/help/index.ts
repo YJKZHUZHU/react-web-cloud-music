@@ -1,6 +1,26 @@
 import store from './localStorage'
-import {appState} from '@/models/gloable'
+import {appState, PlayerRateEnum} from '@/models/gloable'
 import moment from 'moment'
+
+export interface ArInterface {
+  alias?: any[]
+  id?: number
+  name?: string
+  tns?: any[]
+  [propsName: string]: any
+}
+export interface PlayRecordItem {
+  name?: string
+  ar?: ArInterface[]
+  time?: number
+  id?:number
+  [propName: string]: any
+}
+export interface LiricInterface {
+  lyc?:string
+  time?: number
+}
+
 
 class Utils {
   /**
@@ -9,26 +29,25 @@ class Utils {
    * @param {需要保留的小数位数} point
    */
   static tranNumber(num: number, point: number) {
-    let numStr = num.toString()
+    const numStr = num.toString()
+    const length = numStr.length
+    const decimal = numStr.substring(numStr.length - 8, numStr.length - 8 + point)
     // 十万以内直接返回
-    if (numStr.length < 6) {
+    if (length < 6) {
       return numStr
     }
+
     //大于8位数是亿
     else if (numStr.length > 8) {
-      let decimal = numStr.substring(numStr.length - 8, numStr.length - 8 + point)
-      return parseFloat(parseInt(String(num / 100000000)) + '.' + decimal) + '亿'
+      return (num / 100000000).toFixed(0) + '.' + decimal + '亿'
     }
     //大于6位数是十万 (以10W分割 10W以下全部显示)
     else if (numStr.length > 5) {
-      let decimal = numStr.substring(numStr.length - 4, numStr.length - 4 + point)
-      return parseInt(String(num / 10000)) + '万'
+      return (num / 10000).toFixed(0) + '万'
     }
   }
 
   static async setTheme(theme: string) {
-    // @ts-ignore
-
     await appState.setGlobalLoading(true)
     store.setStorage('theme', theme)
     this.createTheme(theme)
@@ -61,25 +80,25 @@ class Utils {
   }
 
   static formatSeconds(value: any) {
-    let secondTime = parseInt(String(value / 1000))
+    let secondTime = +(value / 1000).toFixed(0)
     let minuteTime = 0
     let hourTime = 0
     let result = ''
     if (secondTime > 60) {
-      minuteTime = parseInt(String(secondTime / 60))
-      secondTime = parseInt(String(secondTime % 60))
+      minuteTime = +(secondTime / 60).toFixed(0)
+      secondTime = secondTime % 60
       if (minuteTime > 60) {
-        hourTime = parseInt(String(minuteTime / 60))
-        minuteTime = parseInt(String(minuteTime % 60))
+        hourTime = +(minuteTime / 60).toFixed(0)
+        minuteTime = minuteTime % 60
       }
     }
 
-    result = '' + parseInt(String(secondTime)) + '秒'
+    result = '' + secondTime + '秒'
     if (minuteTime > 0) {
-      result = '' + parseInt(String(minuteTime)) + '分' + result
+      result = '' + minuteTime + '分' + result
     }
     if (hourTime > 0) {
-      result = '' + parseInt(String(hourTime)) + '小时' + result
+      result = '' + hourTime + '小时' + result
     }
     return result
   }
@@ -94,48 +113,47 @@ class Utils {
 
   //歌词格式化
   static formatterLyric(lyric: string) {
-    let result: Array<any> = []
+    let result: LiricInterface[] = []
     lyric.split(/[\n]/g).forEach(item => {
       //去除空的内容
-      let temp: Array<any> = decodeURIComponent(item).split(/\[(.+?)\]/).filter(item => item !== '')
+      let temp: string[] = decodeURIComponent(item).split(/\[(.+?)\]/).filter(item => item !== '')
       const lyContent = temp.pop()
       //去除最后一个空数组
       if(temp.length !== 0){
         temp.forEach((k) => {
           result.push({
-            time: this.formatterLyricTime(k),
+            time: this.formatterLyricTime(k) as number,
             lyc: lyContent
           })
         })
       }
     })
 
-    return result.sort((a,b) => (+a.time) -(+b.time))
+    return result.sort((a, b) => (a.time as number) - (b.time as number))
   }
 
   //动态计算歌词长度
-  static lyricWidth(lyric: Array<any>) {
+  static lyricWidth(lyric: LiricInterface[]) {
     //sort排序有问题，
     if (!lyric) {
       return 0
     }
     //八倍
     return Math.max.apply(Math, lyric.map(function(o) {
-      return o.lyc.length
+      return (o.lyc as string).length
     })) * 8
   }
 
   //歌词时间格式化 00:00.000 -> 128 ms
-  static formatterLyricTime(timeStr: string) {
+  static formatterLyricTime(timeStr: string):number {
     if (!timeStr) {
-      return false
+      return 0
     }
     const sp1 = timeStr.split(':')
     const sp2 = sp1[1].split('.')
 
     const minute = +sp1[0] * 60
     const seconds = +sp2[0]
-
     const ms = parseFloat(String(+sp2[1] / 1000))
     return +(minute + seconds) + ms
   }
@@ -166,8 +184,22 @@ class Utils {
 
   //歌手序列化['华晨宇'，'张杰] -> 华晨宇/张杰
 
-  static formatName(name:string[],link:string = '/',target:any = 'name'){
-    return name.map(item => item[target]).join(link)
+  static formatName(name: ArInterface[] ,link = '/',target = 'name'){
+    return name.map(item => {
+      return item[target]
+    }).join(link)
+  }
+  //播放列表
+
+  static formatPlayRecord(data: PlayRecordItem[]) {
+    return data.map((item) => {
+      return {
+        title:item.name,
+        singer: Utils.formatName(item.ar as object[]),
+        time: Utils.formatSeconds(item.dt),
+        id: item.id
+      }
+    })
   }
 }
 

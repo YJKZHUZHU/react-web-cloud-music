@@ -1,13 +1,13 @@
 import { Container } from 'unstated'
 import store from '@/help/localStorage'
 import PlayList from '@/pages/playList'
-interface SingerInterface {
+export interface SingerInterface {
   alias?: any[]
   id?: number
   name?: string
   tns?: any[]
 }
-interface SongInterface {
+export interface SongInterface {
   url?: string,
   id?: number
   name?: string
@@ -15,29 +15,30 @@ interface SongInterface {
   songTime?: number
   backgroundImg?: string
 }
-interface PlayerInterface {
+export interface PlayerInterface {
   loaded?: number
   loadedSeconds?: number
   played?: number
   playedSeconds?: number
 }
-interface LyricInterface {
+export interface LyricInterface {
   time?: number
   lyc?: string
 }
-interface PlayRecordInterface {
+export interface PlayRecordInterface {
   title:string
-  singer: string,
-  time: string,
+  singer: string
+  time: string
   id:number
+  [propName: string]: any
 }
 
-const enum playModeEnum {
+export const enum playModeEnum {
   InOrder,//顺序播放
   SingleCycle,//循环播放
   ShufflePlayback//随机播放
 }
-const enum PlayerRateEnum {//倍速
+export const enum PlayerRateEnum {//倍速
   Multiple_1 = 1,
   Multiple_1_2 = 1.2,
   Multiple_1_5 = 1.5,
@@ -45,25 +46,25 @@ const enum PlayerRateEnum {//倍速
 }
 
 
-interface AppState {
-  loading: boolean,
-  globalLoading: boolean,
-  songObj: SongInterface,
-  isPlay: boolean,
-  playerObj: PlayerInterface,
-  lyric: LyricInterface[],
-  showPlayer: boolean,
-  volume: number,
-  playMode: playModeEnum, //0 顺序播放 1 单曲循环 2 随机播放
-  playerRate: PlayerRateEnum //播放速度,
-  keywords: string //搜索关键词,
-  userInfo: any, //用户信息
-  loginStatus: boolean, //登录状态
-  userId: any //用户Id
-  playList: { creator: any[], favorite: any[] },
-  playHistory:number[]//播放历史
-  showPlayRecord: boolean
-  playRecord:PlayRecordInterface[]
+export interface AppState {
+  loading?: boolean,
+  globalLoading?: boolean,
+  songObj?: SongInterface,
+  isPlay?: boolean,
+  playerObj?: PlayerInterface,
+  lyric?: LyricInterface[],
+  showPlayer?: boolean,
+  volume?: number,
+  playMode?: playModeEnum, //0 顺序播放 1 单曲循环 2 随机播放
+  playerRate?: PlayerRateEnum //播放速度,
+  keywords?: string //搜索关键词,
+  userInfo?: any, //用户信息
+  loginStatus?: boolean, //登录状态
+  userId?: number | string //用户Id
+  playList?: { creator: any[], favorite: any[] },
+  playHistory?:number[]//播放历史
+  showPlayRecord?: boolean
+  playRecord?:PlayRecordInterface[]
 }
 
 export default class AppContainer extends Container<AppState> {
