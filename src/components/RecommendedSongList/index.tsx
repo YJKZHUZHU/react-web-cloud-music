@@ -2,7 +2,7 @@ import React, {FC, Fragment, useEffect, useState} from 'react'
 import styles from './index.scss'
 import {Icon} from 'antd'
 import Utils from '@/help/index'
-import Link from 'umi/link'
+import {Link} from "umi"
 
 type Props = {
   data?: object

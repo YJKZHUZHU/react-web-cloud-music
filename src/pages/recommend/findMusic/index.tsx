@@ -5,7 +5,7 @@ import RecommendedSongList from '@/components/RecommendedSongList'
 import NewMusic from '@/components/NewMusic'
 import OfficialLeaderBoard from '@/components/OfficialLeaderBoard'
 import ALlTopLIst from '@/components/AllTopList'
-import Link from 'umi/link'
+import {Link} from "umi"
 import LatestMusic from '@/components/LatestMusic'
 import styles from './index.scss'
 import API from '@/api'

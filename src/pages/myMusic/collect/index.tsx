@@ -2,7 +2,7 @@ import React, {FC, useState, useEffect} from 'react'
 import {Radio, Tabs, message, List, Avatar, Col, Row, Icon} from 'antd'
 import API from '@/api'
 import moment from 'moment'
-import router from 'umi/router'
+import {history} from "umi"
 import Utils from '@/help'
 import styles from './index.scss'
 
@@ -82,12 +82,14 @@ const Collect: FC = (props) => {
         <TabPane tab={`专辑 ${subData.albumSublist.length}`} key="1">
           <List
             itemLayout="horizontal"
-            locale={{emptyText: '暂无收藏专辑'}}
+            locale={{emptyText: "暂无收藏专辑"}}
             dataSource={subData.albumSublist}
             renderItem={(item: any) => (
-              <List.Item onClick={() => router.push(`/album?id=${item.id}`)} className={styles.albumItem}>
+              <List.Item
+                onClick={() => history.push(`/album?id=${item.id}`)}
+                className={styles.albumItem}>
                 <List.Item.Meta
-                  avatar={<Avatar src={item.picUrl}/>}
+                  avatar={<Avatar src={item.picUrl} />}
                   title={albumTitle(item.artists)}
                   description={albumDescription(item)}
                 />
@@ -98,12 +100,14 @@ const Collect: FC = (props) => {
         <TabPane tab={`歌手 ${subData.artistSublist.length}`} key="2">
           <List
             itemLayout="horizontal"
-            locale={{emptyText: '暂无收藏歌手'}}
+            locale={{emptyText: "暂无收藏歌手"}}
             dataSource={subData.artistSublist}
             renderItem={(item: any) => (
-              <List.Item onClick={() => router.push(`/singer?id=${item.id}`)} className={styles.albumItem}>
+              <List.Item
+                onClick={() => history.push(`/singer?id=${item.id}`)}
+                className={styles.albumItem}>
                 <List.Item.Meta
-                  avatar={<Avatar src={item.picUrl}/>}
+                  avatar={<Avatar src={item.picUrl} />}
                   title={artistDescription(item)}
                 />
               </List.Item>
@@ -111,29 +115,23 @@ const Collect: FC = (props) => {
           />
         </TabPane>
         <TabPane tab={`MV ${subData.mvSublist.length}`} key="3">
-          {
-            subData.mvSublist.length === 0 ? (
-              <Row>
-                <Col span={24}>造物收藏MV</Col>
-              </Row>
-            ) : (
-              <Row gutter={32}>
-                {
-                  subData.mvSublist.map((item: any) => {
-                    return (
-                      <Col span={6} key={item.vid}>
-                        <MvList data={item}/>
-                      </Col>
-                    )
-                  })
-                }
-              </Row>
-            )
-          }
-
+          {subData.mvSublist.length === 0 ? (
+            <Row>
+              <Col span={24}>造物收藏MV</Col>
+            </Row>
+          ) : (
+            <Row gutter={32}>
+              {subData.mvSublist.map((item: any) => {
+                return (
+                  <Col span={6} key={item.vid}>
+                    <MvList data={item} />
+                  </Col>
+                )
+              })}
+            </Row>
+          )}
         </TabPane>
       </Tabs>
-
     </div>
   )
 }

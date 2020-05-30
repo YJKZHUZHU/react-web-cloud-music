@@ -3,7 +3,7 @@ import {Row,Col,Icon} from 'antd'
 import styles from './index.scss'
 import API from '@/api'
 import Utils from '@/help'
-import router from 'umi/router'
+import {history} from 'umi'
 
 const ALlTopLIst: FC  = props => {
   const [allData,setAllData] = useState([])
@@ -21,9 +21,11 @@ const ALlTopLIst: FC  = props => {
           allData.map((item:any) => {
             return (
               <Col key={item.id} span={4}>
-                <div className={styles.item} onClick={() => router.push(`/playList?listId=${item.id}`)}>
-                  <img src={item.coverImgUrl} className={styles.img}/>
-                  <div className={styles.count}>{Utils.tranNumber(item.playCount,2)}</div>
+                <div
+                  className={styles.item}
+                  onClick={() => history.push(`/playList?listId=${item.id}`)}>
+                  <img src={item.coverImgUrl} className={styles.img} />
+                  <div className={styles.count}>{Utils.tranNumber(item.playCount, 2)}</div>
                   <div className={styles.playIcon}>
                     <Icon type="caret-right" />
                   </div>

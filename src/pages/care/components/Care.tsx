@@ -2,7 +2,7 @@ import React, {FC, useEffect, useState} from 'react'
 import styles from '../index.scss'
 import {Subscribe} from '@/Appcontainer'
 import {List, Avatar, Divider, Button, Icon, message} from 'antd'
-import Link from 'umi/link'
+import {Link} from "umi"
 import API from '@/api'
 
 type Props = {

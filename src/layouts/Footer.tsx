@@ -1,5 +1,13 @@
 import React, {FC, useState, useEffect, useRef} from 'react'
-import {Progress, Icon, Slider,Radio} from 'antd'
+import {Progress, Slider,Radio} from 'antd'
+import {
+  FullscreenOutlined,
+  FullscreenExitOutlined,
+  StepBackwardOutlined,
+  StepForwardOutlined,
+  PauseCircleOutlined,
+  CaretRightOutlined,
+} from "@ant-design/icons"
 import {Subscribe} from '@/Appcontainer'
 import {appState} from '@/models/gloable'
 import style from './index.scss'
@@ -76,7 +84,11 @@ const Footer: FC<Props> = props => {
       <div className={style.footerContainer}>
         <Slider
           onChange={handleSlider}
-          style={{padding: 0, margin: 0,visibility: Object.keys(songObj).length !== 0 ? 'visible' : 'hidden'}}
+          style={{
+            padding: 0,
+            margin: 0,
+            visibility: Object.keys(songObj).length !== 0 ? "visible" : "hidden",
+          }}
           value={playerObj.playedSeconds}
           defaultValue={0}
           step={0.001}
@@ -85,47 +97,62 @@ const Footer: FC<Props> = props => {
           tipFormatter={null}
         />
         <div className={style.footer}>
-          <div className={style.info} style={{visibility: Object.keys(songObj).length !== 0 ? 'visible' : 'hidden'}}>
+          <div
+            className={style.info}
+            style={{visibility: Object.keys(songObj).length !== 0 ? "visible" : "hidden"}}>
             <div className={style.img} onClick={() => appState.setShowPlayer(!showPlayer)}>
-              <div className={style.mask}/>
-              <img src={songObj.backgroundImg}/>
-              <Icon type={showPlayer ? 'fullscreen-exit' : 'fullscreen'} className={style.full}/>
+              <div className={style.mask} />
+              <img src={songObj.backgroundImg} />
+              {showPlayer ? (
+                <FullscreenOutlined className={style.full} />
+              ) : (
+                <FullscreenExitOutlined />
+              )}
             </div>
             <div className={style.content}>
               <div className={style.top}>
                 <span className={style.songName}>{songObj.name}</span>
                 <i className={style.split}>-</i>
                 <span className={style.name}>
-                {
-                  songObj.singerArr && songObj.singerArr.map((item: any, index: any) => {
-                    return <span key={item.id}>{item.name}{songObj.singerArr.length === (index + 1) ? null : '/'}</span>
-                  })
-                }
-              </span>
+                  {songObj.singerArr &&
+                    songObj.singerArr.map((item: any, index: any) => {
+                      return (
+                        <span key={item.id}>
+                          {item.name}
+                          {songObj.singerArr.length === index + 1 ? null : "/"}
+                        </span>
+                      )
+                    })}
+                </span>
               </div>
               <div className={style.bottom}>
-              <span className={style.playTime}>
-                {playerObj.playedSeconds ? Utils.formatPlayerTime(playerObj.playedSeconds) : '00:00'}
-              </span>
+                <span className={style.playTime}>
+                  {playerObj.playedSeconds
+                    ? Utils.formatPlayerTime(playerObj.playedSeconds)
+                    : "00:00"}
+                </span>
                 <i className={style.split}>/</i>
-                <span
-                  className={style.time}>{songObj.songTime ? Utils.formatPlayerTime(songObj.songTime) : '00:00'}</span>
+                <span className={style.time}>
+                  {songObj.songTime ? Utils.formatPlayerTime(songObj.songTime) : "00:00"}
+                </span>
               </div>
             </div>
           </div>
           <div className={style.playBtnGroup}>
             <div className={classnames(style.common, style.last)}>
-              <Icon type="step-backward"/>
+              <StepBackwardOutlined />
             </div>
-            <div className={classnames(style.common, style.now)} onClick={() => appState.setStopPlay(!appState.state.isPlay)}>
-              {
-                isPlay ?
-                  <Icon type={'pause'} className={style.pause}/>
-                  : <Icon type={'caret-right'} className={style.caret}/>
-              }
+            <div
+              className={classnames(style.common, style.now)}
+              onClick={() => appState.setStopPlay(!appState.state.isPlay)}>
+              {isPlay ? (
+                <PauseCircleOutlined className={style.pause}/>
+              ) : (
+                <CaretRightOutlined className={style.caret}/>
+              )}
             </div>
             <div className={classnames(style.common, style.next)}>
-              <Icon type="step-forward"/>
+              <StepForwardOutlined />
             </div>
           </div>
           <div className={style.playRate}>
@@ -138,11 +165,15 @@ const Footer: FC<Props> = props => {
             </Radio.Group>
           </div>
           <div className={style.operating}>
-            <Icon type="share-alt"/>
-            <PlayRate/>
+            <Icon type="share-alt" />
+            <PlayRate />
             <Icon type="ordered-list" onClick={() => appState.setShowPlayRecord(!showPlayRecord)} />
             <div className={style.progress}>
-              <Icon type={volume === 0 ? 'notification' : 'sound'} className={style.voice} onClick={onMute}/>
+              <Icon
+                type={volume === 0 ? "notification" : "sound"}
+                className={style.voice}
+                onClick={onMute}
+              />
               <Slider
                 onChange={onVolume}
                 min={0}
@@ -153,10 +184,9 @@ const Footer: FC<Props> = props => {
                 tipFormatter={null}
               />
             </div>
-            <a href='https://github.com/YJKZHUZHU/react-web-cloud-music' target='_blank'>
-              <Icon type="github"/>
+            <a href="https://github.com/YJKZHUZHU/react-web-cloud-music" target="_blank">
+              <Icon type="github" />
             </a>
-
           </div>
         </div>
       </div>
@@ -164,7 +194,7 @@ const Footer: FC<Props> = props => {
         playsinline
         url={songObj.url}
         playing={isPlay}
-        style={{display: 'none'}}
+        style={{display: "none"}}
         volume={volume}
         playbackRate={playerRate}
         onPlay={onStart}

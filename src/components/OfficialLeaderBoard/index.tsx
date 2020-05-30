@@ -1,6 +1,6 @@
 import React, {FC, useEffect, useState} from 'react'
 import {Icon, Row, Col} from 'antd'
-import Link from 'umi/link'
+import {Link} from "umi"
 import moment from 'moment'
 import styles from './index.scss'
 import API from '@/api'

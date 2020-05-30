@@ -33,12 +33,12 @@ export interface PlayRecordInterface {
   [propName: string]: any
 }
 
-export const enum playModeEnum {
+export  enum playModeEnum {
   InOrder,//顺序播放
   SingleCycle,//循环播放
   ShufflePlayback//随机播放
 }
-export const enum PlayerRateEnum {//倍速
+export  enum PlayerRateEnum {//倍速
   Multiple_1 = 1,
   Multiple_1_2 = 1.2,
   Multiple_1_5 = 1.5,

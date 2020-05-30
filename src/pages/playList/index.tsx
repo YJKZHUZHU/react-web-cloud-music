@@ -2,13 +2,12 @@ import React, {FC, useEffect, useState} from 'react'
 import API, { ResInterface } from '@/api'
 import styles from './index.scss'
 import {Divider, Button, Icon, Tabs, Input, message} from 'antd'
-import Link from 'umi/link'
+import {Link,history,RouteData} from "umi"
 import TableList from './components/ListTable'
 import CommentList from './components/CommentList'
 import Collection from './components/Collection'
 import moment from 'moment'
 import Utils from '@/help'
-import router,{RouteData} from 'umi/router'
 
 const {TabPane} = Tabs
 const {Search} = Input
@@ -36,7 +35,7 @@ const PlayList: FC<Props> = props => {
     API.playList({id: listId, loading: true}).then((res: ResInterface) => {
       if (res.code !== 200) {
         message.info(res.msg)
-        return router.push('/')
+        return history.push("/")
       }
       setPlaylist(res.playlist)
       setCreator({

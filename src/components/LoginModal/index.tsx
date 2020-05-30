@@ -2,7 +2,7 @@ import React, {FC, useState, MouseEvent} from "react"
 import {Modal, Button, Divider, Icon, Form, Input, message} from 'antd'
 import API from '@/api'
 import {Subscribe} from '@/Appcontainer'
-import router from 'umi/router'
+import {history} from 'umi'
 import styles from './index.scss'
 
 type Props  = {
@@ -31,7 +31,7 @@ const LoginModal:FC<Props> = (props) => {
   const [visible, setVisible] = useState(true)
 
   if (loginStatus) {
-    router.replace("/")
+    history.replace("/")
     return message.success("已经登录过了哦")
   }
 
@@ -61,7 +61,7 @@ const LoginModal:FC<Props> = (props) => {
               return message.info("密码错误")
             }
             message.success("登录成功")
-            router.replace({
+            history.replace({
               pathname: "/",
             })
             window.location.reload()
@@ -78,7 +78,7 @@ const LoginModal:FC<Props> = (props) => {
               return message.info("密码错误")
             }
             message.success("登录成功")
-            router.replace({
+            history.replace({
               pathname: "/",
             })
             window.location.reload()
@@ -90,7 +90,7 @@ const LoginModal:FC<Props> = (props) => {
 
   const onCancel = () => {
     setVisible(false)
-    router.push("/")
+    history.push("/")
   }
 
   return (

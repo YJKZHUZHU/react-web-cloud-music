@@ -1,6 +1,6 @@
 import React, {FC, useEffect, useState} from 'react'
 import {Avatar, Icon, Divider, Pagination} from 'antd'
-import Link from 'umi/link'
+import {Link} from "umi"
 import styles from '../index.scss'
 import moment from 'moment'
 import Utils from '@/help'

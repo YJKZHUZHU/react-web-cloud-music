@@ -4,7 +4,7 @@ import {Button, Radio, Tabs, Icon} from 'antd'
 import API from '@/api'
 import Song from '@/help/getSongInfo'
 import Utils from '@/help'
-import get = Reflect.get
+// import get = Reflect.get
 
 const {TabPane} = Tabs
 type Props = {

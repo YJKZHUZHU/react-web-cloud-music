@@ -2,7 +2,7 @@ import React, {FC, useEffect, ReactChild, forwardRef, useRef, createRef} from 'r
 import Header from '@/components/Header'
 // import Footer from '@/components/Footer'
 import styles from './index.scss'
-import NavLink from 'umi/navlink'
+import {NavLink} from "umi"
 import {Subscribe} from '@/Appcontainer'
 import {Drawer, Icon, Spin} from 'antd'
 import PlayRecord from '@/components/PlayRecord'

@@ -2,7 +2,7 @@ import React, {FC, useEffect, useState, Fragment, forwardRef, useRef} from 'reac
 import {Subscribe} from '@/Appcontainer'
 import {Divider, Row, Col, Input, Form, Popover, Button, Tag, Icon, message} from 'antd'
 import styles from './index.scss'
-import router from 'umi/router'
+import {history} from "umi"
 import API from '@/api'
 import Map from '@/help/map'
 import {appState} from '@/models/gloable'
@@ -134,71 +134,58 @@ const EditSongList: FC<Props> = props => {
         }
         await appState.setPlayList(PlayListRet.playlist)
         message.success('歌单描述更新成功')
-        router.push({
-          pathname: '/playList',
+        history.push({
+          pathname: "/playList",
           query: {
-            listId: props.location.query.id
-          }
+            listId: props.location.query.id,
+          },
         })
       }
     })
   }
   return (
-    <div className={styles._edit_song_list} id='_edit_song_list'>
+    <div className={styles._edit_song_list} id="_edit_song_list">
       <p className={styles.title}>编辑歌单信息</p>
-      <Divider className={styles.divider}/>
+      <Divider className={styles.divider} />
       <div className={styles.content}>
         <div className={styles.form}>
           <Form onSubmit={onSubmit} labelCol={{span: 2}} wrapperCol={{span: 20}}>
-            <Form.Item label='歌单名'>
-              {
-                getFieldDecorator('name', {
-                  initialValue: creatorItem.name
-                })(
-                  <Input
-                    placeholder="歌单名"
-                    allowClear
-                  />
-                )
-              }
+            <Form.Item label="歌单名">
+              {getFieldDecorator("name", {
+                initialValue: creatorItem.name,
+              })(<Input placeholder="歌单名" allowClear />)}
             </Form.Item>
-            <Form.Item label='标签'>
-              {
-                getFieldDecorator('tags', {
-                  initialValue: creatorItem.tags || []
-                })(
-                  <Label
-                    {...props}
-                    initTag={creatorItem.tags || []}
-                  />
-                )
-              }
+            <Form.Item label="标签">
+              {getFieldDecorator("tags", {
+                initialValue: creatorItem.tags || [],
+              })(<Label {...props} initTag={creatorItem.tags || []} />)}
             </Form.Item>
-            <Form.Item label='简介'>
-              {
-                getFieldDecorator('desc', {
-                  initialValue: creatorItem.description
-                })(
-                  <Input.TextArea
-                    placeholder="歌单描述"
-                    rows={4}
-                    maxLength={1000}
-                    style={{wordBreak: 'break-all'}}
-                  />
-                )
-              }
+            <Form.Item label="简介">
+              {getFieldDecorator("desc", {
+                initialValue: creatorItem.description,
+              })(
+                <Input.TextArea
+                  placeholder="歌单描述"
+                  rows={4}
+                  maxLength={1000}
+                  style={{wordBreak: "break-all"}}
+                />,
+              )}
             </Form.Item>
             <Form.Item>
               <div className={styles.footBtn}>
-                <Button type='primary' htmlType="submit">保存</Button>
-                <Button onClick={() => router.push(`/playList?listId=${creatorItem.id}`)}>取消</Button>
+                <Button type="primary" htmlType="submit">
+                  保存
+                </Button>
+                <Button onClick={() => history.push(`/playList?listId=${creatorItem.id}`)}>
+                  取消
+                </Button>
               </div>
             </Form.Item>
           </Form>
-
         </div>
         <div className={styles.img}>
-          <img src={`${creatorItem.coverImgUrl}?param=250y250`} alt={creatorItem.coverImgUrl}/>
+          <img src={`${creatorItem.coverImgUrl}?param=250y250`} alt={creatorItem.coverImgUrl} />
         </div>
       </div>
     </div>

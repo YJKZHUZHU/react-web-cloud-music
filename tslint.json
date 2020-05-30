@@ -10,7 +10,8 @@
     "no-shadowed-variable":[false],
     "variable-name":[false],
     "no-console":[false],
-    "no-unused-expression":[false]
+    "no-unused-expression":[false],
+    "no-var-requires":[false]
   },
   "rulesDirectory": []
 }

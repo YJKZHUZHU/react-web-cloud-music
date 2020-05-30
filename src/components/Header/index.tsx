@@ -1,10 +1,9 @@
 import React, {FC, Fragment, useEffect, useState} from 'react'
 import {Row, Col, Icon, Divider, Input, Badge, Avatar, Button, Radio, Popover, Dropdown, Menu, message} from 'antd'
-import Link from 'umi/link'
+import {Link,history} from "umi"
 import API from '@/api'
 import {Subscribe} from '@/Appcontainer'
 import classnames from 'classnames'
-import router from 'umi/router'
 import {appState} from '@/models/gloable'
 import Utils from '@/help'
 import Search from '@/components/Search'
@@ -29,7 +28,7 @@ const Header: FC<Props> = props => {
 
   const onRoute = (path: string) => {
     setVisible(false)
-    router.push(path)
+    history.push(path)
   }
 
 
@@ -155,8 +154,8 @@ const Header: FC<Props> = props => {
           {
             showPlayer ? <Icon type="down" onClick={() => appState.setShowPlayer(false)} className={styles.down}/> :
               (<Button.Group>
-                <Button onClick={() => router.goBack()}><Icon type="left"/></Button>
-                <Button onClick={() => router.go(1)}><Icon type="right"/></Button>
+                <Button onClick={() => history.goBack()}><Icon type="left"/></Button>
+                <Button onClick={() => history.go(1)}><Icon type="right"/></Button>
               </Button.Group>)
           }
 
@@ -186,7 +185,7 @@ const Header: FC<Props> = props => {
               </Popover>
             ) : (
               <div style={{marginRight: 24}} className={classnames(styles.user, '_userInfoPop')}
-                   onClick={() => router.push('/login')}>
+                   onClick={() => history.push('/login')}>
                 <Avatar src={Object.keys(userInfo).length && userInfo.profile.avatarUrl} icon="user"/>
                 <i className={styles.name}>未登录</i>
               </div>

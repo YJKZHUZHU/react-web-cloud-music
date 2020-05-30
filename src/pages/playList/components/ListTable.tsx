@@ -6,8 +6,7 @@ import {ColumnProps} from "antd/es/table"
 import {Subscribe} from "@/Appcontainer"
 import styles from "../index.scss"
 import Song from "@/help/getSongInfo"
-import {RouteData} from "umi/router"
-import {appState, PlayRecordInterface} from "@/models/gloable"
+import {RouteData} from "umi"
 
 
 

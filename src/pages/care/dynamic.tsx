@@ -1,7 +1,7 @@
 import React, {FC, useEffect, useState} from "react"
 import {Subscribe} from "@/Appcontainer"
 import {List, Avatar, Button, Skeleton, Divider, message, Icon} from "antd"
-import Link from "umi/link"
+import {Link} from "umi"
 import classnames from "classnames"
 import Utils from "@/help/index"
 import API from "@/api"

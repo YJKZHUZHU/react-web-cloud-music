@@ -1,12 +1,12 @@
 import React, {FC, useEffect, useState} from 'react'
 import styles from './index.scss'
 import {Icon, Menu, Dropdown, message, Popover, Input, Switch, Button, Popconfirm} from 'antd'
-import NavLink from 'umi/navlink'
+import {NavLink} from "umi"
 import {Subscribe} from '@/Appcontainer'
 import {CSSTransition} from 'react-transition-group'
 import API from '@/api'
 import {appState} from '@/models/gloable'
-import router from 'umi/router'
+import {history} from "umi"
 
 type Props = {
   $app: any

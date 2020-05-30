@@ -4,7 +4,7 @@ import API from '@/api'
 import styles from './index.scss'
 import {useDebounceFn} from '@umijs/hooks'
 import classnames from 'classnames'
-import router from 'umi/router'
+import {history} from 'umi'
 import store from '@/help/localStorage'
 import {Subscribe} from '@/Appcontainer'
 import {appState} from '@/models/gloable'
@@ -47,12 +47,12 @@ const Search: FC<Props> = (props) => {
     await setPopoverVisible(false)
     await appState.setKeywords(keywords)
     //type: 搜索类型；默认为 1 即单曲 , 取值意义 : 1: 单曲, 10: 专辑, 100: 歌手, 1000: 歌单, 1002: 用户, 1004: MV, 1006: 歌词, 1009: 电台, 1014: 视频, 1018:综合
-    router.push({
-      pathname: '/search-detail',
+    history.push({
+      pathname: "/search-detail",
       query: {
         type,
-        keywords
-      }
+        keywords,
+      },
     })
   }
 
@@ -83,12 +83,12 @@ const Search: FC<Props> = (props) => {
 
   const onHistory = (keywords:string) => {
     setPopoverVisible(false)
-    router.push({
-      pathname: '/search-detail',
+    history.push({
+      pathname: "/search-detail",
       query: {
         keywords,
-        type:1
-      }
+        type: 1,
+      },
     })
   }
 
