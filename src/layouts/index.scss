@@ -77,7 +77,11 @@
                       .icon {
                         display: flex;
                         align-items: center;
+                        .left {
+                          margin-right: 8px;
+                        }
                       }
+
                       .privacy {
                         display: none;
                       }

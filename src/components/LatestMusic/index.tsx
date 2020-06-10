@@ -1,6 +1,7 @@
 import React, {FC, useState, useEffect} from 'react'
 import styles from './index.scss'
-import {Button, Radio, Tabs, Icon} from 'antd'
+import { CaretRightOutlined } from '@ant-design/icons';
+import { Button, Radio, Tabs } from 'antd';
 import API from '@/api'
 import Song from '@/help/getSongInfo'
 import Utils from '@/help'
@@ -36,7 +37,7 @@ const List: FC<Props> = ({active}) => {
                 <div className={styles.img}>
                   <img src={item.album.picUrl}/>
                   <div className={styles.icon}>
-                    <Icon type="caret-right"/>
+                    <CaretRightOutlined />
                   </div>
                 </div>
                 <p className={styles.content}>
@@ -84,12 +85,12 @@ const List: FC<Props> = ({active}) => {
                 </p>
                 <p className={styles.time}>{Utils.formatPlayerTime(item.duration / 1000)}</p>
               </li>
-            )
+            );
           })
         }
       </ul>
     </div>
-  )
+  );
 }
 
 const LatestMusic: FC = props => {

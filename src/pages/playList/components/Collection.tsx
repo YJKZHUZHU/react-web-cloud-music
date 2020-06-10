@@ -1,5 +1,6 @@
 import React, {FC, useEffect, useState} from 'react'
 import API from '@/api'
+import { UserOutlined } from '@ant-design/icons';
 import {Col, Row, Avatar, Pagination} from 'antd'
 import styles from '../index.scss'
 
@@ -63,14 +64,14 @@ const Collection: FC<Props> = props => {
                   <p className={styles.img}>
                     <Avatar
                       style={{backgroundColor: '#D74D45'}}
-                      icon="user"
+                      icon={<UserOutlined />}
                       src={item.avatarUrl}
                     />
                   </p>
                   <p className={styles.name}>{item.nickname}</p>
                 </div>
               </Col>
-            )
+            );
           })
         }
       </Row>
@@ -87,7 +88,7 @@ const Collection: FC<Props> = props => {
       }
 
     </div>
-  )
+  );
 }
 
 export default Collection

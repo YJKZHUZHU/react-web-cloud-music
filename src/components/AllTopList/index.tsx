@@ -1,5 +1,6 @@
 import React,{FC,useEffect,useState} from 'react'
-import {Row,Col,Icon} from 'antd'
+import { CaretRightOutlined } from '@ant-design/icons';
+import { Row, Col } from 'antd';
 import styles from './index.scss'
 import API from '@/api'
 import Utils from '@/help'
@@ -27,18 +28,18 @@ const ALlTopLIst: FC  = props => {
                   <img src={item.coverImgUrl} className={styles.img} />
                   <div className={styles.count}>{Utils.tranNumber(item.playCount, 2)}</div>
                   <div className={styles.playIcon}>
-                    <Icon type="caret-right" />
+                    <CaretRightOutlined />
                   </div>
                   <p className={styles.name}>{item.name}</p>
                 </div>
               </Col>
-            )
+            );
           })
         }
 
       </Row>
     </div>
-  )
+  );
 }
 
 export default ALlTopLIst

@@ -1,65 +1,92 @@
 @import "utils";
 
-$logoPath: '../../assets/topbar.png';
+$logoPath: "../../assets/topbar.png";
 
-$lvBackground: '../../assets/mylevel.png';
+$lvBackground: "../../assets/mylevel.png";
 
-header {
+header,
+._header {
   display: flex;
   height: 65px;
   width: 100%;
   background-color: var(--header-bgcolor);
-
-  .row {
-    padding-top: 15px;
-
-    .login {
-      display: flex;
-      margin-top: 5px;
-      cursor: pointer;
-
-      i {
-        font-size: 20px;
-        margin-right: 8px;
-      }
-    }
-  }
-
-  .skin {
-    font-size: 18px;
-    margin-top: 5px;
-    color: var(--header-font-color);
-    cursor: pointer;
-  }
+  justify-content: space-between;
+  align-items: center;
 
   .logo {
+    margin-left: 20px;
     background: url($logoPath) 0 -18px;
     width: 160px;
     height: 35px;
   }
 
+  .routerBtn {
+    width: 125px;
+  }
+  .skin {
+    width: 200px;
+    font-size: 18px;
+  }
+  .name {
+    margin-left: 8px;
+    font-size: 12px;
+    margin-right: 8px;
+    font: inherit;
+  }
   .user {
     display: flex;
     cursor: pointer;
     align-items: center;
     color: var(--font-color);
-
-    .name {
-      margin-left: 8px;
-      font-size: 12px;
-      margin-right: 8px;
-      font: inherit;
-    }
   }
 
+  // .row {
+  //   padding-top: 15px;
+
+  //   .login {
+  //     display: flex;
+  //     margin-top: 5px;
+  //     cursor: pointer;
+
+  //     i {
+  //       font-size: 20px;
+  //       margin-right: 8px;
+  //     }
+  //   }
+  // }
+
+  // .skin {
+  //   font-size: 18px;
+  //   margin-top: 5px;
+  //   color: var(--header-font-color);
+  //   cursor: pointer;
+  // }
+
+  // .logo {
+  //   background: url($logoPath) 0 -18px;
+  //   width: 160px;
+  //   height: 35px;
+  // }
+
+  // .user {
+  //   display: flex;
+  //   cursor: pointer;
+  //   align-items: center;
+  //   color: var(--font-color);
+
+  //   .name {
+  //     margin-left: 8px;
+  //     font-size: 12px;
+  //     margin-right: 8px;
+  //     font: inherit;
+  //   }
+  // }
 
   .down {
     color: var(--header-font-color);
     font-size: 20px;
     margin-top: 7px;
   }
-
-
 }
 
 .show {
@@ -107,7 +134,7 @@ header {
     color: var(--font-color);
 
     .divider {
-      margin: 5px 0 0 0 ;
+      margin: 5px 0 0 0;
     }
 
     .top {
@@ -128,11 +155,9 @@ header {
           flex-direction: column;
         }
       }
-
     }
 
     .middle {
-
       ul {
         @include clearfix();
 
@@ -145,7 +170,7 @@ header {
           height: 30px;
 
           &:hover {
-            background-color: #ECEDEE;
+            background-color: #ecedee;
           }
 
           .level {
@@ -161,7 +186,6 @@ header {
             em {
               font-weight: 800;
             }
-
           }
 
           p:first-child {
@@ -184,7 +208,7 @@ header {
       align-items: center;
 
       &:hover {
-        background-color: #ECEDEE;
+        background-color: #ecedee;
       }
     }
   }

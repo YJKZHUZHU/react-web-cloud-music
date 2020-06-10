@@ -11,7 +11,8 @@
     "variable-name":[false],
     "no-console":[false],
     "no-unused-expression":[false],
-    "no-var-requires":[false]
+    "no-var-requires":[false],
+    "no-unused-vars":[false]
   },
   "rulesDirectory": []
 }

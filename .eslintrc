@@ -1,3 +1,7 @@
 {
-  "extends": "eslint-config-umi"
+  "extends": "eslint-config-umi",
+  "plugins": ["jsx-a11y","@typescript-eslint"],
+  "rules": {
+    "no-unused-vars":"off"
+  }
 }

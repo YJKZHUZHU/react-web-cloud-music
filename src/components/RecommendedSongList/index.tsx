@@ -1,6 +1,6 @@
 import React, {FC, Fragment, useEffect, useState} from 'react'
 import styles from './index.scss'
-import {Icon} from 'antd'
+import { CustomerServiceOutlined, PlaySquareOutlined } from '@ant-design/icons';
 import Utils from '@/help/index'
 import {Link} from "umi"
 
@@ -25,20 +25,20 @@ const RecommendedSongList: FC<Props> = (props) => {
         <div className={styles.imgWrap}>
           <img src={data.picUrl}/>
           <span className={styles.number}>
-          <Icon type="customer-service" className={styles.listen}/>
+          <CustomerServiceOutlined className={styles.listen} />
           <i>{Utils.tranNumber(data.playCount, 2)}</i>
         </span>
           <div className={styles.descWrap}>
             <span className={styles.desc}>{data.copywriter}</span>
           </div>
           <span className={styles.playIcon}>
-          <Icon type="play-square"/>
+          <PlaySquareOutlined />
         </span>
         </div>
         <p className={styles.name}>{data.name}</p>
       </div>
     </Link>
-  )
+  );
 }
 
 export default RecommendedSongList

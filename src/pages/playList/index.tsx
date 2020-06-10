@@ -1,7 +1,8 @@
 import React, {FC, useEffect, useState} from 'react'
 import API, { ResInterface } from '@/api'
 import styles from './index.scss'
-import {Divider, Button, Icon, Tabs, Input, message} from 'antd'
+import { FolderAddOutlined, PlayCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { Divider, Button, Tabs, Input, message } from 'antd';
 import {Link,history,RouteData} from "umi"
 import TableList from './components/ListTable'
 import CommentList from './components/CommentList'
@@ -84,15 +85,15 @@ const PlayList: FC<Props> = props => {
           <div className={styles.btnGroup}>
             <Button.Group className={styles.playAll}>
               <Button onClick={onPlayAll}>
-                <Icon type="play-circle" />
+                <PlayCircleOutlined />
                 播放全部
               </Button>
               <Button onClick={onPlayAll}>
-                <Icon type="plus" />
+                <PlusOutlined />
               </Button>
             </Button.Group>
             <Button>
-              <Icon type="folder-add" />
+              <FolderAddOutlined />
               收藏({playlist.subscribedCount})
             </Button>
           </div>
@@ -147,7 +148,7 @@ const PlayList: FC<Props> = props => {
         </TabPane>
       </Tabs>
     </div>
-  )
+  );
 }
 
 export default PlayList

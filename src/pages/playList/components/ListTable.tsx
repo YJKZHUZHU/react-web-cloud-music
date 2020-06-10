@@ -1,5 +1,6 @@
 import React, {FC, useEffect, useState, Fragment, useMemo} from "react"
-import {Table, Icon, message} from "antd"
+import { HeartOutlined, PlayCircleOutlined } from '@ant-design/icons';
+import { Table, message } from "antd";
 import API, {ResInterface} from "@/api"
 import Utils from "@/help"
 import {ColumnProps} from "antd/es/table"
@@ -42,11 +43,11 @@ const TableList: FC<Props> = ({trackIds = [], searchValue = "", tracks = [], $ap
         return (
           <div>
             <span>{index < 10 ? `0${index}` : index}</span>
-            <Icon type="heart" className={styles.heartIcon} />
-            {record.mv ? <Icon type="play-circle" className={styles.playIcon} /> : null}
+            <HeartOutlined className={styles.heartIcon} />
+            {record.mv ? <PlayCircleOutlined className={styles.playIcon} /> : null}
             {/*<Icon type="play-circle" className={styles.playIcon} onClick={() => Song.getSongUrl(record.id)}/>*/}
           </div>
-        )
+        );
       },
       width: 100,
     },
@@ -89,7 +90,7 @@ const TableList: FC<Props> = ({trackIds = [], searchValue = "", tracks = [], $ap
 
   useEffect(() => {
     getData()
-  }, [getData, trackIdsStr])
+  }, [trackIdsStr])
 
   return (
     <Table

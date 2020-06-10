@@ -2,7 +2,7 @@ import React, {FC} from "react"
 import AppContainer from "@/models/gloable"
 import {Container, Subscribe, Provider} from "unstated"
 
-const UnstatedSubscribe = (Element: FC) => {
+const UnstatedSubscribe:FC = (Element:FC) => {
   return function(props: FC) {
     return (
       <Subscribe to={[AppContainer]}>

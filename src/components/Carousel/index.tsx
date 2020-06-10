@@ -1,12 +1,13 @@
 import React, {FC, useEffect, useState} from 'react'
-import {Carousel, Icon} from 'antd'
+import { LeftCircleOutlined, RightCircleOutlined } from '@ant-design/icons';
+import { Carousel } from 'antd';
 import API from '@/api'
 import styles from './index.scss'
 import Song from '@/help/getSongInfo'
 import {Subscribe} from '@/Appcontainer'
 
 interface ItemInterFace {
-  targetId: string,
+  targetId: number,
   imageUrl: string,
   typeTitle?: string,
   titleColor?: string
@@ -40,30 +41,30 @@ const CarouselImg: FC = props => {
         centerMode
         infinite
         focusOnSelect
-        className='center'
-        centerPadding='60px'
+        className="center"
+        centerPadding="60px"
         slidesToShow={3}
-        ref={e => (slider = e)}
-      >
-        {
-          carouselData.map((item: ItemInterFace) => {
-            return (
-              <div className={styles.item} key={item.targetId} onClick={() => Song.getSongUrl(item.targetId)}>
-                <img src={item.imageUrl}/>
-                <div className={styles.bg} style={{background: item.titleColor}}>
-                  <i/>
-                  <span>{item.typeTitle}</span>
-                </div>
-
+        ref={(e) => (slider = e)}>
+        {carouselData.map((item: ItemInterFace) => {
+          return (
+            <div
+              className={styles.item}
+              key={item.targetId}
+              onClick={() => Song.getSongUrl(item.targetId)}>
+              <img src={item.imageUrl} />
+              <div className={styles.bg} style={{background: item.titleColor}}>
+                <i />
+                <span>{item.typeTitle}</span>
               </div>
-            )
-          })
-        }
+            </div>
+          )
+        })}
       </Carousel>
-      <Icon type="left-circle" onClick={() => slider.slick.slickPrev()} className={styles.left}/>
-      <Icon type="right-circle" onClick={() => slider.slick.slickNext()} className={styles.right}/>
+      <div className={styles.positionIcon}>
+        <LeftCircleOutlined onClick={() => slider.slick.slickPrev()} className={styles.left} />
+        <RightCircleOutlined onClick={() => slider.slick.slickNext()} className={styles.right} />
+      </div>
     </div>
-
   )
 }
 

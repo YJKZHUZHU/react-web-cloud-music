@@ -1,12 +1,15 @@
-import React, {FC, useState, useEffect, Fragment} from 'react'
-import {Table, Icon, Spin} from 'antd'
-import styles from '../index.scss'
-import Utils from '@/help'
-import Song from '@/help/getSongInfo'
+/** @format */
+
+import React, {FC} from "react"
+import {DownloadOutlined, HeartOutlined, PlaySquareOutlined} from "@ant-design/icons"
+import {Table, Spin} from "antd"
+import styles from "../index.scss"
+import Utils from "@/help"
+import Song from "@/help/getSongInfo"
 
 type Props = {
-  data: Array<any>,
-  loading: boolean,
+  data: any[]
+  loading: boolean
   hasMore: boolean
 }
 
@@ -14,17 +17,17 @@ const SingleList: FC<Props> = (props) => {
   const {data = [], loading, hasMore} = props
   const columns: any = [
     {
-      title: '操作',
-      dataIndex: 'operator',
-      key: 'operator',
-      align: 'left',
+      title: "操作",
+      dataIndex: "operator",
+      key: "operator",
+      align: "left",
       render: (text: any, record: any, index: number) => {
         return (
           <div>
             <span>{index < 10 ? `0${index}` : index}</span>
-            <Icon type="heart" className={styles.heartIcon}/>
-            <a href='/'>
-              <Icon type="download"/>
+            <HeartOutlined className={styles.heartIcon} />
+            <a href="/">
+              <DownloadOutlined />
             </a>
           </div>
         )
@@ -32,71 +35,69 @@ const SingleList: FC<Props> = (props) => {
       width: 100
     },
     {
-      title: '音乐标题',
-      dataIndex: 'name',
-      key: 'name',
-      align: 'left',
+      title: "音乐标题",
+      dataIndex: "name",
+      key: "name",
+      align: "left",
       ellipsis: true,
       render: (text: any, record: any) => {
         return (
           <div className={styles.musicTitle}>
             <p>
-              <span dangerouslySetInnerHTML={{__html: text && Utils.highLight(text)}}/>
-              {record.mvid !== 0 && <Icon type="play-square" className={styles.icon}/>}
+              <span dangerouslySetInnerHTML={{__html: text && Utils.highLight(text)}} />
+              {record.mvid !== 0 && <PlaySquareOutlined className={styles.icon} />}
             </p>
-            {
-              record.alias.length !== 0 ? (
-                <p
-                  className={styles.bottom}
-                  dangerouslySetInnerHTML={{__html: record.alias && Utils.highLight(record.alias.join('/'))}}/>
-              ) : null
-            }
+            {record.alias.length !== 0 ? (
+              <p
+                className={styles.bottom}
+                dangerouslySetInnerHTML={{
+                  __html: record.alias && Utils.highLight(record.alias.join("/"))
+                }}
+              />
+            ) : null}
           </div>
         )
       }
     },
     {
-      title: '歌手',
-      dataIndex: 'artists',
-      key: 'artists',
-      align: 'left',
+      title: "歌手",
+      dataIndex: "artists",
+      key: "artists",
+      align: "left",
       ellipsis: true,
       render: (text: any, record: any) => {
         return (
           <div className={styles.singer}>
-            {
-              text && text.map((item: any, index: any) => {
+            {text &&
+              text.map((item: any, index: any) => {
                 return (
                   <p key={Utils.createRandomId()}>
-                    <span dangerouslySetInnerHTML={{__html: Utils.highLight(item.name)}}/>
-                    <i className={styles.split}>{text.length === (index + 1) ? null : '/'}</i>
+                    <span dangerouslySetInnerHTML={{__html: Utils.highLight(item.name)}} />
+                    <i className={styles.split}>{text.length === index + 1 ? null : "/"}</i>
                   </p>
                 )
-              })
-            }
+              })}
           </div>
         )
       }
     },
     {
-      title: '专辑',
-      dataIndex: 'album',
-      key: 'album',
-      align: 'left',
+      title: "专辑",
+      dataIndex: "album",
+      key: "album",
+      align: "left",
       ellipsis: true,
       render: (text: any, record: any) => {
-        return <span dangerouslySetInnerHTML={{__html: text && Utils.highLight(text.name)}}/>
+        return <span dangerouslySetInnerHTML={{__html: text && Utils.highLight(text.name)}} />
       }
     },
     {
-      title: '时长',
-      dataIndex: 'duration',
-      key: 'duration',
-      align: 'left',
+      title: "时长",
+      dataIndex: "duration",
+      key: "duration",
+      align: "left",
       render: (text: any) => {
-        return (
-          <span>{Utils.formatSeconds(text)}</span>
-        )
+        return <span>{Utils.formatSeconds(text)}</span>
       },
       width: 150
     }
@@ -111,7 +112,7 @@ const SingleList: FC<Props> = (props) => {
         }}
         bordered={false}
         columns={columns}
-        size='small'
+        size="small"
         dataSource={data}
         pagination={false}
         rowKey={(record: any) => Utils.createRandomId()}
@@ -119,11 +120,10 @@ const SingleList: FC<Props> = (props) => {
 
       {loading && hasMore && (
         <div className="demo-loading-container">
-          <Spin/>
+          <Spin />
         </div>
       )}
     </div>
-
   )
 }
 

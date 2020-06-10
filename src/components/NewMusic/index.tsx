@@ -1,5 +1,5 @@
 import React, {FC} from 'react'
-import {Icon} from 'antd'
+import { CaretRightOutlined, PlaySquareOutlined } from '@ant-design/icons';
 import Song from '@/help/getSongInfo'
 import styles from './index.scss'
 
@@ -27,18 +27,18 @@ const NewMusic: FC<Props> = props => {
       <div className={styles.img}>
         <img src={data.picUrl}/>
         <span className={styles.playIcon}>
-          <Icon type="caret-right" />
+          <CaretRightOutlined />
         </span>
       </div>
       <div className={styles.content}>
         <p className={styles.title}>{data.name}</p>
         <p className={styles.name}>
-          <Icon type="play-square"/>
+          <PlaySquareOutlined />
           <span>{singer}</span>
         </p>
       </div>
     </div>
-  )
+  );
 }
 
 export default NewMusic

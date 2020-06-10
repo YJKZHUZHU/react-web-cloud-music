@@ -1,7 +1,8 @@
 import React, {FC, useEffect, useState} from 'react'
 import styles from '../index.scss'
 import {Subscribe} from '@/Appcontainer'
-import {List, Avatar, Divider, Button, Icon, message} from 'antd'
+import { WechatOutlined,CheckOutlined , PlusOutlined} from '@ant-design/icons';
+import { List, Avatar, Divider, Button, message } from 'antd';
 import {Link} from "umi"
 import API from '@/api'
 
@@ -37,28 +38,27 @@ const Care: FC<Props> = (props) => {
             <span>歌单：</span>
             <span>{item.playlistCount}</span>
           </p>
-          <Divider type='vertical' className={styles.divider}/>
+          <Divider type="vertical" className={styles.divider} />
           <p>
             <span>粉丝：</span>
             <span>{item.followeds}</span>
           </p>
         </div>
         <div className={styles.right}>
-          {
-            props.type ? (
-                <Button disabled size='small'>
-                  <Icon type="wechat"/>
-                  <i>私信</i>
-                </Button>
-              ) :
-              (
-                <Button size='small' disabled={item.followed || isFollowed} onClick={() => follow(item.userId)}>
-                  <Icon type={item.followed || isFollowed ? 'check' : 'plus'}/>
-                  <i>{item.followed || isFollowed ? '已关注' : '关注'}</i>
-                </Button>
-              )
-          }
-
+          {props.type ? (
+            <Button disabled size="small">
+              <WechatOutlined />
+              <i>私信</i>
+            </Button>
+          ) : (
+            <Button
+              size="small"
+              disabled={item.followed || isFollowed}
+              onClick={() => follow(item.userId)}>
+              {item.followed || isFollowed ? <CheckOutlined /> : <PlusOutlined />}
+              <i>{item.followed || isFollowed ? "已关注" : "关注"}</i>
+            </Button>
+          )}
         </div>
       </div>
     )

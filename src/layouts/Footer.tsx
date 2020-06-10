@@ -1,5 +1,5 @@
-import React, {FC, useState, useEffect, useRef} from 'react'
-import {Progress, Slider,Radio} from 'antd'
+import React, {FC, useState, useEffect, useRef} from "react"
+import {Progress, Slider, Radio} from "antd"
 import {
   FullscreenOutlined,
   FullscreenExitOutlined,
@@ -7,45 +7,60 @@ import {
   StepForwardOutlined,
   PauseCircleOutlined,
   CaretRightOutlined,
+  ShareAltOutlined,
+  OrderedListOutlined,
+  NotificationOutlined,
+  SoundOutlined,
+  GithubOutlined,
+  PauseOutlined,
 } from "@ant-design/icons"
-import {Subscribe} from '@/Appcontainer'
-import {appState} from '@/models/gloable'
-import style from './index.scss'
-import classnames from 'classnames'
-import Utils from '@/help'
-import ReactPlayer from 'react-player'
-import store from '@/help/localStorage'
-import PlayRate from '@/components/PlayRate'
+import {Subscribe} from "@/Appcontainer"
+import {appState} from "@/models/gloable"
+import style from "./index.scss"
+import classnames from "classnames"
+import Utils from "@/help"
+import ReactPlayer from "react-player"
+import store from "@/help/localStorage"
+import PlayRate from "@/components/PlayRate"
 
 interface PlayerInterface {
-  loaded?:number
-  loadedSeconds?:number
-  played?:number
-  playedSeconds?:number
+  loaded?: number
+  loadedSeconds?: number
+  played?: number
+  playedSeconds?: number
 }
 
 type Props = {
   $app: any
 }
-const Footer: FC<Props> = props => {
-  const {isPlay, songObj, playerObj, showPlayer, volume,playMode,playerRate,showPlayRecord} = props.$app.state
+const Footer: FC<Props> = (props) => {
+  const {
+    isPlay,
+    songObj,
+    playerObj,
+    showPlayer,
+    volume,
+    playMode,
+    playerRate,
+    showPlayRecord,
+  } = props.$app.state
   const [lastVolume, setLastVolume] = useState(0)
-  const playRef:any =useRef(null)
+  const playRef: any = useRef(null)
 
   useEffect(() => {
-    const volume = JSON.parse(store.getStorage('volume') as string)
+    const volume = JSON.parse(store.getStorage("volume") as string)
     appState.setVolume(volume)
-  }, [store.getStorage('volume')])
+  }, [store.getStorage("volume")])
 
   const handleSlider = (value: any) => {
     playRef.current.seekTo(value)
     return appState.setPlayerObj({
       ...playerObj,
-      playedSeconds: value
+      playedSeconds: value,
     })
   }
 
-  const onRate = (e:any) => {
+  const onRate = (e: any) => {
     return appState.setPlayRate(+e.target.value)
   }
 
@@ -60,16 +75,15 @@ const Footer: FC<Props> = props => {
     return appState.setVolume(lastVolume)
   }
 
-
   const onStart = () => {
-    console.log('播放')
+    console.log("播放")
   }
 
   const onPause = () => {
-    console.log('暂停')
+    console.log("暂停")
   }
   const onDuration = (time: any) => {
-    console.log('时间:' + time + 's')
+    console.log("时间:" + time + "s")
   }
   const onProgress = (state: PlayerInterface) => {
     console.log("onProgress", state.loaded)
@@ -146,9 +160,9 @@ const Footer: FC<Props> = props => {
               className={classnames(style.common, style.now)}
               onClick={() => appState.setStopPlay(!appState.state.isPlay)}>
               {isPlay ? (
-                <PauseCircleOutlined className={style.pause}/>
+                <PauseOutlined className={style.pause} />
               ) : (
-                <CaretRightOutlined className={style.caret}/>
+                <CaretRightOutlined className={style.caret} />
               )}
             </div>
             <div className={classnames(style.common, style.next)}>
@@ -164,16 +178,17 @@ const Footer: FC<Props> = props => {
               <Radio.Button value={2}>2x</Radio.Button>
             </Radio.Group>
           </div>
+
           <div className={style.operating}>
-            <Icon type="share-alt" />
+            <ShareAltOutlined />
             <PlayRate />
-            <Icon type="ordered-list" onClick={() => appState.setShowPlayRecord(!showPlayRecord)} />
+            <OrderedListOutlined onClick={() => appState.setShowPlayRecord(!showPlayRecord)} />
             <div className={style.progress}>
-              <Icon
-                type={volume === 0 ? "notification" : "sound"}
-                className={style.voice}
-                onClick={onMute}
-              />
+              {volume === 0 ? (
+                <NotificationOutlined className={style.voice} onClick={onMute} />
+              ) : (
+                <SoundOutlined className={style.voice} onClick={onMute} />
+              )}
               <Slider
                 onChange={onVolume}
                 min={0}
@@ -185,7 +200,7 @@ const Footer: FC<Props> = props => {
               />
             </div>
             <a href="https://github.com/YJKZHUZHU/react-web-cloud-music" target="_blank">
-              <Icon type="github" />
+              <GithubOutlined />
             </a>
           </div>
         </div>

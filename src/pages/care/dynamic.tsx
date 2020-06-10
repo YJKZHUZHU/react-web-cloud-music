@@ -1,6 +1,7 @@
 import React, {FC, useEffect, useState} from "react"
 import {Subscribe} from "@/Appcontainer"
-import {List, Avatar, Button, Skeleton, Divider, message, Icon} from "antd"
+import { DeleteOutlined, LikeOutlined, UserOutlined } from '@ant-design/icons';
+import { List, Avatar, Button, Skeleton, Divider, message } from "antd";
 import {Link} from "umi"
 import classnames from "classnames"
 import Utils from "@/help/index"
@@ -64,7 +65,7 @@ const Dynamic: FC<Props> = (props) => {
             <List.Item className={styles.item}>
               <List.Item.Meta
                 avatar={
-                  <Avatar shape="square" size={64} icon="user" src={items.song.album.picUrl} />
+                  <Avatar shape="square" size={64} icon={<UserOutlined />} src={items.song.album.picUrl} />
                 }
                 title={items.song.album.name}
                 description={<span>{artistsName}</span>}
@@ -75,18 +76,18 @@ const Dynamic: FC<Props> = (props) => {
         <div className={styles.operator}>
           {item.info.liked ? (
             <div className={styles.linkNumber} onClick={() => commentLike(item.info, 0)}>
-              <Icon className={styles.active} type="like" />
+              <LikeOutlined className={styles.active} />
               <span>{`(${item.info.likedCount})`}</span>
             </div>
           ) : (
-            <Icon className={styles.active} type="like" onClick={() => commentLike(item.info, 1)} />
+            <LikeOutlined className={styles.active} onClick={() => commentLike(item.info, 1)} />
           )}
 
           <Divider type="vertical" className={classnames(styles.divider, styles.diff)} />
-          <Icon type="delete" onClick={() => onDel(item.info.resourceId)} />
+          <DeleteOutlined onClick={() => onDel(item.info.resourceId)} />
         </div>
       </div>
-    )
+    );
   }
   const title = (item: any) => {
     return (

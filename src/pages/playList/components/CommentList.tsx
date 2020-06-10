@@ -1,5 +1,6 @@
 import React, {FC, useEffect, useState} from 'react'
-import {Avatar, Icon, Divider, Pagination} from 'antd'
+import { UserOutlined ,LikeFilled, LikeOutlined} from '@ant-design/icons';
+import { Avatar, Divider, Pagination } from 'antd';
 import {Link} from "umi"
 import styles from '../index.scss'
 import moment from 'moment'
@@ -63,34 +64,30 @@ const CommentList: FC<Props> = props => {
             <div key={item.commentId}>
               <div className={styles.content}>
                 <div className={styles.img}>
-                  <Avatar src={item.user.avatarUrl} icon='user'/>
+                  <Avatar src={item.user.avatarUrl} icon={<UserOutlined />} />
                 </div>
                 <div className={styles.right}>
                   <p className={styles.name}>
-                    <Link to='/' className={styles.link}>
+                    <Link to="/" className={styles.link}>
                       <span>{item.user.nickname}</span>:
                     </Link>
                     <span className={styles.title}>{item.content}</span>
                   </p>
                   <div className={styles.time}>
-                 <span>
-                   {Utils.commentFormatTime(item.time)}
-                 </span>
+                    <span>{Utils.commentFormatTime(item.time)}</span>
                     <div className={styles.like}>
-                      <Icon
-                        type="like"
-                        className={styles.likeIcon}
-                        theme={item.liked ? 'filled' : 'outlined'}
-                        // onClick={this.like}
-                      />
+                      {item.liked ? (
+                        <LikeFilled className={styles.likeIcon} />
+                      ) : (
+                        <LikeOutlined className={styles.likeIcon} />
+                      )}
                       <i className={styles.number}>{item.likedCount}</i>
                     </div>
                   </div>
                 </div>
               </div>
-              <Divider style={{margin: '5px 0'}}/>
+              <Divider style={{margin: "5px 0"}} />
             </div>
-
           )
         })
       }
@@ -105,7 +102,7 @@ const CommentList: FC<Props> = props => {
           </div> : null
       }
     </div>
-  )
+  );
 }
 
 export default CommentList

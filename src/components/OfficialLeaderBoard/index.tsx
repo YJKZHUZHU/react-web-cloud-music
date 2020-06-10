@@ -1,5 +1,6 @@
 import React, {FC, useEffect, useState} from 'react'
-import {Icon, Row, Col} from 'antd'
+import { CaretRightOutlined, RightOutlined } from '@ant-design/icons';
+import { Row, Col } from 'antd';
 import {Link} from "umi"
 import moment from 'moment'
 import styles from './index.scss'
@@ -45,7 +46,7 @@ const OfficialLeaderBoard: FC<Props> = () => {
                     <p>最近更新：{moment(item.playlist.updateTime).format('MM-DD')}日更新</p>
                   </div>
                   <div className={styles.icon}>
-                    <Icon type="caret-right" onClick={() => Song.getSongUrl(item.playlist.tracks[0].id)}/>
+                    <CaretRightOutlined onClick={() => Song.getSongUrl(item.playlist.tracks[0].id)} />
                   </div>
                 </div>
                 <ul className={styles.list}>
@@ -80,18 +81,18 @@ const OfficialLeaderBoard: FC<Props> = () => {
                 <p className={styles.link}>
                   <Link to='/'>
                     查看全部
-                    <Icon type="right"/>
+                    <RightOutlined />
                   </Link>
 
                 </p>
               </div>
             </Col>
-          )
+          );
         })
       }
 
     </Row>
-  )
+  );
 }
 
 export default OfficialLeaderBoard

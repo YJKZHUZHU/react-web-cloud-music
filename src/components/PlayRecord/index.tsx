@@ -1,5 +1,6 @@
 import React ,{FC}from 'react'
-import {Tabs,Icon,Divider,Table} from 'antd'
+import { DeleteOutlined, FileAddOutlined, HistoryOutlined } from '@ant-design/icons';
+import { Tabs, Divider, Table } from 'antd';
 import styles from './index.scss'
 const {TabPane} = Tabs
 
@@ -14,20 +15,20 @@ const PlayRecord:FC = () => {
         <div className={styles.right}>
           {isCollect && (
             <p className={styles.delete}>
-              <Icon type="file-add" />
+              <FileAddOutlined />
               <span>收藏全部</span>
             </p>
           )}
           <Divider type='vertical' />
           {isDelete && (
             <p className={styles.delete}>
-              <Icon type="delete" />
+              <DeleteOutlined />
               <span>清空</span>
             </p>
           )}
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -35,7 +36,7 @@ const PlayRecord:FC = () => {
       <TabPane
         tab={
           <span>
-          <Icon type="history" />
+          <HistoryOutlined />
           播放列表
         </span>
         }
@@ -47,7 +48,7 @@ const PlayRecord:FC = () => {
       <TabPane
         tab={
           <span>
-          <Icon type="history" />
+          <HistoryOutlined />
           本地历史
         </span>
         }
@@ -58,7 +59,7 @@ const PlayRecord:FC = () => {
       <TabPane
         tab={
           <span>
-          <Icon type="history" />
+          <HistoryOutlined />
           近一周历史
         </span>
         }
@@ -67,7 +68,7 @@ const PlayRecord:FC = () => {
         Tab 2
       </TabPane>
     </Tabs>
-  )
+  );
 }
 
 export default PlayRecord

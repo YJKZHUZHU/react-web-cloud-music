@@ -4,9 +4,7 @@ import Utils from '@/help/index'
 import moment from 'moment'
 import API from '@/api'
 import {appState} from '@/models/gloable'
-import {history} from 'umi'
 import store from '@/help/localStorage'
-import PlayList from '@/pages/playList'
 // import './ripple.js'
 
 moment.locale(window.navigator.language)
@@ -37,12 +35,14 @@ const getUserInfo = async () => {
 export function onRouteChange(props: RouterInterface) {
   NProgress.start()
 
+  console.log(props)
+
   if (props.location.key !== lastKey) {
     lastKey = props.location.pathname
     NProgress.done()
   }
-  //首次加载undefined
-  if (!props.action) {
+  //从地址栏输入，请求最新状态
+  if (props.action === 'POP') {
     getUserInfo().then(r => r)
     if (!store.getStorage('theme')) {
       store.setStorage('theme', 'red')

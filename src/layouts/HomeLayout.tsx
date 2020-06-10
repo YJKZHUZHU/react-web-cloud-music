@@ -4,7 +4,7 @@ import Header from '@/components/Header'
 import styles from './index.scss'
 import {NavLink} from "umi"
 import {Subscribe} from '@/Appcontainer'
-import {Drawer, Icon, Spin} from 'antd'
+import { Drawer, Spin } from 'antd';
 import PlayRecord from '@/components/PlayRecord'
 import PlayerLayout from '@/components/PlayerLayout'
 import Menu from '@/layouts/Menu'

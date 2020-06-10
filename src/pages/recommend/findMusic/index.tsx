@@ -1,5 +1,6 @@
 import React, {FC, useEffect, useState} from 'react'
-import {Tabs, Icon, Divider, Row, Col} from 'antd'
+import { RightOutlined } from '@ant-design/icons';
+import { Tabs, Divider, Row, Col } from 'antd';
 import CarouselImg from '@/components/Carousel'
 import RecommendedSongList from '@/components/RecommendedSongList'
 import NewMusic from '@/components/NewMusic'
@@ -61,7 +62,7 @@ const FindMusic: FC = props => {
             <Link to='/'>
               <span>
                 <i>更多</i>
-                <Icon type="right"/>
+                <RightOutlined />
               </span>
             </Link>
           </div>
@@ -84,7 +85,7 @@ const FindMusic: FC = props => {
             <Link to='/'>
               <span>
                 <i>更多</i>
-                <Icon type="right"/>
+                <RightOutlined />
               </span>
             </Link>
           </div>
@@ -127,7 +128,7 @@ const FindMusic: FC = props => {
         <LatestMusic/>
       </TabPane>
     </Tabs>
-  )
+  );
 }
 
 export default FindMusic

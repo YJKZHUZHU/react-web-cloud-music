@@ -1,5 +1,6 @@
 import React, {FC, useState, useEffect} from 'react'
-import {Radio, Tabs, message, List, Avatar, Col, Row, Icon} from 'antd'
+import { VideoCameraOutlined } from '@ant-design/icons';
+import { Radio, Tabs, message, List, Avatar, Col, Row } from 'antd';
 import API from '@/api'
 import moment from 'moment'
 import {history} from "umi"
@@ -24,14 +25,14 @@ const MvList: FC<Props> = ({data}) => {
         <img src={data.coverUrl} alt={data.coverUrl}/>
       </div>
       <p className={styles.player}>
-        <Icon type="video-camera"/>
+        <VideoCameraOutlined />
         <span>{Utils.tranNumber(data.playTime,2)}</span>
       </p>
       <p className={styles.time}>{Utils.formatPlayerTime(data.durationms / 1000)}</p>
       <p className={styles.title}>{data.title}</p>
       <p className={styles.singer}>{singer}</p>
     </div>
-  )
+  );
 }
 
 const Collect: FC = (props) => {
