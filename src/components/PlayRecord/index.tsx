@@ -1,14 +1,56 @@
-import React ,{FC}from 'react'
-import { DeleteOutlined, FileAddOutlined, HistoryOutlined } from '@ant-design/icons';
-import { Tabs, Divider, Table } from 'antd';
-import styles from './index.scss'
+/** @format */
+
+import React, {FC,useState,useEffect} from "react"
+import {DeleteOutlined, FileAddOutlined, HistoryOutlined} from "@ant-design/icons"
+import {Tabs, Divider, Table} from "antd"
+import styles from "./index.scss"
+import {Subscribe} from "@/Appcontainer"
+import Utils from "@/help/index"
+import Song from "@/help/getSongInfo"
 const {TabPane} = Tabs
 
+const columns: any[] = [
+  {
+    title: "音乐标题",
+    dataIndex: "name",
+    key: "name",
+    align: "center",
+    ellipsis: true
+  },
+  {
+    title: "歌手",
+    dataIndex: "singer",
+    key: "singer",
+    align: "center",
+    ellipsis: true,
+    render: (text: any, record: any) => Utils.formatName(record.ar)
+  },
+  {
+    title: "时长",
+    dataIndex: "dt",
+    key: "dt",
+    align: "center",
+    render: (text: any) => Utils.formatSeconds(text),
+    width: 150
+  }
+]
 
+const allRecordsColumns: any[] = [
+  ...columns,
+  {
+    title: "播放次数",
+    dataIndex: "playCount",
+    key: "playCount",
+    align: "center",
+    ellipsis: true
+  }
+]
 
-const PlayRecord:FC = () => {
+const PlayRecord: FC<any> = (props) => {
+  const {playRecord, allPlayRecord, playHistory} = props.$app.state
+  console.log(playHistory)
 
-  const header = (total:number,isDelete:boolean=true,isCollect:boolean = true) => {
+  const header = (total: number, isDelete: boolean = true, isCollect: boolean = true) => {
     return (
       <div className={styles.header}>
         <p className={styles.left}>总共{total}首</p>
@@ -19,7 +61,7 @@ const PlayRecord:FC = () => {
               <span>收藏全部</span>
             </p>
           )}
-          <Divider type='vertical' />
+          <Divider type="vertical" />
           {isDelete && (
             <p className={styles.delete}>
               <DeleteOutlined />
@@ -28,47 +70,82 @@ const PlayRecord:FC = () => {
           )}
         </div>
       </div>
-    );
+    )
   }
 
+  const onTab = (key:any) => {
+    console.log(key)
+  }
   return (
-    <Tabs defaultActiveKey="1" className={styles._playRecord}>
+    <Tabs defaultActiveKey="1" className={styles._playRecord} onChange={onTab}>
       <TabPane
         tab={
           <span>
-          <HistoryOutlined />
-          播放列表
-        </span>
+            <HistoryOutlined />
+            播放列表
+          </span>
         }
-        key="1"
-      >
-        {header(18)}
-        <Divider className={styles.divider}/>
+        key="1">
+        {header(playRecord.length)}
+        <Divider className={styles.divider} />
+        <Table
+          columns={columns}
+          rowKey={(record) => record.id}
+          dataSource={playRecord}
+          pagination={false}
+          onRow={(record: any) => {
+            return {
+              onDoubleClick: () => Song.getSongUrl(record.id)
+            }
+          }}
+        />
       </TabPane>
       <TabPane
         tab={
           <span>
-          <HistoryOutlined />
-          本地历史
-        </span>
+            <HistoryOutlined />
+            历史记录
+          </span>
         }
-        key="2"
-      >
-        Tab 2
+        key="2">
+        {header(allPlayRecord.length)}
+        <Divider className={styles.divider} />
+        <Table
+          columns={allRecordsColumns}
+          rowKey={(record: any) => record.id}
+          dataSource={Utils.formatAllRecord(allPlayRecord)}
+          pagination={false}
+          onRow={(record: any) => {
+            return {
+              onDoubleClick: () => Song.getSongUrl(record.id)
+            }
+          }}
+        />
       </TabPane>
       <TabPane
         tab={
           <span>
-          <HistoryOutlined />
-          近一周历史
-        </span>
+            <HistoryOutlined />
+            播放记录
+          </span>
         }
-        key="3"
-      >
-        Tab 2
+        key="3">
+        {header(playHistory.length)}
+        <Divider className={styles.divider} />
+        <Table
+          columns={columns}
+          rowKey={(record) => record.id}
+          dataSource={playHistory}
+          pagination={false}
+          onRow={(record: any) => {
+            return {
+              onDoubleClick: () => Song.getSongUrl(record.id)
+            }
+          }}
+        />
       </TabPane>
     </Tabs>
-  );
+  )
 }
 
-export default PlayRecord
+export default Subscribe(PlayRecord)

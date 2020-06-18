@@ -1,39 +1,47 @@
+/** @format */
+
 import React, {FC, useEffect, useState, Fragment, useMemo} from "react"
-import { HeartOutlined, PlayCircleOutlined } from '@ant-design/icons';
-import { Table, message } from "antd";
+import {HeartOutlined, PlayCircleOutlined} from "@ant-design/icons"
+import {Table, message} from "antd"
 import API, {ResInterface} from "@/api"
 import Utils from "@/help"
 import {ColumnProps} from "antd/es/table"
 import {Subscribe} from "@/Appcontainer"
 import styles from "../index.scss"
 import Song from "@/help/getSongInfo"
-import {RouteData} from "umi"
-
-
+import {appState} from "@/models/gloable"
 
 type Props = {
   trackIds?: any
   tracks?: any
   $app: any
-  location: RouteData
+  location: any
   searchValue: string
+  getRecord: (record: any) => void
 }
 
-const TableList: FC<Props> = ({trackIds = [], searchValue = "", tracks = [], $app, location}) => {
+const TableList: FC<Props> = ({
+  trackIds = [],
+  searchValue = "",
+  getRecord,
+  tracks = [],
+  $app,
+  location
+}) => {
   const [tableData, setTableData] = useState([])
 
   const getData = () => {
     if (trackIds.length !== 0) {
       API.song({ids: trackIdsStr, loading: true}).then((res: ResInterface) => {
         if (res.code === 200) {
-          console.log(res.songs)
           setTableData(res.songs)
+          getRecord(res.songs)
         }
       })
     }
   }
 
-  const columns: any = [
+  const columns: any[] = [
     {
       title: "操作",
       dataIndex: "operator",
@@ -47,16 +55,16 @@ const TableList: FC<Props> = ({trackIds = [], searchValue = "", tracks = [], $ap
             {record.mv ? <PlayCircleOutlined className={styles.playIcon} /> : null}
             {/*<Icon type="play-circle" className={styles.playIcon} onClick={() => Song.getSongUrl(record.id)}/>*/}
           </div>
-        );
+        )
       },
-      width: 100,
+      width: 100
     },
     {
       title: "音乐标题",
       dataIndex: "name",
       key: "name",
       align: "left",
-      ellipsis: true,
+      ellipsis: true
     },
     {
       title: "歌手",
@@ -64,7 +72,7 @@ const TableList: FC<Props> = ({trackIds = [], searchValue = "", tracks = [], $ap
       key: "singer",
       align: "left",
       ellipsis: true,
-      render: (text: any, record: any) => Utils.formatName(record.ar),
+      render: (text: any, record: any) => Utils.formatName(record.ar)
     },
     {
       title: "专辑",
@@ -72,7 +80,7 @@ const TableList: FC<Props> = ({trackIds = [], searchValue = "", tracks = [], $ap
       key: "album",
       align: "left",
       ellipsis: true,
-      render: (text: any, record: any) => record.al.name,
+      render: (text: any, record: any) => record.al.name
     },
     {
       title: "时长",
@@ -80,8 +88,8 @@ const TableList: FC<Props> = ({trackIds = [], searchValue = "", tracks = [], $ap
       key: "dt",
       align: "left",
       render: (text: any) => Utils.formatSeconds(text),
-      width: 150,
-    },
+      width: 150
+    }
   ]
 
   const trackIdsStr = useMemo(() => {
@@ -96,7 +104,7 @@ const TableList: FC<Props> = ({trackIds = [], searchValue = "", tracks = [], $ap
     <Table
       onRow={(record: any) => {
         return {
-          onDoubleClick: () => Song.getSongUrl(record.id),
+          onDoubleClick: () => Song.getSongUrl(record.id)
         }
       }}
       columns={columns}

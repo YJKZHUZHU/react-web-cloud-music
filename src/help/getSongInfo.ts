@@ -7,7 +7,6 @@ import {message} from 'antd'
 class Song {
   static getSongUrl = (id: number) =>  {
     if(id === 0){
-      console.log('点击了直播')
       return false
     }
     Promise.all(
@@ -17,6 +16,7 @@ class Song {
         API.getLyric({id})
       ]
     ).then(async (value: any) => {
+      console.log(value)
       if (value[0].code === 200 && value[1].code === 200 && value[2].code === 200) {
         await appState.setSongObj({
           url: value[0].data[0].url,
@@ -27,7 +27,7 @@ class Song {
           singerArr: value[1].songs[0].ar
         })
         await appState.setLyric(Utils.formatterLyric(value[2].lrc ? value[2].lrc.lyric : '' ))
-        await appState.setPlayHistory(id)
+        await appState.setPlayHistory(value[1])
         return appState.setStopPlay(true)
       }
       return message.error('获取歌曲发生异常，请稍后再试')

@@ -1,5 +1,6 @@
 import { Container } from 'unstated'
 import store from '@/help/localStorage'
+import Utils from '@/help/index'
 import PlayList from '@/pages/playList'
 export interface SingerInterface {
   alias?: any[]
@@ -26,19 +27,25 @@ export interface LyricInterface {
   lyc?: string
 }
 export interface PlayRecordInterface {
-  title:string
+  title: string
   singer: string
   time: string
-  id:number
+  id: number
   [propName: string]: any
 }
 
-export  enum playModeEnum {
+export interface AllPlayRecordInterface {
+  playCount: string
+  score: string
+  song: { [propName: string]: string }
+}
+
+export enum playModeEnum {
   InOrder,//顺序播放
   SingleCycle,//循环播放
   ShufflePlayback//随机播放
 }
-export  enum PlayerRateEnum {//倍速
+export enum PlayerRateEnum {//倍速
   Multiple_1 = 1,
   Multiple_1_2 = 1.2,
   Multiple_1_5 = 1.5,
@@ -62,9 +69,11 @@ export interface AppState {
   loginStatus?: boolean, //登录状态
   userId?: number | string //用户Id
   playList?: { creator: any[], favorite: any[] },
-  playHistory?:number[]//播放历史
+  playHistory?: PlayRecordInterface[]//播放历史
   showPlayRecord?: boolean
-  playRecord?:PlayRecordInterface[]
+  playRecord?: PlayRecordInterface[]
+  playRecordTip?: string
+  allPlayRecord: AllPlayRecordInterface[]
 }
 
 export default class AppContainer extends Container<AppState> {
@@ -85,9 +94,11 @@ export default class AppContainer extends Container<AppState> {
     loginStatus: false,
     userId: '',
     playList: { creator: [], favorite: [] },
-    playHistory:store.getValue('playHistory'),
+    playHistory: store.getValue('playHistory'),
     showPlayRecord: false,
-    playRecord:[]
+    playRecord: [],
+    playRecordTip: '',
+    allPlayRecord: []
   }
 
 
@@ -100,7 +111,7 @@ export default class AppContainer extends Container<AppState> {
     })
   }
 
-  setShowPlayRecord = (showPlayRecord:boolean) => this.setState({showPlayRecord})
+  setShowPlayRecord = (showPlayRecord: boolean) => this.setState({ showPlayRecord })
 
   setGlobalLoading = (globalLoading: boolean) => this.setState({ globalLoading })
 
@@ -142,12 +153,20 @@ export default class AppContainer extends Container<AppState> {
     })
   }
 
-  setPlayHistory = (id:number) => {
-    store.setValue('playHistory', [...new Set([...this.state.playHistory, id])])
+  setPlayHistory = (record: any) => {
+    const [songObj] = record.songs
+    const playHistory = Utils.removeRepeat([...store.getValue('playHistory'), songObj], 'id')
 
-    return this.setState({ playHistory: [...new Set([...this.state.playHistory, id])]})
+    store.setValue('playHistory', playHistory)
+
+    return this.setState({ playHistory })
   }
-  setPlayRecord = (playRecord:PlayRecordInterface[]) => this.setState({playRecord})
+  setPlayRecord = (playRecord: PlayRecordInterface[]) => {
+    this.setState({ playRecord: Utils.removeRepeat((this.state.playRecord?.concat(playRecord) as PlayRecordInterface[]), 'id') })
+  }
+  setPlayRecordTip = (tip: string) => this.setState({ playRecordTip: tip })
+
+  setAllPlayRecord = (allPlayRecord: AllPlayRecordInterface[]) => this.setState({ allPlayRecord })
 }
 
 export const appState = new AppContainer()

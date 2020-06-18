@@ -1,5 +1,5 @@
 import React, {FC, useState, useEffect, useRef} from "react"
-import {Progress, Slider, Radio} from "antd"
+import {Progress, Slider, Radio,Tooltip} from "antd"
 import {
   FullscreenOutlined,
   FullscreenExitOutlined,
@@ -43,6 +43,7 @@ const Footer: FC<Props> = (props) => {
     playMode,
     playerRate,
     showPlayRecord,
+    playRecordTip
   } = props.$app.state
   const [lastVolume, setLastVolume] = useState(0)
   const playRef: any = useRef(null)
@@ -101,7 +102,7 @@ const Footer: FC<Props> = (props) => {
           style={{
             padding: 0,
             margin: 0,
-            visibility: Object.keys(songObj).length !== 0 ? "visible" : "hidden",
+            visibility: Object.keys(songObj).length !== 0 ? "visible" : "hidden"
           }}
           value={playerObj.playedSeconds}
           defaultValue={0}
@@ -182,7 +183,10 @@ const Footer: FC<Props> = (props) => {
           <div className={style.operating}>
             <ShareAltOutlined />
             <PlayRate />
-            <OrderedListOutlined onClick={() => appState.setShowPlayRecord(!showPlayRecord)} />
+            <Tooltip title={playRecordTip} visible={!!playRecordTip}>
+              <OrderedListOutlined onClick={() => appState.setShowPlayRecord(!showPlayRecord)} />
+            </Tooltip>
+
             <div className={style.progress}>
               {volume === 0 ? (
                 <NotificationOutlined className={style.voice} onClick={onMute} />

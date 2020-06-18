@@ -12,7 +12,8 @@
     "no-console":[false],
     "no-unused-expression":[false],
     "no-var-requires":[false],
-    "no-unused-vars":[false]
+    "no-unused-vars":[false],
+    "no-string-literal":[false]
   },
   "rulesDirectory": []
 }

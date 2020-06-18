@@ -1,4 +1,3 @@
-import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import Utils from '@/help/index'
 import moment from 'moment'
@@ -16,12 +15,13 @@ interface RouterInterface {
   action: any
 }
 
-let lastKey = ''
 
 const getUserInfo = async () => {
   const Ret: any = await API.status({loading: true})
   if (Ret.code === 200) {
     const loginRet:any = await API.useInfo({uid: Ret.profile.userId})
+    const RecordRet = await API.getPlayRecord({ uid: Ret.profile.userId,type:0}) //type:0 所有 1 一周
+    await appState.setAllPlayRecord(RecordRet.allData)
     await appState.setLoginStatus(true)
     await appState.setUserInfo(loginRet)
     await appState.setUserId(loginRet.userPoint.userId)
@@ -33,14 +33,7 @@ const getUserInfo = async () => {
 }
 
 export function onRouteChange(props: RouterInterface) {
-  NProgress.start()
 
-  console.log(props)
-
-  if (props.location.key !== lastKey) {
-    lastKey = props.location.pathname
-    NProgress.done()
-  }
   //从地址栏输入，请求最新状态
   if (props.action === 'POP') {
     getUserInfo().then(r => r)

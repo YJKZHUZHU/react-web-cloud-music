@@ -1,5 +1,5 @@
 import store from './localStorage'
-import {appState, PlayerRateEnum} from '@/models/gloable'
+import { appState, PlayerRateEnum, AllPlayRecordInterface } from '@/models/gloable'
 import moment from 'moment'
 
 export interface ArInterface {
@@ -13,11 +13,11 @@ export interface PlayRecordItem {
   name?: string
   ar?: ArInterface[]
   time?: number
-  id?:number
+  id?: number
   [propName: string]: any
 }
 export interface LiricInterface {
-  lyc?:string
+  lyc?: string
   time?: number
 }
 
@@ -119,7 +119,7 @@ class Utils {
       let temp: string[] = decodeURIComponent(item).split(/\[(.+?)\]/).filter(item => item !== '')
       const lyContent = temp.pop()
       //去除最后一个空数组
-      if(temp.length !== 0){
+      if (temp.length !== 0) {
         temp.forEach((k) => {
           result.push({
             time: this.formatterLyricTime(k) as number,
@@ -139,13 +139,13 @@ class Utils {
       return 0
     }
     //八倍
-    return Math.max.apply(Math, lyric.map(function(o) {
+    return Math.max.apply(Math, lyric.map(function (o) {
       return (o.lyc as string).length
     })) * 8
   }
 
   //歌词时间格式化 00:00.000 -> 128 ms
-  static formatterLyricTime(timeStr: string):number {
+  static formatterLyricTime(timeStr: string): number {
     if (!timeStr) {
       return 0
     }
@@ -162,16 +162,16 @@ class Utils {
   static createRandomId() {
     return (Math.random() * 10000000).toString(16).substr(0, 4) + '-' + (new Date()).getTime() + '-' + Math.random().toString().substr(2, 5)
   }
-  //关键词高亮
 
-  static highLight(content:string){
+  //关键词高亮
+  static highLight(content: string) {
     const keywords = String(store.getStorage('keywords'))
-    const Reg = new RegExp(keywords,'gi')
+    const Reg = new RegExp(keywords, 'gi')
     return content.replace(Reg, `<span style="color: #5D73C5; ">${keywords}</span>`)
   }
 
   //评论时间格式化
-  static commentFormatTime(time:any) {
+  static commentFormatTime(time: any) {
     return moment(time).calendar(moment(), {
       sameDay: '[今天] HH:MM:ss',
       nextDay: '[明天]',
@@ -184,7 +184,7 @@ class Utils {
 
   //歌手序列化['华晨宇'，'张杰] -> 华晨宇/张杰
 
-  static formatName(name: ArInterface[] ,link = '/',target = 'name'){
+  static formatName(name: ArInterface[], link = '/', target = 'name') {
     return name.map(item => {
       return item[target]
     }).join(link)
@@ -194,14 +194,35 @@ class Utils {
   static formatPlayRecord(data: PlayRecordItem[]) {
     return data.map((item) => {
       return {
-        title:item.name,
+        title: item.name,
         singer: Utils.formatName(item.ar as object[]),
         time: Utils.formatSeconds(item.dt),
         id: item.id
       }
     })
   }
+
+  static formatAllRecord(record: AllPlayRecordInterface[]) {
+    return record.map(({ song, playCount, score }) => {
+      return {
+        playCount,
+        score,
+        ...song
+      }
+    })
+  }
+
+  // 数组对象去重
+  static removeRepeat(source: any[], target: string) {
+    let hash: any = {}
+    return source.reduce(function (memo, item) {
+      hash[item[target]] ? '' : hash[item[target]] = true && memo.push(item);
+      return memo
+    }, [])
+  }
 }
+
+
 
 
 

@@ -20,16 +20,14 @@ const HomeLayout: FC = (props: any) => {
 
   return (
     <div className={styles.home}>
-      <Spin spinning={globalLoading} delay={100} size='large' tip='资源请稍等，，，'>
-        <Header/>
+      <Spin spinning={globalLoading} delay={100} size="large" tip="资源请稍等，，，">
+        <Header />
         <main>
-          <Menu/>
+          <Menu />
           <article>
             <div className={styles.containerWrapper}>
               <Spin size="large" spinning={loading}>
-                {
-                  props.children
-                }
+                {props.children}
               </Spin>
             </div>
           </article>
@@ -41,13 +39,12 @@ const HomeLayout: FC = (props: any) => {
             getContainer={false}
             mask={false}
             style={{position: "absolute"}}>
-            <PlayRecord/>
+            <PlayRecord />
           </Drawer>
         </main>
-        <PlayerLayout/>
-        <Footer/>
+        <PlayerLayout />
+        <Footer />
       </Spin>
-
     </div>
   )
 }

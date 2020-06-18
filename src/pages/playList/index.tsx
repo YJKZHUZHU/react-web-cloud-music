@@ -1,36 +1,56 @@
-import React, {FC, useEffect, useState} from 'react'
-import API, { ResInterface } from '@/api'
-import styles from './index.scss'
-import { FolderAddOutlined, PlayCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import { Divider, Button, Tabs, Input, message } from 'antd';
-import {Link,history,RouteData} from "umi"
-import TableList from './components/ListTable'
-import CommentList from './components/CommentList'
-import Collection from './components/Collection'
-import moment from 'moment'
-import Utils from '@/help'
+/** @format */
+
+import React, {FC, useEffect, useState} from "react"
+import API, {ResInterface} from "@/api"
+import styles from "./index.scss"
+import {FolderAddOutlined, PlayCircleOutlined, PlusOutlined} from "@ant-design/icons"
+import {Divider, Button, Tabs, Input, message} from "antd"
+import {Link, history} from "umi"
+import TableList from "./components/ListTable"
+import CommentList from "./components/CommentList"
+import Collection from "./components/Collection"
+import moment from "moment"
+import Utils from "@/help"
+import {appState} from "@/models/gloable"
+import Song from "@/help/getSongInfo"
+import PlayRecord from "@/components/PlayRecord"
 
 const {TabPane} = Tabs
 const {Search} = Input
 
-type Props = {
-  location: RouteData
-}
+// type Props = {
+//   location: RouteData
+// }
 
-const PlayList: FC<Props> = props => {
-  const {listId} = props.location.query
+let playRecord: any[] = []
+
+const PlayList: FC = (props) => {
+  let times = 0
+
+  const {listId} = history.location.query
   const [playlist, setPlaylist] = useState<any>({})
   const [creator, setCreator] = useState<any>({})
   const [label, setLabel] = useState([])
   const [isSearch, setSearch] = useState(true)
-  const [searchValue, setSearchValue] = useState('')
+  const [searchValue, setSearchValue] = useState("")
 
-  const onTabs = (activeKey: string) => (+activeKey) === 1 ? setSearch(true) : setSearch(false)
+  const onTabs = (activeKey: string) => (+activeKey === 1 ? setSearch(true) : setSearch(false))
 
   const onPlayAll = () => {
-    console.log(111)
-  }
+    times++
+    if (times === 1) {
+      Song.getSongUrl(playRecord[0].id)
+      appState.setPlayRecordTip("歌单已更新")
+      return appState.setPlayRecord(playRecord)
+    }
 
+    message.info("已经添加过了哦")
+    return appState.setPlayRecordTip("")
+  }
+  const getRecord = (record: any) => {
+    console.log(record)
+    playRecord = record
+  }
 
   useEffect(() => {
     API.playList({id: listId, loading: true}).then((res: ResInterface) => {
@@ -43,7 +63,6 @@ const PlayList: FC<Props> = props => {
         ...res.playlist.creator
       })
       setLabel(res.playlist.creator.expertTags || res.playlist.tags || [])
-      console.log(res)
       // appState.setPlayRecord(res.playlist)
     })
   }, [listId])
@@ -83,16 +102,12 @@ const PlayList: FC<Props> = props => {
             </span>
           </div>
           <div className={styles.btnGroup}>
-            <Button.Group className={styles.playAll}>
-              <Button onClick={onPlayAll}>
-                <PlayCircleOutlined />
-                播放全部
-              </Button>
-              <Button onClick={onPlayAll}>
-                <PlusOutlined />
-              </Button>
-            </Button.Group>
-            <Button>
+            <Button onClick={onPlayAll} type="primary" className={styles.playAll}>
+              <PlayCircleOutlined />
+              播放全部
+              <PlusOutlined />
+            </Button>
+            <Button type="primary">
               <FolderAddOutlined />
               收藏({playlist.subscribedCount})
             </Button>
@@ -138,6 +153,7 @@ const PlayList: FC<Props> = props => {
             trackIds={playlist.trackIds}
             tracks={playlist.tracks}
             searchValue={searchValue}
+            getRecord={getRecord}
           />
         </TabPane>
         <TabPane tab={playlist.commentCount ? `评论(${playlist.commentCount})` : "评论"} key="2">
@@ -148,7 +164,7 @@ const PlayList: FC<Props> = props => {
         </TabPane>
       </Tabs>
     </div>
-  );
+  )
 }
 
 export default PlayList
