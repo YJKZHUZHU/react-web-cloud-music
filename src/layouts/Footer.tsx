@@ -1,5 +1,8 @@
+/** @format */
+
 import React, {FC, useState, useEffect, useRef} from "react"
-import {Progress, Slider, Radio,Tooltip} from "antd"
+import {Slider, Radio, Tooltip} from "antd"
+import Song from "@/help/getSongInfo"
 import {
   FullscreenOutlined,
   FullscreenExitOutlined,
@@ -12,9 +15,10 @@ import {
   NotificationOutlined,
   SoundOutlined,
   GithubOutlined,
-  PauseOutlined,
+  PauseOutlined
 } from "@ant-design/icons"
 import {Subscribe} from "@/Appcontainer"
+import usePlayRecord from "@/hooks/usePlayRecord"
 import {appState} from "@/models/gloable"
 import style from "./index.scss"
 import classnames from "classnames"
@@ -33,6 +37,7 @@ interface PlayerInterface {
 type Props = {
   $app: any
 }
+let currentId: string = ""
 const Footer: FC<Props> = (props) => {
   const {
     isPlay,
@@ -43,10 +48,14 @@ const Footer: FC<Props> = (props) => {
     playMode,
     playerRate,
     showPlayRecord,
-    playRecordTip
+    playRecordTip,
+    playHistory,
+    playRecord,
+    allPlayRecord
   } = props.$app.state
   const [lastVolume, setLastVolume] = useState(0)
   const playRef: any = useRef(null)
+  const list = usePlayRecord(props.$app.state)
 
   useEffect(() => {
     const volume = JSON.parse(store.getStorage("volume") as string)
@@ -57,7 +66,7 @@ const Footer: FC<Props> = (props) => {
     playRef.current.seekTo(value)
     return appState.setPlayerObj({
       ...playerObj,
-      playedSeconds: value,
+      playedSeconds: value
     })
   }
 
@@ -80,6 +89,13 @@ const Footer: FC<Props> = (props) => {
     console.log("播放")
   }
 
+  const onPlayBtn = () => {
+    appState.setStopPlay(!appState.state.isPlay)
+    if (!songObj.id) {
+      Song.getSongUrl(list[0]["id"])
+    }
+  }
+
   const onPause = () => {
     console.log("暂停")
   }
@@ -90,10 +106,38 @@ const Footer: FC<Props> = (props) => {
     console.log("onProgress", state.loaded)
     return appState.setPlayerObj({
       ...state,
-      playedSeconds: state.playedSeconds,
+      playedSeconds: state.playedSeconds
     })
   }
 
+  const onRecord = () => {
+    appState.setShowPlayRecord(!showPlayRecord)
+    appState.setPlayRecordTip("")
+  }
+
+  const onPlay = (type: number) => {
+    // type: 0上一首 type:1 下一首
+    let songId: any = ""
+    const index = Utils.findIndex(list, songObj.id, playMode)
+    if (index === -1) {
+      songId = list[0]["id"]
+    } else {
+      if (+playMode === 0) {
+        // 顺序播放以及循环播放
+        if (type === 0) {
+          songId = index === 0 ? list[list.length - 1]["id"] : list[index - 1]["id"]
+        } else if (type === 1) {
+          songId = index === list.length - 1 ? list[0]["id"] : list[index + 1]["id"]
+        }
+        Song.getSongUrl(songId)
+      } else if (+playMode === 2) {
+        // 随机播放
+        songId = list[index]["id"]
+      }
+    }
+
+    Song.getSongUrl(songId)
+  }
   return (
     <footer className={style._footer}>
       <div className={style.footerContainer}>
@@ -154,19 +198,19 @@ const Footer: FC<Props> = (props) => {
             </div>
           </div>
           <div className={style.playBtnGroup}>
-            <div className={classnames(style.common, style.last)}>
+            {/* 上一曲 */}
+            <div className={classnames(style.common, style.last)} onClick={() => onPlay(0)}>
               <StepBackwardOutlined />
             </div>
-            <div
-              className={classnames(style.common, style.now)}
-              onClick={() => appState.setStopPlay(!appState.state.isPlay)}>
+            <div className={classnames(style.common, style.now)} onClick={onPlayBtn}>
               {isPlay ? (
                 <PauseOutlined className={style.pause} />
               ) : (
                 <CaretRightOutlined className={style.caret} />
               )}
             </div>
-            <div className={classnames(style.common, style.next)}>
+            {/* 下一曲 */}
+            <div className={classnames(style.common, style.next)} onClick={() => onPlay(1)}>
               <StepForwardOutlined />
             </div>
           </div>
@@ -184,7 +228,7 @@ const Footer: FC<Props> = (props) => {
             <ShareAltOutlined />
             <PlayRate />
             <Tooltip title={playRecordTip} visible={!!playRecordTip}>
-              <OrderedListOutlined onClick={() => appState.setShowPlayRecord(!showPlayRecord)} />
+              <OrderedListOutlined onClick={onRecord} />
             </Tooltip>
 
             <div className={style.progress}>

@@ -1,43 +1,49 @@
-import React, {FC, useEffect, useState, Fragment, useRef} from 'react'
-import styles from './index.scss'
-import classnames from 'classnames'
-import {Subscribe} from '@/Appcontainer'
-import BScroll from '@better-scroll/core'
-import ScrollBar from '@better-scroll/scroll-bar'
-import MouseWheel from '@better-scroll/mouse-wheel'
-import Utils from '@/help'
+/** @format */
 
+import React, {FC, useEffect, useState, Fragment, useRef} from "react"
+import styles from "./index.scss"
+import classnames from "classnames"
+import {Subscribe} from "@/Appcontainer"
+import BScroll from "@better-scroll/core"
+import ScrollBar from "@better-scroll/scroll-bar"
+import MouseWheel from "@better-scroll/mouse-wheel"
+import Ripple from "Ripple"
+import Utils from "@/help"
 
 BScroll.use(ScrollBar)
 BScroll.use(MouseWheel)
 
-
 type Props = {
   $app: any
 }
-const PlayerLayout: FC<Props> = props => {
+const PlayerLayout: FC<Props> = (props) => {
   const {lyric, songObj, isPlay, playerObj, showPlayer} = props.$app.state
   const [scroller, setScroller] = useState(null)
   const [rd, setRd] = useState<any>(null)
   const imgContainerRef: any = useRef(null)
-
 
   const activeLyricIndex = (index: number) => {
     return index === findLyricIndex()
   }
 
   const detectDeviceType = () => {
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? 'Mobile' : 'Desktop'
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent
+    )
+      ? "Mobile"
+      : "Desktop"
   }
 
-
   const findLyricIndex = () => {
-    return lyric ? lyric.findIndex((l: any, index: number) => {
-      const nestLyric = lyric[index + 1]
-      return (
-        playerObj.playedSeconds >= l.time && (nestLyric ? playerObj.playedSeconds < nestLyric.time : true)
-      )
-    }) : -1
+    return lyric
+      ? lyric.findIndex((l: any, index: number) => {
+          const nestLyric = lyric[index + 1]
+          return (
+            playerObj.playedSeconds >= l.time &&
+            (nestLyric ? playerObj.playedSeconds < nestLyric.time : true)
+          )
+        })
+      : -1
   }
 
   //歌词滚动
@@ -45,14 +51,13 @@ const PlayerLayout: FC<Props> = props => {
     if (findLyricIndex() !== -1) {
       if (lyric && lyric[findLyricIndex()]) {
         // @ts-ignore
-        scroller.scrollToElement('.active', 200, 0, true)
+        scroller.scrollToElement(".active", 200, 0, true)
       }
     }
   }
 
   useEffect(() => {
-
-    const wrapper: any = document.querySelector('.playerWrapper')
+    const wrapper: any = document.querySelector(".playerWrapper")
     //选中DOM中定义的 .wrapper 进行初始化
     const scroller: any = new BScroll(wrapper, {
       mouseWheel: true,
@@ -63,21 +68,26 @@ const PlayerLayout: FC<Props> = props => {
       click: true
     })
     setScroller(scroller)
-    if(rd){
-      isPlay ? rd.animate() :rd.cancelAnimate()
+    if (rd) {
+      isPlay ? rd.animate() : rd.cancelAnimate()
     }
   }, [isPlay])
 
   useEffect(() => {
     const mobileOption = {
-      size: parseInt(imgContainerRef.current.offsetWidth),
-      radius: .25,
+      size: parseInt(imgContainerRef.current.offsetWidth,10),
+      radius: 0.25,
       rippeWidth: 2,
       pointRadius: 4
     }
     const timers = setTimeout(() => {
-      const Ripple = window.Ripple
-      const rdx = new Ripple('#ripple', Object.assign({cover: songObj.backgroundImg}, detectDeviceType() === 'Mobile' ? mobileOption : {}))
+      const rdx = new Ripple(
+        "#ripple",
+        Object.assign(
+          {cover: songObj.backgroundImg},
+          detectDeviceType() === "Mobile" ? mobileOption : {}
+        )
+      )
       setRd(rdx)
       rdx.animate()
     }, 500)
@@ -90,22 +100,18 @@ const PlayerLayout: FC<Props> = props => {
     scroller && scrollToActiveLyric()
   }, [scrollToActiveLyric, scroller])
 
-
   return (
     <div className={classnames(styles._playerLayout, showPlayer ? styles.show : styles.hide)}>
       <div className={styles.lyric}>
         <div className={styles.left}>
-          <img
-            className={styles.playBarSupport}
-            src={require('../../assets/player/node.png')}
-          />
+          <img className={styles.playBarSupport} src={require("../../assets/player/node.png")} />
           <img
             className={classnames(styles.playBar, isPlay ? styles.play : styles.stop)}
-            src={require('../../assets/player/bar.png')}
+            src={require("../../assets/player/bar.png")}
           />
           <div className={styles.imgOuterBorder}>
             <div className={styles.imgOuter} ref={imgContainerRef}>
-              <div id="ripple" className={styles.ripple}/>
+              <div id="ripple" className={styles.ripple} />
             </div>
           </div>
         </div>
@@ -116,28 +122,28 @@ const PlayerLayout: FC<Props> = props => {
           <div className={styles.middle}>
             <p className={styles.singer}>
               <span className={styles.name}>歌手：</span>
-              {
-                Object.keys(songObj).length !== 0 && songObj.singerArr.map((item: any, index: any) => {
-                  return <span
-                    key={Utils.createRandomId()}>{item.name}{songObj.singerArr.length === (index + 1) ? null : '/'}</span>
-                })
-              }
+              {Object.keys(songObj).length !== 0 &&
+                songObj.singerArr.map((item: any, index: any) => {
+                  return (
+                    <span key={Utils.createRandomId()}>
+                      {item.name}
+                      {songObj.singerArr.length === index + 1 ? null : "/"}
+                    </span>
+                  )
+                })}
             </p>
           </div>
-          <div className='playerWrapper'>
-            <div className='content'>
-              {
-                lyric.map((v: any, index: number) => {
-                  return (
-                    <div key={Utils.createRandomId()}
-                         className={classnames('wrapItem', {'active': activeLyricIndex(index)})}>
-                      <p className="title">
-                        {v.lyc}
-                      </p>
-                    </div>
-                  )
-                })
-              }
+          <div className="playerWrapper">
+            <div className="content">
+              {lyric.map((v: any, index: number) => {
+                return (
+                  <div
+                    key={Utils.createRandomId()}
+                    className={classnames("wrapItem", {active: activeLyricIndex(index)})}>
+                    <p className="title">{v.lyc}</p>
+                  </div>
+                )
+              })}
             </div>
           </div>
         </div>

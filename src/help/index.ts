@@ -220,7 +220,25 @@ class Utils {
       return memo
     }, [])
   }
+  //评论数格式化
+  static formatCommentNumber(commentNumber:number):string|number{
+    if(commentNumber < 999) return commentNumber
+    if(commentNumber > 100000) return '10w+'
+    return '999+'
+  }
+  static findIndex(source:any[],target:number | string,playMode:number){
+    let result = -1
+    const index = source.findIndex(item => item.id === target)
+    const arr = [...new Array(source.length).keys()].filter(item => item !== index)
+    if(playMode === 0){// 顺序播放
+      result = index
+    }else if(playMode === 2){// 随机播放
+      result = arr[parseInt(String(Math.random() * arr.length - 1),10)]
+    }
+    return result
+  }
 }
+
 
 
 

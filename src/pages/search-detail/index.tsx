@@ -4,6 +4,7 @@ import React, {FC, useState, useEffect} from "react"
 import {Tabs} from "antd"
 import Map from "@/help/map"
 import ScrollMore from "./components/ScrollMore"
+import {history} from 'umi'
 import styles from "./index.scss"
 import store from "@/help/localStorage"
 
@@ -17,7 +18,7 @@ interface HistoryInterface {
 const {TabPane} = Tabs
 
 const SearchDetail: FC<Props> = (props) => {
-  const {keywords, type} = props.location.query
+  const {keywords, type} = history.location.query
   const [activeKey, setActiveKey] = useState(String(type))
   const [count, setCount] = useState(0)
 

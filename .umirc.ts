@@ -24,7 +24,9 @@ const config: IConfig = {
     }
   },
   ignoreMomentLocale: true,
-  externals: {},
+  externals: {
+    Ripple: 'window.Ripple'
+  },
   devServer: {
     compress: true,
   },

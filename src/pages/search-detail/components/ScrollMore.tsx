@@ -5,10 +5,10 @@ import InfiniteScroll from 'react-infinite-scroller'
 import SingleList from './SingleList'
 import SingerList from './SingerList'
 import VideoList from './VideoList'
+import {history} from 'umi'
 import '../index.scss'
 
 type Props = {
-  location?: any,
   type: string | number,
   getCount: any
 }
@@ -26,7 +26,7 @@ const ScrollMore: FC<Props> = props => {
   const [count, setCount] = useState(0)
   const [loading, setLoading] = useState(false)
   const [hasMore, setHasMore] = useState(true)
-  const {keywords} = props.location.query
+  const {keywords} = history.location.query
   const {type, getCount} = props
   const [offset, setOffset] = useState(0)
   const limit = 30

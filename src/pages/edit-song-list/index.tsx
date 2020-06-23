@@ -35,7 +35,6 @@ const AddLabel: FC<Props> = (props, ref) => {
     if (nextSelectedTags.length > 3) {
       return false
     }
-    
     setSelectedTags(nextSelectedTags)
     setFieldsValue({tags: nextSelectedTags})
   }
@@ -123,7 +122,7 @@ const EditSongList: FC<Props> = (props) => {
   // const {getFieldDecorator} = props.form
   const [form] = Form.useForm()
   const {setFieldsValue,getFieldsValue} = form
-  const creatorItem = mapToForm(props.$app.state.playList.creator, props.location.query.id)
+  const creatorItem = mapToForm(props.$app.state.playList.creator, history.location.query.id)
 
   setFieldsValue({
     name: creatorItem?.name || '',
@@ -136,7 +135,7 @@ const EditSongList: FC<Props> = (props) => {
     const Ret: any = await API.playlistUpdate({
       ...values,
       tags: values.tags.join(";"),
-      id: props.location.query.id
+      id: history.location.query.id
     })
     const PlayListRet: any = await API.userPlaylist({uid: props.$app.state.userId})
     if (Ret.code !== 200 || PlayListRet.code !== 200) {
@@ -147,7 +146,7 @@ const EditSongList: FC<Props> = (props) => {
     history.push({
       pathname: "/playList",
       query: {
-        listId: props.location.query.id
+        listId: history.location.query.id
       }
     })
   }

@@ -48,7 +48,6 @@ const PlayList: FC = (props) => {
     return appState.setPlayRecordTip("")
   }
   const getRecord = (record: any) => {
-    console.log(record)
     playRecord = record
   }
 
@@ -156,8 +155,14 @@ const PlayList: FC = (props) => {
             getRecord={getRecord}
           />
         </TabPane>
-        <TabPane tab={playlist.commentCount ? `评论(${playlist.commentCount})` : "评论"} key="2">
-          <CommentList {...props} />
+        <TabPane
+          tab={
+            playlist.commentCount
+              ? `评论(${Utils.formatCommentNumber(playlist.commentCount)})`
+              : "评论"
+          }
+          key="2">
+          <CommentList />
         </TabPane>
         <TabPane tab="收藏者" key="3">
           <Collection {...props} subscribedCount={playlist.subscribedCount} />

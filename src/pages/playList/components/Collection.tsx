@@ -2,10 +2,10 @@ import React, {FC, useEffect, useState} from 'react'
 import API from '@/api'
 import { UserOutlined } from '@ant-design/icons';
 import {Col, Row, Avatar, Pagination} from 'antd'
+import {history} from 'umi'
 import styles from '../index.scss'
 
 type Props = {
-  location: any,
   subscribedCount?: number
 }
 
@@ -23,7 +23,7 @@ interface ParamInterface {
 
 
 const Collection: FC<Props> = props => {
-  const {listId} = props.location.query
+  const {listId} = history.location.query
   const initParam = {
     id: listId,
     limit: 60,
@@ -55,7 +55,7 @@ const Collection: FC<Props> = props => {
 
   return (
     <div className={styles.collection}>
-      <Row justify='start' type='flex'>
+      <Row justify='start'>
         {
           collectionList.map((item: ItemInterface) => {
             return (
