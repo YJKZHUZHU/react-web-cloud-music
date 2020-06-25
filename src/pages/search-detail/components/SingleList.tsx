@@ -3,6 +3,7 @@
 import React, {FC} from "react"
 import {DownloadOutlined, HeartOutlined, PlaySquareOutlined} from "@ant-design/icons"
 import {Table, Spin} from "antd"
+import {history} from 'umi'
 import styles from "../index.scss"
 import Utils from "@/help"
 import Song from "@/help/getSongInfo"
@@ -12,6 +13,7 @@ type Props = {
   loading: boolean
   hasMore: boolean
 }
+
 
 const SingleList: FC<Props> = (props) => {
   const {data = [], loading, hasMore} = props
@@ -45,7 +47,7 @@ const SingleList: FC<Props> = (props) => {
           <div className={styles.musicTitle}>
             <p>
               <span dangerouslySetInnerHTML={{__html: text && Utils.highLight(text)}} />
-              {record.mvid !== 0 && <PlaySquareOutlined className={styles.icon} />}
+              {!!record.mvid  ? <PlaySquareOutlined className={styles.icon} onClick={() => onMv(record.mvid)} /> : null}
             </p>
             {record.alias.length !== 0 ? (
               <p
@@ -102,6 +104,12 @@ const SingleList: FC<Props> = (props) => {
       width: 150
     }
   ]
+  const onMv = (mvid:string) => {
+    history.push({
+      pathname:'/recommend/video/mvDetail',
+      query:{mvid}
+    })
+  }
   return (
     <div>
       <Table

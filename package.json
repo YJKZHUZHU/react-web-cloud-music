@@ -22,7 +22,8 @@
     "react-player": "^1.15.2",
     "react-transition-group": "^4.3.0",
     "react-virtualized": "^9.21.2",
-    "unstated": "^2.1.1"
+    "unstated": "^2.1.1",
+    "video-react": "^0.14.1"
   },
   "devDependencies": {
     "@types/classnames": "^2.2.9",
@@ -63,7 +64,6 @@
     "typescript": "^3.9.3",
     "umi": "^3.2.3"
   },
-  
   "engines": {
     "node": ">=10.13.0"
   }

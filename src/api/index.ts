@@ -78,7 +78,7 @@ axios.interceptors.request.use(config => {
 
 
 //拦截响应
-axios.interceptors.response.use((res:ResInterface) => {
+axios.interceptors.response.use((res: ResInterface) => {
   Nprogress.done()
   appState.setLoading(false)
   if (res.data.code === 302) {
@@ -103,7 +103,7 @@ axios.get = function (url, params = {}, config = {}): Promise<any> {
     ...config
   })
 }
-axios.post = function (url, data = {}, config = {}):Promise<any> {
+axios.post = function (url, data = {}, config = {}): Promise<any> {
   return axios({
     url,
     method: 'post',
@@ -115,7 +115,7 @@ axios.post = function (url, data = {}, config = {}):Promise<any> {
 
 
 class API {
-  static login = (params: object):Promise<any> => axios.get('/api/login/cellphone', params)
+  static login = (params: object): Promise<any> => axios.get('/api/login/cellphone', params)
   static banner = (params: object): Promise<any> => axios.get('/api/banner', params) //0代表pc
   static personalized = (params: object): Promise<any> => axios.get('/api/personalized', params)
   //推荐新音乐
@@ -160,7 +160,7 @@ class API {
   //手机号登录
   static loginByPhone = (params: object): Promise<any> => axios.post('/api/login/cellphone', params)
   //邮箱登录
-  static loginByEmail = (params: object): Promise<any>=> axios.post('/api/login', params)
+  static loginByEmail = (params: object): Promise<any> => axios.post('/api/login', params)
   //退出登录
   static logout = (params?: object): Promise<any> => axios.post('/api/logout', params)
   //签到
@@ -172,9 +172,9 @@ class API {
   //关注取消用户
   static follow = (params: any): Promise<any> => axios.get('/api/follow', params)
   //获取用户动态
-  static event = (params: any): Promise<any>=> axios.get('/api/user/event', params)
+  static event = (params: any): Promise<any> => axios.get('/api/user/event', params)
   //给评论点赞
-  static commentLike = (params: any): Promise<any>=> axios.get('/api/comment/like', params)
+  static commentLike = (params: any): Promise<any> => axios.get('/api/comment/like', params)
   //删除用户动态
   static del = (params: any): Promise<any> => axios.get('/api/event/del', params)
   //收藏的歌手列表
@@ -194,8 +194,13 @@ class API {
   //更新歌单
   static playlistUpdate = (params: any): Promise<any> => axios.get('/api/playlist/update', params)
   //获取播放列表
-  static getPlayRecord = (params: any): Promise<any> => axios.get('/api/user/record',params)
-
+  static getPlayRecord = (params: any): Promise<any> => axios.get('/api/user/record', params)
+  // 获取MV数据
+  static getMvDetail = (params: any):Promise<any> => axios.get('/api/mv/detail', params)
+  //mv 地址
+  static getMvUrl = (params: any): Promise<any> => axios.get('/api/mv/url',params)
+  // 相似MV
+  static getSimi = (params: any): Promise<any> => axios.get('/api/simi/mv', params)
 }
 
 export default API

@@ -4,7 +4,7 @@ import moment from 'moment'
 
 export interface ArInterface {
   alias?: any[]
-  id?: number
+  id?: number |string
   name?: string
   tns?: any[]
   [propsName: string]: any

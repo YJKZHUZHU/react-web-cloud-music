@@ -94,7 +94,7 @@ export default class AppContainer extends Container<AppState> {
     loginStatus: false,
     userId: '',
     playList: { creator: [], favorite: [] },
-    playHistory: store.getValue('playHistory'),
+    playHistory: store.getValue('playHistory') || [],
     showPlayRecord: false,
     playRecord: [],
     playRecordTip: '',

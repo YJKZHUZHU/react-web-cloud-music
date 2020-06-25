@@ -1,0 +1,78 @@
+/** @format */
+@import "utils";
+._mvDetail {
+  display: flex;
+  .title {
+    height: 30px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    .name {
+      padding-left: 8px;
+    }
+  }
+  .left {
+    width: 60%;
+    .avatar {
+      margin-top: 15px;
+      margin-bottom: 20px;
+      .singer {
+        margin-left: 8px;
+      }
+    }
+  }
+
+  .right {
+    width: 30%;
+    margin-left: 30px;
+
+    .simiItem {
+      display: flex;
+      margin-top: 15px;
+      cursor: pointer;
+
+      .left {
+        width: 40%;
+        position: relative;
+        color: white;
+        img {
+          width: 100%;
+          border-radius: 5%;
+        }
+        .playCount {
+          position: absolute;
+          top: 7px;
+          right: 9px;
+          display: flex;
+          width: 100%;
+          justify-content: flex-end;
+        }
+        .time {
+          position: absolute;
+          bottom: 8px;
+          right: 9px;
+          display: flex;
+          width: 100%;
+          justify-content: flex-end;
+        }
+      }
+      .right {
+        flex: 1;
+      }
+    }
+    .simiItem:first-of-type {
+      margin-top: 0 !important;
+    }
+  }
+  .select {
+    color: white;
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+  }
+  .btn {
+    color: $fontColor;
+    border-color: snow;
+  }
+}

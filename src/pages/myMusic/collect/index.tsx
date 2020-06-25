@@ -3,7 +3,7 @@ import { VideoCameraOutlined } from '@ant-design/icons';
 import { Radio, Tabs, message, List, Avatar, Col, Row } from 'antd';
 import API from '@/api'
 import moment from 'moment'
-import {history} from "umi"
+import {history,Link} from "umi"
 import Utils from '@/help'
 import styles from './index.scss'
 
@@ -18,21 +18,29 @@ type Props = {
 }
 
 const MvList: FC<Props> = ({data}) => {
-  const singer = data.creator.map((item: any) => item.userName).join('/')
+  console.log(data)
+  const onMv = () => {
+    history.push({
+      pathname: "/recommend/video/mvdetail",
+      query: {
+        mvid: data.vid
+      }
+    })
+  }
   return (
-    <div className={styles.mvItem}>
+    <div className={styles.mvItem} onClick={onMv}>
       <div className={styles.img}>
-        <img src={data.coverUrl} alt={data.coverUrl}/>
+        <img src={data.coverUrl} alt={data.coverUrl} />
       </div>
       <p className={styles.player}>
         <VideoCameraOutlined />
-        <span>{Utils.tranNumber(data.playTime,2)}</span>
+        <span>{Utils.tranNumber(data.playTime, 2)}</span>
       </p>
       <p className={styles.time}>{Utils.formatPlayerTime(data.durationms / 1000)}</p>
       <p className={styles.title}>{data.title}</p>
-      <p className={styles.singer}>{singer}</p>
+      <p className={styles.singer}>{Utils.formatName(data.creator)}</p>
     </div>
-  );
+  )
 }
 
 const Collect: FC = (props) => {
@@ -118,7 +126,7 @@ const Collect: FC = (props) => {
         <TabPane tab={`MV ${subData.mvSublist.length}`} key="3">
           {subData.mvSublist.length === 0 ? (
             <Row>
-              <Col span={24}>造物收藏MV</Col>
+              <Col span={24}>暂无收藏MV</Col>
             </Row>
           ) : (
             <Row gutter={32}>

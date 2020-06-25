@@ -34,6 +34,7 @@ $mvBg: '../../../assets/mask.png';
 
   .mvItem {
     position: relative;
+    cursor: pointer;
 
     .img {
       img {
@@ -52,17 +53,17 @@ $mvBg: '../../../assets/mask.png';
       color: #fff;
       box-sizing: border-box;
       text-shadow: -2px 1px rgba(0, 0, 0, .4);
-      width: 35%;
+      width: 30%;
       background: url($mvBg) no-repeat 0 0;
 
-      i {
+      span {
         padding-right: 5px;
       }
     }
 
     .time {
       position: absolute;
-      bottom: 41px;
+      bottom: 22px;
       left: 0;
       padding-left: 5px;
       height: 20px;
@@ -75,10 +76,6 @@ $mvBg: '../../../assets/mask.png';
 
     .singer {
       font-size: 14px;
-    }
-
-    .title {
-
     }
 
   }

@@ -1,7 +1,9 @@
-import React, {FC, useEffect, useState} from "react"
+/** @format */
+
+import React, {FC, useEffect, useState, useCallback} from "react"
 import {Subscribe} from "@/Appcontainer"
-import { DeleteOutlined, LikeOutlined, UserOutlined } from '@ant-design/icons';
-import { List, Avatar, Button, Skeleton, Divider, message } from "antd";
+import {DeleteOutlined, LikeOutlined, UserOutlined} from "@ant-design/icons"
+import {List, Avatar, Button, Skeleton, Divider, message} from "antd"
 import {Link} from "umi"
 import classnames from "classnames"
 import Utils from "@/help/index"
@@ -23,7 +25,7 @@ const Dynamic: FC<Props> = (props) => {
       type: 6,
       threadId: info.threadId,
       cid: info.resourceId,
-      timestamp: Date.now(),
+      timestamp: Date.now()
     })
     if (Ret.code !== 200) {
       return message.info("稍后再试哦。。")
@@ -49,7 +51,7 @@ const Dynamic: FC<Props> = (props) => {
         setDynamicArr(res.events)
       })
     }
-  })
+  }, [userInfo.userPoint])
 
   const description = (item: any) => {
     const info = JSON.parse(item.json)
@@ -65,7 +67,12 @@ const Dynamic: FC<Props> = (props) => {
             <List.Item className={styles.item}>
               <List.Item.Meta
                 avatar={
-                  <Avatar shape="square" size={64} icon={<UserOutlined />} src={items.song.album.picUrl} />
+                  <Avatar
+                    shape="square"
+                    size={64}
+                    icon={<UserOutlined />}
+                    src={items.song.album.picUrl}
+                  />
                 }
                 title={items.song.album.name}
                 description={<span>{artistsName}</span>}
@@ -87,7 +94,7 @@ const Dynamic: FC<Props> = (props) => {
           <DeleteOutlined onClick={() => onDel(item.info.resourceId)} />
         </div>
       </div>
-    );
+    )
   }
   const title = (item: any) => {
     return (

@@ -9,6 +9,7 @@ import {ColumnProps} from "antd/es/table"
 import {Subscribe} from "@/Appcontainer"
 import styles from "../index.scss"
 import Song from "@/help/getSongInfo"
+import {history} from 'umi'
 import {appState} from "@/models/gloable"
 
 type Props = {
@@ -41,6 +42,12 @@ const TableList: FC<Props> = ({
     }
   }
 
+  const onMv = (mvid:string) => {
+    history.push({
+      pathname: '/recommend/video/mvDetail',
+      query: {mvid}
+    })
+  }
   const columns: any[] = [
     {
       title: "操作",
@@ -52,8 +59,7 @@ const TableList: FC<Props> = ({
           <div>
             <span>{index < 10 ? `0${index}` : index}</span>
             <HeartOutlined className={styles.heartIcon} />
-            {record.mv ? <PlayCircleOutlined className={styles.playIcon} /> : null}
-            {/*<Icon type="play-circle" className={styles.playIcon} onClick={() => Song.getSongUrl(record.id)}/>*/}
+            {!!record.mv ? <PlayCircleOutlined className={styles.playIcon} onClick={() =>onMv(record.mv)} /> : null}
           </div>
         )
       },
