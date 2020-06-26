@@ -2,6 +2,7 @@ import Axios from 'axios'
 import { appState } from '@/models/gloable'
 import qs from 'qs'
 import Nprogress from 'nprogress'
+import { IShareResource } from './type'
 
 export interface ResInterface {
   code?: number
@@ -42,7 +43,7 @@ const filterParam = (params: any) => {
   return ret
 }
 //拦截请求
-axios.interceptors.request.use(config => {
+axios.interceptors.request.use((config: any) => {
   Nprogress.start()
   let { url, method } = config
   const isQueryLikeTYpe = isQueryLike(method)
@@ -95,7 +96,7 @@ axios.interceptors.response.use((res: ResInterface) => {
   return Promise.reject(error)
 })
 
-axios.get = function (url, params = {}, config = {}): Promise<any> {
+axios.get = function (url, params: any = {}, config = {}): Promise<any> {
   return axios({
     url,
     method: 'get',
@@ -196,11 +197,19 @@ class API {
   //获取播放列表
   static getPlayRecord = (params: any): Promise<any> => axios.get('/api/user/record', params)
   // 获取MV数据
-  static getMvDetail = (params: any):Promise<any> => axios.get('/api/mv/detail', params)
+  static getMvDetail = (params: any): Promise<any> => axios.get('/api/mv/detail', params)
   //mv 地址
-  static getMvUrl = (params: any): Promise<any> => axios.get('/api/mv/url',params)
+  static getMvUrl = (params: any): Promise<any> => axios.get('/api/mv/url', params)
   // 相似MV
   static getSimi = (params: any): Promise<any> => axios.get('/api/simi/mv', params)
+  // mv评论
+  static getMvComment = (params: any): Promise<any> => axios.get('/api/comment/mv', params)
+  // 收藏/取消MV
+  static setMvSub = (params: any): Promise<any> => axios.get('/api/mv/sub', params)
+  // 资源点赞
+  static setResourceLike = (params: any): Promise<any> => axios.get('/api/resource/like', params)
+  //分享歌曲、歌单、mv、电台、电台节目到动态
+  static shareResource = (params: any): Promise<any> => axios.get('/api/resource/like', params)
 }
 
 export default API

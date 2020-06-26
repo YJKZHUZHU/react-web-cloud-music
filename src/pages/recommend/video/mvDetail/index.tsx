@@ -1,6 +1,7 @@
 /** @format */
 
 import React, {FC, useEffect, useState, useRef} from "react"
+import MvComment from "../components/MvComment"
 import {history} from "umi"
 import {
   Player,
@@ -20,14 +21,14 @@ import {
   LikeOutlined,
   FolderAddOutlined,
   ShareAltOutlined,
-  CommentOutlined
+  CommentOutlined,
+  CheckCircleOutlined
 } from "@ant-design/icons"
 import API from "@/api"
 import Utils from "@/help"
-import {message, Select, Avatar, Button} from "antd"
-import SimiItem,{SimiInterface} from '../components/SimiItem'
+import {message, Select, Avatar, Button, Tooltip} from "antd"
+import SimiItem, {SimiInterface} from "../components/SimiItem"
 import styles from "../index.scss"
-import SimiDetail from '../components/SimiItem'
 
 const {Option} = Select
 
@@ -91,21 +92,24 @@ const MvDetail: FC = () => {
   const [player, setPlayer] = useState<any>(null)
   const [sourceValue, setSourceValue] = useState("")
   const [source, setSource] = useState("")
+  const [showDesc, setShowDesc] = useState(false)
+  const [collect, setCollect] = useState(false)
   const getData = () => {
-    Promise.all([API.getMvDetail(query), API.getMvUrl({id: query.mvid}),API.getSimi(query)]).then((res) => {
-      console.log(res[2])
-      if (res[0].code === 200 && res[1].code === 200 && res[2].code === 200) {
-        setSourceValue(Object.keys(res[0].data.brs)[0])
-        setSource(Object.values(res[0].data.brs)[0] as string)
-        setSime(res[2].mvs)
-        return setData({...res[0].data, url: res[1].data.url})
+    Promise.all([API.getMvDetail(query), API.getMvUrl({id: query.mvid}), API.getSimi(query)]).then(
+      (res) => {
+        console.log(res[2])
+        if (res[0].code === 200 && res[1].code === 200 && res[2].code === 200) {
+          setSourceValue(Object.keys(res[0].data.brs)[0])
+          setSource(Object.values(res[0].data.brs)[0] as string)
+          setSime(res[2].mvs)
+          setCollect(res[0].subed)
+          return setData({...res[0].data, url: res[1].data.url})
+        }
+        return message.info("稍后再试")
       }
-      return message.info("稍后再试")
-    })
+    )
   }
-  const onRef = (player: any) => {
-    setPlayer(player)
-  }
+  const onRef = (player: any) => setPlayer(player)
 
   useEffect(() => {
     getData()
@@ -115,6 +119,18 @@ const MvDetail: FC = () => {
     setSourceValue(value)
     setSource(data.brs[value])
     player.load()
+  }
+
+  const onSubMv = async (t: number) => {
+    const Ret = await API.setMvSub({...query, t})
+    if (Ret.code === 200) {
+      message.success(Ret.message)
+      // 为了不再次请求数据，当返回状态吗200，前端设置收藏状态
+      setCollect(!collect)
+    }
+  }
+  const onLike = () => {
+    // API.setResourceLike({id:query.mvid,t:})
   }
 
   return (
@@ -157,36 +173,47 @@ const MvDetail: FC = () => {
           <Avatar size={64} icon={<UserOutlined />} src={data.cover} alt="暂无图片哦" />
           <span className={styles.singer}>{Utils.formatName(data.artists)}</span>
         </p>
-        <div>
-          <p>
-            {data.name}
-            <CaretUpOutlined />
-            <CaretDownOutlined />
+        <div className={styles.songDesc}>
+          <p className={styles.title} onClick={() => setShowDesc(!showDesc)}>
+            <span className={styles.songName}>{data.name}</span>
+            {!!data.desc ? <>{showDesc ? <CaretUpOutlined /> : <CaretDownOutlined />}</> : null}
           </p>
-          <p>
+          <p className={styles.publish}>
             <span>发布：{data.publishTime}</span>
             <span>播放：{Utils.tranNumber(data.playCount, 0)}</span>
           </p>
-          <p>{data.desc}</p>
+          {showDesc ? (
+            <p className={styles.desc} title={data.desc}>
+              {data.desc}
+            </p>
+          ) : null}
         </div>
-        <div>
-          <Button>
-            <LikeOutlined />
-            赞({data.likeCount})
-          </Button>
-          <Button>
-            <FolderAddOutlined />
-            已收藏({data.subCount})
-          </Button>
-          <Button>
+        <div className={styles.mvBtn}>
+          <Tooltip title='暂时不支持哦...'>
+            <Button shape="round" disabled>
+              <LikeOutlined />
+              赞({data.likeCount})
+            </Button>
+          </Tooltip>
+
+          {collect ? (
+            <Button shape="round" onClick={() => onSubMv(0)}>
+              <CheckCircleOutlined />
+              已收藏({data.subCount})
+            </Button>
+          ) : (
+            <Button shape="round" onClick={() => onSubMv(1)}>
+              <FolderAddOutlined />
+              收藏({data.subCount})
+            </Button>
+          )}
+
+          <Button shape="round">
             <ShareAltOutlined />
             分享({data.shareCount})
           </Button>
-          <Button>
-            <CommentOutlined />
-            评论({data.commentCount})
-          </Button>
         </div>
+        <MvComment id={query.mvid} />
       </div>
       <div className={styles.right}>
         <p className={styles.title}>相关推荐</p>

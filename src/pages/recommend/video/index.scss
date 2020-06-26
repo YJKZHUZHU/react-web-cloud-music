@@ -21,6 +21,65 @@
         margin-left: 8px;
       }
     }
+    .songDesc {
+      .title {
+        .songName {
+          font-size: 20px;
+          font-weight: 700;
+          color: #333333;
+          padding-right: 8px;
+        }
+      }
+      .publish {
+        :first-child {
+          padding-right: 15px;
+        }
+        margin: 15px 0;
+        color: #c2c2c2;
+        font-size: 12px;
+      }
+      .desc {
+        line-height: 22px;
+        margin-bottom: 15px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+      }
+    }
+    .mvBtn {
+      display: flex;
+      justify-content: space-between;
+      width: 60%;
+      margin-bottom: 15px;
+    }
+    .commentList {
+      font-size: 12px;
+      .content {
+        .nickname {
+          cursor: pointer;
+          color: #4f7daf;
+          &:hover {
+            color: #0d58b0;
+          }
+        }
+      }
+      .otherContent {
+        padding: 5px;
+        background-color: #f4f4f5;
+        margin-bottom: 8px;
+      }
+      .more {
+        text-align: center;
+        color: #000000;
+      }
+
+      .footer {
+        display: flex;
+        justify-content: space-between;
+      }
+    }
   }
 
   .right {
