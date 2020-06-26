@@ -75,9 +75,9 @@ const Collect: FC = (props) => {
   const getData = async () => {
     const Ret = await Promise.all([API.artistSublist(), API.albumSublist(), API.mvSublist({loading: true})])
     setSubData({
-      artistSublist: Ret[0].data,
-      albumSublist: Ret[1].data,
-      mvSublist: Ret[2].data
+      artistSublist: Ret[0].data || [],
+      albumSublist: Ret[1].data || [],
+      mvSublist: Ret[2].data || []
     })
   }
 

@@ -1,5 +1,4 @@
-import React, {FC, Fragment, useEffect, useState} from "react"
-
+import React, {FC, useState} from "react"
 import {
   CaretDownOutlined,
   CarryOutOutlined,
@@ -14,17 +13,10 @@ import {
 } from "@ant-design/icons"
 
 import {
-  Row,
-  Col,
   Divider,
-  Input,
-  Badge,
   Avatar,
   Button,
-  Radio,
   Popover,
-  Dropdown,
-  Menu,
   message,
 } from "antd"
 import {Link, history} from "umi"
@@ -34,6 +26,7 @@ import classnames from "classnames"
 import {appState} from "@/models/gloable"
 import Utils from "@/help"
 import Search from "@/components/Search"
+import {getUserInfo} from '@/help/getUserInfo'
 import styles from "./index.scss"
 
 interface AccountInterface {
@@ -58,11 +51,12 @@ const Header: FC<Props> = (props) => {
 
   const onLogout = async () => {
     const Ret: any = await API.logout({loading: true})
+    console.log(Ret)
     if (Ret.code !== 200) {
       return message.info("服务器开小差了哦。。")
     }
-    await message.success("退出成功")
-    await setVisible(false)
+    setVisible(false)
+    message.success("退出成功")
     window.location.reload()
   }
 

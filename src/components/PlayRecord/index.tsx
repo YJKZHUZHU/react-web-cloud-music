@@ -48,7 +48,6 @@ const allRecordsColumns: any[] = [
 
 const PlayRecord: FC<any> = (props) => {
   const {playRecord, allPlayRecord, playHistory} = props.$app.state
-  console.log(playHistory)
 
   const header = (total: number, isDelete: boolean = true, isCollect: boolean = true) => {
     return (

@@ -4,6 +4,7 @@ import {Modal, Button, Divider, Input, message, Form} from "antd"
 import API from "@/api"
 import {Subscribe} from "@/Appcontainer"
 import {history} from "umi"
+import {getUserInfo} from '@/help/getUserInfo'
 import styles from "./index.scss"
 import { Store } from '@umijs/hooks/lib/useFormTable'
 
@@ -57,18 +58,11 @@ const LoginModal: FC<Props> = (props) => {
           password: values.password,
           loading: true,
         }).then((res: any) => {
-          // debugger
           if (res.code !== 200) {
             return message.info("密码错误")
           }
-          message.success("登录成功")
-          history.replace({
-            pathname: "/",
-          })
-          // window.location.reload()
         })
       })
-      
     }
     if (type.type === 2) {
       API.loginByEmail({
@@ -79,102 +73,14 @@ const LoginModal: FC<Props> = (props) => {
         if (res.code !== 200) {
           return message.info("密码错误")
         }
-        message.success("登录成功")
-        history.replace({
-          pathname: "/",
-        })
-        window.location.reload()
       })
     }
-
-    // console.log(values)
-    // validateFields()
-    //   .then((values) => {
-    //     //手机登录
-    //     if (type.type === 1) {
-    //       API.check({phone: values.phone}).then((res: any) => {
-    //         if (+res.exist === -1) {
-    //           return message.error("先注册网易云账号再来体验哦")
-    //         }
-    //       })
-    //       API.loginByPhone({
-    //         phone: values.phone,
-    //         password: values.password,
-    //         loading: true,
-    //       }).then((res: any) => {
-    //         if (res.code !== 200) {
-    //           return message.info("密码错误")
-    //         }
-    //         message.success("登录成功")
-    //         history.replace({
-    //           pathname: "/",
-    //         })
-    //         window.location.reload()
-    //       })
-    //     }
-    //     //邮箱登录
-    //     if (type.type === 2) {
-    //       API.loginByEmail({
-    //         email: values.email,
-    //         password: values.password,
-    //         loading: true,
-    //       }).then((res: any) => {
-    //         if (res.code !== 200) {
-    //           return message.info("密码错误")
-    //         }
-    //         message.success("登录成功")
-    //         history.replace({
-    //           pathname: "/",
-    //         })
-    //         window.location.reload()
-    //       })
-    //     }
-    //   })
-    //   .catch((error: any) => {
-    //     console.log(error)
-    //   })
-    // validateFields(async (err: any, values: {phone: string; password: string; email: string}) => {
-    //   if (!err) {
-    //     //手机登录
-    //     if (type.type === 1) {
-    //       const checkRet: any = await API.check({phone: values.phone})
-    //       if (+checkRet.exist === -1) {
-    //         return message.error("先注册网易云账号再来体验哦")
-    //       }
-    //       API.loginByPhone({
-    //         phone: values.phone,
-    //         password: values.password,
-    //         loading: true,
-    //       }).then((res: any) => {
-    //         if (res.code !== 200) {
-    //           return message.info("密码错误")
-    //         }
-    //         message.success("登录成功")
-    //         history.replace({
-    //           pathname: "/",
-    //         })
-    //         window.location.reload()
-    //       })
-    //     }
-    //     //邮箱登录
-    //     if (type.type === 2) {
-    //       API.loginByEmail({
-    //         email: values.email,
-    //         password: values.password,
-    //         loading: true,
-    //       }).then((res: any) => {
-    //         if (res.code !== 200) {
-    //           return message.info("密码错误")
-    //         }
-    //         message.success("登录成功")
-    //         history.replace({
-    //           pathname: "/",
-    //         })
-    //         window.location.reload()
-    //       })
-    //     }
-    //   }
-    // })
+    getUserInfo().then(result => {
+      if(result[0]){
+        return message.success("登录成功")
+      }
+      message.info(result[1])
+    })
   }
 
   const onCancel = () => {
