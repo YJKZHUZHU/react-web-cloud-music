@@ -8,7 +8,6 @@ import {
   FullscreenExitOutlined,
   StepBackwardOutlined,
   StepForwardOutlined,
-  PauseCircleOutlined,
   CaretRightOutlined,
   ShareAltOutlined,
   OrderedListOutlined,
@@ -34,24 +33,19 @@ interface PlayerInterface {
   playedSeconds?: number
 }
 
-type Props = {
+interface IProps {
   $app: any
 }
-let currentId: string = ""
-const Footer: FC<Props> = (props) => {
+const Footer: FC<IProps> = (props) => {
   const {
     isPlay,
     songObj,
-    playerObj,
     showPlayer,
     volume,
     playMode,
     playerRate,
     showPlayRecord,
-    playRecordTip,
-    playHistory,
-    playRecord,
-    allPlayRecord
+    playRecordTip
   } = props.$app.state
   const [lastVolume, setLastVolume] = useState(0)
   const playRef: any = useRef(null)
@@ -61,14 +55,6 @@ const Footer: FC<Props> = (props) => {
     const volume = JSON.parse(store.getStorage("volume") as string)
     appState.setVolume(volume)
   }, [store.getStorage("volume")])
-
-  const handleSlider = (value: any) => {
-    playRef.current.seekTo(value)
-    return appState.setPlayerObj({
-      ...playerObj,
-      playedSeconds: value
-    })
-  }
 
   const onRate = (e: any) => {
     return appState.setPlayRate(+e.target.value)
@@ -99,15 +85,23 @@ const Footer: FC<Props> = (props) => {
   const onPause = () => {
     console.log("暂停")
   }
+  const onEnded = () => {
+    const {getSecondsLoaded, getCurrentTime} = playRef.current
+    if (parseInt(getSecondsLoaded(), 10) === parseInt(getCurrentTime(), 10)) {
+      // 单曲循环
+      if (playMode === 1) {
+        return Song.getSongUrl(songObj.id)
+      }
+      // 顺序或者随机播放，触发下一首点击事件
+      onPlay(1)
+    }
+  }
   const onDuration = (time: any) => {
     console.log("时间:" + time + "s")
   }
   const onProgress = (state: PlayerInterface) => {
-    console.log("onProgress", state.loaded)
-    return appState.setPlayerObj({
-      ...state,
-      playedSeconds: state.playedSeconds
-    })
+    console.log("onProgress", state)
+    appState.setPlayerObj(state)
   }
 
   const onRecord = () => {
@@ -142,17 +136,17 @@ const Footer: FC<Props> = (props) => {
     <footer className={style._footer}>
       <div className={style.footerContainer}>
         <Slider
-          onChange={handleSlider}
+          onChange={(value) => playRef.current.seekTo(value)}
           style={{
             padding: 0,
             margin: 0,
             visibility: Object.keys(songObj).length !== 0 ? "visible" : "hidden"
           }}
-          value={playerObj.playedSeconds}
+          value={playRef.current?.getCurrentTime()}
           defaultValue={0}
           step={0.001}
           min={0}
-          max={songObj.songTime}
+          max={playRef.current?.getSecondsLoaded()}
           tipFormatter={null}
         />
         <div className={style.footer}>
@@ -186,13 +180,11 @@ const Footer: FC<Props> = (props) => {
               </div>
               <div className={style.bottom}>
                 <span className={style.playTime}>
-                  {playerObj.playedSeconds
-                    ? Utils.formatPlayerTime(playerObj.playedSeconds)
-                    : "00:00"}
+                  {playRef ? Utils.formatPlayerTime(playRef.current?.getCurrentTime()) : "00:00"}
                 </span>
                 <i className={style.split}>/</i>
                 <span className={style.time}>
-                  {songObj.songTime ? Utils.formatPlayerTime(songObj.songTime) : "00:00"}
+                  {playRef ? Utils.formatPlayerTime(playRef.current?.getSecondsLoaded()) : "00:00"}
                 </span>
               </div>
             </div>
@@ -241,7 +233,6 @@ const Footer: FC<Props> = (props) => {
                 onChange={onVolume}
                 min={0}
                 max={100}
-                // defaultValue={defaultValue}
                 value={volume * 100}
                 className={style.slider}
                 tipFormatter={null}
@@ -264,10 +255,10 @@ const Footer: FC<Props> = (props) => {
         onPause={onPause}
         onDuration={onDuration}
         onProgress={onProgress}
+        onEnded={onEnded}
         loop={playMode === 1}
         progressInterval={500}
         ref={playRef}
-        // progressFrequency={1}
       />
     </footer>
   )

@@ -146,5 +146,5 @@ const PlayRecord: FC<any> = (props) => {
     </Tabs>
   )
 }
-
+//@ts-ignore
 export default Subscribe(PlayRecord)
