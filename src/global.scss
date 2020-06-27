@@ -1,8 +1,12 @@
+/** @format */
+
 @import "utils";
 @import "variables";
-@import '~video-react/styles/scss/video-react';
+@import "~video-react/styles/scss/video-react";
 
-html, body, #root {
+html,
+body,
+#root {
   height: 100%;
 }
 
@@ -11,7 +15,10 @@ body {
   color: var(--font-color);
 }
 
-ul, li, dl, dt {
+ul,
+li,
+dl,
+dt {
   list-style: none;
   margin: 0;
 }
@@ -25,8 +32,8 @@ a {
 }
 
 .center img {
-  opacity: .8;
-  transition: all .3s ease;
+  opacity: 0.8;
+  transition: all 0.3s ease;
 }
 
 .center .slick-center img {
@@ -38,7 +45,8 @@ a {
 #root {
   background: var(--body-bgcolor);
 }
-i,em {
+i,
+em {
   font: inherit !important;
 }
 
@@ -50,13 +58,13 @@ i,em {
   height: 370px;
   position: relative;
   mask-image: linear-gradient(
-                  180deg,
-                  hsla(0, 0%, 100%, 0) 0,
-                  hsla(0, 0%, 100%, 0.6) 15%,
-                  #fff 25%,
-                  #fff 75%,
-                  hsla(0, 0%, 100%, 0.6) 85%,
-                  hsla(0, 0%, 100%, 0)
+    180deg,
+    hsla(0, 0%, 100%, 0) 0,
+    hsla(0, 0%, 100%, 0.6) 15%,
+    #fff 25%,
+    #fff 75%,
+    hsla(0, 0%, 100%, 0.6) 85%,
+    hsla(0, 0%, 100%, 0)
   );
 
   .bscroll-indicator {
@@ -70,7 +78,6 @@ i,em {
     .wrapItem {
       margin-bottom: 14px;
       font-size: 14px;
-
 
       &.active {
         font-size: 16px;
@@ -105,11 +112,12 @@ i,em {
   height: 3px !important;
 }
 .ant-table-small {
-  border:none !important;
+  border: none !important;
 }
 .ant-table-small > .ant-table-content > .ant-table-body {
   margin: 0 !important;
 }
-
-
-
+// 顶部加载效果样式充值
+#nprogress .bar {
+  background:  #00cf8a!important; //自定义颜色
+}
