@@ -1,6 +1,6 @@
 /** @format */
 
-import React, {FC, useEffect, useState} from "react"
+import React, {FC, useState} from "react"
 import styles from "./index.scss"
 
 import {
@@ -12,23 +12,23 @@ import {
   PlayCircleOutlined,
   PlusOutlined,
   TeamOutlined,
-  UsergroupAddOutlined,
   WifiOutlined,
   DownOutlined,
-  UpOutlined
+  UpOutlined,
+  StarOutlined
 } from "@ant-design/icons"
-import {Menu, Dropdown, message, Popover, Input, Switch, Button, Popconfirm} from "antd"
-import {NavLink, Link} from "umi"
+import {message, Popover, Input, Switch, Button, Popconfirm} from "antd"
+import {NavLink} from "umi"
 import {Subscribe} from "@/Appcontainer"
 import {CSSTransition} from "react-transition-group"
 import API from "@/api"
 import {appState} from "@/models/gloable"
 
-type Props = {
+interface IProps {
   $app: any
 }
 
-const MenuList: FC<Props> = (props) => {
+const MenuList: FC<IProps> = (props) => {
   const [show, setShow] = useState(false)
   const [favoriteShow, setFavoriteShow] = useState(false)
   const [visible, setVisible] = useState(false)
@@ -143,7 +143,7 @@ const MenuList: FC<Props> = (props) => {
               </li>
               <li>
                 <NavLink to="/myMusic/collect" activeClassName={styles.activeRouter}>
-                  <UsergroupAddOutlined className={styles.icon} />
+                  <StarOutlined className={styles.icon} />
                   <span>我的收藏</span>
                 </NavLink>
               </li>

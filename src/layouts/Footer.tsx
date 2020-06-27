@@ -68,7 +68,7 @@ const Footer: FC<IProps> = (props) => {
     if (volume !== 0) {
       return appState.setVolume(0)
     }
-    return appState.setVolume(lastVolume)
+    return appState.setVolume(!!lastVolume ? lastVolume : 0.5)
   }
 
   const onStart = () => {
@@ -220,15 +220,18 @@ const Footer: FC<IProps> = (props) => {
             <ShareAltOutlined />
             <PlayRate />
             <Tooltip title={playRecordTip} visible={!!playRecordTip}>
-              <OrderedListOutlined onClick={onRecord} />
+              <i className={classnames("iconfont", "icon-bofangliebiao")} onClick={onRecord} />
             </Tooltip>
 
             <div className={style.progress}>
-              {volume === 0 ? (
-                <NotificationOutlined className={style.voice} onClick={onMute} />
-              ) : (
-                <SoundOutlined className={style.voice} onClick={onMute} />
-              )}
+              <i
+                className={classnames(
+                  style.voice,
+                  "iconfont",
+                  volume === 0 ? "icon-jingyin" : "icon-volume"
+                )}
+                onClick={onMute}
+              />
               <Slider
                 onChange={onVolume}
                 min={0}

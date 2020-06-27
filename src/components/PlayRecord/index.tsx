@@ -1,11 +1,12 @@
 /** @format */
 
-import React, {FC,useState,useEffect} from "react"
+import React, {FC, useState, useEffect} from "react"
 import {DeleteOutlined, FileAddOutlined, HistoryOutlined} from "@ant-design/icons"
 import {Tabs, Divider, Table} from "antd"
 import styles from "./index.scss"
 import {Subscribe} from "@/Appcontainer"
 import Utils from "@/help/index"
+import classnames from "classnames"
 import Song from "@/help/getSongInfo"
 const {TabPane} = Tabs
 
@@ -72,19 +73,12 @@ const PlayRecord: FC<any> = (props) => {
     )
   }
 
-  const onTab = (key:any) => {
+  const onTab = (key: any) => {
     console.log(key)
   }
   return (
     <Tabs defaultActiveKey="1" className={styles._playRecord} onChange={onTab}>
-      <TabPane
-        tab={
-          <span>
-            <HistoryOutlined />
-            播放列表
-          </span>
-        }
-        key="1">
+      <TabPane tab={<i className={classnames("iconfont", "icon-bofangliebiao")}>播放列表</i>} key="1">
         {header(playRecord.length)}
         <Divider className={styles.divider} />
         <Table
@@ -99,14 +93,7 @@ const PlayRecord: FC<any> = (props) => {
           }}
         />
       </TabPane>
-      <TabPane
-        tab={
-          <span>
-            <HistoryOutlined />
-            历史记录
-          </span>
-        }
-        key="2">
+      <TabPane tab={<i className={classnames("iconfont", "icon-lishijilu")}>历史记录</i>} key="2">
         {header(allPlayRecord.length)}
         <Divider className={styles.divider} />
         <Table
@@ -122,12 +109,7 @@ const PlayRecord: FC<any> = (props) => {
         />
       </TabPane>
       <TabPane
-        tab={
-          <span>
-            <HistoryOutlined />
-            播放记录
-          </span>
-        }
+        tab={<i className={classnames("iconfont", "icon-bofangjilu_line")}>播放记录</i>}
         key="3">
         {header(playHistory.length)}
         <Divider className={styles.divider} />
