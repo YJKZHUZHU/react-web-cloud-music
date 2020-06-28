@@ -55,8 +55,11 @@ const Dynamic: FC<Props> = (props) => {
 
   const description = (item: any) => {
     const info = JSON.parse(item.json)
-    const artistsName = info.song.artists.map((item: any) => item.name).join("/")
-
+    const artistsName = info.song
+      ? Utils.formatName(info?.song?.artists)
+      : Utils.formatName(info?.mv?.artists)
+    const imgSrc = info?.song?.album ? info?.song?.album?.picUrl : info?.mv?.imgurl
+    const title = info?.song?.album ? info?.song?.album?.name : info?.mv?.name
     return (
       <div className={styles.infoDescription}>
         <p className={styles.content}>{info.msg}</p>
@@ -66,16 +69,9 @@ const Dynamic: FC<Props> = (props) => {
           renderItem={(items: any) => (
             <List.Item className={styles.item}>
               <List.Item.Meta
-                avatar={
-                  <Avatar
-                    shape="square"
-                    size={64}
-                    icon={<UserOutlined />}
-                    src={items.song.album.picUrl}
-                  />
-                }
-                title={items.song.album.name}
-                description={<span>{artistsName}</span>}
+                avatar={<Avatar shape="square" size={64} icon={<UserOutlined />} src={imgSrc} />}
+                title={title}
+                description={artistsName}
               />
             </List.Item>
           )}
