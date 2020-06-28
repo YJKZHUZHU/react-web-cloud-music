@@ -11,13 +11,13 @@ import {
   ThunderboltOutlined,
   UserOutlined,
 } from "@ant-design/icons"
-
 import {
   Divider,
   Avatar,
   Button,
   Popover,
   message,
+  Modal
 } from "antd"
 import {Link, history} from "umi"
 import API from "@/api"
@@ -26,23 +26,18 @@ import classnames from "classnames"
 import {appState} from "@/models/gloable"
 import Utils from "@/help"
 import Search from "@/components/Search"
-import {getUserInfo} from '@/help/getUserInfo'
+import LoginModal from '@/components/LoginModal'
 import styles from "./index.scss"
 
-interface AccountInterface {
-  code: number
-  account: object
-  profile: any
-}
-
-type Props = {
+interface IHeader  {
   $app: any
 }
 
-const Header: FC<Props> = (props) => {
+const Header: FC<IHeader> = (props) => {
   const {showPlayer, loginStatus, userInfo} = props.$app.state
   const [visible, setVisible] = useState(false)
   const [signIn, setSignIn] = useState(false)
+  const [loginVisible,setLoginVisible] = useState(false)
 
   const onRoute = (path: string) => {
     setVisible(false)
@@ -51,7 +46,6 @@ const Header: FC<Props> = (props) => {
 
   const onLogout = async () => {
     const Ret: any = await API.logout({loading: true})
-    console.log(Ret)
     if (Ret.code !== 200) {
       return message.info("服务器开小差了哦。。")
     }
@@ -181,7 +175,6 @@ const Header: FC<Props> = (props) => {
       <div className="_search">
         <Search />
       </div>
-
       {loginStatus ? (
         <Popover
           visible={visible}
@@ -199,7 +192,7 @@ const Header: FC<Props> = (props) => {
       ) : (
         <div
           className={classnames(styles.user, "_userInfoPop")}
-          onClick={() => history.push("/login")}>
+          onClick={() => setLoginVisible(true)}>
           <Avatar
             src={Object.keys(userInfo).length && userInfo.profile.avatarUrl}
             icon={<UserOutlined />}
@@ -216,6 +209,13 @@ const Header: FC<Props> = (props) => {
         getPopupContainer={(): any => document.getElementsByClassName("_changeSkin")[0]}>
         <SkinOutlined className={classnames(styles.skin, "_changeSkin")} />
       </Popover>
+      <Modal
+        visible={loginVisible}
+        title={"账号登录"}
+        onCancel={() => setLoginVisible(false)}
+        footer={null}>
+        <LoginModal callback={(loginVisible:boolean) =>setLoginVisible(loginVisible) } />
+      </Modal>
     </header>
   )
 }

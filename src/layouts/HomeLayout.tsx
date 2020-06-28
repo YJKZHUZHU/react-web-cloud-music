@@ -1,22 +1,22 @@
-import React, {FC, useEffect, ReactChild, forwardRef, useRef, createRef} from 'react'
-import Header from '@/components/Header'
-// import Footer from '@/components/Footer'
-import styles from './index.scss'
-import {NavLink} from "umi"
-import {Subscribe} from '@/Appcontainer'
-import { Drawer, Spin } from 'antd';
-import PlayRecord from '@/components/PlayRecord'
-import PlayerLayout from '@/components/PlayerLayout'
-import Menu from '@/layouts/Menu'
-import Footer from './Footer'
+/** @format */
 
-interface HomeInterface {
-  $app: any,
+import React, {FC, ReactChild} from "react"
+import Header from "@/components/Header"
+import styles from "./index.scss"
+import {Subscribe} from "@/Appcontainer"
+import {Drawer, Spin} from "antd"
+import PlayRecord from "@/components/PlayRecord"
+import PlayerLayout from "@/components/PlayerLayout"
+import Menu from "@/layouts/Menu"
+import Footer from "./Footer"
+
+interface IHomeLayout {
+  $app: any
   children: ReactChild
 }
 
-const HomeLayout: FC = (props: any) => {
-  const {globalLoading, loading,showPlayRecord} = props.$app.state
+const HomeLayout: FC<IHomeLayout> = (props) => {
+  const {globalLoading, loading, showPlayRecord} = props.$app.state
 
   return (
     <div className={styles.home}>
