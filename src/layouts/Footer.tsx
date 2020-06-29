@@ -45,7 +45,8 @@ const Footer: FC<IProps> = (props) => {
     playMode,
     playerRate,
     showPlayRecord,
-    playRecordTip
+    playRecordTip,
+    playerObj
   } = props.$app.state
   const [lastVolume, setLastVolume] = useState(0)
   const playRef: any = useRef(null)
@@ -132,21 +133,28 @@ const Footer: FC<IProps> = (props) => {
 
     Song.getSongUrl(songId)
   }
+  const onSlider = (value: any) => {
+    playRef.current.seekTo(value)
+    appState.setPlayerObj({
+      ...playerObj,
+      playedSeconds: value
+    })
+  }
   return (
     <footer className={style._footer}>
       <div className={style.footerContainer}>
         <Slider
-          onChange={(value) => playRef.current.seekTo(value)}
+          onChange={onSlider}
           style={{
             padding: 0,
             margin: 0,
             visibility: Object.keys(songObj).length !== 0 ? "visible" : "hidden"
           }}
-          value={playRef.current?.getCurrentTime()}
+          value={playerObj.playedSeconds}
           defaultValue={0}
           step={0.001}
           min={0}
-          max={playRef.current?.getSecondsLoaded()}
+          max={playerObj.loadedSeconds}
           tipFormatter={null}
         />
         <div className={style.footer}>

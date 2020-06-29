@@ -232,8 +232,8 @@ class Utils {
     const arr = [...new Array(source.length).keys()].filter(item => item !== index)
     if(playMode === 0){// 顺序播放
       result = index
-    }else if(playMode === 2){// 随机播放
-      result = arr[parseInt(String(Math.random() * arr.length - 1),10)]
+    }else if(playMode === 2){// 随机播放,只有一首时播放当前歌曲
+      result = source.length === 1 ? 0 : arr[parseInt(String(Math.random() * arr.length - 1),10)]
     }
     return result
   }
