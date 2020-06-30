@@ -12,7 +12,6 @@ type Props = {
 const SingerList:FC<Props> = props => {
   const {data, loading, hasMore,type} = props
   const content = useCallback(() => {
-    console.log(data)
     if(+type === 100){
       return (
         <ul>

@@ -7,7 +7,8 @@ import {
   InstagramOutlined,
   PlaySquareOutlined,
   RightOutlined,
-  UserOutlined
+  UserOutlined,
+  SearchOutlined
 } from "@ant-design/icons"
 import {Input, Popover, Tag, Modal, message} from "antd"
 import API from "@/api"
@@ -26,13 +27,12 @@ const Search: FC = () => {
   const [visible, setVisible] = useState(false)
   const [modalVisible, setModalVisible] = useState(false)
   const [hotList, setHotList] = useState([])
-  const [value, setValue] = useState("")
   const [searchList, setSearchList] = useState<any>({})
   const [popoverVisible, setPopoverVisible] = useState(false)
   const [historyList, setHistoryList] = useState(store.getValue("searchHistory") || [])
+  const [inputValue, setInputValue] = useState("")
   const {run} = useDebounceFn(async (keywords) => {
     const Ret: any = await API.getSearchSuggest({keywords})
-    setValue(keywords)
     if (Ret.code === 200 && Ret.result) {
       setSearchList(Ret.result)
     }
@@ -44,15 +44,12 @@ const Search: FC = () => {
     setHistoryList(newHistory)
     store.setValue("searchHistory", newHistory)
   }
-
-  const onSearch = () => {
-    setPopoverVisible(!popoverVisible)
-    setHistoryList(store.getValue("searchHistory"))
-  }
-  const toDetail = async (type: number, keywords: string) => {
+  const toDetail = (type: number, keywords: string) => {
     if (keywords === "") return message.info("请输入要查询的关键字")
-    await setPopoverVisible(false)
-    await appState.setKeywords(keywords)
+    setInputValue(keywords)
+    // setHistoryList(store.getValue("searchHistory"))
+    setPopoverVisible(false)
+    appState.setKeywords(keywords)
     //type: 搜索类型；默认为 1 即单曲 , 取值意义 : 1: 单曲, 10: 专辑, 100: 歌手, 1000: 歌单, 1002: 用户, 1004: MV, 1006: 歌词, 1009: 电台, 1014: 视频, 1018:综合
     history.push({
       pathname: "/search-detail",
@@ -88,6 +85,7 @@ const Search: FC = () => {
 
   const onHistory = (keywords: string) => {
     setPopoverVisible(false)
+    setInputValue(keywords)
     history.push({
       pathname: "/search-detail",
       query: {
@@ -98,11 +96,11 @@ const Search: FC = () => {
   }
 
   const content =
-    value && Object.keys(searchList).length !== 0 ? (
+    inputValue && Object.keys(searchList).length !== 0 ? (
       <div className={styles._searchSuggest}>
         <p className={styles.searchTitle}>
           搜“
-          <span className={styles.linkColor}>{value}</span>
+          <span className={styles.linkColor}>{inputValue}</span>
           ”相关的结果
           <RightOutlined />
         </p>
@@ -250,6 +248,19 @@ const Search: FC = () => {
       </div>
     )
 
+  const onMouseEnter = (e: any) => {
+    setInputValue(e.target.value)
+    setPopoverVisible(false)
+  }
+
+  const onInput = (e: any) => {
+    setPopoverVisible(true)
+    setInputValue(e.target.value)
+    if (e.target.value) {
+      run(e.target.value)
+    }
+  }
+
   useEffect(() => {
     API.getHotList().then((res: any) => {
       if (res.code === 200) {
@@ -267,16 +278,19 @@ const Search: FC = () => {
       visible={popoverVisible}
       overlayClassName={"_searchPop"}
       getPopupContainer={(): any => document.getElementsByClassName("_search")[0]}>
-      <Input.Search
+      <Input
+        type="search"
+        suffix={<SearchOutlined onClick={() => toDetail(1, inputValue)} />}
         className={styles.search}
+        value={inputValue}
         placeholder="搜索音乐，视频，歌词，电台"
-        onClick={onSearch}
-        onMouseEnter={() => setPopoverVisible(false)}
-        onChange={(e) => run(e.target.value)}
-        onSearch={(value) => toDetail(1, value)}
+        onClick={() => setPopoverVisible(!popoverVisible)}
+        // onBlur={() => setPopoverVisible(false)}
+        onChange={onInput}
+        onPressEnter={(e: any) => toDetail(1, e.target.value)}
       />
     </Popover>
   )
 }
-
+// @ts-ignore
 export default Subscribe(Search)

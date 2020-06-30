@@ -32,13 +32,13 @@ const HomeLayout: FC<IHomeLayout> = (props) => {
             </div>
           </article>
           <Drawer
+            className={styles.drawer}
             placement="right"
             closable={false}
             visible={showPlayRecord}
             width={640}
             getContainer={false}
-            mask={false}
-            style={{position: "absolute"}}>
+            mask={false}>
             <PlayRecord />
           </Drawer>
         </main>

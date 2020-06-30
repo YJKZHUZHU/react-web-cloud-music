@@ -203,6 +203,12 @@
 
       }
     }
+
+    .drawer {
+      position: absolute;
+      z-index: 1001;
+      // height: calc(100vh -135px);
+    }
   }
 
   ._footer {
