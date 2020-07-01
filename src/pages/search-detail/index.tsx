@@ -27,7 +27,6 @@ const SearchDetail: FC<Props> = (props) => {
   }
   useEffect(() => {
     let history: HistoryInterface[] = store.getValue("searchHistory")
-    console.log(history)
     let id = history.length === 0 ? 0 : history.sort((a, b) => b.id - a.id)[0].id + 1
     history = history.filter((item) => item.keywords !== keywords)
     store.setValue("searchHistory", [...history, {id, keywords}])

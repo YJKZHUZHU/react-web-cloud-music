@@ -39,7 +39,7 @@ const Search: FC = () => {
     await appState.setKeywords(keywords)
   }, 500)
 
-  const onTag = (items: any) => {
+  const onClose = (items: any) => {
     const newHistory = historyList.filter((item: any) => item.id !== items.id)
     setHistoryList(newHistory)
     store.setValue("searchHistory", newHistory)
@@ -47,7 +47,6 @@ const Search: FC = () => {
   const toDetail = (type: number, keywords: string) => {
     if (keywords === "") return message.info("请输入要查询的关键字")
     setInputValue(keywords)
-    // setHistoryList(store.getValue("searchHistory"))
     setPopoverVisible(false)
     appState.setKeywords(keywords)
     //type: 搜索类型；默认为 1 即单曲 , 取值意义 : 1: 单曲, 10: 专辑, 100: 歌手, 1000: 歌单, 1002: 用户, 1004: MV, 1006: 歌词, 1009: 电台, 1014: 视频, 1018:综合
@@ -207,7 +206,7 @@ const Search: FC = () => {
                   closable
                   key={item.id}
                   onClick={() => onHistory(item.keywords)}
-                  onClose={() => onTag(item)}
+                  onClose={() => onClose(item)}
                   className={styles.item}
                   visible={index < 9 ? true : visible}>
                   {item.keywords}
@@ -248,11 +247,6 @@ const Search: FC = () => {
       </div>
     )
 
-  const onMouseEnter = (e: any) => {
-    setInputValue(e.target.value)
-    setPopoverVisible(false)
-  }
-
   const onInput = (e: any) => {
     setPopoverVisible(true)
     setInputValue(e.target.value)
@@ -268,6 +262,10 @@ const Search: FC = () => {
       }
     })
   }, [])
+
+  useEffect(() => {
+    setHistoryList(store.getValue("searchHistory"))
+  }, [store.getValue("searchHistory").length])
 
   return (
     <Popover
@@ -285,7 +283,6 @@ const Search: FC = () => {
         value={inputValue}
         placeholder="搜索音乐，视频，歌词，电台"
         onClick={() => setPopoverVisible(!popoverVisible)}
-        // onBlur={() => setPopoverVisible(false)}
         onChange={onInput}
         onPressEnter={(e: any) => toDetail(1, e.target.value)}
       />

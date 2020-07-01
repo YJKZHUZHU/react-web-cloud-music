@@ -18,10 +18,6 @@ import PlayRecord from "@/components/PlayRecord"
 const {TabPane} = Tabs
 const {Search} = Input
 
-// type Props = {
-//   location: RouteData
-// }
-
 let playRecord: any[] = []
 
 const PlayList: FC = (props) => {
