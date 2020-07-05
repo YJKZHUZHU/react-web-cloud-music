@@ -3,6 +3,7 @@
 import React, {FC, useState, useEffect} from "react"
 import {DeleteOutlined, FileAddOutlined, HistoryOutlined} from "@ant-design/icons"
 import {Tabs, Divider, Table} from "antd"
+import {useSelector} from "umi"
 import styles from "./index.scss"
 import {Subscribe} from "@/Appcontainer"
 import Utils from "@/help/index"
@@ -48,7 +49,8 @@ const allRecordsColumns: any[] = [
 ]
 
 const PlayRecord: FC<any> = (props) => {
-  const {playRecord, allPlayRecord, playHistory} = props.$app.state
+  const {playRecord, playHistory} = props.$app.state
+  const {allPlayRecord} = useSelector((state: any) => state.userModel)
 
   const header = (total: number, isDelete: boolean = true, isCollect: boolean = true) => {
     return (

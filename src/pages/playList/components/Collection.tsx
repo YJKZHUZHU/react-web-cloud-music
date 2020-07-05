@@ -33,7 +33,6 @@ const Collection: FC<Props> = props => {
   const [current, setCurrent] = useState(1)
   const getList = (params: ParamInterface) => {
     API.playlistCollection(Object.assign(params, {loading: true})).then((res: any) => {
-      console.log(res)
       if (res.code === 200) {
         setCollectionList(res.subscribers)
       }

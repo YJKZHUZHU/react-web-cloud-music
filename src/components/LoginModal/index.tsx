@@ -35,7 +35,7 @@ const LoginModal: FC<ILoginModal> = ({callback}) => {
           phone: values.phone,
           password: values.password,
           loading: true
-        }).then((res: any) => {
+        }).then((res) => {
           if (res.code !== 200) {
             return message.info("密码错误")
           }

@@ -1,8 +1,10 @@
 /** @format */
 
 import {useState, useEffect} from "react"
+import {useSelector} from 'umi'
 const usePlayRecord = (state: any) => {
-  const {playHistory, playRecord, allPlayRecord} = state
+  const {playHistory, playRecord} = state
+  const {allPlayRecord} = useSelector((state: any) => state.userModel)
   const [list, setList] = useState<any>([])
   useEffect(() => {
     if (playRecord.length !== 0) {

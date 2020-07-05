@@ -1,3 +1,5 @@
+/** @format */
+
 import React, {FC, useState} from "react"
 import {
   CaretDownOutlined,
@@ -9,35 +11,45 @@ import {
   SettingOutlined,
   SkinOutlined,
   ThunderboltOutlined,
-  UserOutlined,
+  UserOutlined
 } from "@ant-design/icons"
-import {
-  Divider,
-  Avatar,
-  Button,
-  Popover,
-  message,
-  Modal
-} from "antd"
-import {Link, history} from "umi"
+import {Divider, Avatar, Button, Popover, message, Modal} from "antd"
+import {Link, history,useSelector} from "umi"
 import API from "@/api"
 import {Subscribe} from "@/Appcontainer"
 import classnames from "classnames"
 import {appState} from "@/models/gloable"
 import Utils from "@/help"
 import Search from "@/components/Search"
-import LoginModal from '@/components/LoginModal'
+import LoginModal from "@/components/LoginModal"
 import styles from "./index.scss"
 
-interface IHeader  {
+interface IHeader {
   $app: any
 }
 
+const ThEME_MAP = [
+  {
+    theme: "黑色",
+    id: "black"
+  },
+  {
+    theme: "浅色",
+    id: "shallow"
+  },
+  {
+    theme: "红色",
+    id: "red"
+  }
+]
+
 const Header: FC<IHeader> = (props) => {
-  const {showPlayer, loginStatus, userInfo} = props.$app.state
+  const {showPlayer,} = props.$app.state
+  const {loginStatus,userInfo} = useSelector((state: any) => state.userModel)
   const [visible, setVisible] = useState(false)
   const [signIn, setSignIn] = useState(false)
-  const [loginVisible,setLoginVisible] = useState(false)
+  const [loginVisible, setLoginVisible] = useState(false)
+
 
   const onRoute = (path: string) => {
     setVisible(false)
@@ -66,18 +78,12 @@ const Header: FC<IHeader> = (props) => {
 
   const content = (
     <div className={styles.theme}>
-      <p className={styles.item} onClick={() => Utils.setTheme("black")}>
-        <span className={classnames(styles.black, styles.com)} />
-        <span>黑色</span>
-      </p>
-      <p className={styles.item} onClick={() => Utils.setTheme("shallow")}>
-        <span className={classnames(styles.shallow, styles.com)} />
-        <span>浅色</span>
-      </p>
-      <p className={styles.item} onClick={() => Utils.setTheme("red")}>
-        <span className={classnames(styles.red, styles.com)} />
-        <span>红色</span>
-      </p>
+      {ThEME_MAP.map((item) => (
+        <p className={styles.item} key={item.id} onClick={() => Utils.setTheme(item.id)}>
+          <span className={classnames(styles[item.id], styles.com)} />
+          <span>{item.theme}</span>
+        </p>
+      ))}
     </div>
   )
   const userContent = (
@@ -214,7 +220,7 @@ const Header: FC<IHeader> = (props) => {
         title={"账号登录"}
         onCancel={() => setLoginVisible(false)}
         footer={null}>
-        <LoginModal callback={(loginVisible:boolean) =>setLoginVisible(loginVisible) } />
+        <LoginModal callback={(loginVisible: boolean) => setLoginVisible(loginVisible)} />
       </Modal>
     </header>
   )

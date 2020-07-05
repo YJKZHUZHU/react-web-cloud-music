@@ -200,7 +200,7 @@ const Search: FC = () => {
             </p>
           </div>
           <div className={styles.tag}>
-            {historyList.map((item: any, index: number) => {
+            {historyList?.map((item: any, index: number) => {
               return (
                 <Tag
                   closable
@@ -265,7 +265,7 @@ const Search: FC = () => {
 
   useEffect(() => {
     setHistoryList(store.getValue("searchHistory"))
-  }, [store.getValue("searchHistory").length])
+  }, [store.getValue("searchHistory")?.length])
 
   return (
     <Popover

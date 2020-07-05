@@ -25,6 +25,7 @@ import Utils from "@/help"
 import ReactPlayer from "react-player"
 import store from "@/help/localStorage"
 import PlayRate from "@/components/PlayRate"
+import {useDispatch, useSelector} from "umi"
 
 interface PlayerInterface {
   loaded?: number
@@ -38,19 +39,23 @@ interface IProps {
 }
 const Footer: FC<IProps> = (props) => {
   const {
-    isPlay,
-    songObj,
+    // isPlay,
+    // songObj,
     showPlayer,
     volume,
     playMode,
     playerRate,
-    showPlayRecord,
-    playRecordTip,
+    // showPlayRecord,
+    // playRecordTip,
     playerObj
   } = props.$app.state
+  const dispatch = useDispatch()
   const [lastVolume, setLastVolume] = useState(0)
   const playRef: any = useRef(null)
   const list = usePlayRecord(props.$app.state)
+  const {isPlay, showPlayRecord, playRecordTip, songObj} = useSelector(
+    (state: any) => state.songInfoModel
+  )
 
   useEffect(() => {
     const volume = JSON.parse(store.getStorage("volume") as string)
@@ -77,9 +82,21 @@ const Footer: FC<IProps> = (props) => {
   }
 
   const onPlayBtn = () => {
-    appState.setStopPlay(!appState.state.isPlay)
-    if (!songObj.id) {
-      Song.getSongUrl(list[0]["id"])
+    // appState.setStopPlay(!appState.state.isPlay)
+    dispatch({
+      type: "songInfoModel/setIsPlay",
+      payload: {
+        isPlay: !isPlay
+      }
+    })
+    if (!songObj.id && list.length !== 0) {
+      dispatch({
+        type: "songInfoModel/getSongInfo",
+        payload: {
+          id: list[0]["id"]
+        }
+      })
+      // Song.getSongUrl(list[0]["id"])
     }
   }
 
@@ -106,8 +123,20 @@ const Footer: FC<IProps> = (props) => {
   }
 
   const onRecord = () => {
-    appState.setShowPlayRecord(!showPlayRecord)
-    appState.setPlayRecordTip("")
+    dispatch({
+      type: "songInfoModel/setShowPlayRecord",
+      payload: {
+        showPlayRecord: !showPlayRecord
+      }
+    })
+    dispatch({
+      type: "songInfoModel/setPlayRecordTip",
+      payload: {
+        playRecordTip: ''
+      }
+    })
+    // appState.setShowPlayRecord(!showPlayRecord)
+    // appState.setPlayRecordTip("")
   }
 
   const onPlay = (type: number) => {

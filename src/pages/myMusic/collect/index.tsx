@@ -18,7 +18,6 @@ type Props = {
 }
 
 const MvList: FC<Props> = ({data}) => {
-  console.log(data)
   const onMv = () => {
     history.push({
       pathname: "/recommend/video/mvdetail",

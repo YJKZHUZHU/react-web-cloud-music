@@ -4,7 +4,7 @@ import moment from 'moment'
 
 export interface ArInterface {
   alias?: any[]
-  id?: number |string
+  id?: number | string
   name?: string
   tns?: any[]
   [propsName: string]: any
@@ -47,13 +47,13 @@ class Utils {
     }
   }
 
-  static async setTheme(theme: string) {
-    await appState.setGlobalLoading(true)
+  static setTheme(theme: string) {
+    // await appState.setGlobalLoading(true)
     store.setStorage('theme', theme)
     this.createTheme(theme)
-    setTimeout(() => {
-      appState.setGlobalLoading(false)
-    }, 500)
+    // setTimeout(() => {
+    //   appState.setGlobalLoading(false)
+    // }, 500)
   }
 
   static getTheme() {
@@ -221,19 +221,19 @@ class Utils {
     }, [])
   }
   //评论数格式化
-  static formatCommentNumber(commentNumber:number):string|number{
-    if(commentNumber < 999) return commentNumber
-    if(commentNumber > 100000) return '10w+'
+  static formatCommentNumber(commentNumber: number): string | number {
+    if (commentNumber < 999) return commentNumber
+    if (commentNumber > 100000) return '10w+'
     return '999+'
   }
-  static findIndex(source:any[],target:number | string,playMode:number){
+  static findIndex(source: any[], target: number | string, playMode: number) {
     let result = -1
     const index = source.findIndex(item => item.id === target)
     const arr = [...new Array(source.length).keys()].filter(item => item !== index)
-    if(playMode === 0){// 顺序播放
+    if (playMode === 0) {// 顺序播放
       result = index
-    }else if(playMode === 2){// 随机播放,只有一首时播放当前歌曲
-      result = source.length === 1 ? 0 : arr[parseInt(String(Math.random() * arr.length - 1),10)]
+    } else if (playMode === 2) {// 随机播放,只有一首时播放当前歌曲
+      result = source.length === 1 ? 0 : arr[parseInt(String(Math.random() * arr.length - 1), 10)]
     }
     return result
   }

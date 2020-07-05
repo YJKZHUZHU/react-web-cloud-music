@@ -16,7 +16,6 @@ class Song {
         API.getLyric({id})
       ]
     ).then(async (value: any) => {
-      console.log(value)
       if (value[0].code === 200 && value[1].code === 200 && value[2].code === 200) {
         await appState.setSongObj({
           url: value[0].data[0].url,

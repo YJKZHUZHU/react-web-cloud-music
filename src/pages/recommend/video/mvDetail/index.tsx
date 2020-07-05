@@ -97,7 +97,6 @@ const MvDetail: FC = () => {
   const getData = () => {
     Promise.all([API.getMvDetail(query), API.getMvUrl({id: query.mvid}), API.getSimi(query)]).then(
       (res) => {
-        console.log(res[2])
         if (res[0].code === 200 && res[1].code === 200 && res[2].code === 200) {
           setSourceValue(Object.keys(res[0].data.brs)[0])
           setSource(Object.values(res[0].data.brs)[0] as string)
@@ -159,7 +158,6 @@ const MvDetail: FC = () => {
               {Object.keys(data.brs)
                 .reverse()
                 .map((item) => {
-                  console.log(item)
                   return (
                     <Option value={item} key={item}>
                       {BRS_MAP[item]}

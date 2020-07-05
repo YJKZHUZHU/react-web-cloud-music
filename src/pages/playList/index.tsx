@@ -1,11 +1,11 @@
 /** @format */
 
 import React, {FC, useEffect, useState} from "react"
-import API, {ResInterface} from "@/api"
+import API from "@/api"
 import styles from "./index.scss"
 import {FolderAddOutlined, PlayCircleOutlined, PlusOutlined} from "@ant-design/icons"
 import {Divider, Button, Tabs, Input, message} from "antd"
-import {Link, history} from "umi"
+import {Link, history,useSelector,useDispatch} from "umi"
 import TableList from "./components/ListTable"
 import CommentList from "./components/CommentList"
 import Collection from "./components/Collection"
@@ -29,26 +29,40 @@ const PlayList: FC = (props) => {
   const [label, setLabel] = useState([])
   const [isSearch, setSearch] = useState(true)
   const [searchValue, setSearchValue] = useState("")
+  const dispatch = useDispatch()
 
   const onTabs = (activeKey: string) => (+activeKey === 1 ? setSearch(true) : setSearch(false))
 
   const onPlayAll = () => {
     times++
     if (times === 1) {
-      Song.getSongUrl(playRecord[0].id)
-      appState.setPlayRecordTip("歌单已更新")
+      // Song.getSongUrl(playRecord[0].id)
+      dispatch({type: "songInfoModel/getSongInfo", payload: {id:playRecord[0].id}})
+      dispatch({
+        type: "songInfoModel/setPlayRecordTip",
+        payload: {
+          playRecordTip: "歌单已更新"
+        }
+      })
+      // appState.setPlayRecordTip("歌单已更新")
       return appState.setPlayRecord(playRecord)
     }
 
     message.info("已经添加过了哦")
-    return appState.setPlayRecordTip("")
+    dispatch({
+      type: "songInfoModel/setPlayRecordTip",
+      payload: {
+        playRecordTip: ""
+      }
+    })
+    // return appState.setPlayRecordTip("")
   }
   const getRecord = (record: any) => {
     playRecord = record
   }
 
   useEffect(() => {
-    API.playList({id: listId, loading: true}).then((res: ResInterface) => {
+    API.playList({id: listId, loading: true}).then((res) => {
       if (res.code !== 200) {
         message.info(res.msg)
         return history.push("/")

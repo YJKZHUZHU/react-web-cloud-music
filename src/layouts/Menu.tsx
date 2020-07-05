@@ -1,8 +1,6 @@
 /** @format */
 
 import React, {FC, useState} from "react"
-import styles from "./index.scss"
-
 import {
   CloudOutlined,
   CustomerServiceOutlined,
@@ -18,24 +16,24 @@ import {
   StarOutlined
 } from "@ant-design/icons"
 import {message, Popover, Input, Switch, Button, Popconfirm} from "antd"
-import {NavLink} from "umi"
+import {NavLink,useSelector} from "umi"
 import {Subscribe} from "@/Appcontainer"
 import {CSSTransition} from "react-transition-group"
 import API from "@/api"
 import {appState} from "@/models/gloable"
+import styles from "./index.scss"
 
-interface IProps {
-  $app: any
-}
 
-const MenuList: FC<IProps> = (props) => {
+
+
+const MenuList = () => {
   const [show, setShow] = useState(false)
   const [favoriteShow, setFavoriteShow] = useState(false)
   const [visible, setVisible] = useState(false)
-  const {loginStatus, userId} = props.$app.state
-  const {creator, favorite} = props.$app.state.playList
   const [checked, setChecked] = useState(false)
   const [value, setValue] = useState("")
+  const {loginStatus, userId,playList} = useSelector((state: any) => state.userModel)
+  const {creator, favorite} = playList
 
   const getPlayList = async () => {
     const ListRet: any = await API.userPlaylist({uid: userId})
@@ -280,5 +278,4 @@ const MenuList: FC<IProps> = (props) => {
   )
 }
 
-// @ts-ignore
-export default Subscribe(MenuList)
+export default MenuList

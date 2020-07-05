@@ -34,8 +34,6 @@ const Player: FC<Props> = (props,parentRef) => {
     console.log('时间:' + time + 's')
   }
   const onProgress = (state: PlayerInterface) => {
-    console.log(state.loaded)
-    console.log("哈哈哈", state)
     // console.log(Utils.aaa(state.playedSeconds))
     return appState.setPlayerObj({
       ...state,

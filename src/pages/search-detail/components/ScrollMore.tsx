@@ -57,7 +57,6 @@ const ScrollMore: FC<Props> = props => {
       limit,
       loading:true
     }).then(async (res: any) => {
-      console.log(loading)
       if (res.code === 200) {
         await setData(data.concat(mapRes(res).resData))
         await setCount(mapRes(res).resultCount)

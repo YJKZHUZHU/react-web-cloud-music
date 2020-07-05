@@ -1,38 +1,37 @@
-import React, {FC, useEffect, useState} from 'react'
-import { LeftCircleOutlined, RightCircleOutlined } from '@ant-design/icons';
-import { Carousel } from 'antd';
-import API from '@/api'
-import styles from './index.scss'
-import Song from '@/help/getSongInfo'
-import {Subscribe} from '@/Appcontainer'
+/** @format */
+
+import React, {FC, useEffect, useState} from "react"
+import {LeftCircleOutlined, RightCircleOutlined} from "@ant-design/icons"
+import {Carousel} from "antd"
+import API from "@/api"
+import Song from "@/help/getSongInfo"
+import {useDispatch} from "umi"
+import styles from "./index.scss"
 
 interface ItemInterFace {
-  targetId: number,
-  imageUrl: string,
-  typeTitle?: string,
+  targetId: number
+  imageUrl: string
+  typeTitle?: string
   titleColor?: string
 }
 
-interface ResInterface {
-  code: number,
-  banners: any
-}
-
-const CarouselImg: FC = props => {
+const CarouselImg = () => {
   const [carouselData, setCarouselData] = useState([])
+  const dispatch = useDispatch()
   let slider: any = null
   useEffect(() => {
-    // @ts-ignore
     API.banner({
       type: 0,
       loading: true
-    }).then((res:any) => {
+    }).then((res) => {
       if (res.code === 200) {
         setCarouselData(res.banners)
       }
     })
   }, [])
-  // @ts-ignore
+  const onPlay = (id: number) => {
+    dispatch({type: "songInfoModel/getSongInfo", payload: {id}})
+  }
   return (
     <div className={styles.carousel}>
       <Carousel
@@ -50,7 +49,7 @@ const CarouselImg: FC = props => {
             <div
               className={styles.item}
               key={item.targetId}
-              onClick={() => Song.getSongUrl(item.targetId)}>
+              onClick={() => onPlay(item.targetId)}>
               <img src={item.imageUrl} />
               <div className={styles.bg} style={{background: item.titleColor}}>
                 <i />
