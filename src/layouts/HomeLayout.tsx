@@ -29,13 +29,13 @@ const HomeLayout: FC<IHomeLayout> = ({loading, children}) => {
 
   return (
     <div className={styles.home}>
-      <Spin spinning={false} delay={100} size="large" tip="资源请稍等，，，">
+      {/* <Spin spinning={false} delay={100} size="large" tip="资源请稍等，，，"> */}
         <Header />
         <main>
           <Menu />
           <article>
             <div className={styles.containerWrapper}>
-              <Spin size="large" spinning={loading.global}>
+              <Spin size="large" spinning={loading.global} tip='Loading...'>
                 {children}
               </Spin>
             </div>
@@ -53,7 +53,7 @@ const HomeLayout: FC<IHomeLayout> = ({loading, children}) => {
         </main>
         <PlayerLayout />
         <Footer />
-      </Spin>
+      {/* </Spin> */}
     </div>
   )
 }

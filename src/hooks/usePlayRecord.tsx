@@ -1,10 +1,14 @@
 /** @format */
 
 import {useState, useEffect} from "react"
-import {useSelector} from 'umi'
-const usePlayRecord = (state: any) => {
-  const {playHistory, playRecord} = state
-  const {allPlayRecord} = useSelector((state: any) => state.userModel)
+import {useSelector, SongInfoModelState,UserModelState} from "umi"
+
+const usePlayRecord = () => {
+
+  // const {playHistory, playRecord} = state
+  const {allPlayRecord} = useSelector((state: any):UserModelState => state.userModel)
+  const {playRecord, playHistory} = useSelector((state: any): SongInfoModelState => state.songInfoModel)
+
   const [list, setList] = useState<any>([])
   useEffect(() => {
     if (playRecord.length !== 0) {

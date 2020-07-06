@@ -15,7 +15,7 @@ import API from "@/api"
 import styles from "./index.scss"
 import {useDebounceFn} from "@umijs/hooks"
 import classnames from "classnames"
-import {history} from "umi"
+import {history,useDispatch} from "umi"
 import store from "@/help/localStorage"
 import {Subscribe} from "@/Appcontainer"
 import {appState} from "@/models/gloable"
@@ -31,12 +31,19 @@ const Search: FC = () => {
   const [popoverVisible, setPopoverVisible] = useState(false)
   const [historyList, setHistoryList] = useState(store.getValue("searchHistory") || [])
   const [inputValue, setInputValue] = useState("")
+  const dispatch = useDispatch()
   const {run} = useDebounceFn(async (keywords) => {
     const Ret: any = await API.getSearchSuggest({keywords})
     if (Ret.code === 200 && Ret.result) {
       setSearchList(Ret.result)
     }
-    await appState.setKeywords(keywords)
+    dispatch({
+      type: "songInfoModel/setKeywords",
+      payload: {
+        keywords
+      }
+    })
+    // await appState.setKeywords(keywords)
   }, 500)
 
   const onClose = (items: any) => {
@@ -48,7 +55,13 @@ const Search: FC = () => {
     if (keywords === "") return message.info("请输入要查询的关键字")
     setInputValue(keywords)
     setPopoverVisible(false)
-    appState.setKeywords(keywords)
+    dispatch({
+      type: "songInfoModel/setKeywords",
+      payload: {
+        keywords
+      }
+    })
+    // appState.setKeywords(keywords)
     //type: 搜索类型；默认为 1 即单曲 , 取值意义 : 1: 单曲, 10: 专辑, 100: 歌手, 1000: 歌单, 1002: 用户, 1004: MV, 1006: 歌词, 1009: 电台, 1014: 视频, 1018:综合
     history.push({
       pathname: "/search-detail",

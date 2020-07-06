@@ -1,31 +1,45 @@
-import React, {FC} from 'react'
-import { CaretRightOutlined, PlaySquareOutlined } from '@ant-design/icons';
-import Song from '@/help/getSongInfo'
-import styles from './index.scss'
+/** @format */
 
-type Props = {
-  data: object,
+import React, {FC} from "react"
+import {CaretRightOutlined, PlaySquareOutlined} from "@ant-design/icons"
+import {useDispatch} from "umi"
+import Utils from '@/help'
+import styles from "./index.scss"
+
+
+export interface DataInterface {
+  alg: string
+  canDislike: boolean
+  copywriter: any
+  id: number
+  name: string
+  picUrl: string
+  song: any
+  trackNumberUpdateTime: any
+  type: number
+}
+
+interface INewMusic {
+  data: DataInterface
   index: number
 }
 
-interface DataInterface {
-  picUrl: string,
-  name: string,
-  song: any,
-  id:any
-}
-
-const NewMusic: FC<Props> = props => {
-  // @ts-ignore
-  const data: DataInterface = props.data
-  const index = props.index + 1
-  // @ts-ignore
-  const singer: string = props.data.song.artists[0].name
+const NewMusic: FC<INewMusic> = ({data, index}) => {
+  const dispatch = useDispatch()
   return (
-    <div className={styles._newMusic} onDoubleClick={() => Song.getSongUrl(data.id)}>
+    <div
+      className={styles._newMusic}
+      onDoubleClick={() =>
+        dispatch({
+          type: "songInfoModel/getSongInfo",
+          payload: {
+            id: data.id
+          }
+        })
+      }>
       <span className={styles.number}>{index < 9 ? `0${index}` : index}</span>
       <div className={styles.img}>
-        <img src={data.picUrl}/>
+        <img src={data.picUrl} />
         <span className={styles.playIcon}>
           <CaretRightOutlined />
         </span>
@@ -34,11 +48,11 @@ const NewMusic: FC<Props> = props => {
         <p className={styles.title}>{data.name}</p>
         <p className={styles.name}>
           <PlaySquareOutlined />
-          <span>{singer}</span>
+          <span>{Utils.formatName(data.song.artists)}</span>
         </p>
       </div>
     </div>
-  );
+  )
 }
 
 export default NewMusic

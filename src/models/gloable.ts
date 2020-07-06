@@ -79,26 +79,29 @@ export interface AppState {
 export default class AppContainer extends Container<AppState> {
 
   state: AppState = {
-    loading: false,
-    globalLoading: false,
-    songObj: {},
-    isPlay: false,
-    playerObj: {},
-    lyric: [],
+    songObj: {},// false
+    isPlay: false,// false
+    userInfo: {},// false
+    loginStatus: false,// false
+    userId: '',// false
+    lyric: [],// false
+    playList: { creator: [], favorite: [] },// false
+    playHistory: store.getValue('playHistory') || [], // false
+    showPlayRecord: false,// false
+    playRecordTip: '',// false
+    allPlayRecord: [],//false
+
     showPlayer: false,
+    playerObj: {},
     volume: store.getValue('volume'), //默认音量
     playMode: 0,
     playerRate: 1,
-    keywords: '',
-    userInfo: {},
-    loginStatus: false,
-    userId: '',
-    playList: { creator: [], favorite: [] },
-    playHistory: store.getValue('playHistory') || [],
-    showPlayRecord: false,
+
+    keywords: '',// false
     playRecord: [],
-    playRecordTip: '',
-    allPlayRecord: []
+
+    loading: false,
+    globalLoading: false
   }
 
 
@@ -133,6 +136,7 @@ export default class AppContainer extends Container<AppState> {
   setPlayMode = (playMode: playModeEnum) => this.setState({ playMode })
 
   setPlayRate = (playerRate: PlayerRateEnum) => this.setState({ playerRate })
+
   setKeywords = (keywords: string) => {
     store.setValue('keywords', keywords)
     return this.setState({ keywords })

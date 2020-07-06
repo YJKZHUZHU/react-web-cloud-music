@@ -3,13 +3,13 @@
 import React, {FC, useEffect, useState, Fragment, useMemo} from "react"
 import {HeartOutlined, PlayCircleOutlined} from "@ant-design/icons"
 import {Table, message} from "antd"
-import API, {ResInterface} from "@/api"
+import API from "@/api"
 import Utils from "@/help"
 import {ColumnProps} from "antd/es/table"
 import {Subscribe} from "@/Appcontainer"
 import styles from "../index.scss"
 import Song from "@/help/getSongInfo"
-import {history} from 'umi'
+import {history, useDispatch} from "umi"
 import {appState} from "@/models/gloable"
 
 type Props = {
@@ -30,10 +30,10 @@ const TableList: FC<Props> = ({
   location
 }) => {
   const [tableData, setTableData] = useState([])
-
+  const dispatch = useDispatch()
   const getData = () => {
     if (trackIds.length !== 0) {
-      API.song({ids: trackIdsStr, loading: true}).then((res: ResInterface) => {
+      API.song({ids: trackIdsStr, loading: true}).then((res) => {
         if (res.code === 200) {
           setTableData(res.songs)
           getRecord(res.songs)
@@ -42,9 +42,9 @@ const TableList: FC<Props> = ({
     }
   }
 
-  const onMv = (mvid:string) => {
+  const onMv = (mvid: string) => {
     history.push({
-      pathname: '/recommend/video/mvDetail',
+      pathname: "/recommend/video/mvDetail",
       query: {mvid}
     })
   }
@@ -59,7 +59,9 @@ const TableList: FC<Props> = ({
           <div>
             <span>{index < 10 ? `0${index}` : index}</span>
             <HeartOutlined className={styles.heartIcon} />
-            {!!record.mv ? <PlayCircleOutlined className={styles.playIcon} onClick={() =>onMv(record.mv)} /> : null}
+            {!!record.mv ? (
+              <PlayCircleOutlined className={styles.playIcon} onClick={() => onMv(record.mv)} />
+            ) : null}
           </div>
         )
       },
@@ -110,7 +112,13 @@ const TableList: FC<Props> = ({
     <Table
       onRow={(record: any) => {
         return {
-          onDoubleClick: () => Song.getSongUrl(record.id)
+          onDoubleClick: () =>
+            dispatch({
+              type: "songInfoModel/getSongInfo",
+              payload: {
+                id: record.id
+              }
+            })
         }
       }}
       columns={columns}

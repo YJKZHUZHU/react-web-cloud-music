@@ -3,7 +3,7 @@
 import React, {FC, useState, useEffect} from "react"
 import {DeleteOutlined, FileAddOutlined, HistoryOutlined} from "@ant-design/icons"
 import {Tabs, Divider, Table} from "antd"
-import {useSelector} from "umi"
+import {useSelector,useDispatch,UserModelState,SongInfoModelState} from "umi"
 import styles from "./index.scss"
 import {Subscribe} from "@/Appcontainer"
 import Utils from "@/help/index"
@@ -49,8 +49,11 @@ const allRecordsColumns: any[] = [
 ]
 
 const PlayRecord: FC<any> = (props) => {
-  const {playRecord, playHistory} = props.$app.state
-  const {allPlayRecord} = useSelector((state: any) => state.userModel)
+  // const { playHistory} = props.$app.state
+  const dispatch = useDispatch()
+  const {allPlayRecord} = useSelector((state: any):UserModelState => state.userModel)
+  const {playRecord,playHistory} = useSelector((state: any): SongInfoModelState => state.songInfoModel)
+  console.log(playHistory, playRecord)
 
   const header = (total: number, isDelete: boolean = true, isCollect: boolean = true) => {
     return (
@@ -90,7 +93,13 @@ const PlayRecord: FC<any> = (props) => {
           pagination={false}
           onRow={(record: any) => {
             return {
-              onDoubleClick: () => Song.getSongUrl(record.id)
+              onDoubleClick: () =>
+                dispatch({
+                  type: "songInfoModel/getSongInfo",
+                  payload: {
+                    id: record.id
+                  }
+                })
             }
           }}
         />
@@ -105,7 +114,13 @@ const PlayRecord: FC<any> = (props) => {
           pagination={false}
           onRow={(record: any) => {
             return {
-              onDoubleClick: () => Song.getSongUrl(record.id)
+              onDoubleClick: () =>
+                dispatch({
+                  type: "songInfoModel/getSongInfo",
+                  payload: {
+                    id: record.id
+                  }
+                })
             }
           }}
         />
@@ -122,7 +137,13 @@ const PlayRecord: FC<any> = (props) => {
           pagination={false}
           onRow={(record: any) => {
             return {
-              onDoubleClick: () => Song.getSongUrl(record.id)
+              onDoubleClick: () =>
+                dispatch({
+                  type: "songInfoModel/getSongInfo",
+                  payload: {
+                    id: record.id
+                  }
+                })
             }
           }}
         />

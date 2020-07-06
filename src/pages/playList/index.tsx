@@ -5,7 +5,7 @@ import API from "@/api"
 import styles from "./index.scss"
 import {FolderAddOutlined, PlayCircleOutlined, PlusOutlined} from "@ant-design/icons"
 import {Divider, Button, Tabs, Input, message} from "antd"
-import {Link, history,useSelector,useDispatch} from "umi"
+import {Link, history,useSelector,useDispatch,SongInfoModelState} from "umi"
 import TableList from "./components/ListTable"
 import CommentList from "./components/CommentList"
 import Collection from "./components/Collection"
@@ -18,7 +18,7 @@ import PlayRecord from "@/components/PlayRecord"
 const {TabPane} = Tabs
 const {Search} = Input
 
-let playRecord: any[] = []
+let playRecords:any[] = []
 
 const PlayList: FC = (props) => {
   let times = 0
@@ -31,21 +31,30 @@ const PlayList: FC = (props) => {
   const [searchValue, setSearchValue] = useState("")
   const dispatch = useDispatch()
 
+  const {playRecord} = useSelector((state: any): SongInfoModelState => state.songInfoModel)
+
   const onTabs = (activeKey: string) => (+activeKey === 1 ? setSearch(true) : setSearch(false))
 
   const onPlayAll = () => {
     times++
     if (times === 1) {
       // Song.getSongUrl(playRecord[0].id)
-      dispatch({type: "songInfoModel/getSongInfo", payload: {id:playRecord[0].id}})
+      dispatch({type: "songInfoModel/getSongInfo", payload: {id:playRecords[0].id}})
       dispatch({
         type: "songInfoModel/setPlayRecordTip",
         payload: {
           playRecordTip: "歌单已更新"
         }
       })
+
       // appState.setPlayRecordTip("歌单已更新")
-      return appState.setPlayRecord(playRecord)
+      return dispatch({
+        type: "songInfoModel/setPlayRecord",
+        payload: {
+          playRecord: Utils.removeRepeat(playRecords.concat(playRecord),'id')
+        }
+      })
+      // return appState.setPlayRecord(playRecord)
     }
 
     message.info("已经添加过了哦")
@@ -57,9 +66,9 @@ const PlayList: FC = (props) => {
     })
     // return appState.setPlayRecordTip("")
   }
-  const getRecord = (record: any) => {
-    playRecord = record
-  }
+  // const getRecord = (record: any) => {
+  //   playRecords = record
+  // }
 
   useEffect(() => {
     API.playList({id: listId, loading: true}).then((res) => {
@@ -162,7 +171,7 @@ const PlayList: FC = (props) => {
             trackIds={playlist.trackIds}
             tracks={playlist.tracks}
             searchValue={searchValue}
-            getRecord={getRecord}
+            getRecord={(record:any[]) => playRecords = record}
           />
         </TabPane>
         <TabPane

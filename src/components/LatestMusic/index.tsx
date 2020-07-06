@@ -3,24 +3,24 @@
 import React, {FC, useState, useEffect} from "react"
 import styles from "./index.scss"
 import {CaretRightOutlined, PlayCircleOutlined} from "@ant-design/icons"
-import {Button, Radio, Tabs} from "antd"
+import { Radio, Tabs} from "antd"
 import API from "@/api"
-import {history} from "umi"
-import Song from "@/help/getSongInfo"
+import {history, useDispatch} from "umi"
 import Utils from "@/help"
-// import get = Reflect.get
 
 const {TabPane} = Tabs
-type Props = {
-  active: number | string
+
+interface IList {
+  active: string
 }
-const List: FC<Props> = ({active}) => {
+const List: FC<IList> = ({active}) => {
   const [dataList, setDataList] = useState([])
+  const dispatch = useDispatch()
   const getAPIData = () => {
     API.getLatestMusic({
       type: active,
       loading: true
-    }).then((res: any) => {
+    }).then((res) => {
       if (res.code === 200) {
         setDataList(res.data)
       }
@@ -43,7 +43,14 @@ const List: FC<Props> = ({active}) => {
             <li
               className={styles.item}
               key={item.id}
-              onDoubleClick={() => Song.getSongUrl(item.id)}>
+              onDoubleClick={() =>
+                dispatch({
+                  type: "songInfoModel/getSongInfo",
+                  payload: {
+                    id: item.id
+                  }
+                })
+              }>
               <span className={styles.number}>{index < 10 ? `0${index + 1}` : index + 1}</span>
               <div className={styles.img}>
                 <img src={item.album.picUrl} />

@@ -1,3 +1,5 @@
+/** @format */
+
 @import "utils";
 .carousel {
   // width: 1000px;
@@ -33,32 +35,25 @@
     }
   }
 
-  i {
+  .common {
     position: absolute;
     top: 39%;
     color: $bgColor;
-    &.left {
-      left: 2%;
-    }
-    &.right {
-      right: 2%;
-    }
   }
 
+  .left {
+    @extend .common;
+    left: 5px;
+  }
+
+  .right {
+    @extend .common;
+    right: 5px;
+  }
 
   //.right {
   //  position: absolute;
   //  top: 39%;
   //  right: 2%;
   //}
-
-  .positionIcon {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
 }

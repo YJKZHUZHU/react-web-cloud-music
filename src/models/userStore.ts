@@ -1,8 +1,8 @@
 import { Effect, ImmerReducer, Subscription } from 'umi'
 import API from '@/api'
 interface IPlayList {
-  creator:any[]
-  favorite:any[]
+  creator: any[]
+  favorite: any[]
 }
 export interface UserModelState {
   userInfo?: any, //用户信息
@@ -19,8 +19,6 @@ export interface UserModelType {
     getUserInfo: Effect
   }
   reducers: {
-    // initUserInfo: Reducer<UserModelState>
-    // 启用 immer 之后
     initUserInfo: ImmerReducer<UserModelState>
   },
   subscriptions?: { setup: Subscription };
@@ -46,7 +44,7 @@ const UserModel: UserModelType = {
       const { userId } = StatusRet.profile
       const LoginRet = yield call(API.useInfo, { uid: userId })
       const RecordRet = yield call(API.getPlayRecord, { uid: userId, type: 0 }) //type:0 所有 1 一周
-      const playListRet = yield call(API.userPlaylist, { uid: userId})
+      const playListRet = yield call(API.userPlaylist, { uid: userId })
       console.log(playListRet)
       yield put({
         type: 'initUserInfo',
@@ -62,18 +60,13 @@ const UserModel: UserModelType = {
   },
   reducers: {
     initUserInfo(state, action) {
-      const { userInfo, loginStatus, userId, playList,allPlayRecord } = action.payload
-      console.log(playList)
+      const { userInfo, loginStatus, userId, playList, allPlayRecord } = action.payload
       state.userInfo = userInfo
       state.loginStatus = loginStatus
       state.userId = userId
       state.allPlayRecord = allPlayRecord
       state.playList.creator = playList.filter((item: any) => !item.subscribed)
       state.playList.favorite = playList.filter((item: any) => item.subscribed)
-      // state.playList = {
-      //   creator: playList.filter((item: any) => !item.subscribed),
-      //   favorite: playList.filter((item: any) => item.subscribed)
-      // }
     }
   },
   // subscriptions: {// 订阅，在app.start()即启动项目时被执行

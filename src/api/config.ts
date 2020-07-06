@@ -1,5 +1,6 @@
 import { extend } from 'umi-request'
 import Nprogress from 'nprogress'
+import {useDispatch} from 'umi'
 const errorHandler = (error: any) => {
   const code = [301, 400, 404, 405, 302]
   const { response = {}, data } = error

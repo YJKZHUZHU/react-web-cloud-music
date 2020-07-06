@@ -52,7 +52,7 @@ const Footer: FC<IProps> = (props) => {
   const dispatch = useDispatch()
   const [lastVolume, setLastVolume] = useState(0)
   const playRef: any = useRef(null)
-  const list = usePlayRecord(props.$app.state)
+  const list = usePlayRecord()
   const {isPlay, showPlayRecord, playRecordTip, songObj} = useSelector(
     (state: any) => state.songInfoModel
   )
@@ -108,7 +108,13 @@ const Footer: FC<IProps> = (props) => {
     if (parseInt(getSecondsLoaded(), 10) === parseInt(getCurrentTime(), 10)) {
       // 单曲循环
       if (playMode === 1) {
-        return Song.getSongUrl(songObj.id)
+        return dispatch({
+          type: "songInfoModel/getSongInfo",
+          payload: {
+            id: songObj.id
+          }
+        })
+        // return Song.getSongUrl(songObj.id)
       }
       // 顺序或者随机播放，触发下一首点击事件
       onPlay(1)
@@ -132,7 +138,7 @@ const Footer: FC<IProps> = (props) => {
     dispatch({
       type: "songInfoModel/setPlayRecordTip",
       payload: {
-        playRecordTip: ''
+        playRecordTip: ""
       }
     })
     // appState.setShowPlayRecord(!showPlayRecord)
@@ -153,14 +159,24 @@ const Footer: FC<IProps> = (props) => {
         } else if (type === 1) {
           songId = index === list.length - 1 ? list[0]["id"] : list[index + 1]["id"]
         }
-        Song.getSongUrl(songId)
+        dispatch({
+          type: "songInfoModel/getSongInfo",
+          payload: {
+            id: songId
+          }
+        })
+        // Song.getSongUrl(songId)
       } else if (+playMode === 2) {
         // 随机播放
         songId = list[index]["id"]
       }
     }
-
-    Song.getSongUrl(songId)
+    dispatch({
+      type: "songInfoModel/getSongInfo",
+      payload: {
+        id: songId
+      }
+    })
   }
   const onSlider = (value: any) => {
     playRef.current.seekTo(value)

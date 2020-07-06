@@ -3,7 +3,7 @@
 import React, {FC} from "react"
 import {DownloadOutlined, HeartOutlined, PlaySquareOutlined} from "@ant-design/icons"
 import {Table, Spin} from "antd"
-import {history} from 'umi'
+import {history,useDispatch} from 'umi'
 import styles from "../index.scss"
 import Utils from "@/help"
 import Song from "@/help/getSongInfo"
@@ -17,6 +17,7 @@ type Props = {
 
 const SingleList: FC<Props> = (props) => {
   const {data = [], loading, hasMore} = props
+  const dispatch = useDispatch()
   const columns: any = [
     {
       title: "操作",
@@ -115,7 +116,13 @@ const SingleList: FC<Props> = (props) => {
       <Table
         onRow={(record: any) => {
           return {
-            onDoubleClick: () => Song.getSongUrl(record.id)
+            onDoubleClick: () =>
+              dispatch({
+                type: "songInfoModel/getSongInfo",
+                payload: {
+                  id: record.id
+                }
+              })
           }
         }}
         bordered={false}

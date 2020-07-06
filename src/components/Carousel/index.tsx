@@ -29,9 +29,6 @@ const CarouselImg = () => {
       }
     })
   }, [])
-  const onPlay = (id: number) => {
-    dispatch({type: "songInfoModel/getSongInfo", payload: {id}})
-  }
   return (
     <div className={styles.carousel}>
       <Carousel
@@ -49,7 +46,9 @@ const CarouselImg = () => {
             <div
               className={styles.item}
               key={item.targetId}
-              onClick={() => onPlay(item.targetId)}>
+              onClick={() =>
+                dispatch({type: "songInfoModel/getSongInfo", payload: {id: item.targetId}})
+              }>
               <img src={item.imageUrl} />
               <div className={styles.bg} style={{background: item.titleColor}}>
                 <i />
@@ -59,10 +58,8 @@ const CarouselImg = () => {
           )
         })}
       </Carousel>
-      <div className={styles.positionIcon}>
-        <LeftCircleOutlined onClick={() => slider.slick.slickPrev()} className={styles.left} />
-        <RightCircleOutlined onClick={() => slider.slick.slickNext()} className={styles.right} />
-      </div>
+      <LeftCircleOutlined onClick={() => slider.slick.slickPrev()} className={styles.left} />
+      <RightCircleOutlined onClick={() => slider.slick.slickNext()} className={styles.right} />
     </div>
   )
 }
