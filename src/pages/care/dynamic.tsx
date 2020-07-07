@@ -1,22 +1,16 @@
 /** @format */
 
 import React, {FC, useEffect, useState, useCallback} from "react"
-import {Subscribe} from "@/Appcontainer"
 import {DeleteOutlined, LikeOutlined, UserOutlined} from "@ant-design/icons"
-import {List, Avatar, Button, Skeleton, Divider, message} from "antd"
-import {Link} from "umi"
+import {List, Avatar, Divider, message} from "antd"
+import {Link, useSelector, UserModelState} from "umi"
 import classnames from "classnames"
 import Utils from "@/help/index"
 import API from "@/api"
 import styles from "@/pages/care/index.scss"
 
-type Props = {
-  $app: any
-  location: any
-  type: number
-}
-const Dynamic: FC<Props> = (props) => {
-  const {userInfo} = props.$app.state
+const Dynamic: FC = () => {
+  const {userInfo} = useSelector((state: any): UserModelState => state.userModel)
   const [dynamicArr, setDynamicArr] = useState([])
 
   const commentLike = async (info: any, t: number) => {
@@ -132,5 +126,4 @@ const Dynamic: FC<Props> = (props) => {
   )
 }
 
-// @ts-ignore
-export default Subscribe(Dynamic)
+export default Dynamic

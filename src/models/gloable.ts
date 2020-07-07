@@ -98,7 +98,7 @@ export default class AppContainer extends Container<AppState> {
     playerRate: 1,
 
     keywords: '',// false
-    playRecord: [],
+    playRecord: [],// false
 
     loading: false,
     globalLoading: false

@@ -1,6 +1,6 @@
 /** @format */
 
-import React, {FC, useState, useEffect, useMemo} from "react"
+import React, {useState, useEffect} from "react"
 import {
   CustomerServiceOutlined,
   DeleteOutlined,
@@ -15,15 +15,13 @@ import API from "@/api"
 import styles from "./index.scss"
 import {useDebounceFn} from "@umijs/hooks"
 import classnames from "classnames"
-import {history,useDispatch} from "umi"
+import {history, useDispatch} from "umi"
 import store from "@/help/localStorage"
-import {Subscribe} from "@/Appcontainer"
-import {appState} from "@/models/gloable"
 import Utils from "@/help"
 
 const {confirm} = Modal
 
-const Search: FC = () => {
+const Search = () => {
   const [visible, setVisible] = useState(false)
   const [modalVisible, setModalVisible] = useState(false)
   const [hotList, setHotList] = useState([])
@@ -43,7 +41,6 @@ const Search: FC = () => {
         keywords
       }
     })
-    // await appState.setKeywords(keywords)
   }, 500)
 
   const onClose = (items: any) => {
@@ -302,5 +299,4 @@ const Search: FC = () => {
     </Popover>
   )
 }
-// @ts-ignore
-export default Subscribe(Search)
+export default Search

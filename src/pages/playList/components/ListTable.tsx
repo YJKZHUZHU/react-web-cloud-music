@@ -1,34 +1,21 @@
 /** @format */
 
-import React, {FC, useEffect, useState, Fragment, useMemo} from "react"
+import React, {FC, useEffect, useState, useMemo} from "react"
 import {HeartOutlined, PlayCircleOutlined} from "@ant-design/icons"
-import {Table, message} from "antd"
+import {Table} from "antd"
 import API from "@/api"
 import Utils from "@/help"
-import {ColumnProps} from "antd/es/table"
-import {Subscribe} from "@/Appcontainer"
 import styles from "../index.scss"
-import Song from "@/help/getSongInfo"
 import {history, useDispatch} from "umi"
-import {appState} from "@/models/gloable"
 
-type Props = {
+interface ITableList {
   trackIds?: any
   tracks?: any
-  $app: any
-  location: any
   searchValue: string
   getRecord: (record: any) => void
 }
 
-const TableList: FC<Props> = ({
-  trackIds = [],
-  searchValue = "",
-  getRecord,
-  tracks = [],
-  $app,
-  location
-}) => {
+const TableList: FC<ITableList> = ({trackIds = [], searchValue = "", getRecord}) => {
   const [tableData, setTableData] = useState([])
   const dispatch = useDispatch()
   const getData = () => {
@@ -134,5 +121,4 @@ const TableList: FC<Props> = ({
   )
 }
 
-// @ts-ignore
-export default Subscribe(TableList)
+export default TableList

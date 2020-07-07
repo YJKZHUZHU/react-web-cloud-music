@@ -1,14 +1,13 @@
 /** @format */
 
 import React, {FC, useEffect, useState, forwardRef} from "react"
-import {Subscribe} from "@/Appcontainer"
 import {InfoCircleOutlined} from "@ant-design/icons"
 import {Divider, Input, Popover, Button, Tag, message, Form} from "antd"
 import styles from "./index.scss"
-import {history} from "umi"
+import {history, useSelector, UserModelState} from "umi"
+import {FormInstance} from "antd/lib/form"
 import API from "@/api"
 import Map from "@/help/map"
-import {appState} from "@/models/gloable"
 import {Store} from "@umijs/hooks/lib/useFormTable"
 
 const {CheckableTag} = Tag
@@ -17,7 +16,7 @@ const MapList = new Map()
 type Props = {
   $app?: any
   location?: any
-  form?: any
+  form: FormInstance
   initTag?: any
 }
 type SelectedTags = string[]
@@ -26,7 +25,7 @@ const AddLabel: FC<Props> = (props, ref) => {
   const {setFieldsValue, getFieldValue} = props.form
 
   const [visible, setVisible] = useState(false)
-  const [selectedTags, setSelectedTags] = useState<SelectedTags>(getFieldValue('tags'))
+  const [selectedTags, setSelectedTags] = useState<SelectedTags>(getFieldValue("tags"))
 
   const onTag = (item: string, checked: boolean) => {
     const nextSelectedTags: any = checked
@@ -87,8 +86,7 @@ const AddLabel: FC<Props> = (props, ref) => {
 
   useEffect(() => {
     setSelectedTags(getFieldValue("tags"))
-    // setFieldsValue({tags: props.initTag})
-  }, [getFieldValue('tags')])
+  }, [getFieldValue("tags")])
 
   return (
     <div className={styles.addLabel} ref={ref}>
@@ -113,35 +111,31 @@ const AddLabel: FC<Props> = (props, ref) => {
 const Label = forwardRef(AddLabel)
 
 const mapToForm = (data: any[], id: number) => {
-  console.log(data,id)
-  return data.filter(item => +item.id === +id)[0]
+  return data.filter((item) => +item.id === +id)[0]
 }
 
 const EditSongList: FC<Props> = (props) => {
-  const {creator} = props.$app.state.playList
-  // const {getFieldDecorator} = props.form
+  const {playList, userId} = useSelector((state: any): UserModelState => state.userModel)
   const [form] = Form.useForm()
-  const {setFieldsValue,getFieldsValue} = form
-  const creatorItem = mapToForm(props.$app.state.playList.creator, history.location.query.id)
+  const {setFieldsValue} = form
+  const creatorItem = mapToForm(playList.creator, history.location.query.id)
 
   setFieldsValue({
-    name: creatorItem?.name || '',
-    desc:creatorItem?.description || '',
+    name: creatorItem?.name || "",
+    desc: creatorItem?.description || "",
     tags: creatorItem?.tags || []
   })
 
-  // console.log(creatorItem)
   const onSubmit = async (values: Store) => {
     const Ret: any = await API.playlistUpdate({
       ...values,
       tags: values.tags.join(";"),
       id: history.location.query.id
     })
-    const PlayListRet: any = await API.userPlaylist({uid: props.$app.state.userId})
+    const PlayListRet: any = await API.userPlaylist({uid: userId})
     if (Ret.code !== 200 || PlayListRet.code !== 200) {
       return message.info("稍后再试哦")
     }
-    await appState.setPlayList(PlayListRet.playlist)
     message.success("歌单描述更新成功")
     history.push({
       pathname: "/playList",
@@ -157,21 +151,14 @@ const EditSongList: FC<Props> = (props) => {
       <div className={styles.content}>
         <div className={styles.form}>
           <Form
-            onFinishFailed={(err) => {
-              console.log(err)
-            }}
             onFinish={onSubmit}
             form={form}
             labelCol={{span: 2}}
             wrapperCol={{span: 20}}>
             <Form.Item label="歌单名" name="name">
               <Input placeholder="歌单名" allowClear />
-              {/* {getFieldDecorator("name", {
-                initialValue: creatorItem.name
-              })()} */}
             </Form.Item>
-            <Form.Item label="标签" name='tags'>
-              {/* <Label {...props} form={form} initTag={creatorItem.tags || []} /> */}
+            <Form.Item label="标签" name="tags">
               <Label {...props} form={form} />
             </Form.Item>
             <Form.Item label="简介" name="desc">
@@ -202,7 +189,5 @@ const EditSongList: FC<Props> = (props) => {
   )
 }
 
-// const EditSongListForm = Form.create({name: 'EditSongListForm'})(EditSongList)
 
-// @ts-ignore
-export default Subscribe(EditSongList)
+export default EditSongList

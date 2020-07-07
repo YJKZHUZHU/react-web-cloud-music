@@ -16,15 +16,17 @@ import {
   StarOutlined
 } from "@ant-design/icons"
 import {message, Popover, Input, Switch, Button, Popconfirm} from "antd"
-import {NavLink,useSelector} from "umi"
-import {Subscribe} from "@/Appcontainer"
+import {NavLink, useSelector, useDispatch, history} from "umi"
 import {CSSTransition} from "react-transition-group"
 import API from "@/api"
-import {appState} from "@/models/gloable"
 import styles from "./index.scss"
 
-
-
+const onLink = (listId: string) => {
+  history.push({
+    pathname: "/playList",
+    query: {listId}
+  })
+}
 
 const MenuList = () => {
   const [show, setShow] = useState(false)
@@ -32,15 +34,21 @@ const MenuList = () => {
   const [visible, setVisible] = useState(false)
   const [checked, setChecked] = useState(false)
   const [value, setValue] = useState("")
-  const {loginStatus, userId,playList} = useSelector((state: any) => state.userModel)
+  const {loginStatus, userId, playList} = useSelector((state: any) => state.userModel)
   const {creator, favorite} = playList
+  const dispatch = useDispatch()
 
   const getPlayList = async () => {
     const ListRet: any = await API.userPlaylist({uid: userId})
     if (ListRet.code !== 200) {
       return favoriteShow
     }
-    await appState.setPlayList(ListRet.playlist)
+    dispatch({
+      type: "userModel/setPlayList",
+      payload: {
+        playlist: ListRet.playlist
+      }
+    })
   }
 
   const stopPropagation = (e: any) => {
@@ -179,44 +187,39 @@ const MenuList = () => {
               <ul className={styles.list}>
                 {creator.map((item: any, index: number) => {
                   return (
-                    <li key={item.id} onClick={() => setShow(true)}>
-                      <NavLink to={`/playList?listId=${item.id}`} target="div">
-                        <div className={styles.creator}>
-                          <img src={`${item.coverImgUrl}?param=40y40`} alt={item.coverImgUrl} />
+                    <li key={item.id} className={styles.creator} onClick={() => onLink(item.id)}>
+                      <img src={`${item.coverImgUrl}?param=40y40`} alt={item.coverImgUrl} />
+                      <div className={styles.title}>
+                        <span className={styles.content}>{item.name}</span>
+                        <div className={styles.operator}>
+                          <span>{item.trackCount}首</span>
 
-                          <div className={styles.title}>
-                            <span className={styles.content}>{item.name}</span>
-                            <div className={styles.operator}>
-                              <span>{item.trackCount}首</span>
+                          {item.privacy === 10 && (
+                            <EyeInvisibleOutlined title="隐私歌单" className={styles.privacy} />
+                          )}
 
-                              {item.privacy === 10 && (
-                                <EyeInvisibleOutlined title="隐私歌单" className={styles.privacy} />
-                              )}
-
-                              {index !== 0 && (
-                                <p className={styles.icon} onClick={stopPropagation}>
-                                  <NavLink to={`/edit-song-list?id=${item.id}`}>
-                                    <EditOutlined className={styles.left} />
-                                  </NavLink>
-                                  <Popconfirm
-                                    getPopupContainer={(): any =>
-                                      document.getElementsByClassName(`_menu_item_${item.id}`)[0]
-                                    }
-                                    overlayStyle={{zIndex: 777777}}
-                                    trigger={"click"}
-                                    placement="rightBottom"
-                                    title="确定删除该歌单吗?"
-                                    onConfirm={() => onConfirm(item.id)}
-                                    okText="确定"
-                                    cancelText="取消">
-                                    <DeleteOutlined className={`_menu_item_${item.id}`} />
-                                  </Popconfirm>
-                                </p>
-                              )}
-                            </div>
-                          </div>
+                          {index !== 0 && (
+                            <p className={styles.icon} onClick={stopPropagation}>
+                              <NavLink to={`/edit-song-list?id=${item.id}`}>
+                                <EditOutlined className={styles.left} />
+                              </NavLink>
+                              <Popconfirm
+                                getPopupContainer={(): any =>
+                                  document.getElementsByClassName(`_menu_item_${item.id}`)[0]
+                                }
+                                overlayStyle={{zIndex: 777777}}
+                                trigger={"click"}
+                                placement="rightBottom"
+                                title="确定删除该歌单吗?"
+                                onConfirm={() => onConfirm(item.id)}
+                                okText="确定"
+                                cancelText="取消">
+                                <DeleteOutlined className={`_menu_item_${item.id}`} />
+                              </Popconfirm>
+                            </p>
+                          )}
                         </div>
-                      </NavLink>
+                      </div>
                     </li>
                   )
                 })}
@@ -229,10 +232,7 @@ const MenuList = () => {
           <div className={styles.songList} onClick={() => setFavoriteShow(!favoriteShow)}>
             <div className={styles.createList}>
               <span>收藏的歌单({favorite.length})</span>
-              <p className={styles.icon}>
-                {favoriteShow ? <DownOutlined /> : <UpOutlined />}
-                {/* <LegacyIcon type={favoriteShow ? "down" : "up"} /> */}
-              </p>
+              <p className={styles.icon}>{favoriteShow ? <DownOutlined /> : <UpOutlined />}</p>
             </div>
 
             <CSSTransition
@@ -244,28 +244,23 @@ const MenuList = () => {
               <ul className={styles.list}>
                 {favorite.map((item: any) => {
                   return (
-                    <li key={item.id}>
-                      <NavLink to={`/playList?listId=${item.id}`}>
-                        <div className={styles.creator}>
-                          <img src={`${item.coverImgUrl}?param=40y40`} alt={item.coverImgUrl} />
-
-                          <div className={styles.title}>
-                            <span className={styles.content}>{item.name}</span>
-                            <div className={styles.operator}>
-                              <span>{item.trackCount}首</span>
-                              <p className={styles.icon}>
-                                <Popconfirm
-                                  title="确定删除该歌单吗?"
-                                  onConfirm={() => onConfirm(item.id)}
-                                  okText="确定"
-                                  cancelText="取消">
-                                  <DeleteOutlined />
-                                </Popconfirm>
-                              </p>
-                            </div>
-                          </div>
+                    <li key={item.id} className={styles.creator} onClick={() => onLink(item.id)}>
+                      <img src={`${item.coverImgUrl}?param=40y40`} alt={item.coverImgUrl} />
+                      <div className={styles.title}>
+                        <span className={styles.content}>{item.name}</span>
+                        <div className={styles.operator}>
+                          <span>{item.trackCount}首</span>
+                          <p className={styles.icon}>
+                            <Popconfirm
+                              title="确定删除该歌单吗?"
+                              onConfirm={() => onConfirm(item.id)}
+                              okText="确定"
+                              cancelText="取消">
+                              <DeleteOutlined />
+                            </Popconfirm>
+                          </p>
                         </div>
-                      </NavLink>
+                      </div>
                     </li>
                   )
                 })}

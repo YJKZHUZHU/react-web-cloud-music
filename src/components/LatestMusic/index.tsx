@@ -111,9 +111,6 @@ const LatestMusic: FC = (props) => {
     setActive(value)
   }
 
-  const onRadioGroup = (e: any) => {
-    console.log(e.target.value)
-  }
 
   return (
     <div className={styles._latestMusic}>

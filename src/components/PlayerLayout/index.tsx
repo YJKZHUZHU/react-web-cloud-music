@@ -1,9 +1,9 @@
 /** @format */
 
-import React, {FC, useEffect, useState, Fragment, useRef} from "react"
+import React, {FC, useEffect, useState, useRef} from "react"
 import styles from "./index.scss"
 import classnames from "classnames"
-import {Subscribe} from "@/Appcontainer"
+import {useSelector, PlayModelState, SongInfoModelState} from "umi"
 import BScroll from "@better-scroll/core"
 import ScrollBar from "@better-scroll/scroll-bar"
 import MouseWheel from "@better-scroll/mouse-wheel"
@@ -13,11 +13,11 @@ import Utils from "@/help"
 BScroll.use(ScrollBar)
 BScroll.use(MouseWheel)
 
-type Props = {
-  $app: any
-}
-const PlayerLayout: FC<Props> = (props) => {
-  const {lyric, songObj, isPlay, playerObj, showPlayer} = props.$app.state
+const PlayerLayout = () => {
+  const {isPlay, songObj, lyric} = useSelector(
+    (state: any): SongInfoModelState => state.songInfoModel
+  )
+  const {playerObj, showPlayer} = useSelector((state: any): PlayModelState => state.playmodel)
   const [scroller, setScroller] = useState(null)
   const [rd, setRd] = useState<any>(null)
   const imgContainerRef: any = useRef(null)
@@ -75,7 +75,7 @@ const PlayerLayout: FC<Props> = (props) => {
 
   useEffect(() => {
     const mobileOption = {
-      size: parseInt(imgContainerRef.current.offsetWidth,10),
+      size: parseInt(imgContainerRef.current.offsetWidth, 10),
       radius: 0.25,
       rippeWidth: 2,
       pointRadius: 4
@@ -166,5 +166,4 @@ const PlayerLayout: FC<Props> = (props) => {
   )
 }
 
-// @ts-ignore
-export default Subscribe(PlayerLayout)
+export default PlayerLayout

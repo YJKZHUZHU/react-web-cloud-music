@@ -1,14 +1,10 @@
 /** @format */
 
-import React, {FC, Fragment} from "react"
-import {Subscribe} from "@/Appcontainer"
-import {DashboardOutlined, SyncOutlined, UnorderedListOutlined} from "@ant-design/icons"
+import React from "react"
 import {Tooltip} from "antd"
-import {appState} from "@/models/gloable"
 import classnames from "classnames"
-type Props = {
-  $app: any
-}
+import {useSelector, useDispatch, PlayModelState} from "umi"
+
 
 interface IMap {
   [propsName: number]: any
@@ -24,23 +20,30 @@ const MAP_ICON: IMap = {
   1: "icon-icon-",
   2: "icon-suijibofang"
 }
-const MAP_MODE:IMap = {
+const MAP_MODE: IMap = {
   0: 1,
   1: 2,
   2: 0
 }
 
-const PlayRate: FC<Props> = (props) => {
-  const {playMode} = props.$app.state
+const PlayMode = () => {
+  const dispatch = useDispatch()
+  const {playMode} = useSelector((state: any): PlayModelState => state.playmodel)
   return (
     <Tooltip placement="top" title={MAP_TITLE[playMode]}>
       <i
         className={classnames("iconfont", MAP_ICON[playMode])}
-        onClick={() => appState.setPlayMode(MAP_MODE[playMode])}
+        onClick={() =>
+          dispatch({
+            type: "playmodel/setPlayMode",
+            payload: {
+              playMode: MAP_MODE[playMode]
+            }
+          })
+        }
       />
     </Tooltip>
   )
 }
 
-// @ts-ignore
-export default Subscribe(PlayRate)
+export default PlayMode

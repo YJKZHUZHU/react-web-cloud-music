@@ -6,7 +6,6 @@ const useLyric = (id: number | string) => {
   const getLyric = () => {
     id && API.getLyric({id}).then((res: any) => {
       if (res.code === 200) {
-        console.log(res)
       }
     })
   }

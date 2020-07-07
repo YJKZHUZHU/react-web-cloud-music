@@ -1,14 +1,12 @@
 /** @format */
 
-import React, {FC, useState, useEffect} from "react"
-import {DeleteOutlined, FileAddOutlined, HistoryOutlined} from "@ant-design/icons"
+import React from "react"
+import {DeleteOutlined, FileAddOutlined} from "@ant-design/icons"
 import {Tabs, Divider, Table} from "antd"
-import {useSelector,useDispatch,UserModelState,SongInfoModelState} from "umi"
+import {useSelector, useDispatch, UserModelState, SongInfoModelState} from "umi"
 import styles from "./index.scss"
-import {Subscribe} from "@/Appcontainer"
 import Utils from "@/help/index"
 import classnames from "classnames"
-import Song from "@/help/getSongInfo"
 const {TabPane} = Tabs
 
 const columns: any[] = [
@@ -48,12 +46,12 @@ const allRecordsColumns: any[] = [
   }
 ]
 
-const PlayRecord: FC<any> = (props) => {
-  // const { playHistory} = props.$app.state
+const PlayRecord = () => {
   const dispatch = useDispatch()
-  const {allPlayRecord} = useSelector((state: any):UserModelState => state.userModel)
-  const {playRecord,playHistory} = useSelector((state: any): SongInfoModelState => state.songInfoModel)
-  console.log(playHistory, playRecord)
+  const {allPlayRecord} = useSelector((state: any): UserModelState => state.userModel)
+  const {playRecord, playHistory} = useSelector(
+    (state: any): SongInfoModelState => state.songInfoModel
+  )
 
   const header = (total: number, isDelete: boolean = true, isCollect: boolean = true) => {
     return (
@@ -78,12 +76,11 @@ const PlayRecord: FC<any> = (props) => {
     )
   }
 
-  const onTab = (key: any) => {
-    console.log(key)
-  }
   return (
-    <Tabs defaultActiveKey="1" className={styles._playRecord} onChange={onTab}>
-      <TabPane tab={<i className={classnames("iconfont", "icon-bofangliebiao")}>播放列表</i>} key="1">
+    <Tabs defaultActiveKey="1" className={styles._playRecord}>
+      <TabPane
+        tab={<i className={classnames("iconfont", "icon-bofangliebiao")}>播放列表</i>}
+        key="1">
         {header(playRecord.length)}
         <Divider className={styles.divider} />
         <Table
@@ -151,5 +148,4 @@ const PlayRecord: FC<any> = (props) => {
     </Tabs>
   )
 }
-//@ts-ignore
-export default Subscribe(PlayRecord)
+export default PlayRecord

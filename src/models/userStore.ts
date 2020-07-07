@@ -4,13 +4,19 @@ interface IPlayList {
   creator: any[]
   favorite: any[]
 }
+export interface AllPlayRecordInterface {
+  playCount: string
+  score: string
+  song: { [propName: string]: string }
+}
 export interface UserModelState {
   userInfo?: any, //用户信息
   loginStatus?: boolean, //登录状态
-  userId?: number | string //用户Id
-  allPlayRecord: any[]
+  userId?: number | string //用户Idp
+  allPlayRecord: AllPlayRecordInterface[]
   playList: IPlayList
 }
+
 
 export interface UserModelType {
   namespace: 'userModel'
@@ -20,6 +26,7 @@ export interface UserModelType {
   }
   reducers: {
     initUserInfo: ImmerReducer<UserModelState>
+    setPlayList: ImmerReducer<UserModelState>
   },
   subscriptions?: { setup: Subscription };
 }
@@ -45,7 +52,6 @@ const UserModel: UserModelType = {
       const LoginRet = yield call(API.useInfo, { uid: userId })
       const RecordRet = yield call(API.getPlayRecord, { uid: userId, type: 0 }) //type:0 所有 1 一周
       const playListRet = yield call(API.userPlaylist, { uid: userId })
-      console.log(playListRet)
       yield put({
         type: 'initUserInfo',
         payload: {
@@ -67,6 +73,13 @@ const UserModel: UserModelType = {
       state.allPlayRecord = allPlayRecord
       state.playList.creator = playList.filter((item: any) => !item.subscribed)
       state.playList.favorite = playList.filter((item: any) => item.subscribed)
+    },
+    setPlayList(state, action) {
+      const { playList } = action.payload
+      state.playList = {
+        creator: playList.filter((item: any) => !item.subscribed),
+        favorite: playList.filter((item: any) => item.subscribed)
+      }
     }
   },
   // subscriptions: {// 订阅，在app.start()即启动项目时被执行

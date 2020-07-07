@@ -1,5 +1,5 @@
 import store from './localStorage'
-import { appState, PlayerRateEnum, AllPlayRecordInterface } from '@/models/gloable'
+import { AllPlayRecordInterface } from 'umi'
 import moment from 'moment'
 
 export interface ArInterface {
@@ -48,12 +48,8 @@ class Utils {
   }
 
   static setTheme(theme: string) {
-    // await appState.setGlobalLoading(true)
     store.setStorage('theme', theme)
     this.createTheme(theme)
-    // setTimeout(() => {
-    //   appState.setGlobalLoading(false)
-    // }, 500)
   }
 
   static getTheme() {

@@ -1,36 +1,37 @@
 import React, {FC, useEffect, useState} from 'react'
-import styles from '../index.scss'
-import {Subscribe} from '@/Appcontainer'
 import { WechatOutlined,CheckOutlined , PlusOutlined} from '@ant-design/icons';
 import { List, Avatar, Divider, Button, message } from 'antd';
-import {Link} from "umi"
+import {Link, useSelector,UserModelState} from "umi"
 import API from '@/api'
+import styles from "../index.scss"
 
-type Props = {
-  $app: any,
-  location: any,
-  type: number
+
+interface ICare {
+  type:number
 }
-const Care: FC<Props> = (props) => {
-
-  const {userInfo} = props.$app.state
+const Care: FC<ICare> = (props) => {
+  const {userInfo} = useSelector((state: any): UserModelState => state.userModel)
   const [followsArr, setFollowsArr] = useState([])
   const [isFollowed, setIsFollowed] = useState(false)
 
   const follow = (id: any) => {
     API.follow({id, t: 1}).then((res: any) => {
-      console.log(res)
       if (res.code !== 200) {
-        return message.error('关注失败，请售稍后再试')
+        return message.error("关注失败，请售稍后再试")
       }
 
       setIsFollowed(true)
 
-      return message.success('关注成功')
+      return message.success("关注成功")
     })
   }
 
-  const description = (item: {playlistCount: number, followeds: number, followed: boolean, userId: any}) => {
+  const description = (item: {
+    playlistCount: number
+    followeds: number
+    followed: boolean
+    userId: any
+  }) => {
     return (
       <div className={styles.description}>
         <div className={styles.left}>
@@ -67,7 +68,7 @@ const Care: FC<Props> = (props) => {
   useEffect(() => {
     if (userInfo.userPoint) {
       const {userId} = userInfo.userPoint
-      const apiTYpe = props.type === 1 ? 'follows' : 'followeds'
+      const apiTYpe = props.type === 1 ? "follows" : "followeds"
       API[apiTYpe]({uid: userId, loading: true}).then((res: any) => {
         if (res.code !== 200) {
           return false
@@ -80,8 +81,11 @@ const Care: FC<Props> = (props) => {
 
   return (
     <div className={styles._follows}>
-      <h2 className={styles.title}>{userInfo.profile && userInfo.profile.nickname}{props.type ? '的关注' : '的粉丝'}</h2>
-      <Divider className={styles.divider}/>
+      <h2 className={styles.title}>
+        {userInfo.profile && userInfo.profile.nickname}
+        {props.type ? "的关注" : "的粉丝"}
+      </h2>
+      <Divider className={styles.divider} />
       <List
         itemLayout="horizontal"
         dataSource={followsArr}
@@ -89,7 +93,7 @@ const Care: FC<Props> = (props) => {
         renderItem={(item: any) => (
           <List.Item>
             <List.Item.Meta
-              avatar={<Avatar src={item.avatarUrl}/>}
+              avatar={<Avatar src={item.avatarUrl} />}
               title={<Link to="/">{item.nickname}</Link>}
               description={description(item)}
             />
@@ -99,5 +103,4 @@ const Care: FC<Props> = (props) => {
     </div>
   )
 }
-// @ts-ignore
-export default Subscribe(Care)
+export default Care

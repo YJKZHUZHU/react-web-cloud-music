@@ -1,3 +1,5 @@
+/** @format */
+
 @import "utils";
 
 .home {
@@ -15,7 +17,6 @@
       position: relative;
       width: 300px;
 
-
       .menu {
         padding-bottom: 90px;
         width: 100%;
@@ -29,11 +30,12 @@
         overflow: hidden;
         overflow-y: auto;
 
-        .recommend, .myMusic, .songList {
+        .recommend,
+        .myMusic,
+        .songList {
           text-align: left;
           @include fl();
           width: 100%;
-
 
           h2 {
             margin-top: 15px;
@@ -47,29 +49,9 @@
             width: 100%;
 
             li {
-              a {
-                display: inline-block;
-                line-height: 32px;
-                width: 100%;
-                padding-left: 15px;
-              }
-
-              :hover {
-                color: var(--font-color);
-                background: var(--menu-item-hover-bg);
-              }
-
-              .icon {
-                padding-right: 10px;
-              }
-
-              .activeRouter {
-                color: var(--font-color);
-                background: var(--menu-item-active-bg);
-              }
-
-              .creator {
+              &.creator {
                 display: flex;
+                padding-left: 10px;
 
                 &:hover {
                   .title {
@@ -119,10 +101,27 @@
                     }
                   }
                 }
-
+              }
+              a {
+                display: inline-block;
+                line-height: 32px;
+                width: 100%;
+                padding-left: 15px;
               }
 
+              :hover {
+                color: var(--font-color);
+                background: var(--menu-item-hover-bg);
+              }
 
+              .icon {
+                padding-right: 10px;
+              }
+
+              .activeRouter {
+                color: var(--font-color);
+                background: var(--menu-item-active-bg);
+              }
             }
           }
         }
@@ -161,28 +160,27 @@
             }
 
             &:hover {
-              .icon, .iconAdd {
+              .icon,
+              .iconAdd {
                 color: #939394;
                 font-weight: 800;
               }
             }
 
             .icon {
-              color: #C4C4C5;
+              color: #c4c4c5;
               font-size: 14px;
               margin-right: 10px;
             }
 
             .iconAdd {
               margin-left: 100px;
-              color: #C4C4C5;
+              color: #c4c4c5;
               font-size: 14px;
             }
           }
         }
       }
-
-
     }
 
     article {
@@ -200,7 +198,6 @@
         left: 0;
         top: 0;
         padding: 0 108px 90px 108px;
-
       }
     }
 
@@ -255,7 +252,7 @@
               top: 0;
               bottom: 0;
               margin: auto;
-              opacity: .6;
+              opacity: 0.6;
               filter: blur(6px);
               animation: move 1s infinite ease-out;
             }
@@ -272,7 +269,7 @@
               bottom: 0;
               top: 0;
               right: 0;
-              background: rgba(0, 0, 0, .2);
+              background: rgba(0, 0, 0, 0.2);
               z-index: 2;
               border-radius: 20%;
             }
@@ -301,7 +298,7 @@
 
               .songName {
                 color: var(--font-color-white);
-                @include ellipsis()
+                @include ellipsis();
               }
 
               .split {
@@ -311,19 +308,17 @@
 
               .name {
                 font-size: 12px;
-                @include ellipsis()
+                @include ellipsis();
               }
             }
 
             .bottom {
-
               font-size: 12px;
               width: 100%;
 
               .split {
                 padding: 0 5px;
               }
-
             }
           }
         }
@@ -341,14 +336,14 @@
             width: 36px;
             height: 36px;
             border-radius: 50%;
-            background-color: #E83C3C;
+            background-color: #e83c3c;
             color: #ffffff;
             display: flex;
             justify-content: center;
             align-items: center;
 
             &:hover {
-              background-color: #D33030;
+              background-color: #d33030;
             }
 
             &.now {
@@ -367,9 +362,7 @@
           }
 
           .last {
-
           }
-
         }
 
         .playRate {
@@ -424,12 +417,14 @@
 
 :global {
   //进场前的瞬间
-  ._song_list_an-enter, ._song_list_an-appear {
+  ._song_list_an-enter,
+  ._song_list_an-appear {
     opacity: 0;
   }
 
   //进场过程中
-  ._song_list_an-enter-active, ._song_list_an-appear-active {
+  ._song_list_an-enter-active,
+  ._song_list_an-appear-active {
     opacity: 1;
     transition: opacity 2000ms;
   }
@@ -455,14 +450,15 @@
     opacity: 0;
   }
 
-
   //进场前的瞬间
-  ._favorite_list_an-enter, ._favorite_list_an-appear {
+  ._favorite_list_an-enter,
+  ._favorite_list_an-appear {
     opacity: 0;
   }
 
   //进场过程中
-  ._favorite_list_an-enter-active, ._favorite_list_an-appear-active {
+  ._favorite_list_an-enter-active,
+  ._favorite_list_an-appear-active {
     opacity: 1;
     transition: opacity 2000ms;
   }
@@ -487,5 +483,4 @@
   ._favorite_list_an-exit-done {
     opacity: 0;
   }
-
 }

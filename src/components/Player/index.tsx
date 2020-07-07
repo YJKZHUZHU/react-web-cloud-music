@@ -1,43 +1,41 @@
-import React, {FC, useRef, useEffect, forwardRef, useImperativeHandle, useCallback} from 'react'
-import ReactPlayer from 'react-player'
-import {Subscribe} from '@/Appcontainer'
-import {appState} from '@/models/gloable'
+/** @format */
+
+import React, {useRef, forwardRef} from "react"
+import ReactPlayer from "react-player"
+import {useSelector, useDispatch, PlayModelState, SongInfoModelState} from "umi"
 
 interface PlayerInterface {
-  loaded?:number
-  loadedSeconds?:number
-  played?:number
-  playedSeconds?:number
+  loaded?: number
+  loadedSeconds?: number
+  played?: number
+  playedSeconds?: number
 }
 
-type Props = {
-  $app: any
-}
-
-const Player: FC<Props> = (props,parentRef) => {
-  console.log(parentRef)
-
-  const {isPlay, songObj,volume,playMode,playerObj} = props.$app.state
+const Player = () => {
   const playRef = useRef(null)
-  // console.log(playRef.current)
+  const {isPlay, songObj} = useSelector((state: any): SongInfoModelState => state.songInfoModel)
+  const {volume, playMode} = useSelector((state: any): PlayModelState => state.playmodel)
+
+  const dispatch = useDispatch()
 
   const onReady = () => {
-    console.log('准备')
+    console.log("准备")
   }
   const onPlay = () => {
-    console.log('播放')
+    console.log("播放")
   }
   const onPause = () => {
-    console.log('暂停')
+    console.log("暂停")
   }
   const onDuration = (time: any) => {
-    console.log('时间:' + time + 's')
+    console.log("时间:" + time + "s")
   }
   const onProgress = (state: PlayerInterface) => {
-    // console.log(Utils.aaa(state.playedSeconds))
-    return appState.setPlayerObj({
-      ...state,
-      playedSeconds: state.playedSeconds,
+    dispatch({
+      type: "playmodel/setPlayerObj",
+      payload: {
+        playerObj: {...state, playedSeconds: state.playedSeconds}
+      }
     })
   }
 
@@ -46,7 +44,7 @@ const Player: FC<Props> = (props,parentRef) => {
       playsinline
       url={songObj.url}
       playing={isPlay}
-      style={{display: 'none'}}
+      style={{display: "none"}}
       volume={volume}
       onReady={onReady}
       onPlay={onPlay}
@@ -56,9 +54,7 @@ const Player: FC<Props> = (props,parentRef) => {
       loop={playMode === 1}
       progressInterval={500}
       ref={playRef}
-      // progressFrequency={1}
     />
   )
 }
-// @ts-ignore
-export default Subscribe(forwardRef(Player))
+export default forwardRef(Player)

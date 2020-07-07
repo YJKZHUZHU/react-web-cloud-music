@@ -1,6 +1,6 @@
 /** @format */
 
-import React, {FC, useState} from "react"
+import React, {useState} from "react"
 import {
   CaretDownOutlined,
   CarryOutOutlined,
@@ -14,19 +14,13 @@ import {
   UserOutlined
 } from "@ant-design/icons"
 import {Divider, Avatar, Button, Popover, message, Modal} from "antd"
-import {Link, history,useSelector} from "umi"
+import {Link, history, useSelector, useDispatch, PlayModelState} from "umi"
 import API from "@/api"
-import {Subscribe} from "@/Appcontainer"
 import classnames from "classnames"
-import {appState} from "@/models/gloable"
 import Utils from "@/help"
 import Search from "@/components/Search"
 import LoginModal from "@/components/LoginModal"
 import styles from "./index.scss"
-
-interface IHeader {
-  $app: any
-}
 
 const ThEME_MAP = [
   {
@@ -43,13 +37,14 @@ const ThEME_MAP = [
   }
 ]
 
-const Header: FC<IHeader> = (props) => {
-  const {showPlayer,} = props.$app.state
-  const {loginStatus,userInfo} = useSelector((state: any) => state.userModel)
+const Header = () => {
+  const {loginStatus, userInfo} = useSelector((state: any) => state.userModel)
   const [visible, setVisible] = useState(false)
   const [signIn, setSignIn] = useState(false)
   const [loginVisible, setLoginVisible] = useState(false)
+  const {showPlayer} = useSelector((state: any): PlayModelState => state.playmodel)
 
+  const dispatch = useDispatch()
 
   const onRoute = (path: string) => {
     setVisible(false)
@@ -166,7 +161,12 @@ const Header: FC<IHeader> = (props) => {
       </h1>
       <div className={styles.routerBtn}>
         {showPlayer ? (
-          <DownOutlined onClick={() => appState.setShowPlayer(false)} className={styles.down} />
+          <DownOutlined
+            onClick={() =>
+              dispatch({type: "playmodel/setShowPlayer", payload: {showPlayer: false}})
+            }
+            className={styles.down}
+          />
         ) : (
           <Button.Group>
             <Button onClick={() => history.goBack()}>
@@ -226,5 +226,4 @@ const Header: FC<IHeader> = (props) => {
   )
 }
 
-// @ts-ignore
-export default Subscribe(Header)
+export default Header

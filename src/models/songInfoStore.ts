@@ -10,11 +10,29 @@ interface PlayRecordInterface {
   id: number
   [propName: string]: any
 }
+export interface LyricInterface {
+  time?: number
+  lyc?: string
+}
+export interface SingerInterface {
+  alias?: any[]
+  id?: number
+  name?: string
+  tns?: any[]
+}
+export interface SongInterface {
+  url?: string,
+  id?: number
+  name?: string
+  singerArr?: SingerInterface[]
+  songTime?: number
+  backgroundImg?: string
+}
 
 export interface SongInfoModelState {
-  songObj: any
-  lyric: any
-  playHistory: any
+  songObj: SongInterface
+  lyric: LyricInterface[]
+  playHistory: PlayRecordInterface[]
   isPlay: boolean
   showPlayRecord: boolean
   playRecordTip: string
@@ -40,8 +58,8 @@ export interface SongInfoModeType {
 const SongInfoModel: SongInfoModeType = {
   namespace: 'songInfoModel',
   state: {
-    songObj: '',
-    lyric: '',
+    songObj: {},
+    lyric: [],
     playHistory: store.getValue('playHistory') || [],
     isPlay: false,
     showPlayRecord: false,
@@ -56,18 +74,18 @@ const SongInfoModel: SongInfoModeType = {
       const SongRet = yield call(API.song, { ids: id })
       const LyricRet = yield call(API.getLyric, { id })
       const [songObj] = SongRet.songs
+      const lyric = Utils.formatterLyric(LyricRet.lrc ? LyricRet.lrc.lyric : '')
       const { playHistory } = yield select((state: any): SongInfoModelState => state.songInfoModel)
       yield put({
         type: 'initSongInfo',
-        payload: { PlayRet, SongRet, LyricRet, isPlay: true, playHistory: Utils.removeRepeat([...playHistory, songObj], 'id') }
+        payload: { PlayRet, SongRet, lyric, isPlay: true, playHistory: Utils.removeRepeat([...playHistory, songObj], 'id') }
       })
     }
 
   },
   reducers: {
     initSongInfo(state, action) {
-      const { PlayRet, SongRet, LyricRet, isPlay, playHistory } = action.payload
-      console.log(isPlay)
+      const { PlayRet, SongRet, lyric, isPlay, playHistory } = action.payload
       state.songObj = {
         url: PlayRet.data[0].url,
         id: PlayRet.data[0].id,
@@ -78,8 +96,8 @@ const SongInfoModel: SongInfoModeType = {
       }
       state.playHistory = playHistory
       state.isPlay = isPlay
-      state.lyric = LyricRet
-      store.setValue('playHistory',playHistory)
+      state.lyric = lyric
+      store.setValue('playHistory', playHistory)
     },
     setIsPlay(state, action) {
       state.isPlay = action.payload.isPlay
@@ -98,11 +116,9 @@ const SongInfoModel: SongInfoModeType = {
     },
 
     setPlayRecord(state, action) {
-      console.log(state, action)
       const { playRecord } = action.payload
       state.playRecord = playRecord
     }
-
   }
 }
 

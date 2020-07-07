@@ -1,8 +1,7 @@
 /** @format */
 
-import React, {FC, useState, useEffect, useRef} from "react"
+import React, { useState, useEffect, useRef} from "react"
 import {Slider, Radio, Tooltip} from "antd"
-import Song from "@/help/getSongInfo"
 import {
   FullscreenOutlined,
   FullscreenExitOutlined,
@@ -10,22 +9,17 @@ import {
   StepForwardOutlined,
   CaretRightOutlined,
   ShareAltOutlined,
-  OrderedListOutlined,
-  NotificationOutlined,
-  SoundOutlined,
   GithubOutlined,
   PauseOutlined
 } from "@ant-design/icons"
-import {Subscribe} from "@/Appcontainer"
 import usePlayRecord from "@/hooks/usePlayRecord"
-import {appState} from "@/models/gloable"
 import style from "./index.scss"
 import classnames from "classnames"
 import Utils from "@/help"
 import ReactPlayer from "react-player"
 import store from "@/help/localStorage"
-import PlayRate from "@/components/PlayRate"
-import {useDispatch, useSelector} from "umi"
+import PlayMode from "@/components/PlayMode"
+import {useDispatch, useSelector, SongInfoModelState, PlayModelState} from "umi"
 
 interface PlayerInterface {
   loaded?: number
@@ -34,47 +28,62 @@ interface PlayerInterface {
   playedSeconds?: number
 }
 
-interface IProps {
-  $app: any
-}
-const Footer: FC<IProps> = (props) => {
-  const {
-    // isPlay,
-    // songObj,
-    showPlayer,
-    volume,
-    playMode,
-    playerRate,
-    // showPlayRecord,
-    // playRecordTip,
-    playerObj
-  } = props.$app.state
+const Footer = () => {
   const dispatch = useDispatch()
   const [lastVolume, setLastVolume] = useState(0)
   const playRef: any = useRef(null)
   const list = usePlayRecord()
   const {isPlay, showPlayRecord, playRecordTip, songObj} = useSelector(
-    (state: any) => state.songInfoModel
+    (state: any): SongInfoModelState => state.songInfoModel
+  )
+  const {showPlayer, volume, playMode, playerRate, playerObj} = useSelector(
+    (state: any): PlayModelState => state.playmodel
   )
 
+  console.log(playerObj)
+
   useEffect(() => {
-    const volume = JSON.parse(store.getStorage("volume") as string)
-    appState.setVolume(volume)
+    dispatch({
+      type: "playmodel/setVolume",
+      payload: {
+        volume: JSON.parse(store.getStorage("volume") as string)
+      }
+    })
   }, [store.getStorage("volume")])
 
   const onRate = (e: any) => {
-    return appState.setPlayRate(+e.target.value)
+    dispatch({
+      type: "playmodel/setPlayRate",
+      payload: {
+        playerRate: +e.target.value
+      }
+    })
   }
 
   const onVolume = (value: any) => {
     setLastVolume(value / 100)
-    return appState.setVolume(value / 100)
+    dispatch({
+      type: "playmodel/setVolume",
+      payload: {
+        volume: value / 100
+      }
+    })
   }
   const onMute = () => {
     if (volume !== 0) {
-      return appState.setVolume(0)
+      return dispatch({
+        type: "playmodel/setVolume",
+        payload: {
+          volume: 0
+        }
+      })
     }
-    return appState.setVolume(!!lastVolume ? lastVolume : 0.5)
+    return dispatch({
+      type: "playmodel/setVolume",
+      payload: {
+        volume: !!lastVolume ? lastVolume : 0
+      }
+    })
   }
 
   const onStart = () => {
@@ -82,7 +91,6 @@ const Footer: FC<IProps> = (props) => {
   }
 
   const onPlayBtn = () => {
-    // appState.setStopPlay(!appState.state.isPlay)
     dispatch({
       type: "songInfoModel/setIsPlay",
       payload: {
@@ -114,7 +122,6 @@ const Footer: FC<IProps> = (props) => {
             id: songObj.id
           }
         })
-        // return Song.getSongUrl(songObj.id)
       }
       // 顺序或者随机播放，触发下一首点击事件
       onPlay(1)
@@ -125,7 +132,12 @@ const Footer: FC<IProps> = (props) => {
   }
   const onProgress = (state: PlayerInterface) => {
     console.log("onProgress", state)
-    appState.setPlayerObj(state)
+    dispatch({
+      type: "playmodel/setPlayerObj",
+      payload: {
+        playerObj: state
+      }
+    })
   }
 
   const onRecord = () => {
@@ -141,8 +153,6 @@ const Footer: FC<IProps> = (props) => {
         playRecordTip: ""
       }
     })
-    // appState.setShowPlayRecord(!showPlayRecord)
-    // appState.setPlayRecordTip("")
   }
 
   const onPlay = (type: number) => {
@@ -180,9 +190,14 @@ const Footer: FC<IProps> = (props) => {
   }
   const onSlider = (value: any) => {
     playRef.current.seekTo(value)
-    appState.setPlayerObj({
-      ...playerObj,
-      playedSeconds: value
+    dispatch({
+      type: "playmodel/setPlayerObj",
+      payload: {
+        playerObj: {
+          ...playerObj,
+          playedSeconds: value
+        }
+      }
     })
   }
   return (
@@ -195,18 +210,22 @@ const Footer: FC<IProps> = (props) => {
             margin: 0,
             visibility: Object.keys(songObj).length !== 0 ? "visible" : "hidden"
           }}
-          value={playerObj.playedSeconds}
+          value={playerObj?.playedSeconds}
           defaultValue={0}
           step={0.001}
           min={0}
-          max={playerObj.loadedSeconds}
+          max={playerObj?.loadedSeconds}
           tipFormatter={null}
         />
         <div className={style.footer}>
           <div
             className={style.info}
             style={{visibility: Object.keys(songObj).length !== 0 ? "visible" : "hidden"}}>
-            <div className={style.img} onClick={() => appState.setShowPlayer(!showPlayer)}>
+            <div
+              className={style.img}
+              onClick={() =>
+                dispatch({type: "playmodel/setShowPlayer", payload: {showPlayer: !showPlayer}})
+              }>
               <div className={style.mask} />
               <img src={songObj.backgroundImg} />
               {showPlayer ? (
@@ -271,7 +290,7 @@ const Footer: FC<IProps> = (props) => {
 
           <div className={style.operating}>
             <ShareAltOutlined />
-            <PlayRate />
+            <PlayMode />
             <Tooltip title={playRecordTip} visible={!!playRecordTip}>
               <i className={classnames("iconfont", "icon-bofangliebiao")} onClick={onRecord} />
             </Tooltip>
@@ -320,5 +339,4 @@ const Footer: FC<IProps> = (props) => {
   )
 }
 
-// @ts-ignore
-export default Subscribe(Footer)
+export default Footer
