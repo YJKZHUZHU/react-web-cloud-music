@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useState, useEffect, useRef} from "react"
+import React, {useState, useEffect, useRef} from "react"
 import {Slider, Radio, Tooltip} from "antd"
 import {
   FullscreenOutlined,
@@ -19,7 +19,7 @@ import Utils from "@/help"
 import ReactPlayer from "react-player"
 import store from "@/help/localStorage"
 import PlayMode from "@/components/PlayMode"
-import {useDispatch, useSelector, SongInfoModelState, PlayModelState} from "umi"
+import {useDispatch, useSelector, SongInfoModelState, PlayModelState, SingerInterface} from "umi"
 
 interface PlayerInterface {
   loaded?: number
@@ -39,8 +39,6 @@ const Footer = () => {
   const {showPlayer, volume, playMode, playerRate, playerObj} = useSelector(
     (state: any): PlayModelState => state.playmodel
   )
-
-  console.log(playerObj)
 
   useEffect(() => {
     dispatch({
@@ -158,7 +156,7 @@ const Footer = () => {
   const onPlay = (type: number) => {
     // type: 0上一首 type:1 下一首
     let songId: any = ""
-    const index = Utils.findIndex(list, songObj.id, playMode)
+    const index = Utils.findIndex(list, songObj.id as number, playMode)
     if (index === -1) {
       songId = list[0]["id"]
     } else {
@@ -244,7 +242,9 @@ const Footer = () => {
                       return (
                         <span key={item.id}>
                           {item.name}
-                          {songObj.singerArr.length === index + 1 ? null : "/"}
+                          {(songObj.singerArr as SingerInterface[]).length === index + 1
+                            ? null
+                            : "/"}
                         </span>
                       )
                     })}

@@ -9,7 +9,7 @@ import styles from "../index.scss"
 import {history, useDispatch} from "umi"
 
 interface ITableList {
-  trackIds?: any
+  trackIds?: any[]
   tracks?: any
   searchValue: string
   getRecord: (record: any) => void
@@ -27,6 +27,8 @@ const TableList: FC<ITableList> = ({trackIds = [], searchValue = "", getRecord})
         }
       })
     }
+    setTableData([])
+    getRecord([])
   }
 
   const onMv = (mvid: string) => {

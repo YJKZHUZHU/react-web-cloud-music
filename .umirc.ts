@@ -9,7 +9,7 @@ export default defineConfig({
   devtool: 'source-map',
   antd: {},
   dynamicImport: false,
-  title: 'cloud-music-web-react',
+  title: '豆芽音乐',
   targets: {
     ie: 9,//浏览器前缀
     chrome: 40

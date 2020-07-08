@@ -23,6 +23,7 @@ export interface UserModelType {
   state: UserModelState
   effects: {
     getUserInfo: Effect
+    getPlayList: Effect
   }
   reducers: {
     initUserInfo: ImmerReducer<UserModelState>
@@ -62,6 +63,18 @@ const UserModel: UserModelType = {
           playList: playListRet.playlist
         }
       })
+    },
+    *getPlayList({ payload }, { call, put, select }) {
+      const { userId } = yield select((state: any): UserModelState => state.userModel)
+      const Ret = yield call(API.userPlaylist, { uid: userId })
+      if (Ret.code === 200) {
+        yield put({
+          type: 'setPlayList',
+          payload: {
+            playList: Ret.playlist
+          }
+        })
+      }
     }
   },
   reducers: {
@@ -76,23 +89,13 @@ const UserModel: UserModelType = {
     },
     setPlayList(state, action) {
       const { playList } = action.payload
+      console.log(action.payload.playList)
       state.playList = {
         creator: playList.filter((item: any) => !item.subscribed),
         favorite: playList.filter((item: any) => item.subscribed)
       }
     }
-  },
-  // subscriptions: {// 订阅，在app.start()即启动项目时被执行
-  //   setup({ dispatch, history }) {
-  //     return history.listen(({ pathname }) => {
-  //       // 进入 '/recommend/findMusic' 路由，会发起一个名叫 'save' 的 effect
-  //       if (pathname === '/recommend/findMusic') {
-  //         console.log('来了吗')
-  //         dispatch({ type: 'getUserInfo' })
-  //       }
-  //     })
-  //   }
-  // }
+  }
 }
 
 export default UserModel

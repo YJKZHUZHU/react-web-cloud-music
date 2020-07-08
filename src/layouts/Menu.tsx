@@ -1,6 +1,6 @@
 /** @format */
 
-import React, {FC, useState} from "react"
+import React, {useState} from "react"
 import {
   CloudOutlined,
   CustomerServiceOutlined,
@@ -34,30 +34,13 @@ const MenuList = () => {
   const [visible, setVisible] = useState(false)
   const [checked, setChecked] = useState(false)
   const [value, setValue] = useState("")
-  const {loginStatus, userId, playList} = useSelector((state: any) => state.userModel)
+  const {loginStatus, playList} = useSelector((state: any) => state.userModel)
   const {creator, favorite} = playList
   const dispatch = useDispatch()
-
-  const getPlayList = async () => {
-    const ListRet: any = await API.userPlaylist({uid: userId})
-    if (ListRet.code !== 200) {
-      return favoriteShow
-    }
-    dispatch({
-      type: "userModel/setPlayList",
-      payload: {
-        playlist: ListRet.playlist
-      }
-    })
-  }
 
   const stopPropagation = (e: any) => {
     e.preventDefault()
     e.stopPropagation()
-  }
-
-  const onInput = (e: any) => {
-    setValue(e.target.value)
   }
 
   const onAdd = async () => {
@@ -70,12 +53,15 @@ const MenuList = () => {
     }
     message.success("歌单创建成功")
     setVisible(false)
-    await getPlayList()
+    setValue("")
+    dispatch({
+      type: "userModel/getPlayList"
+    })
   }
 
   const content = (
     <div className={styles.addSongList}>
-      <Input placeholder="请输入新歌单标题" onChange={onInput} />
+      <Input placeholder="请输入新歌单标题" onChange={(e) => setValue(e.target.value)} />
       <div className={styles.bottom}>
         <Switch size="small" defaultChecked={checked} onChange={(checked) => setChecked(checked)} />
         <p className={styles.tip}>设置为隐私菜单</p>
@@ -97,7 +83,9 @@ const MenuList = () => {
       return message.info("歌单删除失败")
     }
     message.success("歌单删除成功")
-    await getPlayList()
+    dispatch({
+      type: "userModel/getPlayList"
+    })
   }
 
   return (
@@ -232,7 +220,9 @@ const MenuList = () => {
           <div className={styles.songList} onClick={() => setFavoriteShow(!favoriteShow)}>
             <div className={styles.createList}>
               <span>收藏的歌单({favorite.length})</span>
-              <p className={styles.icon}>{favoriteShow ? <DownOutlined /> : <UpOutlined />}</p>
+              <p className={styles.icon} onClick={stopPropagation}>
+                {favoriteShow ? <DownOutlined /> : <UpOutlined />}
+              </p>
             </div>
 
             <CSSTransition
