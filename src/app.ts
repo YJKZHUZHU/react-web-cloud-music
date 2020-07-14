@@ -7,4 +7,3 @@ moment.locale(window.navigator.language)
 message.config({
   maxCount: 1
 })
-

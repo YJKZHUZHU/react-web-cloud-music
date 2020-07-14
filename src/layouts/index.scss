@@ -187,24 +187,23 @@
       flex: 1;
       background: var(--body-bgcolor);
       color: var(--font-color);
-      //margin-bottom: 75px;
       position: relative;
 
       .containerWrapper {
+        min-height: 500px;
         width: 100%;
         height: 100%;
         overflow: auto;
         position: absolute;
         left: 0;
         top: 0;
-        padding: 0 108px 90px 108px;
+        padding: 0 108px 75px 108px;
       }
     }
 
     .drawer {
       position: absolute;
       z-index: 1001;
-      // height: calc(100vh -135px);
     }
   }
 
@@ -326,11 +325,9 @@
         .playBtnGroup {
           display: flex;
           width: 200px;
-          //font-size: 50px;
           justify-content: space-between;
           align-items: center;
           color: $fontColor;
-          margin-left: 300px;
 
           .common {
             width: 36px;
@@ -367,7 +364,6 @@
 
         .playRate {
           display: flex;
-          width: 300px;
           justify-content: center;
           align-items: center;
 

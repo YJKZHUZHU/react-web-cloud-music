@@ -61,7 +61,7 @@ const PlayList: FC = (props) => {
   }
 
   useEffect(() => {
-    API.playList({id: listId}).then((res) => {
+    API.playList({id: listId, loading: true}).then((res) => {
       if (res.code !== 200) {
         message.info(res.msg)
         return history.push("/")

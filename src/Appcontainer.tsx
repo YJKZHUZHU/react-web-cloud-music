@@ -1,9 +1,11 @@
+/** @format */
+
 import React, {FC} from "react"
 import AppContainer from "@/models/gloable"
 import {Container, Subscribe, Provider} from "unstated"
 
-const UnstatedSubscribe:FC = (Element:FC) => {
-  return function(props: FC) {
+const UnstatedSubscribe = (Element: React.ReactNode) => {
+  return function (props: any) {
     return (
       <Subscribe to={[AppContainer]}>
         {($app) => {
@@ -13,16 +15,17 @@ const UnstatedSubscribe:FC = (Element:FC) => {
     )
   }
 }
+
 interface Prop {
   inject: any
-  children: FC
 }
-const UnstatedProvider = (props: Prop) => {
-  let models = props.inject
+
+const UnstatedProvider: FC<Prop> = ({inject, children}) => {
+  let models = inject
   if (!Array.isArray(models)) {
     models = [models]
   }
-  return <Provider inject={models}>{props.children}</Provider>
+  return <Provider inject={models}>{children}</Provider>
 }
 
 export {UnstatedSubscribe as Subscribe, UnstatedProvider as Provider, Container}

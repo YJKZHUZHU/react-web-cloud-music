@@ -4,7 +4,7 @@ import { ILoginByPhone, IBanner, IUser } from './type'
 
 class API {
   // 轮播图
-  static banner = (params: IBanner) => request.get('/banner', {params})
+  static banner = (params: IBanner) => request.get('/banner', { params })
   static personalized = (params: object) => request.get('/personalized', { params })
   //推荐新音乐
   static newSong = (params: object) => request.get('/personalized/newsong', { params })
@@ -23,7 +23,7 @@ class API {
   //排行榜
   static getTopList = (params: object) => request.get('/top/list', { params })
   //所有榜单
-  static getAllTopList = (params: object) => request.get('/toplist', { params })
+  static getAllTopList = (params?: object) => request.get('/toplist', { params })
   //全部歌单
   static getAllCatList = (params: object) => request.get('/playlist/catlist', { params })
   //新歌速递

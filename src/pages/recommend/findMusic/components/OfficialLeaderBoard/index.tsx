@@ -1,43 +1,48 @@
 /** @format */
 
-import React, {FC, useEffect, useState} from "react"
+import React, {FC} from "react"
 import {CaretRightOutlined, RightOutlined} from "@ant-design/icons"
 import {Row, Col} from "antd"
 import {Link, useDispatch} from "umi"
 import moment from "moment"
 import styles from "./index.scss"
-import API from "@/api"
-import Song from "@/help/getSongInfo"
+import Utils from "@/help"
 
-const OfficialLeaderBoard = () => {
-  const [boardData, setBoardData] = useState<any[]>([])
+interface Tracks {
+  id: string
+  name: string
+  ar: any[]
+  alia: string[]
+}
+
+interface OfficialLeaderBoardItem {
+  commentThreadId: number
+  coverImgUrl: string
+  name: string
+  updateTime: number
+  tracks: Tracks[]
+}
+
+interface OfficialLeaderBoardInterface {
+  data: OfficialLeaderBoardItem[]
+}
+
+const OfficialLeaderBoard: FC<OfficialLeaderBoardInterface> = ({data}) => {
   const dispatch = useDispatch()
-  useEffect(() => {
-    const getData = async () => {
-      const res1 = await API.getTopList({idx: 3, loading: true})
-      const res2 = await API.getTopList({idx: 0, loading: true})
-      const res3 = await API.getTopList({idx: 2, loading: true})
-      const res4 = await API.getTopList({idx: 1, loading: true})
-      const res5 = await API.getTopList({idx: 17, loading: true})
-      const res6 = await API.getTopList({idx: 26, loading: true})
-      setBoardData([res1, res2, res3, res4, res5, res6])
-    }
-    getData().then((r) => r)
-  }, [])
 
   return (
     <Row gutter={48}>
-      {boardData.map((item: any) => {
+      {data.map((item) => {
         return (
-          <Col span={8} key={item.playlist.commentThreadId}>
+          <Col span={8} key={item.commentThreadId}>
             <div className={styles._leaderBoard}>
               <div className={styles.top}>
                 <div className={styles.img}>
-                  <img src={item.playlist.coverImgUrl} className={styles.img} />
+                  <img src={item.coverImgUrl} className={styles.img} />
                 </div>
                 <div className={styles.description}>
-                  <p>{item.playlist.name}</p>
-                  <p>最近更新：{moment(item.playlist.updateTime).format("MM-DD")}日更新</p>
+                  <p>{item.name}</p>
+                  <p>最近更新：{moment(item.updateTime).format("MM-DD")}日更新</p>
                 </div>
                 <div className={styles.icon}>
                   <CaretRightOutlined
@@ -45,7 +50,7 @@ const OfficialLeaderBoard = () => {
                       dispatch({
                         type: "songInfoModel/getSongInfo",
                         payload: {
-                          id: item.playlist.tracks[0].id
+                          id: item.tracks[0].id
                         }
                       })
                     }
@@ -53,7 +58,7 @@ const OfficialLeaderBoard = () => {
                 </div>
               </div>
               <ul className={styles.list}>
-                {item.playlist.tracks.slice(0, 8).map((items: any, index: number) => {
+                {item.tracks.slice(0, 8).map((items, index) => {
                   return (
                     <li
                       className={styles.item}
@@ -75,7 +80,7 @@ const OfficialLeaderBoard = () => {
                       </span>
                       <span className={styles.title}>
                         {items.name}
-                        {items.alia.map((title: string) => {
+                        {items.alia.map((title) => {
                           return (
                             <i key={title} style={{color: "#999999"}}>
                               {title}
@@ -83,16 +88,7 @@ const OfficialLeaderBoard = () => {
                           )
                         })}
                       </span>
-                      <span className={styles.name}>
-                        {items.ar.map((sing: any) => {
-                          return (
-                            <i key={sing.id}>
-                              {sing.name}
-                              {items.ar.length === index + 1 ? null : "/"}
-                            </i>
-                          )
-                        })}
-                      </span>
+                      <span className={styles.name}>{Utils.formatName(items.ar)}</span>
                     </li>
                   )
                 })}

@@ -3,7 +3,7 @@
 import React, {FC, useState, useEffect} from "react"
 import styles from "./index.scss"
 import {CaretRightOutlined, PlayCircleOutlined} from "@ant-design/icons"
-import { Radio, Tabs} from "antd"
+import {Radio, Tabs} from "antd"
 import API from "@/api"
 import {history, useDispatch} from "umi"
 import Utils from "@/help"
@@ -13,6 +13,7 @@ const {TabPane} = Tabs
 interface IList {
   active: string
 }
+
 const List: FC<IList> = ({active}) => {
   const [dataList, setDataList] = useState([])
   const dispatch = useDispatch()
@@ -104,13 +105,12 @@ const List: FC<IList> = ({active}) => {
   )
 }
 
-const LatestMusic: FC = (props) => {
+const LatestMusic = () => {
   const [active, setActive] = useState("0")
   const [radioKey, setRadioKey] = useState(1)
   const onTab = (value: string) => {
     setActive(value)
   }
-
 
   return (
     <div className={styles._latestMusic}>

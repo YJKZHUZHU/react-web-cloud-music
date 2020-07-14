@@ -2,22 +2,23 @@
 
 import React, {FC, useEffect} from "react"
 import Header from "@/components/Header"
-import styles from "./index.scss"
 import {Drawer, Spin} from "antd"
+import {useDispatch, useSelector, SongInfoModelState} from "umi"
+import {Subscribe} from "@/Appcontainer"
 import PlayRecord from "@/components/PlayRecord"
 import PlayerLayout from "@/components/PlayerLayout"
 import Menu from "@/layouts/Menu"
 import Footer from "./Footer"
-import {Loading, connect, useDispatch, useSelector} from "umi"
+import styles from "./index.scss"
 
 interface IHomeLayout {
-  loading: Loading
+  $app: any
 }
 
-const HomeLayout: FC<IHomeLayout> = ({loading, children}) => {
+const HomeLayout: FC<IHomeLayout> = ({children, $app}) => {
   const dispatch = useDispatch()
 
-  const {showPlayRecord} = useSelector((state: any) => state.songInfoModel)
+  const {showPlayRecord} = useSelector((state: any): SongInfoModelState => state.songInfoModel)
 
   useEffect(() => {
     dispatch({
@@ -27,13 +28,12 @@ const HomeLayout: FC<IHomeLayout> = ({loading, children}) => {
 
   return (
     <div className={styles.home}>
-      {/* <Spin spinning={false} delay={100} size="large" tip="资源请稍等，，，"> */}
       <Header />
       <main>
         <Menu />
         <article>
           <div className={styles.containerWrapper}>
-            <Spin size="large" spinning={loading.global} tip="Loading...">
+            <Spin size="large" spinning={$app.state.loading} tip="Loading...">
               {children}
             </Spin>
           </div>
@@ -51,12 +51,8 @@ const HomeLayout: FC<IHomeLayout> = ({loading, children}) => {
       </main>
       <PlayerLayout />
       <Footer />
-      {/* </Spin> */}
     </div>
   )
 }
-const mapPropsToState = ({loading}: IHomeLayout) => ({
-  loading
-})
 
-export default connect(mapPropsToState)(HomeLayout)
+export default Subscribe(HomeLayout)

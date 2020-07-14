@@ -46,7 +46,7 @@ const CarouselImg = () => {
             <div
               className={styles.item}
               key={item.targetId}
-              onClick={() =>
+              onDoubleClick={() =>
                 dispatch({type: "songInfoModel/getSongInfo", payload: {id: item.targetId}})
               }>
               <img src={item.imageUrl} />
