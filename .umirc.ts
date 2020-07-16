@@ -20,14 +20,14 @@ export default defineConfig({
     // 默认为 false，且必须 设置 false，否则 plugin-dva 会重复加载 model
     skipModelValidate: false
   },
-  plugins: ['@alitajs/hd'],
-  hd: {},
-  extraPostCSSPlugins: [
-    px2rem({
-      rootValue: 256,//开启hd后需要换算：rootValue=designWidth*100/750,此处设计稿为1920，所以1920*100/750=256
-      propBlackList: ['*'],//这些属性不需要转换
-      selectorBlackList: []//
-    })],
+  // plugins: ['@alitajs/hd'],
+  // hd: {},
+  // extraPostCSSPlugins: [
+  //   px2rem({
+  //     rootValue: 256,//开启hd后需要换算：rootValue=designWidth*100/750,此处设计稿为1920，所以1920*100/750=256
+  //     propBlackList: ['*'],//这些属性不需要转换
+  //     selectorBlackList: []//
+  //   })],
   hash: true,
   theme: lessToJs(fs.readFileSync(path.join('./src/theme/default.less'), 'utf8')),
   sass: {

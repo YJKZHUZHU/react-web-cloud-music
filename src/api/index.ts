@@ -97,6 +97,8 @@ class API {
   static setResourceLike = (params: any) => request.get('/resource/like', { params })
   //分享歌曲、歌单、mv、电台、电台节目到动态
   static shareResource = (params: any) => request.get('/resource/like', { params })
+  // 歌手分类列表
+  static getArtistList = (params: any) => request.get('/artist/list', { params })
 }
 
 

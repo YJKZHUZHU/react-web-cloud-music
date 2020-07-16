@@ -3,7 +3,7 @@
 @import "utils";
 @import "variables";
 @import "~video-react/styles/scss/video-react";
-@import '../public/iconfont/iconfont.css';
+@import "../public/iconfont/iconfont.css";
 
 html,
 body,
@@ -120,5 +120,9 @@ em {
 }
 // 顶部加载效果样式充值
 #nprogress .bar {
-  background:  #00cf8a!important; //自定义颜色
+  background: #00cf8a !important; //自定义颜色
+}
+
+.ant-descriptions-item-label {
+  flex: none !important;
 }

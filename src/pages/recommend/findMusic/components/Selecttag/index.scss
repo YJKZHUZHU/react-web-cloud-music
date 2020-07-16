@@ -1,0 +1,13 @@
+/** @format */
+@import "utils";
+.desItem {
+  display: flex;
+}
+.select {
+  display: flex;
+  flex-wrap: wrap;
+
+  .item {
+    cursor: pointer;
+  }
+}

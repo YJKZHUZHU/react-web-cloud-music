@@ -60,12 +60,6 @@ const SearchDetail: FC<Props> = (props) => {
           <TabPane tab="歌单" key="1000">
             <ScrollMore {...props} type={activeKey} getCount={(count: number) => setCount(count)} />
           </TabPane>
-          {/*<TabPane tab="歌词" key="3">*/}
-          {/*  Content of Tab Pane 3*/}
-          {/*</TabPane>*/}
-          {/*<TabPane tab="主播电台" key="3">*/}
-          {/*  Content of Tab Pane 3*/}
-          {/*</TabPane>*/}
           <TabPane tab="用户" key="1002">
             <ScrollMore {...props} type={activeKey} getCount={(count: number) => setCount(count)} />
           </TabPane>

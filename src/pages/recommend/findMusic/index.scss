@@ -1,8 +1,8 @@
+/** @format */
+
 @import "utils";
 
 .tabPane {
-  //padding: 0 108px;
-
   .recommend {
     margin-top: 15px;
     min-height: 440px;
@@ -24,7 +24,6 @@
       }
     }
 
-
     .newMusic {
       border: 1px solid var(--border);
       border-right: none;
@@ -37,7 +36,6 @@
   }
 
   .leaderBoard {
-
   }
 
   .divider {
@@ -45,9 +43,6 @@
   }
 }
 
-/** @format */
-
-@import "utils";
 ._latestMusic {
   .radioGroup {
     display: flex;
@@ -129,4 +124,8 @@
     }
   }
 }
-
+.singer {
+  .card {
+    margin-bottom: 15px;
+  }
+}
