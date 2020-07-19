@@ -142,7 +142,7 @@ const SongListChoose: FC<SongListChooseProps> = ({getTag}) => {
         <Popover
           visible={visible}
           onVisibleChange={(visible) => setVisible(visible)}
-          getPopupContainer={(): any => document.getElementsByClassName("catPopoverTag")[0]}
+          getPopupContainer={(): any => document.getElementsByClassName(styles.listChoose)[0]}
           overlayClassName={styles.catPopover}
           content={content}
           title={
