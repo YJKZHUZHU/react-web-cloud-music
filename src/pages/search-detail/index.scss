@@ -157,6 +157,13 @@
   }
 
   .demo-loading-container {
-    @include center();
+    position: absolute;
+    bottom: 40px;
+    width: 100%;
+    text-align: center;
   }
+
+  // .demo-loading-container {
+  //   @include center();
+  // }
 }

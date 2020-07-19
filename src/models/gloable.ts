@@ -61,7 +61,6 @@ export default class AppContainer extends Container<AppState> {
   }
 
   setLoading = (loading: boolean) => {
-    console.log(loading)
     if (loading === this.state.loading) {
       return false
     }

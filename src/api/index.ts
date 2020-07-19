@@ -42,7 +42,6 @@ class API {
   static useInfo = (params: IUser) => request.get('/user/detail', { params })
   //登录状态
   static status = (params?: object) => request.post('/login/status', { params })
-
   //检测手机号是否注册过网易云音乐
   static check = (params: object) => request.post('/cellphone/existence/check', { params })
   //手机号登录
@@ -99,6 +98,12 @@ class API {
   static shareResource = (params: any) => request.get('/resource/like', { params })
   // 歌手分类列表
   static getArtistList = (params: any) => request.get('/artist/list', { params })
+  // 歌单分类
+  static getCatlist = (params?: any) => request.get('/playlist/catlist', { params })
+  // 热门歌单分类
+  static getCatlistHot = (params?: any) => request.get('/playlist/hot', { params })
+  // 获取精品歌单
+  static getHighQuality = (params?: any) => request.get('/top/playlist/highquality', { params })
 }
 
 

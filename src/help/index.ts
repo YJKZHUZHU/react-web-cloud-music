@@ -21,6 +21,21 @@ export interface LiricInterface {
   time?: number
 }
 
+export interface CatListItemInterface {
+  activity: boolean
+  category: number
+  hot: boolean
+  imgId: number
+  imgUrl: any
+  name: string
+  resourceCount: number
+  resourceType: number
+  type: number
+}
+export interface CatListInterface {
+  name: string
+  list: CatListItemInterface[]
+}
 
 class Utils {
   /**
@@ -233,6 +248,18 @@ class Utils {
     }
     return result
   }
+}
+
+
+export const formatCatList = (sub: CatListItemInterface[], categories: any): CatListInterface[] => {
+  let result: CatListInterface[] = []
+  Object.keys(categories).forEach((item) => {
+    result.push({
+      name: categories[item],
+      list: sub.filter(items => +items.category === +item)
+    })
+  })
+  return result
 }
 
 
