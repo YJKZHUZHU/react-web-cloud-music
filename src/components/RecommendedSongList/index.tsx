@@ -1,44 +1,44 @@
-import React, {FC, Fragment, useEffect, useState} from 'react'
-import styles from './index.scss'
-import { CustomerServiceOutlined, PlaySquareOutlined } from '@ant-design/icons';
-import Utils from '@/help/index'
+/** @format */
+
+import React, {FC, Fragment, useEffect, useState} from "react"
+import {CustomerServiceOutlined, PlaySquareOutlined} from "@ant-design/icons"
 import {Link} from "umi"
+import PlayIcon from "@/components/PlayIcon"
+import Utils from "@/help/index"
+
+import styles from "./index.scss"
 
 type Props = {
-  data?: object
+  data?: any
 }
 
 interface DataInterface {
-  picUrl: string,
-  copywriter: string,
-  playCount: number,
-  name: string,
+  picUrl: string
+  copywriter: string
+  playCount: number
+  name: string
   id: any
 }
 
-const RecommendedSongList: FC<Props> = (props) => {
-  // @ts-ignore
-  const data: DataInterface = props.data
+const RecommendedSongList: FC<Props> = ({data}) => {
   return (
     <Link to={`/playList?listId=${data.id}`}>
       <div className={styles._list}>
         <div className={styles.imgWrap}>
-          <img src={data.picUrl}/>
+          <img src={data.picUrl} />
           <span className={styles.number}>
-          <CustomerServiceOutlined className={styles.listen} />
-          <i>{Utils.tranNumber(data.playCount, 2)}</i>
-        </span>
+            <CustomerServiceOutlined className={styles.listen} />
+            <i>{Utils.tranNumber(data.playCount, 2)}</i>
+          </span>
           <div className={styles.descWrap}>
             <span className={styles.desc}>{data.copywriter}</span>
           </div>
-          <span className={styles.playIcon}>
-          <PlaySquareOutlined />
-        </span>
+          <PlayIcon iconClassName={styles.playIcon} />
         </div>
         <p className={styles.name}>{data.name}</p>
       </div>
     </Link>
-  );
+  )
 }
 
 export default RecommendedSongList

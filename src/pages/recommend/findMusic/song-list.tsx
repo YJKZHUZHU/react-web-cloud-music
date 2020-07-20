@@ -2,7 +2,7 @@
 
 import React, {useState} from "react"
 import classnames from "classnames"
-import {Row, Col} from "antd"
+import {Row, Col, Space, Spin} from "antd"
 import API from "@/api"
 import SongListChoose from "./components/SongListChoose.tsx"
 import CatCard from "./components/CatCard"
@@ -12,31 +12,41 @@ const classes = classnames(styles.songList, "catPopoverTag")
 
 const SongList = () => {
   const [data, setData] = useState<any[]>([])
-  const getHighquality = async (cat: string) => {
+  const [totalCount, setTotalCount] = useState(0)
+  const [loading, setLoading] = useState(false)
+  const getHighquality = async (cat: string, order: boolean = true) => {
+    setLoading(true)
     try {
-      const Ret = await API.getHighQuality({limit: 30, cat})
+      const Ret = await API.topPlaylist({limit: 50, cat, order})
+      setLoading(false)
       setData([])
       if (Ret.code !== 200 || Ret.playlists.length === 0) return
+      setTotalCount(Ret.total)
       return setData(Ret.playlists)
     } catch (error) {
+      setLoading(false)
       return error
     }
   }
-  const onTag = (value: string) => {
-    getHighquality(value)
+  const onTag = (value: string, order: boolean) => {
+    getHighquality(value, order)
   }
 
   return (
-    <div className={classes}>
-      <SongListChoose getTag={onTag} />
-      <Row gutter={24} className={styles.catItem}>
-        {data.map((item) => (
-          <Col key={item.id} xxl={{span: 4}} xl={{span: 6}}>
-            <CatCard data={item} />
-          </Col>
-        ))}
-      </Row>
-    </div>
+    <Spin spinning={loading} tip="Loading...">
+      <div className={classes}>
+        <Space direction="vertical" size={20}>
+          <SongListChoose getTag={onTag} />
+          <Row gutter={24}>
+            {data.map((item) => (
+              <Col key={item.id} xxl={{span: 4}} xl={{span: 6}}>
+                <CatCard data={item} />
+              </Col>
+            ))}
+          </Row>
+        </Space>
+      </div>
+    </Spin>
   )
 }
 

@@ -63,6 +63,7 @@ const UserModel: UserModelType = {
           playList: playListRet.playlist
         }
       })
+      return [true, ""]
     },
     *getPlayList({ payload }, { call, put, select }) {
       const { userId } = yield select((state: any): UserModelState => state.userModel)

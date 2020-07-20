@@ -1,3 +1,5 @@
+/** @format */
+
 @import "utils";
 
 ._list {
@@ -56,30 +58,6 @@
       }
     }
 
-    .playIcon {
-      opacity: 0;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      margin: -18px 0 0 -18px;
-      transition: all 0.3s;
-      color: #fff;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: hsla(0, 0%, 100%, .5);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      i {
-        font-size: 16px;
-        color: $bgColor;
-
-      }
-
-    }
-
     &:hover {
       .descWrap {
         transform: translateY(0);
@@ -96,4 +74,3 @@
     font-size: 14px;
   }
 }
-

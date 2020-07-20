@@ -104,6 +104,8 @@ class API {
   static getCatlistHot = (params?: any) => request.get('/playlist/hot', { params })
   // 获取精品歌单
   static getHighQuality = (params?: any) => request.get('/top/playlist/highquality', { params })
+  // 获取网友精选歌单
+  static topPlaylist = (params?: any) => request.get('/top/playlist', { params })
 }
 
 

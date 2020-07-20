@@ -3,13 +3,13 @@
 import React, {FC, useState} from "react"
 import {LockOutlined, UserOutlined} from "@ant-design/icons"
 import {Button, Divider, Input, message, Form} from "antd"
+import {useDispatch} from "umi"
 import API from "@/api"
-import {getUserInfo} from "@/help/getUserInfo"
 import styles from "./index.scss"
 import {Store} from "@umijs/hooks/lib/useFormTable"
 
 interface ILoginModal {
-  callback: (loginVisible: boolean) => void
+  callback: (visible: boolean) => void
 }
 
 interface TypeInterface {
@@ -24,42 +24,37 @@ const initTYpe: TypeInterface = {
 const LoginModal: FC<ILoginModal> = ({callback}) => {
   const [form] = Form.useForm()
   const [type, setType] = useState(initTYpe)
+  const dispatch = useDispatch()
 
-  const phoneLogin = (values: Store) => {
+  const phoneLogin = async (values: Store) => {
     if (type.type === 1) {
-      API.check({phone: values.phone}).then((res: any) => {
-        if (+res.exist === -1) {
-          return message.error("先注册网易云账号再来体验哦")
-        }
-        API.loginByPhone({
-          phone: values.phone,
-          password: values.password,
-          loading: true
-        }).then((res) => {
-          if (res.code !== 200) {
-            return message.info("密码错误")
-          }
-        })
+      const Ret = await API.check({phone: values.phone})
+      if (+Ret.exist === -1) return message.error("先注册网易云账号再来体验哦")
+      const LoginRet = await API.loginByPhone({
+        phone: values.phone,
+        password: values.password,
+        loading: true
       })
+      if (LoginRet.code !== 200) return message.info("密码错误")
     }
     if (type.type === 2) {
-      API.loginByEmail({
+      const Ret = await API.loginByEmail({
         email: values.email,
         password: values.password,
         loading: true
-      }).then((res: any) => {
-        if (res.code !== 200) {
-          return message.info("密码错误")
-        }
       })
+      if (Ret.code !== 200) return message.info("密码错误")
     }
-    getUserInfo().then((result) => {
-      if (result[0]) {
-        callback(false)
-        return message.success("登录成功")
-      }
-      message.info(result[1])
+
+    const UserRet: any = await dispatch({
+      type: "userModel/getUserInfo"
     })
+    console.log(UserRet)
+    if (!UserRet[0]) message.error(UserRet[1])
+    if (UserRet[0]) {
+      message.success("登录成功")
+      return callback(false)
+    }
   }
 
   return (

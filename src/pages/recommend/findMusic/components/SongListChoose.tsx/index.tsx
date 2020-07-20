@@ -4,6 +4,7 @@ import React, {useEffect, useState, FC} from "react"
 import {Button, Row, Col, message, Tag, Divider, Popover, Descriptions} from "antd"
 import {RightOutlined, GlobalOutlined} from "@ant-design/icons"
 import API from "@/api"
+import {removeNewlines} from "@/help"
 import {formatCatList, CatListItemInterface, CatListInterface} from "@/help"
 import styles from "./index.scss"
 
@@ -38,8 +39,9 @@ interface HotItemInterface {
 }
 
 interface SongListChooseProps {
-  getTag: (tag: string) => void
+  getTag: (tag: string, hot: boolean) => void
 }
+
 const SongListChoose: FC<SongListChooseProps> = ({getTag}) => {
   const [data, setData] = useState<CatListInterface[]>([])
   const [all, setAll] = useState<CatListItemInterface>({} as CatListItemInterface)
@@ -68,19 +70,19 @@ const SongListChoose: FC<SongListChooseProps> = ({getTag}) => {
       setData(formatCatList(Ret.sub, Ret.categories))
       setHotData(HotRet.tags)
       setSelectTag(Ret.all.name)
-      getTag(Ret.all.name)
-      getHighquality(HotRet.tags[0].name)
+      getTag(Ret.all.name, Ret.all.hot)
+      getHighquality(Ret.all.nam)
     } catch (error) {
       return error
     }
   }
 
-  const onlanguageTag = (name: string, checked: boolean) => {
+  const onlanguageTag = (name: string, hot: boolean, checked: boolean) => {
     setVisible(false)
     if (checked) {
       setSelectTag(name)
       getHighquality(name)
-      getTag(name)
+      getTag(name, hot)
     }
   }
   const content = (
@@ -93,7 +95,7 @@ const SongListChoose: FC<SongListChooseProps> = ({getTag}) => {
                 <CheckableTag
                   key={item.name}
                   checked={selectTag.indexOf(item.name) > -1}
-                  onChange={(checked) => onlanguageTag(item.name, checked)}>
+                  onChange={(checked) => onlanguageTag(item.name, item.hot, checked)}>
                   {item.name}
                 </CheckableTag>
                 {index !== items.list.length - 1 ? <Divider type="vertical" /> : null}
@@ -127,7 +129,7 @@ const SongListChoose: FC<SongListChooseProps> = ({getTag}) => {
                 )}
                 <p className={styles.title}>{highQuality.name}</p>
                 <p className={styles.name}>{highQuality.copywriter}</p>
-                <p className={styles.detail}>{highQuality?.description}</p>
+                <p className={styles.detail}>{removeNewlines(highQuality?.description)}</p>
               </div>
             </div>
             <div
@@ -137,30 +139,32 @@ const SongListChoose: FC<SongListChooseProps> = ({getTag}) => {
           </div>
         </Col>
       ) : null}
+      {data.length !== 0 ? (
+        <Col span={3}>
+          <Popover
+            visible={visible}
+            onVisibleChange={(visible) => setVisible(visible)}
+            getPopupContainer={(): any => document.getElementsByClassName(styles.listChoose)[0]}
+            overlayClassName={styles.catPopover}
+            content={content}
+            title={
+              <CheckableTag
+                key={all?.name}
+                checked={selectTag.indexOf(all.name) > -1}
+                onChange={(checked) => onlanguageTag(all.name, all.hot, checked)}>
+                {all.name}
+              </CheckableTag>
+            }
+            placement="bottom"
+            trigger="click">
+            <Button shape="round" className={styles.chooseBtn}>
+              {selectTag}
+              <RightOutlined />
+            </Button>
+          </Popover>
+        </Col>
+      ) : null}
 
-      <Col span={3}>
-        <Popover
-          visible={visible}
-          onVisibleChange={(visible) => setVisible(visible)}
-          getPopupContainer={(): any => document.getElementsByClassName(styles.listChoose)[0]}
-          overlayClassName={styles.catPopover}
-          content={content}
-          title={
-            <CheckableTag
-              key={all?.name}
-              checked={selectTag.indexOf(all.name) > -1}
-              onChange={(checked) => onlanguageTag(all.name, checked)}>
-              {all.name}
-            </CheckableTag>
-          }
-          placement="bottom"
-          trigger="click">
-          <Button shape="round" className={styles.chooseBtn}>
-            {selectTag}
-            <RightOutlined />
-          </Button>
-        </Popover>
-      </Col>
       <Col xxl={{span: 14, offset: 7}} xl={{span: 19, offset: 2}} className={styles.hotList}>
         <ul className={styles.select}>
           {hotData.map((item, index) => (
@@ -168,7 +172,7 @@ const SongListChoose: FC<SongListChooseProps> = ({getTag}) => {
               <CheckableTag
                 key={item.id}
                 checked={selectTag.indexOf(item.name) > -1}
-                onChange={(checked) => onlanguageTag(item.name, checked)}>
+                onChange={(checked) => onlanguageTag(item.name, item.hot, checked)}>
                 {item.name}
               </CheckableTag>
               {index !== hotData.length - 1 ? <Divider type="vertical" /> : null}

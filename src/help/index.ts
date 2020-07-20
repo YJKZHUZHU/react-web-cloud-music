@@ -262,6 +262,9 @@ export const formatCatList = (sub: CatListItemInterface[], categories: any): Cat
   return result
 }
 
+export function removeNewlines(str: string): string {
+  return str.replace(/[\r\n]/g, "")
+}
 
 
 
