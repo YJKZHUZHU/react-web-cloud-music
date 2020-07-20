@@ -20,19 +20,18 @@ const CatCard: FC<CatProps> = ({data}) => {
         cover={<img alt={data.coverImgUrl} src={data.coverImgUrl} />}>
         <p className={styles.name}>{data.name}</p>
       </Card>
-      <p className={styles.playCount}>
+      <div className={styles.playCount}>
         <Space size={4}>
           <PlayCircleOutlined />
           <span>{Utils.tranNumber(data.playCount, 0)}</span>
         </Space>
-      </p>
-      <p className={styles.nickname}>
+      </div>
+      <div className={styles.nickname}>
         <Space size={4}>
           <UserOutlined />
           <span className={styles.name}>{data.creator.nickname}</span>
         </Space>
-      </p>
-      {/* <PlayCircleOutlined className={styles.playIcon} /> */}
+      </div>
       <PlayIcon iconClassName={styles.playIcon} />
     </div>
   )
