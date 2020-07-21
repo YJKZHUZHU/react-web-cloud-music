@@ -1,3 +1,5 @@
+/** @format */
+
 @import "utils";
 
 ._playList {
@@ -6,7 +8,6 @@
   .top {
     display: flex;
     min-height: 100px;
-
 
     .left {
       width: 200px;
@@ -33,7 +34,7 @@
             color: $fontColor;
             height: 20px;
             font-size: 12px;
-            @include flex-center(30px,20px);
+            @include flex-center(30px, 20px);
             // margin-top: 4px;
             // text-align: center;
             border-radius: 5%;
@@ -50,7 +51,6 @@
         .songIntroduction {
           display: flex;
 
-
           .divider {
             height: 100%;
             margin: 0 10px;
@@ -66,9 +66,7 @@
               text-align: right;
             }
           }
-
         }
-
       }
 
       .creator {
@@ -92,7 +90,7 @@
       .btnGroup {
         margin-top: 20px;
         margin-bottom: 20px;
-        
+
         .playAll {
           margin-right: 15px;
           border: var(--border);
@@ -101,17 +99,14 @@
 
       .label {
         display: flex;
-        margin-bottom: 20px;
-        //.link {
-        //  color: $fontColor;
-        //}
+        margin-bottom: 5px;
       }
 
       .introduction {
         line-height: 28px;
+        margin-bottom: 0;
       }
     }
-
   }
 
   .tabs {
@@ -193,9 +188,8 @@
 
         .name {
           margin-top: 10px;
-          @include ellipsis
+          @include ellipsis;
         }
-
       }
     }
 

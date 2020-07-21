@@ -1,23 +1,23 @@
 /** @format */
 
-import React, {FC, useEffect, useState} from "react"
-import API from "@/api"
-import styles from "./index.scss"
+import React, {useEffect, useState} from "react"
 import {FolderAddOutlined, PlayCircleOutlined, PlusOutlined} from "@ant-design/icons"
 import {Divider, Button, Tabs, Input, message} from "antd"
 import {Link, history, useSelector, useDispatch, SongInfoModelState} from "umi"
+import API from "@/api"
 import TableList from "./components/ListTable"
 import CommentList from "./components/CommentList"
 import Collection from "./components/Collection"
 import moment from "moment"
 import Utils from "@/help"
+import styles from "./index.scss"
 
 const {TabPane} = Tabs
 const {Search} = Input
 
 let playRecords: any[] = []
 
-const PlayList: FC = (props) => {
+const PlayList = () => {
   let times = 0
 
   const {listId} = history.location.query
@@ -60,18 +60,22 @@ const PlayList: FC = (props) => {
     })
   }
 
-  useEffect(() => {
-    API.playList({id: listId, loading: true}).then((res) => {
-      if (res.code !== 200) {
-        message.info(res.msg)
-        return history.push("/")
-      }
-      setPlaylist(res.playlist)
+  const getData = async () => {
+    try {
+      const Ret = await API.playList({id: listId, loading: true})
+      if (Ret.code !== 200) return message.info("歌单获取异常，请稍后再试")
+      setPlaylist(Ret.playlist)
       setCreator({
-        ...res.playlist.creator
+        ...Ret.playlist.creator
       })
-      setLabel(res.playlist.creator.expertTags || res.playlist.tags || [])
-    })
+      return setLabel(Ret.playlist.creator.expertTags || Ret.playlist.tags || [])
+    } catch (error) {
+      return message.info("歌单获取异常，请稍后再试")
+    }
+  }
+
+  useEffect(() => {
+    getData()
   }, [listId])
 
   return (
@@ -156,7 +160,6 @@ const PlayList: FC = (props) => {
         onChange={onTabs}>
         <TabPane tab="歌曲列表" key="1">
           <TableList
-            {...props}
             trackIds={playlist.trackIds}
             tracks={playlist.tracks}
             searchValue={searchValue}
@@ -173,7 +176,7 @@ const PlayList: FC = (props) => {
           <CommentList />
         </TabPane>
         <TabPane tab="收藏者" key="3">
-          <Collection {...props} subscribedCount={playlist.subscribedCount} />
+          <Collection subscribedCount={playlist.subscribedCount} />
         </TabPane>
       </Tabs>
     </div>

@@ -33,6 +33,7 @@ const SelectTag: FC<SelectTagInterface> = ({data, getSelectTag, label}) => {
           {data.map((item, index) => (
             <li key={item.id} className={styles.item}>
               <CheckableTag
+                className={styles.tag}
                 key={item.id}
                 checked={selectTag.indexOf(item.id) > -1}
                 onChange={(checked) => onlanguageTag(item.id, checked)}>

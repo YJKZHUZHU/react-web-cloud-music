@@ -3,6 +3,7 @@
 import React, {useEffect, useState, FC} from "react"
 import {Button, Row, Col, message, Tag, Divider, Popover, Descriptions} from "antd"
 import {RightOutlined, GlobalOutlined} from "@ant-design/icons"
+import {history} from "umi"
 import API from "@/api"
 import {removeNewlines} from "@/help"
 import {formatCatList, CatListItemInterface, CatListInterface} from "@/help"
@@ -40,6 +41,13 @@ interface HotItemInterface {
 
 interface SongListChooseProps {
   getTag: (tag: string, hot: boolean) => void
+}
+
+const onLink = (listId: number) => {
+  history.push({
+    pathname: "/playList",
+    query: {listId}
+  })
 }
 
 const SongListChoose: FC<SongListChooseProps> = ({getTag}) => {
@@ -93,6 +101,7 @@ const SongListChoose: FC<SongListChooseProps> = ({getTag}) => {
             {items.list.map((item, index) => (
               <li key={item.name} className={styles.item}>
                 <CheckableTag
+                  className={styles.chooseTag}
                   key={item.name}
                   checked={selectTag.indexOf(item.name) > -1}
                   onChange={(checked) => onlanguageTag(item.name, item.hot, checked)}>
@@ -115,7 +124,7 @@ const SongListChoose: FC<SongListChooseProps> = ({getTag}) => {
     <Row className={styles.listChoose}>
       {Object.keys(highQuality).length > 0 ? (
         <Col span={24}>
-          <div className={styles.highQuality}>
+          <div className={styles.highQuality} onClick={() => onLink(highQuality.id)}>
             <div className={styles.content}>
               <div className={styles.img}>
                 <img src={`${highQuality?.coverImgUrl}?param=280y280`} alt={highQuality.name} />

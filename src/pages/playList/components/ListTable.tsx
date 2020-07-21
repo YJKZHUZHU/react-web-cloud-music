@@ -2,33 +2,40 @@
 
 import React, {FC, useEffect, useState, useMemo} from "react"
 import {HeartOutlined, PlayCircleOutlined} from "@ant-design/icons"
-import {Table} from "antd"
+import {Table, message} from "antd"
+import {history, useDispatch} from "umi"
 import API from "@/api"
 import Utils from "@/help"
 import styles from "../index.scss"
-import {history, useDispatch} from "umi"
 
-interface ITableList {
+interface TableListProps {
   trackIds?: any[]
   tracks?: any
   searchValue: string
   getRecord: (record: any) => void
 }
 
-const TableList: FC<ITableList> = ({trackIds = [], searchValue = "", getRecord}) => {
+const TableList: FC<TableListProps> = ({trackIds = [], searchValue = "", getRecord}) => {
   const [tableData, setTableData] = useState([])
+  const [loading, setLoading] = useState(false)
   const dispatch = useDispatch()
-  const getData = () => {
-    if (trackIds.length !== 0) {
-      API.song({ids: trackIdsStr, loading: true}).then((res) => {
-        if (res.code === 200) {
-          setTableData(res.songs)
-          getRecord(res.songs)
-        }
-      })
+  const getData = async () => {
+    if (trackIds.length === 0) return false
+    setLoading(true)
+    try {
+      const Ret = await API.song({ids: trackIdsStr})
+      setLoading(false)
+      setTableData([])
+      getRecord([])
+      if (Ret.code !== 200) return message.info("稍后再试")
+      setTableData(Ret.songs)
+      return getRecord(Ret.songs)
+    } catch (error) {
+      setLoading(false)
+      setTableData([])
+      getRecord([])
+      return message.info("稍后再试")
     }
-    setTableData([])
-    getRecord([])
   }
 
   const onMv = (mvid: string) => {
@@ -37,6 +44,7 @@ const TableList: FC<ITableList> = ({trackIds = [], searchValue = "", getRecord})
       query: {mvid}
     })
   }
+
   const columns: any[] = [
     {
       title: "操作",
@@ -99,6 +107,7 @@ const TableList: FC<ITableList> = ({trackIds = [], searchValue = "", getRecord})
 
   return (
     <Table
+      loading={loading}
       onRow={(record: any) => {
         return {
           onDoubleClick: () =>

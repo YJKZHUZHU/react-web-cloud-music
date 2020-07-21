@@ -145,6 +145,13 @@
         }
       }
     }
+    .singerCover {
+      height: 160px;
+      img {
+        height: 100%;
+        border-radius: 5px;
+      }
+    }
   }
   .loadMore {
     display: flex;
@@ -156,4 +163,9 @@
   .catItem {
     margin-top: 20px;
   }
+}
+
+.page {
+  display: flex;
+  justify-content: center;
 }

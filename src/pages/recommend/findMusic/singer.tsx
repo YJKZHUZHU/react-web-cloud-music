@@ -3,6 +3,7 @@
 import React, {useState, useEffect} from "react"
 import SelectTag from "./components/Selecttag"
 import {message, Card, Spin, Row, Col, Button} from "antd"
+import LazyLoad from "react-lazyload"
 import {UserOutlined} from "@ant-design/icons"
 import {CLASSIFICATION, LANGUAGE, SELECT} from "@/help/map"
 import API from "@/api"
@@ -82,7 +83,11 @@ const Singer = () => {
               bordered={false}
               bodyStyle={{padding: 0}}
               loading={loading}
-              cover={<img alt={item.name} src={item.picUrl} />}>
+              cover={
+                <div className={styles.singerCover}>
+                  <img alt={item.name} src={item.picUrl} />
+                </div>
+              }>
               <p className={styles.name}>
                 <span className={styles.singerName}>{item.name}</span>
                 {item?.accountId ? <UserOutlined className={styles.icon} /> : null}
