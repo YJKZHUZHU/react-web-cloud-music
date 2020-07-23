@@ -20,6 +20,7 @@ import classnames from "classnames"
 import Utils from "@/help"
 import Search from "@/components/Search"
 import LoginModal from "@/components/LoginModal"
+import store from "@/help/localStorage"
 import styles from "./index.scss"
 
 const ThEME_MAP = [
@@ -45,6 +46,7 @@ const Header = () => {
   const {showPlayer} = useSelector((state: any): PlayModelState => state.playmodel)
 
   const dispatch = useDispatch()
+
 
   const onRoute = (path: string) => {
     setVisible(false)

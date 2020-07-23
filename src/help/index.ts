@@ -73,21 +73,21 @@ class Utils {
   }
 
   static createTheme(theme: string) {
-
-    let styleLink: any = document.getElementById('theme')
+    // let styleLink: any = document.getElementById('theme')
     let body = document.getElementsByTagName('body')[0]
-    if (styleLink) {//假如存在id为theme 的link标签，直接修改其href
-      styleLink.href = `/theme/${theme}.css`  // 切换 antd 组件主题
-      body.className = `body-wrap-${theme}`  // 切换自定义组件的主题
-    } else { // 不存在的话，则新建一个
-      styleLink = document.createElement('link')
-      styleLink.type = 'text/css'
-      styleLink.rel = 'stylesheet'
-      styleLink.id = 'theme'
-      styleLink.href = `/theme/${theme}.css`  // 切换 antd 组件主题
-      body.className = `body-wrap-${theme}`  // 切换自定义组件的主题
-    }
-    document.body.append(styleLink)
+    body.className = `body-wrap-${theme}`  // 切换自定义组件的主题
+    // if (styleLink) {//假如存在id为theme 的link标签，直接修改其href
+    //   // styleLink.href = `/theme/${theme}.css`  // 切换 antd 组件主题
+    //   body.className = `body-wrap-${theme}`  // 切换自定义组件的主题
+    // } else { // 不存在的话，则新建一个
+    //   styleLink = document.createElement('link')
+    //   styleLink.type = 'text/css'
+    //   styleLink.rel = 'stylesheet'
+    //   styleLink.id = 'theme'
+    //   styleLink.href = `/theme/${theme}.css`  // 切换 antd 组件主题
+    //   body.className = `body-wrap-${theme}`  // 切换自定义组件的主题
+    // }
+    // document.body.append(styleLink)
   }
 
   static formatSeconds(value: any) {
