@@ -1,8 +1,8 @@
 /** @format */
 
-import React, {FC, useState} from "react"
+import React, {useState, useEffect} from "react"
 import {Tabs} from "antd"
-import {history, Location} from "umi"
+import {history, useLocation, useRouteMatch} from "umi"
 import PersonalRecommendation from "./personal-recommendation"
 import SongList from "./song-list"
 import LatestMusic from "./latest-music"
@@ -13,12 +13,11 @@ import styles from "./index.scss"
 
 const {TabPane} = Tabs
 
-interface FindMusicInterface {
-  location: Location
-}
+const FindMusic = () => {
+  const location = useLocation()
+  console.log(useRouteMatch())
 
-const FindMusic: FC<FindMusicInterface> = (props) => {
-  const mapRouter = props.location.pathname.split("/")
+  const mapRouter = location.pathname.split("/")
 
   const [tabKey, setTabKey] = useState(mapRouter[mapRouter.length - 1] || "personal-recommendation")
 
@@ -27,10 +26,14 @@ const FindMusic: FC<FindMusicInterface> = (props) => {
     history.push(`/recommend/findmusic/${activeKey}`)
   }
 
+  useEffect(() => {
+    onTab(mapRouter[mapRouter.length - 1])
+  }, [location.pathname])
+
   return (
     <Tabs
       onChange={onTab}
-      defaultActiveKey={tabKey}
+      activeKey={tabKey}
       tabBarStyle={{textAlign: "center", color: "var(--font-color)"}}
       animated>
       <TabPane tab="个性推荐" key="personal-recommendation" className={styles.tabPane}>

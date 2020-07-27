@@ -77,4 +77,6 @@ const SongList = () => {
   )
 }
 
+SongList.title = '歌单'
+
 export default SongList

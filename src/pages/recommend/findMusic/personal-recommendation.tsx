@@ -3,12 +3,12 @@
 import React, {useState, useEffect} from "react"
 import {Divider, Row, Col} from "antd"
 import {RightOutlined} from "@ant-design/icons"
-import {Link} from 'umi'
+import {Link, history} from "umi"
 import CarouselImg from "./components/Carousel"
 import RecommendedSongList from "@/components/RecommendedSongList"
 import NewMusic from "@/components/NewMusic"
 import API from "@/api"
-import styles from './index.scss'
+import styles from "./index.scss"
 
 const PersonalRecommendation = () => {
   const [personalized, setPersonalized] = useState<any[]>([])
@@ -38,7 +38,7 @@ const PersonalRecommendation = () => {
       <div className={styles.recommend}>
         <div className={styles.top}>
           <h2>推荐歌单</h2>
-          <Link to="/">
+          <Link to="/recommend/findmusic/song-list">
             <span>
               <i>更多</i>
               <RightOutlined />
@@ -59,7 +59,7 @@ const PersonalRecommendation = () => {
       <div className={styles.recommend}>
         <div className={styles.top}>
           <h2>最新音乐</h2>
-          <Link to="/">
+          <Link to="/recommend/findmusic/latest-music">
             <span>
               <i>更多</i>
               <RightOutlined />
@@ -82,5 +82,7 @@ const PersonalRecommendation = () => {
     </>
   )
 }
+
+PersonalRecommendation.title = "个性推荐"
 
 export default PersonalRecommendation

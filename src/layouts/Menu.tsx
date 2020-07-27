@@ -95,7 +95,9 @@ const MenuList = () => {
           <h2>推荐</h2>
           <ul className={styles.list}>
             <li>
-              <NavLink to="/recommend/findMusic" activeClassName={styles.activeRouter}>
+              <NavLink
+                to="/recommend/findMusic/personal-recommendation"
+                activeClassName={styles.activeRouter}>
                 <CustomerServiceOutlined className={styles.icon} />
                 <span>发现音乐</span>
               </NavLink>

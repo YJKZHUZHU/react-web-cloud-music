@@ -1,12 +1,12 @@
 /** @format */
 
 import React, {FC, useState, useEffect} from "react"
-import styles from "./index.scss"
 import {CaretRightOutlined, PlayCircleOutlined} from "@ant-design/icons"
-import {Radio, Tabs} from "antd"
+import {Radio, Tabs, message, Spin} from "antd"
 import API from "@/api"
-import {history, useDispatch} from "umi"
+import {useDispatch, useHistory} from "umi"
 import Utils from "@/help"
+import styles from "./index.scss"
 
 const {TabPane} = Tabs
 
@@ -16,92 +16,102 @@ interface IList {
 
 const List: FC<IList> = ({active}) => {
   const [dataList, setDataList] = useState([])
+  const [loading, setLoading] = useState(false)
   const dispatch = useDispatch()
-  const getAPIData = () => {
-    API.getLatestMusic({
-      type: active,
-      loading: true
-    }).then((res) => {
-      if (res.code === 200) {
-        setDataList(res.data)
-      }
-    })
+  const history = useHistory()
+
+  const getAPIData = async () => {
+    setLoading(true)
+    try {
+      const Ret = await API.getLatestMusic({type: active})
+      setLoading(false)
+      if (Ret.code !== 200) return message.info("数据异常，稍后再试哦...")
+      setDataList(Ret.data)
+    } catch (error) {
+      console.log(error)
+      return setLoading(false)
+    }
   }
+
   const onMv = (mvid: string) => {
-    history.push({
-      pathname: "/recommend/video/mvDetail",
-      query: {mvid}
-    })
+    history.push(`/recommend/video/mvDetail?mvid=${mvid}`)
   }
+
   useEffect(() => {
     getAPIData()
   }, [])
-  return (
-    <div className={styles.list}>
-      <ul>
-        {dataList.map((item: any, index: number) => {
-          return (
-            <li
-              className={styles.item}
-              key={item.id}
-              onDoubleClick={() =>
-                dispatch({
-                  type: "songInfoModel/getSongInfo",
-                  payload: {
-                    id: item.id
-                  }
-                })
-              }>
-              <span className={styles.number}>{index < 10 ? `0${index + 1}` : index + 1}</span>
-              <div className={styles.img}>
-                <img src={item.album.picUrl} />
-                <div className={styles.icon}>
-                  <CaretRightOutlined />
-                </div>
-              </div>
-              <p className={styles.content}>
-                <span>{item.name}</span>
-                {item.transNames && <span>(</span>}
 
-                {item.transNames &&
-                  item.transNames.map((items: any, index: number) => {
-                    return (
-                      <i className={styles.smallTip} key={index}>
-                        {items}
-                      </i>
-                    )
-                  })}
-                {item.transNames && <span>)</span>}
-                {!!item.mvid ? (
-                  <PlayCircleOutlined className={styles.playIcon} onClick={() => onMv(item.mvid)} />
-                ) : null}
-              </p>
-              <p className={styles.name}>
-                {item.artists &&
-                  item.artists.map((nameItem: any, index: number) => {
-                    return (
-                      <i key={nameItem.id}>
-                        {nameItem.name}
-                        {item.artists.length === index + 1 ? null : "/"}
-                      </i>
-                    )
-                  })}
-              </p>
-              <p className={styles.title}>
-                {item.album.name}
-                {item.album.transNames && <span>(</span>}
-                {item.album.transNames &&
-                  item.album.transNames.map((albumItem: any, index: number) => {
-                    return <i key={index}>{albumItem}</i>
-                  })}
-                {item.album.transNames && <span>)</span>}
-              </p>
-              <p className={styles.time}>{Utils.formatPlayerTime(item.duration / 1000)}</p>
-            </li>
-          )
-        })}
-      </ul>
-    </div>
+  return (
+    <Spin spinning={loading} tip="Loading...">
+      <div className={styles.list}>
+        <ul>
+          {dataList.map((item: any, index: number) => {
+            return (
+              <li
+                className={styles.item}
+                key={item.id}
+                onDoubleClick={() =>
+                  dispatch({
+                    type: "songInfoModel/getSongInfo",
+                    payload: {
+                      id: item.id
+                    }
+                  })
+                }>
+                <span className={styles.number}>{index < 10 ? `0${index + 1}` : index + 1}</span>
+                <div className={styles.img}>
+                  <img src={item.album.picUrl} />
+                  <div className={styles.icon}>
+                    <CaretRightOutlined />
+                  </div>
+                </div>
+                <p className={styles.content}>
+                  <span>{item.name}</span>
+                  {item.transNames && <span>(</span>}
+
+                  {item.transNames &&
+                    item.transNames.map((items: any, index: number) => {
+                      return (
+                        <i className={styles.smallTip} key={index}>
+                          {items}
+                        </i>
+                      )
+                    })}
+                  {item.transNames && <span>)</span>}
+                  {!!item.mvid ? (
+                    <PlayCircleOutlined
+                      className={styles.playIcon}
+                      onClick={() => onMv(item.mvid)}
+                    />
+                  ) : null}
+                </p>
+                <p className={styles.name}>
+                  {item.artists &&
+                    item.artists.map((nameItem: any, index: number) => {
+                      return (
+                        <i key={nameItem.id}>
+                          {nameItem.name}
+                          {item.artists.length === index + 1 ? null : "/"}
+                        </i>
+                      )
+                    })}
+                </p>
+                <p className={styles.title}>
+                  {item.album.name}
+                  {item.album.transNames && <span>(</span>}
+                  {item.album.transNames &&
+                    item.album.transNames.map((albumItem: any, index: number) => {
+                      return <i key={index}>{albumItem}</i>
+                    })}
+                  {item.album.transNames && <span>)</span>}
+                </p>
+                <p className={styles.time}>{Utils.formatPlayerTime(item.duration / 1000)}</p>
+              </li>
+            )
+          })}
+        </ul>
+      </div>
+    </Spin>
   )
 }
 
