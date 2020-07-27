@@ -17,10 +17,12 @@ const PlayerLayout = () => {
   const {isPlay, songObj, lyric} = useSelector(
     (state: any): SongInfoModelState => state.songInfoModel
   )
+  console.log(songObj)
+
   const {playerObj, showPlayer} = useSelector((state: any): PlayModelState => state.playmodel)
-  const [scroller, setScroller] = useState(null)
+  const [scroller, setScroller] = useState<any>(null)
   const [rd, setRd] = useState<any>(null)
-  const imgContainerRef: any = useRef(null)
+  const imgContainerRef: any = useRef<any>(null)
 
   const activeLyricIndex = (index: number) => {
     return index === findLyricIndex()
@@ -37,7 +39,7 @@ const PlayerLayout = () => {
   const findLyricIndex = () => {
     return lyric
       ? lyric.findIndex((l: any, index: number) => {
-          const nestLyric = lyric[index + 1]
+          const nestLyric: any = lyric[index + 1]
           return (
             playerObj.playedSeconds >= l.time &&
             (nestLyric ? playerObj.playedSeconds < nestLyric.time : true)
@@ -50,7 +52,6 @@ const PlayerLayout = () => {
   const scrollToActiveLyric = () => {
     if (findLyricIndex() !== -1) {
       if (lyric && lyric[findLyricIndex()]) {
-        // @ts-ignore
         scroller.scrollToElement(".active", 200, 0, true)
       }
     }
@@ -75,7 +76,7 @@ const PlayerLayout = () => {
 
   useEffect(() => {
     const mobileOption = {
-      size: parseInt(imgContainerRef.current.offsetWidth, 10),
+      size: parseInt(imgContainerRef?.current?.offsetWidth, 10),
       radius: 0.25,
       rippeWidth: 2,
       pointRadius: 4
@@ -96,7 +97,6 @@ const PlayerLayout = () => {
   }, [songObj.backgroundImg])
 
   useEffect(() => {
-    // @ts-ignore
     scroller && scrollToActiveLyric()
   }, [scrollToActiveLyric, scroller])
 
@@ -139,7 +139,9 @@ const PlayerLayout = () => {
                 return (
                   <div
                     key={Utils.createRandomId()}
-                    className={classnames("wrapItem", {active: activeLyricIndex(index)})}>
+                    className={classnames("wrapItem", {
+                      active: (index: number) => index === findLyricIndex()
+                    })}>
                     <p className="title">{v.lyc}</p>
                   </div>
                 )
@@ -149,6 +151,8 @@ const PlayerLayout = () => {
         </div>
       </div>
       <div className={styles.commentContainer}>
+        <div>精彩评论</div>
+        <div>相似歌曲</div>
         {/*<p>评论区展示</p>*/}
         {/*<p>评论区展示</p>*/}
         {/*<p>评论区展示</p>*/}

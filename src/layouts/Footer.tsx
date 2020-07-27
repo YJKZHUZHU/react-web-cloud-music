@@ -218,10 +218,7 @@ const Footer = () => {
         <Row className={style.footer}>
           <Col span={4}>
             {Object.keys(songObj).length !== 0 ? (
-              <div
-                className={style.info}
-                // style={{visibility: Object.keys(songObj).length !== 0 ? "visible" : "hidden"}}
-              >
+              <div className={style.info}>
                 <div
                   className={style.img}
                   onClick={() =>
@@ -298,33 +295,33 @@ const Footer = () => {
             </Radio.Group>
           </Col>
           <Col span={5} className={style.operating}>
-              <ShareAltOutlined />
-              <PlayMode />
-              <Tooltip title={playRecordTip} visible={!!playRecordTip}>
-                <i className={classnames("iconfont", "icon-bofangliebiao")} onClick={onRecord} />
-              </Tooltip>
+            <ShareAltOutlined />
+            <PlayMode />
+            <Tooltip title={playRecordTip} visible={!!playRecordTip}>
+              <i className={classnames("iconfont", "icon-bofangliebiao")} onClick={onRecord} />
+            </Tooltip>
 
-              <div className={style.progress}>
-                <i
-                  className={classnames(
-                    style.voice,
-                    "iconfont",
-                    volume === 0 ? "icon-jingyin" : "icon-volume"
-                  )}
-                  onClick={onMute}
-                />
-                <Slider
-                  onChange={onVolume}
-                  min={0}
-                  max={100}
-                  value={volume * 100}
-                  className={style.slider}
-                  tipFormatter={null}
-                />
-              </div>
-              <a href="https://github.com/YJKZHUZHU/react-web-cloud-music" target="_blank">
-                <GithubOutlined />
-              </a>
+            <div className={style.progress}>
+              <i
+                className={classnames(
+                  style.voice,
+                  "iconfont",
+                  volume === 0 ? "icon-jingyin" : "icon-volume"
+                )}
+                onClick={onMute}
+              />
+              <Slider
+                onChange={onVolume}
+                min={0}
+                max={100}
+                value={volume * 100}
+                className={style.slider}
+                tipFormatter={null}
+              />
+            </div>
+            <a href="https://github.com/YJKZHUZHU/react-web-cloud-music" target="_blank">
+              <GithubOutlined />
+            </a>
           </Col>
         </Row>
       </div>

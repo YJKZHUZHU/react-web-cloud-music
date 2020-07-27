@@ -4,5 +4,5 @@ import styles from './index.scss'
 import {Link,Redirect} from "umi"
 
 export default function() {
-  return <Redirect to={'/recommend/findMusic'} />
+  return <Redirect to={"/recommend/findMusic/personal-recommendation"} />
 }

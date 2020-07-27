@@ -24,7 +24,7 @@ export interface SongInterface {
   url?: string,
   id?: number
   name?: string
-  singerArr?: SingerInterface[]
+  singerArr: SingerInterface[]
   songTime?: number
   backgroundImg?: string
 }
