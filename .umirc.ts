@@ -2,7 +2,6 @@ const path = require('path')
 const fs = require('fs')
 const lessToJs = require('less-vars-to-js')
 import { defineConfig } from 'umi'
-import px2rem from 'postcss-plugin-px2rem'
 
 export default defineConfig({
   exportStatic: false,
@@ -13,6 +12,9 @@ export default defineConfig({
   targets: {
     ie: 9,//浏览器前缀
     chrome: 40
+  },
+  sass:{
+    sass: require('node-sass')
   },
   dva: {
     immer: true,

@@ -14,7 +14,6 @@
     "antd": "4.2.5",
     "axios": "^0.19.2",
     "better-scroll": "^1.15.2",
-    "classnames": "^2.2.6",
     "nprogress": "^0.2.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",

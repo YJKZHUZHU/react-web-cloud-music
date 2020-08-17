@@ -226,7 +226,6 @@ const MenuList = () => {
                 {favoriteShow ? <DownOutlined /> : <UpOutlined />}
               </p>
             </div>
-
             <CSSTransition
               in={favoriteShow}
               timeout={1000}

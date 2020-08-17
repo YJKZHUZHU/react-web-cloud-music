@@ -21,9 +21,10 @@
     }
 
     .description {
+      display: flex;
+      flex-direction: column;
       flex: 1;
       font-size: 12px;
-      line-height: 25px;
       padding-left: 15px;
     }
     .icon {

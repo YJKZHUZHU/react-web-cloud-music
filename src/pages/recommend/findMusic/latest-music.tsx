@@ -3,8 +3,8 @@
 import React, {FC, useState, useEffect} from "react"
 import {CaretRightOutlined, PlayCircleOutlined} from "@ant-design/icons"
 import {Radio, Tabs, message, Spin} from "antd"
+import {useDispatch, history} from "umi"
 import API from "@/api"
-import {useDispatch, useHistory} from "umi"
 import Utils from "@/help"
 import styles from "./index.scss"
 
@@ -18,7 +18,6 @@ const List: FC<IList> = ({active}) => {
   const [dataList, setDataList] = useState([])
   const [loading, setLoading] = useState(false)
   const dispatch = useDispatch()
-  const history = useHistory()
 
   const getAPIData = async () => {
     setLoading(true)
@@ -34,7 +33,12 @@ const List: FC<IList> = ({active}) => {
   }
 
   const onMv = (mvid: string) => {
-    history.push(`/recommend/video/mvDetail?mvid=${mvid}`)
+    history.push({
+      pathname: "/recommend/video/mvDetail",
+      query: {
+        mvid
+      }
+    })
   }
 
   useEffect(() => {
@@ -58,7 +62,7 @@ const List: FC<IList> = ({active}) => {
                     }
                   })
                 }>
-                <span className={styles.number}>{index < 10 ? `0${index + 1}` : index + 1}</span>
+                <span className={styles.number}>{index < 9 ? `0${index + 1}` : index + 1}</span>
                 <div className={styles.img}>
                   <img src={item.album.picUrl} />
                   <div className={styles.icon}>

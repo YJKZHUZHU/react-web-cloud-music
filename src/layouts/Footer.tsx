@@ -1,7 +1,7 @@
 /** @format */
 
 import React, {useState, useEffect, useRef} from "react"
-import {Slider, Radio, Tooltip, Row, Col} from "antd"
+import {Slider, Radio, Tooltip, Row, Col, Space} from "antd"
 import {
   FullscreenOutlined,
   FullscreenExitOutlined,
@@ -30,9 +30,9 @@ interface PlayerInterface {
 
 const Footer = () => {
   const dispatch = useDispatch()
+   const playRef: any = useRef(null)
+   const list = usePlayRecord()
   const [lastVolume, setLastVolume] = useState(0)
-  const playRef: any = useRef(null)
-  const list = usePlayRecord()
   const {isPlay, showPlayRecord, playRecordTip, songObj} = useSelector(
     (state: any): SongInfoModelState => state.songInfoModel
   )
@@ -59,6 +59,7 @@ const Footer = () => {
   }
 
   const onVolume = (value: any) => {
+    console.log(value)
     setLastVolume(value / 100)
     dispatch({
       type: "playmodel/setVolume",
@@ -283,16 +284,17 @@ const Footer = () => {
             <div className={classnames(style.common, style.next)} onClick={() => onPlay(1)}>
               <StepForwardOutlined />
             </div>
-            {/* </div> */}
           </Col>
           <Col span={5} push={2} className={style.playRate}>
-            <p className={style.tip}>播放速度</p>
-            <Radio.Group value={playerRate} onChange={onRate}>
-              <Radio.Button value={1}>1.x</Radio.Button>
-              <Radio.Button value={1.2}>1.2x</Radio.Button>
-              <Radio.Button value={1.5}>1.5x</Radio.Button>
-              <Radio.Button value={2}>2x</Radio.Button>
-            </Radio.Group>
+            <Space>
+              <p className={style.tip}>播放速度</p>
+              <Radio.Group value={playerRate} onChange={onRate}>
+                <Radio.Button value={1}>1.x</Radio.Button>
+                <Radio.Button value={1.2}>1.2x</Radio.Button>
+                <Radio.Button value={1.5}>1.5x</Radio.Button>
+                <Radio.Button value={2}>2x</Radio.Button>
+              </Radio.Group>
+            </Space>
           </Col>
           <Col span={5} className={style.operating}>
             <ShareAltOutlined />

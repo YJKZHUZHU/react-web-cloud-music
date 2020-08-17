@@ -41,8 +41,8 @@ const OfficialLeaderBoard: FC<OfficialLeaderBoardInterface> = ({data}) => {
                   <img src={item.coverImgUrl} className={styles.img} />
                 </div>
                 <div className={styles.description}>
-                  <p>{item.name}</p>
-                  <p>最近更新：{moment(item.updateTime).format("MM-DD")}日更新</p>
+                  <span>{item.name}</span>
+                  <span>最近更新：{moment(item.updateTime).format("MM-DD")}日更新</span>
                 </div>
                 <div className={styles.icon}>
                   <CaretRightOutlined

@@ -2,7 +2,7 @@
 
 import React, {useState, useEffect} from "react"
 import {Tabs} from "antd"
-import {history, useLocation, useRouteMatch} from "umi"
+import {history, useLocation} from "umi"
 import PersonalRecommendation from "./personal-recommendation"
 import SongList from "./song-list"
 import LatestMusic from "./latest-music"
@@ -15,11 +15,10 @@ const {TabPane} = Tabs
 
 const FindMusic = () => {
   const location = useLocation()
-  console.log(useRouteMatch())
 
-  const mapRouter = location.pathname.split("/")
+  const path = location.pathname.split("/").pop()
 
-  const [tabKey, setTabKey] = useState(mapRouter[mapRouter.length - 1] || "personal-recommendation")
+  const [tabKey, setTabKey] = useState(path || "personal-recommendation")
 
   const onTab = (activeKey: any) => {
     setTabKey(activeKey)
@@ -27,7 +26,7 @@ const FindMusic = () => {
   }
 
   useEffect(() => {
-    onTab(mapRouter[mapRouter.length - 1])
+    onTab(path)
   }, [location.pathname])
 
   return (
