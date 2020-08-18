@@ -4,8 +4,8 @@ import React, {useState} from "react"
 import classnames from "classnames"
 import {Row, Col, Space, Spin, Pagination} from "antd"
 import API from "@/api"
-import SongListChoose from "./components/SongListChoose.tsx"
-import CatCard from "./components/CatCard"
+import SongListChoose from "../components/SongListChoose.tsx"
+import CatCard from "../components/CatCard"
 import styles from "./index.scss"
 
 const classes = classnames(styles.songList, "catPopoverTag")
@@ -77,6 +77,6 @@ const SongList = () => {
   )
 }
 
-SongList.title = '歌单'
+SongList.title = "歌单"
 
 export default SongList

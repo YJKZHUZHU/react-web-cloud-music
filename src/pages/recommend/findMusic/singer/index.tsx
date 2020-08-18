@@ -1,13 +1,12 @@
 /** @format */
 
 import React, {useState, useEffect} from "react"
-import SelectTag from "./components/Selecttag"
-import {message, Card, Spin, Row, Col, Button} from "antd"
-import LazyLoad from "react-lazyload"
+import SelectTag from "../components/Selecttag"
+import {message, Card, Row, Col, Button} from "antd"
 import {UserOutlined} from "@ant-design/icons"
 import {CLASSIFICATION, LANGUAGE, SELECT} from "@/help/map"
 import API from "@/api"
-import styles from "./index.scss"
+import styles from "../index.scss"
 
 let param = {
   type: -1,

@@ -2,8 +2,8 @@
 
 import React, {useState, useEffect} from "react"
 import {Divider, Spin} from "antd"
-import OfficialLeaderBoard from "./components/OfficialLeaderBoard"
-import AllTopList from "./components/AllTopList"
+import OfficialLeaderBoard from "../components/OfficialLeaderBoard"
+import AllTopList from "../components/AllTopList"
 import API from "@/api"
 import styles from "./index.scss"
 

@@ -1,4 +1,5 @@
 import { message } from 'antd'
+import moment from 'moment'
 import store from '@/help/localStorage'
 import Utils from '@/help/index'
 
@@ -6,6 +7,8 @@ message.config({
   duration: 1,
   maxCount: 1
 })
+
+moment.locale(window.navigator.language)
 
 
 // toFixed兼容方法
