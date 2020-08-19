@@ -1,9 +1,10 @@
 /** @format */
 
 import React, {FC, useState, useEffect} from "react"
-import {CaretRightOutlined, PlayCircleOutlined} from "@ant-design/icons"
+import {CaretRightOutlined, PlaySquareOutlined} from "@ant-design/icons"
 import {Radio, Tabs, message, Spin} from "antd"
 import {useDispatch, history} from "umi"
+import Artists from "@/components/Artists"
 import API from "@/api"
 import Utils from "@/help"
 import styles from "./index.scss"
@@ -71,43 +72,38 @@ const List: FC<IList> = ({active}) => {
                 </div>
                 <p className={styles.content}>
                   <span>{item.name}</span>
-                  {item.transNames && <span>(</span>}
-
-                  {item.transNames &&
-                    item.transNames.map((items: any, index: number) => {
+                  {item.alias.length !== 0 &&
+                    item.alias.map((items: any, index: number) => {
                       return (
                         <i className={styles.smallTip} key={index}>
+                          {index === 0 ? "(" : null}
                           {items}
+                          {index === 0 ? ")" : null}
                         </i>
                       )
                     })}
-                  {item.transNames && <span>)</span>}
                   {!!item.mvid ? (
-                    <PlayCircleOutlined
+                    <PlaySquareOutlined
                       className={styles.playIcon}
                       onClick={() => onMv(item.mvid)}
                     />
                   ) : null}
                 </p>
                 <p className={styles.name}>
-                  {item.artists &&
-                    item.artists.map((nameItem: any, index: number) => {
-                      return (
-                        <i key={nameItem.id}>
-                          {nameItem.name}
-                          {item.artists.length === index + 1 ? null : "/"}
-                        </i>
-                      )
-                    })}
+                  <Artists data={item.artists} />
                 </p>
                 <p className={styles.title}>
                   {item.album.name}
-                  {item.album.transNames && <span>(</span>}
-                  {item.album.transNames &&
-                    item.album.transNames.map((albumItem: any, index: number) => {
-                      return <i key={index}>{albumItem}</i>
+                  {item.alias.length !== 0 &&
+                    item.alias.map((items: any, index: number) => {
+                      return (
+                        <i className={styles.smallTip} key={index}>
+                          {index === 0 ? "(" : null}
+                          {items}
+                          {index === 0 ? ")" : null}
+                        </i>
+                      )
                     })}
-                  {item.album.transNames && <span>)</span>}
                 </p>
                 <p className={styles.time}>{Utils.formatPlayerTime(item.duration / 1000)}</p>
               </li>

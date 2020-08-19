@@ -110,6 +110,8 @@ class API {
   static getHighQuality = (params?: any) => request('/top/playlist/highquality', { params })
   // 获取网友精选歌单
   static topPlaylist = (params?: any) => request('/top/playlist', { params })
+  // 歌手描述
+  static getArtistDesc = (params?: any) => request('/artist/desc', { params })
 }
 
 

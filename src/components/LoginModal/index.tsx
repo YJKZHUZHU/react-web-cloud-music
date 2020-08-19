@@ -28,9 +28,9 @@ const LoginModal: FC<ILoginModal> = ({callback}) => {
 
   const phoneLogin = async (values: Store) => {
     if (type.type === 1) {
-      const Ret = await API.check({phone: values.phone})
+      const Ret:any = await API.check({phone: values.phone})
       if (+Ret.exist === -1) return message.error("先注册网易云账号再来体验哦")
-      const LoginRet = await API.loginByPhone({
+      const LoginRet:any = await API.loginByPhone({
         phone: values.phone,
         password: values.password,
         loading: true
@@ -38,7 +38,7 @@ const LoginModal: FC<ILoginModal> = ({callback}) => {
       if (LoginRet.code !== 200) return message.info("密码错误")
     }
     if (type.type === 2) {
-      const Ret = await API.loginByEmail({
+      const Ret:any = await API.loginByEmail({
         email: values.email,
         password: values.password,
         loading: true
@@ -49,7 +49,6 @@ const LoginModal: FC<ILoginModal> = ({callback}) => {
     const UserRet: any = await dispatch({
       type: "userModel/getUserInfo"
     })
-    console.log(UserRet)
     if (!UserRet[0]) message.error(UserRet[1])
     if (UserRet[0]) {
       message.success("登录成功")

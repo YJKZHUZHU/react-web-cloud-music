@@ -1,0 +1,9 @@
+/** @format */
+@import "utils";
+
+.artists {
+  cursor: pointer;
+  &:hover {
+    color: $fontColor;
+  }
+}
