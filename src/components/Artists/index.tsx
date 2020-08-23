@@ -1,8 +1,8 @@
 /** @format */
 
 import React, {FC} from "react"
-import {history} from "umi"
-import styles from './index.scss'
+import {useHistory} from "umi"
+import styles from "./index.scss"
 
 interface IItem {
   img1v1Id?: number
@@ -25,21 +25,18 @@ interface IArtists {
   data: IItem[]
 }
 
-const onLink = (id: number | undefined) => {
-  history.push({
-    pathname: "/artists-detail",
-    query: {id}
-  })
-}
-
 const Artists: FC<IArtists> = ({data}) => {
-  console.log(data)
   if (data.length === 0) return null
+
+  const history = useHistory()
 
   return (
     <>
       {data.map((item, index) => (
-        <span key={item.id} className={styles.artists} onClick={() => onLink(item.id)}>
+        <span
+          key={item.id}
+          className={styles.artists}
+          onClick={() => history.push(`/artists-detail/album?id=${item.id}&name=${item.name}`)}>
           {item.name}
           {index !== data.length - 1 ? "/" : null}
         </span>

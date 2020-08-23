@@ -111,7 +111,11 @@ class API {
   // 获取网友精选歌单
   static topPlaylist = (params?: any) => request('/top/playlist', { params })
   // 歌手描述
-  static getArtistDesc = (params?: any) => request('/artist/desc', { params })
+  static getArtistDesc = (params: any) => request('/artist/desc', { params })
+  // 相似歌手
+  static getSimilarSinger = (params: any) => request('/simi/artist', { params })
+  // 歌手MV
+  static getSingerMv = (params: any) => request('/artist/mv', { params })
 }
 
 

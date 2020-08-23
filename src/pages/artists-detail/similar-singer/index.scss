@@ -1,0 +1,28 @@
+.card {
+    margin-bottom: 15px;
+    .name {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .singerName {
+        cursor: pointer;
+        &:hover {
+          color: #070707;
+        }
+      }
+      .icon {
+        cursor: pointer;
+        color: #f44e41;
+        &:hover {
+          color: #e24439;
+        }
+      }
+    }
+    .singerCover {
+      height: 160px;
+      img {
+        height: 100%;
+        border-radius: 5px;
+      }
+    }
+  }

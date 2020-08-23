@@ -1,0 +1,46 @@
+/** @format */
+
+.card {
+  margin-bottom: 15px;
+  position: relative;
+  display: flex;
+  .name {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .singerName {
+      cursor: pointer;
+      &:hover {
+        color: #070707;
+      }
+    }
+  }
+
+  .singerCover {
+    height: 160px;
+    position: relative;
+    .time {
+      position: absolute;
+      bottom: 16px;
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      color: #fff;
+    }
+    .playCount {
+      position: absolute;
+      width: 100%;
+      top: 0;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      color: #fff;
+    }
+    img {
+      width: 100%;
+      border-radius: 5px;
+      
+    }
+  }
+}

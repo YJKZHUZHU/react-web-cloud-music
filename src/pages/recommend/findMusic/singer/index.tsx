@@ -6,7 +6,7 @@ import {message, Card, Row, Col, Button} from "antd"
 import {UserOutlined} from "@ant-design/icons"
 import {CLASSIFICATION, LANGUAGE, SELECT} from "@/help/map"
 import API from "@/api"
-import styles from "../index.scss"
+import styles from "./index.scss"
 
 let param = {
   type: -1,
