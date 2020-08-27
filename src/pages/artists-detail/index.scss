@@ -2,9 +2,7 @@
 
 @import "utils";
 
-.artistsDetail {
-  margin-top: 20px;
-  .summary {
+.summary {
     display: flex;
     .img {
       margin-right: 30px;
@@ -23,4 +21,3 @@
       color: #666666;
     }
   }
-}

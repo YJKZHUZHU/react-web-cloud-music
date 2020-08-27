@@ -31,12 +31,11 @@ const Mv: FC<IProps> = ({query}) => {
     manual: true
   })
   const history = useHistory()
-  console.log(data)
   useEffect(() => {
     run()
   }, [])
   return (
-    <Spin spinning={loading} tip="LOading...">
+    <Spin spinning={loading} tip="Loading...">
       <Row gutter={24}>
         {(data?.mvs as IMv[])?.map((item) => (
           <Col

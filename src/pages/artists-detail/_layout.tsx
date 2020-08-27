@@ -52,27 +52,25 @@ const ArtistsDetail = () => {
     setTabKey(path)
   }, [path])
   return (
-    <div className={styles.artistsDetail}>
-      <Tabs
-        onChange={onTab}
-        activeKey={tabKey}
-        tabBarStyle={{color: "var(--font-color)"}}
-        animated
-        tabBarExtraContent={tabKey === "album" ? <Extra /> : null}>
-        <TabPane tab="专辑" key="album" className={styles.tabPane}>
-          <Album />
-        </TabPane>
-        <TabPane tab="MV" key="mv" className={styles.tabPane}>
-          <Mv query={location.query} />
-        </TabPane>
-        <TabPane tab="歌手详情" key="singer-detail" className={styles.tabPane}>
-          <SingerDetail query={location.query} />
-        </TabPane>
-        <TabPane tab="相似歌手" key="similar-detail" className={styles.tabPane}>
-          <SimilarSinger query={location.query} />
-        </TabPane>
-      </Tabs>
-    </div>
+    <Tabs
+      onChange={onTab}
+      activeKey={tabKey}
+      tabBarStyle={{color: "var(--font-color)"}}
+      animated
+      tabBarExtraContent={tabKey === "album" ? <Extra /> : null}>
+      <TabPane tab="专辑" key="album" className={styles.tabPane}>
+        <Album query={location.query} />
+      </TabPane>
+      <TabPane tab="MV" key="mv" className={styles.tabPane}>
+        <Mv query={location.query} />
+      </TabPane>
+      <TabPane tab="歌手详情" key="singer-detail" className={styles.tabPane}>
+        <SingerDetail query={location.query} />
+      </TabPane>
+      <TabPane tab="相似歌手" key="similar-detail" className={styles.tabPane}>
+        <SimilarSinger query={location.query} />
+      </TabPane>
+    </Tabs>
   )
 }
 

@@ -232,7 +232,7 @@ enum FetchUrl {
   ArtistAlbum = '/artist/album'
 }
 
-class API {
+export class API {
   //轮播图
   static banner = (params: IBanner) => request(FetchUrl.Banner, { params })
   //推荐歌单
@@ -272,7 +272,7 @@ class API {
   //获取用户详情
   static useInfo = (params: IUser) => request(FetchUrl.UserDetail, { params })
   //登录状态
-  static status = (params?: object) => request(FetchUrl.LoginStatus, { params, method: 'POST', })
+  static status = (params?: object) => request(FetchUrl.LoginStatus, { params, ...POST })
   //检测手机号是否注册过网易云音乐
   static check = (params: object) => request(FetchUrl.CheckCellPhone, { params, ...POST })
   //手机号登录
