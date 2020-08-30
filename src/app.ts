@@ -1,8 +1,11 @@
 import { history, RequestConfig } from 'umi'
 import Nprogress from 'nprogress'
 import { appState } from '@/models/gloable'
+import 'nprogress/nprogress.css'
 
 export function onRouteChange({ location, matchedRoutes }: any) {
+  Nprogress.start()
+  setTimeout(() => Nprogress.done(), 500)
   if (location.pathname === '/') {
     history.push({
       pathname: '/recommend/findMusic/personal-recommendation'
@@ -27,7 +30,7 @@ const errorHandler = (error: any) => {
 
 export const request: RequestConfig = {
   prefix: '/api',
-  timeout: 3000,
+  timeout: 5000, // 部分接口响应偏慢
   errorHandler,
   headers: {
     'Content-Type': 'multipart/form-data',

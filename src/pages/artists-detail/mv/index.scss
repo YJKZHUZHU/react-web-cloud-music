@@ -1,5 +1,9 @@
 /** @format */
 
+.descContent {
+  min-height: 300px;
+}
+
 .card {
   margin-bottom: 15px;
   position: relative;
@@ -40,7 +44,6 @@
     img {
       width: 100%;
       border-radius: 5px;
-      
     }
   }
 }

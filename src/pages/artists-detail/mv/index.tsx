@@ -1,14 +1,15 @@
 /** @format */
 
 import React, {useEffect, FC} from "react"
-import {Row, Col, Card, Spin} from "antd"
+import {Row, Col, Card, Spin, Space, Pagination} from "antd"
 import {useHistory} from "umi"
 import {useRequest} from "ahooks"
 import {CaretRightOutlined} from "@ant-design/icons"
+import {Iparams} from "../album"
 import {IArtists} from "../similar-singer"
 import {IProps} from "../_layout"
 import API from "@/api"
-import Utils from '@/help'
+import Utils from "@/help"
 import styles from "./index.scss"
 
 interface IMv {
@@ -24,48 +25,81 @@ interface IMv {
   publishTime: string
   subed: boolean
 }
+interface Idata {
+  mvs: IMv[]
+}
+interface IResponse {
+  list: IMv[]
+  total: number
+}
 
-const Mv: FC<IProps> = ({query}) => {
+interface IMvProps extends IProps {
+  total: number
+}
+
+
+const getData = ({id, pageSize, current}: Iparams): Promise<IResponse> =>
+  API.getSingerMv({id, limit: pageSize, offset: current - 1})
+
+const Mv: FC<IMvProps> = ({query, total}) => {
   const {id} = query
-  const {data, run, loading} = useRequest(() => API.getSingerMv({id}), {
-    manual: true
-  })
   const history = useHistory()
+  const {data, run, loading, pagination} = useRequest(
+    ({current, pageSize}) => getData({id, current, pageSize}),
+    {
+      paginated: true,
+      manual: true,
+      defaultPageSize: 12,
+      formatResult: ({mvs: list}: Idata): IResponse => ({
+        list,
+        total
+      })
+    }
+  )
   useEffect(() => {
-    run()
+    run({current: 1, pageSize: 12})
   }, [])
   return (
     <Spin spinning={loading} tip="Loading...">
-      <Row gutter={24}>
-        {(data?.mvs as IMv[])?.map((item) => (
-          <Col
-            span={4}
-            className={styles.card}
-            key={item.id}
-            onClick={() => history.push(`/artists-detail/album?id=${id}&name=${item.name}`)}>
-            <Card
-              bordered={false}
-              bodyStyle={{padding: 0}}
-              loading={loading}
-              cover={
-                <div className={styles.singerCover}>
-                  <img alt={item.name} src={item.imgurl} />
-                  <span className={styles.time}>
-                    {Utils.formatPlayerTime(item.duration / 1000)}
-                  </span>
-                  <div className={styles.playCount}>
-                    <CaretRightOutlined />
-                    {item.playCount}
+      <Space direction="vertical" size={20}>
+        <Row gutter={24} className={styles.descContent}>
+          {data?.list?.map((item) => (
+            <Col
+              span={4}
+              className={styles.card}
+              key={item.id}
+              onClick={() => history.push(`/artists-detail/album?id=${id}&name=${item.name}`)}>
+              <Card
+                bordered={false}
+                bodyStyle={{padding: 0}}
+                loading={loading}
+                cover={
+                  <div className={styles.singerCover}>
+                    <img alt={item.name} src={item.imgurl} />
+                    <span className={styles.time}>
+                      {Utils.formatPlayerTime(item.duration / 1000)}
+                    </span>
+                    <div className={styles.playCount}>
+                      <CaretRightOutlined />
+                      {item.playCount}
+                    </div>
                   </div>
-                </div>
-              }>
-              <p className={styles.name}>
-                <span className={styles.singerName}>{item.name}</span>
-              </p>
-            </Card>
-          </Col>
-        ))}
-      </Row>
+                }>
+                <p className={styles.name}>
+                  <span className={styles.singerName}>{item.name}</span>
+                </p>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+        <Pagination
+          {...(pagination as any)}
+          size="small"
+          showSizeChanger
+          showQuickJumper
+          showTotal={(total) => `共 ${total} 首mv`}
+        />
+      </Space>
     </Spin>
   )
 }

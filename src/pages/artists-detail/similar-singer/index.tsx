@@ -36,8 +36,8 @@ const SimilarSinger: FC<IProps> = ({query}) => {
     run()
   }, [])
   return (
-    <Spin spinning={loading} tip="LOading...">
-      <Row gutter={24}>
+    <Spin spinning={loading} tip="Loading...">
+      <Row gutter={24} className={styles.descContent}>
         {(data?.artists as IArtists[])?.map((item) => (
           <Col
             span={4}

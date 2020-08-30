@@ -2,22 +2,49 @@
 
 @import "utils";
 
-.summary {
+.attistsDetail {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  .singerDetail {
     display: flex;
+    height: 220px;
+    .content {
+      flex: 1;
+      margin-left: 20px;
+      .nickName,
+      .number {
+        color: #999999;
+      }
+    }
     .img {
-      margin-right: 30px;
-      width: 250px;
-      height: 250px;
+      width: 200px;
+      height: 200px;
       img {
         height: 100%;
+        width: 100%;
         border-radius: 5px;
       }
     }
-    .name {
-      font-size: 20px;
-      font-weight: bold;
-    }
-    .nickName {
-      color: #666666;
+  }
+}
+
+.summary {
+  display: flex;
+  .img {
+    margin-right: 30px;
+    width: 250px;
+    height: 250px;
+    img {
+      height: 100%;
+      border-radius: 5px;
     }
   }
+  .name {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  .nickName {
+    color: #666666;
+  }
+}

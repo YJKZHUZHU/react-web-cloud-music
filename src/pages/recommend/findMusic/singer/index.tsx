@@ -4,15 +4,17 @@ import React, {useState, useEffect} from "react"
 import SelectTag from "../components/Selecttag"
 import {message, Card, Row, Col, Button} from "antd"
 import {UserOutlined} from "@ant-design/icons"
+import {history} from "umi"
 import {CLASSIFICATION, LANGUAGE, SELECT} from "@/help/map"
 import API from "@/api"
 import styles from "./index.scss"
+import Artists from "@/components/Artists"
 
 let param = {
   type: -1,
   area: -1,
   initial: -1,
-  limimt: 30,
+  limit: 30,
   offset: 0
 }
 interface ArtistItemInterface {
@@ -65,7 +67,8 @@ const Singer = () => {
     getData({...param, initial, offset: 0})
   }
   const onLoadMore = () => {
-    getData({...param, offset: param.offset + param.limimt}, 1)
+    console.log(data.length)
+    getData({...param, offset: param.offset + param.limit}, 1)
   }
   useEffect(() => {
     getData({...param, loading: true})
@@ -83,12 +86,17 @@ const Singer = () => {
               bodyStyle={{padding: 0}}
               loading={loading}
               cover={
-                <div className={styles.singerCover}>
+                <div
+                  className={styles.singerCover}
+                  onClick={() =>
+                    history.push(`/artists-detail/album?id=${item.id}&name=${item.name}`)
+                  }>
                   <img alt={item.name} src={item.picUrl} />
                 </div>
               }>
               <p className={styles.name}>
-                <span className={styles.singerName}>{item.name}</span>
+                <Artists data={[{id: item.id, name: item.name}]} />
+                {/* <span className={styles.singerName}>{item.name}</span> */}
                 {item?.accountId ? <UserOutlined className={styles.icon} /> : null}
               </p>
             </Card>

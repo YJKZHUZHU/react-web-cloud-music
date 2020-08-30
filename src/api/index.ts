@@ -229,7 +229,15 @@ enum FetchUrl {
   /**
    * 歌手专辑
    */
-  ArtistAlbum = '/artist/album'
+  ArtistAlbum = '/artist/album',
+  /**
+   * 热门50首
+   */
+  ArtistToSong = '/artist/top/song',
+  /**
+   * 专辑内容
+   */
+  AlbumContent = '/album'
 }
 
 export class API {
@@ -345,6 +353,10 @@ export class API {
   static getSingerMv = (params: any) => request(FetchUrl.ArtistMv, { params })
   // 歌手专辑
   static getSingerAlbum = (params: any) => request(FetchUrl.ArtistAlbum, { params })
+  // 歌手热门50首
+  static getSingerTop = (params: any) => request(FetchUrl.ArtistToSong, { params })
+  // 获取专辑内容
+  static getAlbumContent = (params: any) => request(FetchUrl.AlbumContent, { params })
 }
 
 

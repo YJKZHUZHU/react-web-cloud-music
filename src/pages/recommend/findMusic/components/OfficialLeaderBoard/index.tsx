@@ -5,6 +5,7 @@ import {CaretRightOutlined, RightOutlined} from "@ant-design/icons"
 import {Row, Col} from "antd"
 import {Link, useDispatch} from "umi"
 import moment from "moment"
+import Artists from '@/components/Artists'
 import styles from "./index.scss"
 import Utils from "@/help"
 
@@ -88,7 +89,8 @@ const OfficialLeaderBoard: FC<OfficialLeaderBoardInterface> = ({data}) => {
                           )
                         })}
                       </span>
-                      <span className={styles.name}>{Utils.formatName(items.ar)}</span>
+                      <Artists data={items.ar}/>
+                      {/* <span className={styles.name}>{Utils.formatName(items.ar)}</span> */}
                     </li>
                   )
                 })}

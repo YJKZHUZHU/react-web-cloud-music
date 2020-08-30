@@ -1,4 +1,116 @@
 /** @format */
+@import "utils";
+
+.descContent {
+  min-height: 300px;
+}
+.space {
+  width: 100%;
+}
+
+.tableLaout {
+  .tableItem {
+    display: flex;
+    align-items: center;
+    @include zebra-lists(#333333, #fafafa, #333333, #ffffff);
+    &:hover {
+      background-color: #f2f2f3;
+    }
+    padding: 10px 0;
+  }
+  .singerName {
+    flex: 1;
+    .alias {
+      color: #999999;
+    }
+  }
+  .number {
+    color: #999999;
+    width: 50px;
+    margin-right: 30px;
+  }
+  .publishTime {
+    margin-right: 50px;
+    color: #999999;
+  }
+  .img {
+    width: 120px;
+    height: 100px;
+    margin-right: 20px;
+    background: url("../../../assets/coverall.png") no-repeat;
+    background-position: -1px -569px;
+
+    img {
+      height: 100%;
+      width: 82%;
+      border-radius: 5px;
+    }
+  }
+}
+
+.tableCardLayout {
+  display: flex;
+  .right {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    .titile {
+      font-weight: bold;
+      font-size: 16px;
+    }
+    .divider {
+      padding: 0;
+      margin: 0;
+    }
+
+    .list {
+      margin-top: 20px;
+
+      .item {
+        display: flex;
+        align-items: center;
+        .playIcon {
+          color: #D33931;
+          &:hover {
+            color: #DC625B;
+          }
+        }
+        .alias {
+          color: #999999;
+        }
+        .playTime {
+          flex: 1;
+          text-align: right;
+        }
+        padding: 10px 90px 10px 10px;
+        @include zebra-lists(#333333, #ffffff, #333333, #fafafa);
+        &:hover {
+          background-color: #f2f2f3;
+        }
+      }
+      .showAll {
+        justify-content: flex-end;
+        padding-right: 20px;
+        cursor: pointer;
+        color: #646464 !important;
+        &:hover {
+          color: #323232 !important;
+        }
+      }
+    }
+  }
+  .left {
+    margin-right: 20px;
+    .img {
+      width: 200px;
+      height: 200px;
+      img {
+        border-radius: 5px;
+        width: 100%;
+      }
+    }
+  }
+}
 
 .card {
   margin-bottom: 15px;
@@ -11,7 +123,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-
     .singerName {
       cursor: pointer;
       margin-top: 10px;
@@ -26,9 +137,8 @@
 
   .singerCover {
     cursor: pointer;
-
     height: 170px;
-    background: url("../../../assets//coverall.png") no-repeat;
+    background: url("../../../assets/coverall.png") no-repeat;
     background-position: -16px -989px;
     &:hover {
       .playIcon {

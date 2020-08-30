@@ -191,10 +191,6 @@
     background-color: $oddBgColor;
   }
 }
-//1357换色
-@mixin zebra-lists-th($evenColor, $evenBgColor, $oddColor, $oddBgColor) {
-
-}
 
 // 首字下沉
 @mixin first-letter($font-size: 6em) {

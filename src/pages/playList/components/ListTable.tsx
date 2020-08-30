@@ -4,6 +4,7 @@ import React, {FC, useEffect, useState, useMemo} from "react"
 import {HeartOutlined, PlayCircleOutlined} from "@ant-design/icons"
 import {Table, message} from "antd"
 import {history, useDispatch} from "umi"
+import Artists from "@/components/Artists"
 import API from "@/api"
 import Utils from "@/help"
 import styles from "../index.scss"
@@ -77,7 +78,7 @@ const TableList: FC<TableListProps> = ({trackIds = [], searchValue = "", getReco
       key: "singer",
       align: "left",
       ellipsis: true,
-      render: (text: any, record: any) => Utils.formatName(record.ar)
+      render: (text: any, record: any) => <Artists data={record.ar} />
     },
     {
       title: "专辑",
