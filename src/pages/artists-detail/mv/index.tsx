@@ -37,12 +37,11 @@ interface IMvProps extends IProps {
   total: number
 }
 
-
 const getData = ({id, pageSize, current}: Iparams): Promise<IResponse> =>
   API.getSingerMv({id, limit: pageSize, offset: current - 1})
 
 const Mv: FC<IMvProps> = ({query, total}) => {
-  const {id} = query
+  const {id, name} = query
   const history = useHistory()
   const {data, run, loading, pagination} = useRequest(
     ({current, pageSize}) => getData({id, current, pageSize}),
@@ -58,34 +57,34 @@ const Mv: FC<IMvProps> = ({query, total}) => {
   )
   useEffect(() => {
     run({current: 1, pageSize: 12})
-  }, [])
+  }, [name])
   return (
     <Spin spinning={loading} tip="Loading...">
       <Space direction="vertical" size={20}>
         <Row gutter={24} className={styles.descContent}>
           {data?.list?.map((item) => (
-            <Col
-              span={4}
-              className={styles.card}
-              key={item.id}
-              onClick={() => history.push(`/artists-detail/album?id=${id}&name=${item.name}`)}>
+            <Col span={4} className={styles.card} key={item.id}>
               <Card
                 bordered={false}
                 bodyStyle={{padding: 0}}
                 loading={loading}
                 cover={
-                  <div className={styles.singerCover}>
+                  <div
+                    className={styles.singerCover}
+                    onClick={() => history.push(`/recommend/video/mvDetail?mvid=${item.id}`)}>
                     <img alt={item.name} src={item.imgurl} />
                     <span className={styles.time}>
                       {Utils.formatPlayerTime(item.duration / 1000)}
                     </span>
                     <div className={styles.playCount}>
                       <CaretRightOutlined />
-                      {item.playCount}
+                      {Utils.tranNumber(item.playCount, 0)}
                     </div>
                   </div>
                 }>
-                <p className={styles.name}>
+                <p
+                  className={styles.name}
+                  onClick={() => history.push(`/recommend/video/mvDetail?mvid=${item.id}`)}>
                   <span className={styles.singerName}>{item.name}</span>
                 </p>
               </Card>

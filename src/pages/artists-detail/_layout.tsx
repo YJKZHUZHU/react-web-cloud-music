@@ -2,7 +2,7 @@
 
 import React, {useState, useEffect} from "react"
 import {history, useLocation} from "umi"
-import {Tabs, Radio, Button, Space} from "antd"
+import {Tabs, Radio, Button, Space, Spin} from "antd"
 import {
   BorderInnerOutlined,
   UnorderedListOutlined,
@@ -34,10 +34,13 @@ const ArtistsDetail = () => {
   const path = location.pathname.split("/").pop()
   const [tabKey, setTabKey] = useState(path || "album")
   const [extraType, setExtraType] = useState<LayoutType>("card")
-  const {data, run} = useRequest(() => API.getSingerAlbum({id: location.query.id, limit: 0}), {
-    manual: true,
-    formatResult: (response): IArtists => response.artist
-  })
+  const {data, run, loading} = useRequest(
+    () => API.getSingerAlbum({id: location.query.id, limit: 0}),
+    {
+      manual: true,
+      formatResult: (response): IArtists => response.artist
+    }
+  )
   const onTab = (activeKey: any) => {
     setTabKey(activeKey)
     history.push({
@@ -66,45 +69,48 @@ const ArtistsDetail = () => {
   }, [path])
   useEffect(() => {
     run()
-  }, [])
+  }, [location.query.name])
   return (
     <div className={styles.attistsDetail}>
-      <div className={styles.singerDetail}>
-        <div className={styles.img}>
-          <img src={data?.picUrl} alt={data?.name} />
-        </div>
-        <div className={styles.content}>
-          <p>{data?.name}</p>
-          <p className={styles.nickName}>{data?.alias?.join("")}</p>
-          <Space direction="vertical" size={20}>
-            <div>
-              <Space size={16}>
-                <Button shape="round">
-                  <FolderAddOutlined />
-                  收藏
-                </Button>
-                <Button shape="round">
-                  <UserOutlined />
-                  个人主页
-                </Button>
-              </Space>
-            </div>
-            <div>
-              <Space size={16}>
-                <span>
-                  单曲数:<i className={styles.number}>{data?.musicSize}</i>
-                </span>
-                <span>
-                  专辑数:<i className={styles.number}>{data?.albumSize}</i>
-                </span>
-                {/* <span>
+      <Spin spinning={loading} tip="歌手信息加载中...">
+        <div className={styles.singerDetail}>
+          <div className={styles.img}>
+            <img src={data?.picUrl} alt={data?.name} />
+          </div>
+          <div className={styles.content}>
+            <p>{data?.name}</p>
+            <p className={styles.nickName}>{data?.alias?.join("")}</p>
+            <Space direction="vertical" size={20}>
+              <div>
+                <Space size={16}>
+                  <Button shape="round">
+                    <FolderAddOutlined />
+                    收藏
+                  </Button>
+                  <Button shape="round">
+                    <UserOutlined />
+                    个人主页
+                  </Button>
+                </Space>
+              </div>
+              <div>
+                <Space size={16}>
+                  <span>
+                    单曲数:<i className={styles.number}>{data?.musicSize}</i>
+                  </span>
+                  <span>
+                    专辑数:<i className={styles.number}>{data?.albumSize}</i>
+                  </span>
+                  {/* <span>
                 mv数:<i className={styles.number}>{419}</i>
               </span> */}
-              </Space>
-            </div>
-          </Space>
+                </Space>
+              </div>
+            </Space>
+          </div>
         </div>
-      </div>
+      </Spin>
+
       <Tabs
         onChange={onTab}
         activeKey={tabKey}

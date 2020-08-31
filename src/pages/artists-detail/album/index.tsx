@@ -10,14 +10,13 @@ import {
   PlaySquareOutlined,
   RightOutlined
 } from "@ant-design/icons"
-import {useHistory} from "umi"
-import useAlbumContent from "@/hooks/useAlbumContent"
+import {useHistory, useDispatch} from "umi"
 import API from "@/api"
 import moment from "moment"
 import classnames from "classnames"
 import PlayIcon from "@/components/PlayIcon"
 import {IProps} from "../_layout"
-import Utils from "@/help"
+import Utils, {generateNumber} from "@/help"
 import styles from "./index.scss"
 
 export interface IArtists {
@@ -110,11 +109,11 @@ interface IAlbumContentList {
 }
 
 const Album: FC<IAlbum> = (props) => {
-  const {query, total, type, topImgUrl, albumNumber} = props
-  const {id} = query
+  const {query, total, type, topImgUrl} = props
+  const {id, name} = query
   const history = useHistory()
+  const dispatch = useDispatch()
   const [showAll, {toggle}] = useBoolean(false)
-
   const [albumLoading, setAlbumLoading] = useState(false)
   const [albumContentList, setAlbumContentList] = useState<IAlbumContentList[]>([])
 
@@ -129,7 +128,6 @@ const Album: FC<IAlbum> = (props) => {
         setAlbumContentList([])
         Promise.all(mapData(response.list.map((item) => item.id)))
           .then((values) => {
-            console.log(values)
             setAlbumLoading(false)
             setAlbumContentList(values)
           })
@@ -147,6 +145,22 @@ const Album: FC<IAlbum> = (props) => {
   })
 
   const mapTopData = showAll ? topData : topData?.slice(0, 10)
+
+  const onPlay = (e: React.MouseEvent<HTMLElement, MouseEvent>, id: number) => {
+    e.stopPropagation()
+    const targetAlbum = albumContentList.reduce((memo, item) => {
+      if (item.album.id === id) {
+        memo = item.songs[generateNumber(item.songs.length)].id
+      }
+      return memo
+    }, "")
+    dispatch({
+      type: "songInfoModel/getSongInfo",
+      payload: {
+        id: targetAlbum
+      }
+    })
+  }
 
   const renderLeft = (imgUrl: string, time?: number) => {
     return (
@@ -174,12 +188,22 @@ const Album: FC<IAlbum> = (props) => {
     )
   }
 
-  const renderRightListItem = (data: any[] | undefined, show: boolean = false) => {
+  const renderRightListItem = (data: any[] | undefined, show: boolean = false, id?: number) => {
     return (
       <ul className={styles.list}>
         {data?.map((item, index) => {
           return (
-            <li key={item.id} className={styles.item}>
+            <li
+              key={item.id}
+              className={styles.item}
+              onDoubleClick={() =>
+                dispatch({
+                  type: "songInfoModel/getSongInfo",
+                  payload: {
+                    id: item.id
+                  }
+                })
+              }>
               <Space>
                 <span>{index < 9 ? `0${index + 1}` : index + 1}</span>
                 <HeartOutlined />
@@ -204,7 +228,18 @@ const Album: FC<IAlbum> = (props) => {
               <RightOutlined />
             </Space>
           </li>
-        ) : null}
+        ) : (
+          <>
+            {data?.length === 10 ? (
+              <li className={classNames} onClick={() => history.push(`/album?id=${id}`)}>
+                <Space>
+                  <span>查看全部</span>
+                  <RightOutlined />
+                </Space>
+              </li>
+            ) : null}
+          </>
+        )}
       </ul>
     )
   }
@@ -218,7 +253,7 @@ const Album: FC<IAlbum> = (props) => {
               span={4}
               className={styles.card}
               key={item.id}
-              onClick={() => history.push(`/artists-detail/album?id=${id}&name=${item.name}`)}>
+              onClick={() => history.push(`/album?id=${id}`)}>
               <Card
                 bordered={false}
                 style={{width: "100%"}}
@@ -228,7 +263,10 @@ const Album: FC<IAlbum> = (props) => {
                   <div className={styles.singerCover}>
                     <div className={styles.img}>
                       <img alt={item.name} src={item.picUrl} />
-                      <PlayIcon iconClassName={styles.playIcon} />
+                      <PlayIcon
+                        iconClassName={styles.playIcon}
+                        onClick={(e) => onPlay(e, item.id)}
+                      />
                     </div>
                   </div>
                 }>
@@ -255,10 +293,10 @@ const Album: FC<IAlbum> = (props) => {
           {data?.list.map((item) => {
             return (
               <li className={styles.tableItem} key={item.id}>
-                <div className={styles.img}>
+                <div className={styles.img} onClick={() => history.push(`/album?id=${item.id}`)}>
                   <img src={item.picUrl} alt={item.name} />
                 </div>
-                <span className={styles.singerName}>
+                <span className={styles.singerName} onClick={() => history.push(`/album?id=${id}`)}>
                   {item.name}
                   {item.alias.length !== 0 ? (
                     <i className={styles.alias}>({item.alias.join("")})</i>
@@ -288,7 +326,7 @@ const Album: FC<IAlbum> = (props) => {
                 {renderLeft(item.album.picUrl, item.album.publishTime)}
                 <div className={styles.right}>
                   {renderRightTop(item.album.name)}
-                  {renderRightListItem(item.songs, false)}
+                  {renderRightListItem(item.songs.slice(0, 10), false, item.album.id)}
                 </div>
               </div>
             )
@@ -301,7 +339,7 @@ const Album: FC<IAlbum> = (props) => {
   useEffect(() => {
     run({current: 1, pageSize: 12})
     runTop()
-  }, [])
+  }, [name])
 
   return (
     <Spin spinning={type === "tableCard" ? albumLoading : loading} tip="Loading...">

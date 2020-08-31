@@ -21,9 +21,11 @@
   }
 
   .singerCover {
+    cursor: pointer;
     height: 160px;
     position: relative;
     .time {
+      padding-right: 10px;
       position: absolute;
       bottom: 16px;
       width: 100%;
@@ -33,6 +35,7 @@
       color: #fff;
     }
     .playCount {
+      padding-right: 10px;
       position: absolute;
       width: 100%;
       top: 0;

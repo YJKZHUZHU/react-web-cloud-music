@@ -13,11 +13,11 @@ interface PlayIconProps {
 type Props = PlayIconProps & React.HTMLAttributes<HTMLElement>
 
 const PlayIcon: FC<Props> = (props) => {
-  const {iconStyle, iconClassName, ...rest} = props
+  const {iconStyle, iconClassName, onClick, ...rest} = props
   const classes = classnames(styles.playIcon, iconClassName)
 
   return (
-    <span className={classes} style={iconStyle}>
+    <span className={classes} style={iconStyle} onClick={onClick}>
       <PlaySquareOutlined {...rest} />
     </span>
   )

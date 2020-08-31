@@ -19,6 +19,7 @@
     padding: 10px 0;
   }
   .singerName {
+    cursor: pointer;
     flex: 1;
     .alias {
       color: #999999;
@@ -34,6 +35,7 @@
     color: #999999;
   }
   .img {
+    cursor: pointer;
     width: 120px;
     height: 100px;
     margin-right: 20px;
@@ -70,9 +72,9 @@
         display: flex;
         align-items: center;
         .playIcon {
-          color: #D33931;
+          color: #d33931;
           &:hover {
-            color: #DC625B;
+            color: #dc625b;
           }
         }
         .alias {

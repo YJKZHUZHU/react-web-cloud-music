@@ -1,6 +1,7 @@
 /** @format */
 
 import React, {FC, useEffect} from "react"
+import {Spin} from "antd"
 import {useLocation} from "umi"
 import {useRequest} from "ahooks"
 import API from "@/api"
@@ -14,23 +15,25 @@ interface IOtherDesc {
 
 const SingerDetail: FC<IProps> = ({query}) => {
   const {id, name} = query
-  const {data, run} = useRequest(() => API.getArtistDesc({id}), {
+  const {data, run, loading} = useRequest(() => API.getArtistDesc({id}), {
     manual: true
   })
   useEffect(() => {
     run()
-  }, [])
+  }, [name])
   return (
-    <div className={styles.singerDetail}>
-      <p className={styles.title}>{name}简介</p>
-      <p className={styles.desc}>{data?.briefDesc}</p>
-      {(data?.introduction as IOtherDesc[])?.map((item, index) => (
-        <div key={index}>
-          <p className={styles.title}>{item.ti}</p>
-          <p className={styles.desc}>{item.txt}</p>
-        </div>
-      ))}
-    </div>
+    <Spin spinning={loading} tip="歌手简介加载中...">
+      <div className={styles.singerDetail}>
+        <p className={styles.title}>{name}简介</p>
+        <p className={styles.desc}>{data?.briefDesc}</p>
+        {(data?.introduction as IOtherDesc[])?.map((item, index) => (
+          <div key={index}>
+            <p className={styles.title}>{item.ti}</p>
+            <p className={styles.desc}>{item.txt}</p>
+          </div>
+        ))}
+      </div>
+    </Spin>
   )
 }
 

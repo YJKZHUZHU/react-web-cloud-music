@@ -266,6 +266,11 @@ export function removeNewlines(str: string): string {
   return str.replace(/[\r\n]/g, "")
 }
 
+export function generateNumber(length: number) {
+  const arr = [...new Array(length).keys()]
+  return parseInt(String(Math.random() * arr.length - 1), 10)
+}
+
 
 
 

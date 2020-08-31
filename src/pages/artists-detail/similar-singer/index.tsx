@@ -27,14 +27,14 @@ export interface IArtists {
 }
 
 const SimilarSinger: FC<IProps> = ({query}) => {
-  const {id} = query
+  const {id,name} = query
   const {data, run, loading} = useRequest(() => API.getSimilarSinger({id}), {
     manual: true
   })
   const history = useHistory()
   useEffect(() => {
     run()
-  }, [])
+  }, [name])
   return (
     <Spin spinning={loading} tip="Loading...">
       <Row gutter={24} className={styles.descContent}>
@@ -43,7 +43,7 @@ const SimilarSinger: FC<IProps> = ({query}) => {
             span={4}
             className={styles.card}
             key={item.id}
-            onClick={() => history.push(`/artists-detail/album?id=${id}&name=${item.name}`)}>
+            onClick={() => history.push(`/artists-detail/album?id=${item.id}&name=${item.name}`)}>
             <Card
               bordered={false}
               bodyStyle={{padding: 0}}
