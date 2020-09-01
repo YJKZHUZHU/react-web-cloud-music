@@ -237,7 +237,15 @@ enum FetchUrl {
   /**
    * 专辑内容
    */
-  AlbumContent = '/album'
+  AlbumContent = '/album',
+  /**
+   * 收藏/取消收藏歌手
+   */
+  ArtistSub = '/artist/sub',
+  /**
+   * 是否喜欢该音乐
+   */
+  Like = '/like'
 }
 
 export class API {
@@ -357,6 +365,10 @@ export class API {
   static getSingerTop = (params: any) => request(FetchUrl.ArtistToSong, { params })
   // 获取专辑内容
   static getAlbumContent = (params: any) => request(FetchUrl.AlbumContent, { params })
+  // 收藏/取消收藏歌手
+  static setArtistsSub = (params: any) => request(FetchUrl.ArtistSub, { params })
+  // 是否喜欢该音乐
+  static Like = (params: any) => request(FetchUrl.Like, { params })
 }
 
 

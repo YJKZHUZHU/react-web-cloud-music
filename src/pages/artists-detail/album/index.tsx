@@ -95,6 +95,12 @@ enum MapLayout {
 const getData = ({id, pageSize, current}: Iparams): Promise<IResponse> =>
   API.getSingerAlbum({id, limit: pageSize, offset: (current - 1) * pageSize})
 
+const generateId = (data: IHotAlbum[]) => {
+  const arrayId = data.map((item) => item.id)
+  const index = generateNumber(arrayId.length)
+  return arrayId[index]
+}
+
 const classNames = classnames(styles.item, styles.showAll)
 
 const mapData = (idList: number[]) => {
@@ -175,12 +181,21 @@ const Album: FC<IAlbum> = (props) => {
     )
   }
 
-  const renderRightTop = (title?: string) => {
+  const renderRightTop = (data: IHotAlbum[], title?: string) => {
     return (
       <Space size={20}>
         <span className={styles.title}>{title ? title : "热门50首"}</span>
         <Space>
-          <PlayCircleOutlined />
+          <PlayCircleOutlined
+            onClick={() =>
+              dispatch({
+                type: "songInfoModel/getSongInfo",
+                payload: {
+                  id: generateId(data)
+                }
+              })
+            }
+          />
           <Divider type="vertical" className={styles.divider} />
           <FolderAddOutlined />
         </Space>
@@ -316,7 +331,7 @@ const Album: FC<IAlbum> = (props) => {
           <div className={styles.tableCardLayout}>
             {renderLeft(topImgUrl)}
             <div className={styles.right}>
-              {renderRightTop()}
+              {renderRightTop(mapTopData as IHotAlbum[])}
               {renderRightListItem(mapTopData, true)}
             </div>
           </div>
@@ -325,7 +340,10 @@ const Album: FC<IAlbum> = (props) => {
               <div className={styles.tableCardLayout} key={item.album.id}>
                 {renderLeft(item.album.picUrl, item.album.publishTime)}
                 <div className={styles.right}>
-                  {renderRightTop(item.album.name)}
+                  {renderRightTop(
+                    albumContentList.map((item) => item.album),
+                    item.album.name
+                  )}
                   {renderRightListItem(item.songs.slice(0, 10), false, item.album.id)}
                 </div>
               </div>

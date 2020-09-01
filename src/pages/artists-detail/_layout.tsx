@@ -2,13 +2,14 @@
 
 import React, {useState, useEffect} from "react"
 import {history, useLocation} from "umi"
-import {Tabs, Radio, Button, Space, Spin} from "antd"
+import {Tabs, Radio, Button, Space, Spin, message} from "antd"
 import {
   BorderInnerOutlined,
   UnorderedListOutlined,
   PicLeftOutlined,
   FolderAddOutlined,
-  UserOutlined
+  UserOutlined,
+  CheckOutlined
 } from "@ant-design/icons"
 import {useRequest} from "ahooks"
 import API from "@/api"
@@ -33,6 +34,7 @@ const ArtistsDetail = () => {
   const location: any = useLocation()
   const path = location.pathname.split("/").pop()
   const [tabKey, setTabKey] = useState(path || "album")
+  const [collect, setCollect] = useState(false)
   const [extraType, setExtraType] = useState<LayoutType>("card")
   const {data, run, loading} = useRequest(
     () => API.getSingerAlbum({id: location.query.id, limit: 0}),
@@ -41,6 +43,30 @@ const ArtistsDetail = () => {
       formatResult: (response): IArtists => response.artist
     }
   )
+  const {run: runColect} = useRequest(
+    () => API.setArtistsSub({id: data?.id, t: collect ? -1 : 1}),
+    {
+      manual: true,
+      onSuccess: async () => {
+        await runSub()
+        if (collect) {
+          message.success("取消收藏成功")
+        } else {
+          message.success("收藏成功")
+        }
+      }
+    }
+  )
+  const {run: runSub} = useRequest(API.artistSublist, {
+    manual: true,
+    onSuccess: (response) => {
+      if (response.data.findIndex((item: any) => +item.id === +location.query.id) !== -1) {
+        setCollect(true)
+      } else {
+        setCollect(false)
+      }
+    }
+  })
   const onTab = (activeKey: any) => {
     setTabKey(activeKey)
     history.push({
@@ -69,7 +95,9 @@ const ArtistsDetail = () => {
   }, [path])
   useEffect(() => {
     run()
+    runSub()
   }, [location.query.name])
+  console.log(collect)
   return (
     <div className={styles.attistsDetail}>
       <Spin spinning={loading} tip="歌手信息加载中...">
@@ -83,10 +111,11 @@ const ArtistsDetail = () => {
             <Space direction="vertical" size={20}>
               <div>
                 <Space size={16}>
-                  <Button shape="round">
-                    <FolderAddOutlined />
-                    收藏
+                  <Button shape="round" onClick={runColect}>
+                    {collect ? <CheckOutlined /> : <FolderAddOutlined />}
+                    {collect ? "已收藏" : "收藏"}
                   </Button>
+
                   <Button shape="round">
                     <UserOutlined />
                     个人主页
