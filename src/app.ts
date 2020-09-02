@@ -1,4 +1,5 @@
 import { history, RequestConfig } from 'umi'
+import { message } from 'antd'
 import Nprogress from 'nprogress'
 import { appState } from '@/models/gloable'
 import 'nprogress/nprogress.css'
@@ -52,6 +53,9 @@ export const request: RequestConfig = {
     (response) => {
       Nprogress.done()
       appState.setLoading(false)
+      if (response.status === 301) {
+        message.info('登录才能进行相关操作哦。。。')
+      }
       if (response.status === 302) {
         return new Promise(() => { })
       }

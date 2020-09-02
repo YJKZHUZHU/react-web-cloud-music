@@ -168,11 +168,13 @@ const Album: FC<IAlbum> = (props) => {
     })
   }
 
-  const renderLeft = (imgUrl: string, time?: number) => {
+  const renderLeft = (imgUrl: string, time?: number, id?: number) => {
     return (
       <div className={styles.left}>
         <Space direction="vertical" size={15}>
-          <div className={styles.img}>
+          <div
+            className={classnames(styles.img, {[styles.diff]: !!id})}
+            onClick={() => id && history.push(`/album?id=${id}`)}>
             <img src={imgUrl} alt="" />
           </div>
           {time ? <span>{moment(time).format("YYYY-MM-DD")}</span> : null}
@@ -268,7 +270,7 @@ const Album: FC<IAlbum> = (props) => {
               span={4}
               className={styles.card}
               key={item.id}
-              onClick={() => history.push(`/album?id=${id}`)}>
+              onClick={() => history.push(`/album?id=${item.id}`)}>
               <Card
                 bordered={false}
                 style={{width: "100%"}}
@@ -311,7 +313,9 @@ const Album: FC<IAlbum> = (props) => {
                 <div className={styles.img} onClick={() => history.push(`/album?id=${item.id}`)}>
                   <img src={item.picUrl} alt={item.name} />
                 </div>
-                <span className={styles.singerName} onClick={() => history.push(`/album?id=${id}`)}>
+                <span
+                  className={styles.singerName}
+                  onClick={() => history.push(`/album?id=${item.id}`)}>
                   {item.name}
                   {item.alias.length !== 0 ? (
                     <i className={styles.alias}>({item.alias.join("")})</i>
@@ -338,7 +342,7 @@ const Album: FC<IAlbum> = (props) => {
           {albumContentList.map((item) => {
             return (
               <div className={styles.tableCardLayout} key={item.album.id}>
-                {renderLeft(item.album.picUrl, item.album.publishTime)}
+                {renderLeft(item.album.picUrl, item.album.publishTime, item.album.id)}
                 <div className={styles.right}>
                   {renderRightTop(
                     albumContentList.map((item) => item.album),

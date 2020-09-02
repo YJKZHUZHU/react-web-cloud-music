@@ -104,6 +104,9 @@
   .left {
     margin-right: 20px;
     .img {
+      &.diff {
+        cursor: pointer;
+      }
       width: 200px;
       height: 200px;
       img {
