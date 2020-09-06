@@ -1,0 +1,41 @@
+/** @format */
+
+.album {
+  margin-top: 20px;
+  .desc {
+    display: flex;
+    .name {
+      color: #4f7daf;
+      cursor: pointer;
+      &:hover {
+        color: #0d58b0;
+      }
+    }
+    .tag {
+      color: #d33931;
+      border-color: #d33931;
+    }
+    .topName {
+      color: #333333;
+      font-size: 20px;
+    }
+    .extra {
+      color: #999999;
+      font-size: 20px;
+    }
+    .img {
+      margin-right: 20px;
+      width: 200px;
+      height: 170px;
+      cursor: pointer;
+      background: url(.././../assets/coverall.png) no-repeat;
+      background-position: -16px -989px;
+      position: relative;
+      img {
+        border-radius: 5px;
+        width: 81%;
+        height: 100%;
+      }
+    }
+  }
+}

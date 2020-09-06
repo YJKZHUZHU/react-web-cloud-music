@@ -1,0 +1,36 @@
+/** @format */
+
+.commentList {
+  font-size: 12px;
+  .content {
+    width: 100%;
+    margin-bottom: 0;
+    color: #333333;
+    font-weight: normal;
+    .nickname {
+      cursor: pointer;
+      color: #4f7daf;
+      &:hover {
+        color: #0d58b0;
+      }
+    }
+  }
+  .otherContent {
+    padding: 5px;
+    background-color: #f4f4f5;
+    margin-bottom: 8px;
+  }
+  .more {
+    text-align: center;
+    color: #000000;
+  }
+
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    .time {
+      margin-bottom: 0;
+      color: #bfbfbf;
+    }
+  }
+}

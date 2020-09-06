@@ -4,7 +4,7 @@ import React, {FC} from "react"
 import {useHistory} from "umi"
 import styles from "./index.scss"
 
-interface IItem {
+export interface IItem {
   img1v1Id?: number
   topicPerson?: number
   briefDesc?: string

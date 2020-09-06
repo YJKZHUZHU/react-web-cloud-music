@@ -1,3 +1,5 @@
+/** @format */
+
 // 1. 布局
 
 // 固定定位, 兼容IE6
@@ -19,7 +21,7 @@
 }
 
 // 水平竖直方向居中-flex
-@mixin flex-center($w, $h) {
+@mixin flex-center($w: center, $h: center) {
   @include flex;
   align-items: center;
   justify-content: center;
@@ -258,7 +260,7 @@
 }
 
 //多行文本溢出
-@mixin multilineTextEllipsis($row: 1,$height: 20px) {
+@mixin multilineTextEllipsis($row: 1, $height: 20px) {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -266,4 +268,3 @@
   -webkit-box-orient: vertical;
   height: $height;
 }
-

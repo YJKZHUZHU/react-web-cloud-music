@@ -245,7 +245,23 @@ enum FetchUrl {
   /**
    * 是否喜欢该音乐
    */
-  Like = '/like'
+  Like = '/like',
+  /**
+   * 专辑评论
+   */
+  CommentAlbum = '/comment/album',
+  /**
+   * 专辑动态消息
+   */
+  AlbumDetailDynamic = '/album/detail/dynamic',
+  /**
+   * 收藏取消收藏专辑
+   */
+  AlbumSub = '/album/sub',
+  /**
+   * 获取 mv 点赞转发评论数数据
+   */
+  MvDetailInfo = '/mv/detail/info'
 }
 
 export class API {
@@ -369,6 +385,14 @@ export class API {
   static setArtistsSub = (params: any) => request(FetchUrl.ArtistSub, { params })
   // 是否喜欢该音乐
   static Like = (params: any) => request(FetchUrl.Like, { params })
+  // 专辑评论
+  static getCommentAlbum = (params: any) => request(FetchUrl.CommentAlbum, { params })
+  // 专辑动态消息
+  static getAlbumDetailDynamic = (params: any) => request(FetchUrl.AlbumDetailDynamic, { params })
+  // 专辑收藏取消收藏
+  static setAlbumSub = (params: any) => request(FetchUrl.AlbumSub, { params })
+  // 获取 mv 点赞转发评论数数据
+  static getMvDetailInfo = (params: any) => request(FetchUrl.MvDetailInfo, { params })
 }
 
 
