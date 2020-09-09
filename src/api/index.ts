@@ -261,7 +261,7 @@ enum FetchUrl {
   /**
    * 获取 mv 点赞转发评论数数据
    */
-  MvDetailInfo = '/mv/detail/info'
+  MvDetailInfo = '/mv/detail/info',
 }
 
 export class API {

@@ -22,11 +22,12 @@ export interface IItem {
 }
 
 interface IArtists {
-  data: IItem[]
+  data: IItem[] | undefined
 }
 
 const Artists: FC<IArtists> = ({data}) => {
-  if (data.length === 0) return null
+  console.log(data)
+  if (!data || data.length === 0) return null
 
   const history = useHistory()
 

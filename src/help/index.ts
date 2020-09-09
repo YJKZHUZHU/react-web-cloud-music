@@ -43,7 +43,8 @@ class Utils {
    * @param {需要转化的数} num
    * @param {需要保留的小数位数} point
    */
-  static tranNumber(num: number, point: number) {
+  static tranNumber(num: number | undefined, point: number) {
+    if (!num) return 0
     const numStr = num.toString()
     const length = numStr.length
     const decimal = numStr.substring(numStr.length - 8, numStr.length - 8 + point)

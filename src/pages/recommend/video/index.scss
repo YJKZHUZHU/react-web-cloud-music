@@ -54,6 +54,9 @@
       width: 60%;
       margin-bottom: 15px;
     }
+    .mvTag {
+      margin-bottom: 15px;
+    }
     .commentList {
       font-size: 12px;
       .content {
@@ -134,4 +137,8 @@
     color: $fontColor;
     border-color: snow;
   }
+}
+
+.liked {
+  color: #d33931;
 }

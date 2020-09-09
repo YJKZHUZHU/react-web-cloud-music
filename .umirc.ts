@@ -47,7 +47,7 @@ export default defineConfig({
   },
   proxy: {
     '/api': {
-      'target': 'http://106.54.31.160:3000/',
+      'target': 'http://localhost:3000/',
       'changeOrigin': false,
       'pathRewrite': { '^/api': '' }
     }
