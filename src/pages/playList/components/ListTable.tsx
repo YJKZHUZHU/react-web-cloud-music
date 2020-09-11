@@ -54,7 +54,7 @@ const TableList: FC<TableListProps> = ({trackIds = [], searchValue = "", getReco
       align: "left",
       render: (text: any, record: any, index: number) => {
         return (
-          <div>
+          <div className={styles.operator}>
             <span>{index < 10 ? `0${index}` : index}</span>
             <HeartOutlined className={styles.heartIcon} />
             {!!record.mv ? (

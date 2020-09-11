@@ -7,7 +7,7 @@ import Utils from '@/help'
 import styles from "./index.scss"
 
 
-export interface DataInterface {
+export interface INewSongItem {
   alg: string
   canDislike: boolean
   copywriter: any
@@ -20,7 +20,7 @@ export interface DataInterface {
 }
 
 interface INewMusic {
-  data: DataInterface
+  data: INewSongItem
   index: number
 }
 

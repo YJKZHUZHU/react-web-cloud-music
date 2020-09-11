@@ -1,8 +1,14 @@
 /** @format */
 
 import React, {useEffect, useState} from "react"
-import {FolderAddOutlined, PlayCircleOutlined, PlusOutlined} from "@ant-design/icons"
-import {Divider, Button, Tabs, Input, message} from "antd"
+import {
+  FolderAddOutlined,
+  PlayCircleOutlined,
+  PlusOutlined,
+  ShareAltOutlined,
+  CheckOutlined
+} from "@ant-design/icons"
+import {Divider, Button, Tabs, Input, message, Space} from "antd"
 import {Link, history, useSelector, useDispatch, SongInfoModelState} from "umi"
 import API from "@/api"
 import TableList from "./components/ListTable"
@@ -112,17 +118,23 @@ const PlayList = () => {
               <i style={{paddingLeft: 5}}>创建</i>
             </span>
           </div>
-          <div className={styles.btnGroup}>
-            <Button onClick={onPlayAll} type="primary" className={styles.playAll}>
+          <Space className={styles.btnGroup}>
+            <Button onClick={onPlayAll} type="primary">
               <PlayCircleOutlined />
               播放全部
               <PlusOutlined />
             </Button>
             <Button type="primary">
-              <FolderAddOutlined />
-              收藏({playlist.subscribedCount})
+              {playlist.subscribed ? <CheckOutlined /> : <FolderAddOutlined />}
+              {playlist.subscribed ? "已收藏" : "收藏"}(
+              {Utils.tranNumber(playlist.subscribedCount, 0)})
             </Button>
-          </div>
+            <Button type="primary">
+              <ShareAltOutlined />
+              分享({Utils.tranNumber(playlist.shareCount, 0)})
+            </Button>
+          </Space>
+          {/* <div className={styles.btnGroup}></div> */}
           {label.length !== 0 ? (
             <div className={styles.label}>
               <p>标签：</p>

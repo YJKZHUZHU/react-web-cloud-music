@@ -106,9 +106,6 @@ const BRS_MAP: {[propsName: string]: string} = {
 const MvDetail: FC = () => {
   const playRef = useRef<any>(null)
   const {query} = history.location
-  const [sourceValue, setSourceValue] = useState("")
-  const [source, setSource] = useState("")
-  const [br, setBr] = useState(1080) // 分辨率
   const [showDesc, setShowDesc] = useState(false)
   const [autoPlay, setAutoPlay] = useState(false)
   const {run: runMvurl, data: mvUrlData} = useRequest<{data: IMvUrl; code: number}>(
@@ -155,8 +152,6 @@ const MvDetail: FC = () => {
       playRef.current.load()
     }
   }, [query])
-
-
 
   return (
     <div className={styles._mvDetail}>

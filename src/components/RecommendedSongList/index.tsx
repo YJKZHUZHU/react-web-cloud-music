@@ -5,20 +5,26 @@ import {CustomerServiceOutlined, PlaySquareOutlined} from "@ant-design/icons"
 import {Link} from "umi"
 import PlayIcon from "@/components/PlayIcon"
 import Utils from "@/help/index"
-
 import styles from "./index.scss"
 
-type Props = {
-  data?: any
+export interface IPersonalizedItem {
+  alg: string
+  canDislike: boolean
+  copywriter: string
+  highQuality: boolean
+  id: number
+  name: string
+  picUrl: string
+  playCount: number
+  trackCount: number
+  trackNumberUpdateTime: number
+  type: number
 }
 
-interface DataInterface {
-  picUrl: string
-  copywriter: string
-  playCount: number
-  name: string
-  id: any
+type Props = {
+  data: IPersonalizedItem
 }
+
 
 const RecommendedSongList: FC<Props> = ({data}) => {
   return (

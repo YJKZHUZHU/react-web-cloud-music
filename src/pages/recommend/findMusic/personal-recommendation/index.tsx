@@ -1,35 +1,43 @@
 /** @format */
 
-import React, {useState, useEffect} from "react"
+import React, {useEffect} from "react"
 import {Divider, Row, Col} from "antd"
 import {RightOutlined} from "@ant-design/icons"
 import {Link} from "umi"
+import {useRequest} from "ahooks"
 import CarouselImg from "../components/Carousel"
-import RecommendedSongList from "@/components/RecommendedSongList"
-import NewMusic from "@/components/NewMusic"
+import RecommendedSongList, {IPersonalizedItem} from "@/components/RecommendedSongList"
+import NewMusic, {INewSongItem} from "@/components/NewMusic"
 import API from "@/api"
 import styles from "./index.scss"
 
+interface IPersonalizedData {
+  category: number
+  code: number
+  hasTaste: boolean
+  result: IPersonalizedItem[]
+}
+
+interface INewSong {
+  result: INewSongItem[]
+  category: number
+  code: number
+}
+
 const PersonalRecommendation = () => {
-  const [personalized, setPersonalized] = useState<any[]>([])
-  const [newSong, setNewSong] = useState<any[]>([])
+  const {run: runPersonalized, data: personalizedData} = useRequest<IPersonalizedData>(
+    () => API.personalized({limit: 12, loading: true}),
+    {
+      manual: true
+    }
+  )
+  const {run: runNewSong, data: newSongData} = useRequest<INewSong>(API.newSong, {
+    manual: true
+  })
 
   useEffect(() => {
-    API.personalized({
-      limit: 12,
-      loading: true
-    }).then((res) => {
-      if (res.code === 200) {
-        setPersonalized(res.result)
-      }
-    })
-    API.newSong({
-      loading: true
-    }).then((res) => {
-      if (res.code === 200) {
-        setNewSong(res.result)
-      }
-    })
+    runNewSong()
+    runPersonalized()
   }, [])
 
   return (
@@ -47,7 +55,7 @@ const PersonalRecommendation = () => {
         </div>
         <Divider className={styles.divider} />
         <Row justify="start" gutter={24}>
-          {personalized.map((item) => {
+          {personalizedData?.result.map((item) => {
             return (
               <Col span={4} key={item.id}>
                 <RecommendedSongList data={item} />
@@ -69,7 +77,7 @@ const PersonalRecommendation = () => {
         <Divider className={styles.divider} />
         <div className={styles.newMusic}>
           <Row>
-            {newSong.map((item, index) => {
+            {newSongData?.result.map((item, index) => {
               return (
                 <Col span={12} key={item.id} className={styles.item}>
                   <NewMusic data={item} index={index + 1} />
