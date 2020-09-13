@@ -90,7 +90,6 @@ const UserModel: UserModelType = {
     },
     setPlayList(state, action) {
       const { playList } = action.payload
-      console.log(action.payload.playList)
       state.playList = {
         creator: playList.filter((item: any) => !item.subscribed),
         favorite: playList.filter((item: any) => item.subscribed)

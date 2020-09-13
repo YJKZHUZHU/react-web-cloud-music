@@ -35,7 +35,6 @@ interface IList {
 }
 
 const List: FC<IList> = ({list}) => {
-  console.log(list)
   return (
     <>
       <div className={styles.head}>

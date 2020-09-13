@@ -1,0 +1,23 @@
+/** @format */
+
+.topNumber {
+  position: relative;
+  .trangle {
+    position: absolute;
+    z-index: 0;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    vertical-align: middle;
+    border-color: transparent red;
+    border-width: 0 0 50px 50px;
+    border-style: solid;
+  }
+  .number {
+    z-index: 1;
+    position: absolute;
+    color: #edb0ab;
+    font-size: 40px;
+    font-weight: bold;
+  }
+}

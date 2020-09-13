@@ -97,7 +97,6 @@ const ArtistsDetail = () => {
     run()
     runSub()
   }, [location.query.name])
-  console.log(collect)
   return (
     <div className={styles.attistsDetail}>
       <Spin spinning={loading} tip="歌手信息加载中...">

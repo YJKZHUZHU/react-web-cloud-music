@@ -66,7 +66,6 @@ const PersonalRecommendation = () => {
     runExclusiveBroadcast()
   }, [])
 
-  console.log(mvData)
 
   return (
     <>

@@ -43,7 +43,6 @@ const SongList = () => {
     getHighquality(param)
   }
   const onPage = (page: number) => {
-    console.log(page)
     param = {...param, offset: (page - 1) * 50}
     setCurrent(page)
     getHighquality(param)

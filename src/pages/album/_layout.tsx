@@ -63,7 +63,6 @@ const Album: FC = () => {
     runInfo()
   }, [])
 
-  console.log(data)
 
   return (
     <div className={styles.album}>

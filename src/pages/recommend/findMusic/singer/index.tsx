@@ -67,7 +67,6 @@ const Singer = () => {
     getData({...param, initial, offset: 0})
   }
   const onLoadMore = () => {
-    console.log(data.length)
     getData({...param, offset: param.offset + param.limit}, 1)
   }
   useEffect(() => {

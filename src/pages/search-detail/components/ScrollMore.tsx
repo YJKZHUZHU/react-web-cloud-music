@@ -56,7 +56,6 @@ const ScrollMore: FC<Props> = (props) => {
   }
 
   const handleInfiniteOnLoad = async () => {
-    console.log("111")
     if (data.length === count) {
       setLoading(false)
       setHasMore(false)

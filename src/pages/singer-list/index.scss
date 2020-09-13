@@ -1,0 +1,104 @@
+/** @format */
+@import "utils";
+
+$rankColor: #919192;
+
+.singerList {
+  min-height: 300px;
+  .lastList {
+    margin-top: 20px;
+    .item {
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      @include zebra-lists(#333333, #ffffff, #333333, #fafafa);
+      &:hover {
+        background-color: #f2f2f3;
+      }
+      .left {
+        .rank {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          .number {
+            color: $rankColor;
+            font-weight: bold;
+            line-height: initial;
+          }
+          .range {
+            color: $rankColor;
+            font-size: 11px;
+          }
+        }
+        .name {
+          cursor: pointer;
+          &:hover {
+            color: #000000;
+          }
+        }
+
+        .img {
+          width: 70px;
+          height: 70px;
+          img {
+            width: 100%;
+            border-radius: 5px;
+          }
+        }
+      }
+    }
+  }
+  .topItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    border: 1px solid #fafafa;
+    background-color: #fafafa;
+    border-radius: 5px;
+    &:hover {
+      background-color: #f0f0f0;
+    }
+    .topNumber {
+      position: absolute;
+      top: 0;
+      .trangle {
+        position: absolute;
+        z-index: 0;
+        display: inline-block;
+        width: 0;
+        height: 0;
+        vertical-align: middle;
+        border-color: transparent #ffffff;
+        border-width: 0 0 70px 70px;
+        border-style: solid;
+      }
+      .number {
+        z-index: 1;
+        top: -10px;
+        left: 10px;
+        position: absolute;
+        color: #edb0ab;
+        font-size: 40px;
+        font-weight: bold;
+      }
+    }
+    .content {
+      margin-left: 60px;
+      .number {
+        color: $rankColor;
+        font-size: 11px;
+      }
+    }
+    .img {
+      width: 100px;
+      height: 100px;
+      img {
+        width: 100%;
+        border-radius: 5px;
+      }
+    }
+  }
+}

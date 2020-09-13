@@ -26,7 +26,7 @@ interface IArtists {
 }
 
 const Artists: FC<IArtists> = ({data}) => {
-  console.log(data)
+
   if (!data || data.length === 0) return null
 
   const history = useHistory()

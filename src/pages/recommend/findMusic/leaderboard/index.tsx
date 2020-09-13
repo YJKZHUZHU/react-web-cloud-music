@@ -115,7 +115,6 @@ const Leaderboard = () => {
           <OfficialLeaderBoard data={officiaData as any[]} type="officia" />
           <OfficialLeaderBoard data={singetTopList as any[]} type="singer" />
         </Row>
-
         <h2>全球榜</h2>
         <AllTopList data={gloabalData?.list} />
       </div>
