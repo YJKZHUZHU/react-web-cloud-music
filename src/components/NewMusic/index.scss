@@ -1,3 +1,5 @@
+/** @format */
+
 @import "utils";
 
 ._newMusic {
@@ -25,6 +27,7 @@
 
     img {
       width: 100%;
+      border-radius: 5px;
     }
 
     .playIcon {
@@ -32,8 +35,8 @@
       color: #fff;
       width: 26px;
       height: 26px;
-      border: 1px solid #D2CFC4;
-      background-color: #6C6D64;
+      border: 1px solid #d2cfc4;
+      background-color: #6c6d64;
       border-radius: 50%;
       display: flex;
       justify-content: center;
@@ -54,9 +57,19 @@
     flex-direction: column;
     justify-content: space-around;
     flex: 1;
-
-    i {
-      padding-right: 10px;
+    .name {
+      display: flex;
+      justify-content: space-between;
+      .icon {
+        color: #d33931;
+        &:hover {
+          color: #dc625b;
+        }
+      }
     }
+
+    // i {
+    //   padding-right: 10px;
+    // }
   }
 }

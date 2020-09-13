@@ -14,19 +14,22 @@
     position: relative;
 
     img {
-      width: 100%;
-      padding: 2%;
+      width: 95%;
+      border-radius: 5px;
+      margin: 2%;
       position: relative;
       cursor: pointer;
     }
     .bg {
+      width: 50px;
+      display: block;
       font-size: 12px;
       position: absolute;
-      bottom: 5px;
-      right: 5px;
-      text-align: right;
+      bottom: 1px;
+      right: -4px;
+      text-align: center;
       color: #ffffff;
-      border-radius: 40% 0 0 30%;
+      border-radius: 5px 0;
       i {
         display: inline-block;
         width: 15px;

@@ -1,13 +1,13 @@
 /** @format */
 
-import React, {FC} from "react"
+import React, {FC, useEffect} from "react"
 import {CaretRightOutlined} from "@ant-design/icons"
-import {Row, Col} from "antd"
+import {Row, Col, Spin} from "antd"
 import styles from "./index.scss"
 import Utils from "@/help"
 import {history} from "umi"
 
-interface AllTopListItem {
+export interface IAllTopListItem {
   ToplistType: string
   adType: number
   anonimous: boolean
@@ -51,8 +51,9 @@ interface AllTopListItem {
 }
 
 interface AllTopLIstInterface {
-  data: AllTopListItem[]
+  data?: any[]
 }
+
 const AllTopList: FC<AllTopLIstInterface> = ({data}) => {
   return (
     <div className={styles._allTopList}>

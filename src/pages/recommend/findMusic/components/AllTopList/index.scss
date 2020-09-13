@@ -1,8 +1,10 @@
+/** @format */
+
 @import "utils";
 
 ._allTopList {
+  margin-top: 20px;
   .item {
-    width: 130px;
     position: relative;
     cursor: pointer;
     margin-bottom: 20px;
@@ -16,16 +18,17 @@
         display: flex;
         height: 30px;
         border-radius: 50%;
-        border: 1px solid #B7B6DF;
+        border: 1px solid #b7b6df;
         justify-content: center;
         align-items: center;
-        background-color: #312B4A;
+        background-color: #312b4a;
         color: #ffffff;
       }
     }
 
     .img {
       width: 100%;
+      border-radius: 5%;
     }
 
     .count {
@@ -36,7 +39,7 @@
       text-align: right;
       padding-right: 8px;
       color: #ffffff;
-      background-color: rgba(0, 0, 0, .4);
+      background-color: rgba(0, 0, 0, 0.4);
     }
 
     .playIcon {

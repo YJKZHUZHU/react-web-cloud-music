@@ -1,57 +1,123 @@
 /** @format */
 
 import React, {useState, useEffect} from "react"
-import {Divider, Spin} from "antd"
-import OfficialLeaderBoard from "../components/OfficialLeaderBoard"
+import {Spin, Row} from "antd"
+import {useRequest} from "ahooks"
+import OfficialLeaderBoard, {ISingetTopList} from "../components/OfficialLeaderBoard"
 import AllTopList from "../components/AllTopList"
 import API from "@/api"
 import styles from "./index.scss"
 
-const Leaderboard = () => {
-  const [officiaData, setOfficiaData] = useState<any[]>([])
-  const [globalData, setGlobalData] = useState<any[]>([])
-  const [loadng, setLoading] = useState(false)
+interface IGlobalData {
+  code: number
+  list: any[]
+  artistToplist: any
+  rewardToplist: any[]
+}
 
-  const getData = async () => {
-    setLoading(true)
-    try {
-      const res1 = await API.getTopList({idx: 3})
-      const res2 = await API.getTopList({idx: 0})
-      const res3 = await API.getTopList({idx: 2})
-      const res4 = await API.getTopList({idx: 1})
-      const res5 = await API.getTopList({idx: 17})
-      const res6 = await API.getTopList({idx: 26})
-      const GlobalRet = await API.getAllTopList()
-      setLoading(false)
-      if (GlobalRet.code === 200) {
-        setGlobalData(GlobalRet.list)
+interface IOfficiaData {
+  code: 200
+  relatedVideos: null
+  playlist: {[key: string]: any}
+  urls: null | string
+  privileges: any[]
+}
+
+const mapTopId = (list: any[]) => {
+  return list
+    .map((item) => {
+      if (item.ToplistType) {
+        return item.id
       }
-      return setOfficiaData([
-        res1.playlist,
-        res2.playlist,
-        res3.playlist,
-        res4.playlist,
-        res5.playlist,
-        res6.playlist
-      ])
-    } catch (error) {
-      return setLoading(false)
+    })
+    .filter((d) => d)
+}
+
+const getOfficeData = (idList: number[]) => {
+  return Promise.all([
+    API.playList({id: idList[0]}),
+    API.playList({id: idList[1]}),
+    API.playList({id: idList[2]}),
+    API.playList({id: idList[3]})
+  ])
+}
+
+const Leaderboard = () => {
+  const [topIdArr, setTopIdArr] = useState([])
+
+  const {data: gloabalData, run: runGlobal} = useRequest<IGlobalData>(API.getAllTopList, {
+    manual: true,
+    onSuccess: (response) => setTopIdArr(mapTopId(response.list) as any)
+  })
+
+  const {run: runOffice, data: officiaData, loading} = useRequest(() => getOfficeData(topIdArr), {
+    manual: true,
+    formatResult: (response) => response.map((item) => item.playlist)
+  })
+
+  const {data: singetTopList, run: runSingerTopList} = useRequest<ISingetTopList>(
+    API.getSingerTopList,
+    {
+      manual: true,
+      formatResult: (response) => {
+        return [
+          {
+            coverImgUrl: gloabalData?.artistToplist.coverUrl,
+            upateFrequency: gloabalData?.artistToplist.upateFrequency,
+            subscribers: [],
+            subscribed: false,
+            creator: {},
+            tracks: response?.list?.artists,
+            updateTime: response?.list.updateTime,
+            trackIds: [],
+            backgroundCoverId: 0,
+            backgroundCoverUrl: null,
+            titleImage: 0,
+            titleImageUrl: null,
+            englishTitle: null,
+            opRecommend: false,
+            adType: 0,
+            subscribedCount: 0,
+            cloudTrackCount: 0,
+            userId: 0,
+            highQuality: false,
+            specialType: 0,
+            coverImgId: 0,
+            newImported: false,
+            commentThreadId: "",
+            privacy: 0,
+            name: gloabalData?.artistToplist.name,
+            id: 0,
+            ToplistType: "",
+            commentCount: 0
+          }
+        ]
+      }
     }
-  }
+  )
 
   useEffect(() => {
-    getData()
+    runGlobal()
+    runSingerTopList()
   }, [])
 
+  useEffect(() => {
+    if (topIdArr.length !== 0) {
+      runOffice()
+    }
+  }, [topIdArr.length])
+
   return (
-    <Spin spinning={loadng} tip="Loading...">
+    <Spin spinning={loading} tip="Loading...">
       <div className={styles.leaderBoard}>
         <h2>官方榜单</h2>
-        <Divider className={styles.divider} />
-        <OfficialLeaderBoard data={officiaData} />
+        <Row gutter={48}>
+          <OfficialLeaderBoard data={officiaData as any[]} type="officia" />
+          <OfficialLeaderBoard data={singetTopList as any[]} type="singer" />
+        </Row>
+
         <h2>全球榜</h2>
-        <Divider className={styles.divider} />
-        <AllTopList data={globalData} />
+        <AllTopList data={gloabalData?.list} />
       </div>
     </Spin>
   )

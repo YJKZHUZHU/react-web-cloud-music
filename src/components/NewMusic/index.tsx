@@ -2,10 +2,9 @@
 
 import React, {FC} from "react"
 import {CaretRightOutlined, PlaySquareOutlined} from "@ant-design/icons"
-import {useDispatch} from "umi"
-import Utils from '@/help'
+import Artists from "@/components/Artists"
+import {useDispatch,useHistory} from "umi"
 import styles from "./index.scss"
-
 
 export interface INewSongItem {
   alg: string
@@ -26,6 +25,7 @@ interface INewMusic {
 
 const NewMusic: FC<INewMusic> = ({data, index}) => {
   const dispatch = useDispatch()
+  const history = useHistory()
   return (
     <div
       className={styles._newMusic}
@@ -45,10 +45,17 @@ const NewMusic: FC<INewMusic> = ({data, index}) => {
         </span>
       </div>
       <div className={styles.content}>
-        <p className={styles.title}>{data.name}</p>
+        <p>{data.name}</p>
         <p className={styles.name}>
-          <PlaySquareOutlined />
-          <span>{Utils.formatName(data.song.artists)}</span>
+          <span>
+            <Artists data={data.song.artists} />
+          </span>
+          {!!data.song.mvid ? (
+            <PlaySquareOutlined
+              className={styles.icon}
+              onClick={() => history.push(`/recommend/video/mvdetail?mvid=${data.song.mvid}`)}
+            />
+          ) : null}
         </p>
       </div>
     </div>

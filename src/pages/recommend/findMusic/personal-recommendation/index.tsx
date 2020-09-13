@@ -8,6 +8,8 @@ import {useRequest} from "ahooks"
 import CarouselImg from "../components/Carousel"
 import RecommendedSongList, {IPersonalizedItem} from "@/components/RecommendedSongList"
 import NewMusic, {INewSongItem} from "@/components/NewMusic"
+import RecommendMv, {IRecommendItem} from "../components/RecommendMv"
+import ExclusiveBroadcast, {IExclusiveBroadcastItem} from "../components/ExclusiveBroadcast"
 import API from "@/api"
 import styles from "./index.scss"
 
@@ -24,6 +26,18 @@ interface INewSong {
   code: number
 }
 
+interface IRecommendMv {
+  code: number
+  category: number
+  result: IRecommendItem[]
+}
+
+interface IExclusiveBroadcastData {
+  code: number
+  name: string
+  result: IExclusiveBroadcastItem[]
+}
+
 const PersonalRecommendation = () => {
   const {run: runPersonalized, data: personalizedData} = useRequest<IPersonalizedData>(
     () => API.personalized({limit: 12, loading: true}),
@@ -35,10 +49,24 @@ const PersonalRecommendation = () => {
     manual: true
   })
 
+  const {run: runMv, data: mvData} = useRequest<IRecommendMv>(API.getRecommentMv, {
+    manual: true
+  })
+
+  const {run: runExclusiveBroadcast, data: exclusiveBroadcastData} = useRequest<
+    IExclusiveBroadcastData
+  >(API.getExclusiveBroadcast, {
+    manual: true
+  })
+
   useEffect(() => {
     runNewSong()
     runPersonalized()
+    runMv()
+    runExclusiveBroadcast()
   }, [])
+
+  console.log(mvData)
 
   return (
     <>
@@ -53,12 +81,33 @@ const PersonalRecommendation = () => {
             </span>
           </Link>
         </div>
-        <Divider className={styles.divider} />
+        <Divider />
         <Row justify="start" gutter={24}>
           {personalizedData?.result.map((item) => {
             return (
               <Col span={4} key={item.id}>
                 <RecommendedSongList data={item} />
+              </Col>
+            )
+          })}
+        </Row>
+      </div>
+      <div className={styles.recommend}>
+        <div className={styles.top}>
+          <h2>独家放送</h2>
+          <Link to="/recommend/findmusic/song-list">
+            <span>
+              <i>更多</i>
+              <RightOutlined />
+            </span>
+          </Link>
+        </div>
+        <Divider />
+        <Row justify="start" gutter={24}>
+          {exclusiveBroadcastData?.result.map((item) => {
+            return (
+              <Col span={24 / exclusiveBroadcastData?.result.length} key={item.id}>
+                <ExclusiveBroadcast data={item} />
               </Col>
             )
           })}
@@ -74,7 +123,7 @@ const PersonalRecommendation = () => {
             </span>
           </Link>
         </div>
-        <Divider className={styles.divider} />
+        <Divider />
         <div className={styles.newMusic}>
           <Row>
             {newSongData?.result.map((item, index) => {
@@ -86,6 +135,27 @@ const PersonalRecommendation = () => {
             })}
           </Row>
         </div>
+      </div>
+      <div className={styles.recommend}>
+        <div className={styles.top}>
+          <h2>推荐MV</h2>
+          <Link to="/recommend/findmusic/song-list">
+            <span>
+              <i>更多</i>
+              <RightOutlined />
+            </span>
+          </Link>
+        </div>
+        <Divider />
+        <Row gutter={32}>
+          {mvData?.result.map((item) => {
+            return (
+              <Col span={6} key={item.id} className={styles.item}>
+                <RecommendMv data={item} />
+              </Col>
+            )
+          })}
+        </Row>
       </div>
     </>
   )

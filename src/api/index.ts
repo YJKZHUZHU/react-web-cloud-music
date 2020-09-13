@@ -262,6 +262,22 @@ enum FetchUrl {
    * 获取 mv 点赞转发评论数数据
    */
   MvDetailInfo = '/mv/detail/info',
+  /**
+   * 推荐MV
+   */
+  RecommendMv = '/personalized/mv',
+  /**
+   * 独家放送
+   */
+  ExclusiveBroadcast = '/personalized/privatecontent',
+  /**
+   * 所有榜单内容摘要
+   */
+  AllTopList = '/toplist/detail',
+  /**
+   * 歌手榜
+   */
+  SingerTopList = '/toplist/artist'
 }
 
 export class API {
@@ -393,6 +409,12 @@ export class API {
   static setAlbumSub = (params: any) => request(FetchUrl.AlbumSub, { params })
   // 获取 mv 点赞转发评论数数据
   static getMvDetailInfo = (params: any) => request(FetchUrl.MvDetailInfo, { params })
+  // 推荐MV
+  static getRecommentMv = () => request(FetchUrl.RecommendMv)
+  //  独家放送
+  static getExclusiveBroadcast = () => request(FetchUrl.ExclusiveBroadcast)
+  // 歌手榜单
+  static getSingerTopList = (params?: any) => request(FetchUrl.SingerTopList, { params })
 }
 
 

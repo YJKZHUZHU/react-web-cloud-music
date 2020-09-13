@@ -1,6 +1,6 @@
 /** @format */
 
-import React, {useEffect, useState,useRef} from "react"
+import React, {useEffect, useState, useRef} from "react"
 import {LeftCircleOutlined, RightCircleOutlined} from "@ant-design/icons"
 import {Carousel} from "antd"
 import {useRequest} from "ahooks"
@@ -53,7 +53,7 @@ const CarouselImg = () => {
   return (
     <div className={styles.carousel}>
       <Carousel
-        dots={true}
+        dots
         autoplay
         centerMode
         infinite
@@ -71,10 +71,9 @@ const CarouselImg = () => {
                 dispatch({type: "songInfoModel/getSongInfo", payload: {id: item.targetId}})
               }>
               <img src={item.imageUrl} />
-              <div className={styles.bg} style={{background: item.titleColor}}>
-                <i />
-                <span>{item.typeTitle}</span>
-              </div>
+              <span className={styles.bg} style={{background: item.titleColor}}>
+                {item.typeTitle}
+              </span>
             </div>
           )
         })}
