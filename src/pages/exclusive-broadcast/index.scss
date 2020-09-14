@@ -1,0 +1,37 @@
+/** @format */
+
+.exclusiveBroadcast {
+  overflow-x: hidden;
+  overflow-y: scroll;
+  height: 650px;
+  margin-top: 20px;
+  .name {
+    display: block;
+    margin-bottom: 20px;
+    margin-top: 8px;
+    color: #333333;
+    &:hover {
+      color: #000000;
+    }
+    cursor: pointer;
+  }
+
+  .img {
+    cursor: pointer;
+    img {
+      width: 100%;
+      border-radius: 5px;
+    }
+    &:hover {
+      .playIcon {
+        opacity: 1;
+      }
+    }
+  }
+  .loading {
+    position: absolute;
+    top: 300px;
+    width: 100%;
+    text-align: center;
+  }
+}

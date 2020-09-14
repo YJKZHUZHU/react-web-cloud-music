@@ -1,7 +1,7 @@
 /** @format */
 
-import React, {FC, Fragment, useEffect, useState} from "react"
-import {CustomerServiceOutlined, PlaySquareOutlined} from "@ant-design/icons"
+import React, {FC} from "react"
+import {CustomerServiceOutlined} from "@ant-design/icons"
 import {Link} from "umi"
 import PlayIcon from "@/components/PlayIcon"
 import Utils from "@/help/index"

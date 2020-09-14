@@ -1,8 +1,8 @@
 /** @format */
 
-import React, {FC, useState, useEffect, useCallback, ReactChild} from "react"
+import React, {FC, useState, useEffect, useCallback} from "react"
 import API from "@/api"
-import {List, message, Avatar, Spin} from "antd"
+import {message} from "antd"
 import InfiniteScroll from "react-infinite-scroller"
 import SingleList from "./SingleList"
 import SingerList from "./SingerList"

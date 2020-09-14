@@ -1,31 +1,40 @@
- .recommend {
-    margin-top: 15px;
-    min-height: 100px;
+/** @format */
 
-    .top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+.recommend {
+  margin-top: 15px;
+  min-height: 100px;
+  .link {
+    display: block;
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--font-color);
+    margin-bottom: 20px;
+  }
 
-      h2 {
-        font-size: 18px;
-        font-weight: 400;
-        color: var(--font-color);
-      }
+  .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-      span {
-        cursor: pointer;
-        font-size: 12px;
-      }
+    h2 {
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--font-color);
     }
 
-    .newMusic {
-      border: 1px solid var(--border);
-      border-right: none;
-      min-height: 400px;
-
-      .item {
-        //@include zebra-lists(#333333, #FAFAFA, #333333, #F5F5F7);
-      }
+    span {
+      cursor: pointer;
+      font-size: 12px;
     }
   }
+
+  .newMusic {
+    border: 1px solid var(--border);
+    border-right: none;
+    min-height: 400px;
+
+    .item {
+      //@include zebra-lists(#333333, #FAFAFA, #333333, #F5F5F7);
+    }
+  }
+}

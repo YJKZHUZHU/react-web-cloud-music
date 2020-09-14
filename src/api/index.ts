@@ -267,7 +267,7 @@ enum FetchUrl {
    */
   RecommendMv = '/personalized/mv',
   /**
-   * 独家放送
+   * 独家放送（入口列表）
    */
   ExclusiveBroadcast = '/personalized/privatecontent',
   /**
@@ -277,7 +277,11 @@ enum FetchUrl {
   /**
    * 歌手榜
    */
-  SingerTopList = '/toplist/artist'
+  SingerTopList = '/toplist/artist',
+  /**
+   * 独家放送列表
+   */
+  ExclusiveBroadcastList = '/personalized/privatecontent/list'
 }
 
 export class API {
@@ -411,10 +415,12 @@ export class API {
   static getMvDetailInfo = (params: any) => request(FetchUrl.MvDetailInfo, { params })
   // 推荐MV
   static getRecommentMv = () => request(FetchUrl.RecommendMv)
-  //  独家放送
+  //  独家放送（入口列表）
   static getExclusiveBroadcast = () => request(FetchUrl.ExclusiveBroadcast)
   // 歌手榜单
   static getSingerTopList = (params?: any) => request(FetchUrl.SingerTopList, { params })
+  // 独家放送列表
+  static getExclusiveBroadcastList = (params: any) => request(FetchUrl.ExclusiveBroadcastList, { params })
 }
 
 

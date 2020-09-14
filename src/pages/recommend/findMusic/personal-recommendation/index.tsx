@@ -1,7 +1,7 @@
 /** @format */
 
 import React, {useEffect} from "react"
-import {Divider, Row, Col} from "antd"
+import {Divider, Row, Col, Space} from "antd"
 import {RightOutlined} from "@ant-design/icons"
 import {Link} from "umi"
 import {useRequest} from "ahooks"
@@ -38,6 +38,17 @@ interface IExclusiveBroadcastData {
   result: IExclusiveBroadcastItem[]
 }
 
+const renderLink = (title: string, link: string) => {
+  return (
+    <Link to={link} className={styles.link}>
+      <Space>
+        <span>{title}</span>
+        <RightOutlined />
+      </Space>
+    </Link>
+  )
+}
+
 const PersonalRecommendation = () => {
   const {run: runPersonalized, data: personalizedData} = useRequest<IPersonalizedData>(
     () => API.personalized({limit: 12, loading: true}),
@@ -66,21 +77,11 @@ const PersonalRecommendation = () => {
     runExclusiveBroadcast()
   }, [])
 
-
   return (
     <>
       <CarouselImg />
       <div className={styles.recommend}>
-        <div className={styles.top}>
-          <h2>推荐歌单</h2>
-          <Link to="/recommend/findmusic/song-list">
-            <span>
-              <i>更多</i>
-              <RightOutlined />
-            </span>
-          </Link>
-        </div>
-        <Divider />
+        {renderLink("推荐歌单", "/recommend/findmusic/song-list")}
         <Row justify="start" gutter={24}>
           {personalizedData?.result.map((item) => {
             return (
@@ -92,16 +93,8 @@ const PersonalRecommendation = () => {
         </Row>
       </div>
       <div className={styles.recommend}>
-        <div className={styles.top}>
-          <h2>独家放送</h2>
-          <Link to="/recommend/findmusic/song-list">
-            <span>
-              <i>更多</i>
-              <RightOutlined />
-            </span>
-          </Link>
-        </div>
-        <Divider />
+        {renderLink("独家放送", "/exclusive-broadcast")}
+
         <Row justify="start" gutter={24}>
           {exclusiveBroadcastData?.result.map((item) => {
             return (
@@ -113,15 +106,8 @@ const PersonalRecommendation = () => {
         </Row>
       </div>
       <div className={styles.recommend}>
-        <div className={styles.top}>
-          <h2>最新音乐</h2>
-          <Link to="/recommend/findmusic/latest-music">
-            <span>
-              <i>更多</i>
-              <RightOutlined />
-            </span>
-          </Link>
-        </div>
+        {renderLink("最新音乐", "/recommend/findmusic/latest-music")}
+
         <Divider />
         <div className={styles.newMusic}>
           <Row>
@@ -136,16 +122,8 @@ const PersonalRecommendation = () => {
         </div>
       </div>
       <div className={styles.recommend}>
-        <div className={styles.top}>
-          <h2>推荐MV</h2>
-          <Link to="/recommend/findmusic/song-list">
-            <span>
-              <i>更多</i>
-              <RightOutlined />
-            </span>
-          </Link>
-        </div>
-        <Divider />
+        {renderLink("推荐MV", "/recommend/findmusic/song-list")}
+
         <Row gutter={32}>
           {mvData?.result.map((item) => {
             return (
