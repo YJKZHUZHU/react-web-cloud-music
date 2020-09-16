@@ -161,6 +161,9 @@ const MvDetail: FC = () => {
           <span className={styles.name}>MV详情</span>
         </p>
         <Player
+          fluid={false}
+          height={350}
+          width="100%"
           autoPlay={autoPlay}
           src={mvUrlData?.data?.url}
           poster={data?.data?.cover}
@@ -180,7 +183,7 @@ const MvDetail: FC = () => {
               showArrow={false}
               className={styles.select}
               size="small">
-              {data?.data.brs.reverse().map((item) => {
+              {data?.data?.brs.reverse().map((item) => {
                 return (
                   <Option value={item.br} key={item.br}>
                     {BRS_MAP[item.br]}

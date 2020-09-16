@@ -3,7 +3,7 @@
 .exclusiveBroadcast {
   overflow-x: hidden;
   overflow-y: scroll;
-  height: 650px;
+  height: calc(100vh - 160px);
   margin-top: 20px;
   .name {
     display: block;

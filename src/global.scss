@@ -139,3 +139,13 @@ em {
 .ant-descriptions-item-label {
   flex: none !important;
 }
+
+.video-react {
+  border-radius: 5px;
+}
+.video-react-control-bar {
+  border-radius: 5px;
+}
+.video-react .video-react-volume-level {
+  left: -2px !important;
+}

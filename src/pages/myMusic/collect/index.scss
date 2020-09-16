@@ -1,6 +1,8 @@
+/** @format */
+
 @import "utils";
 
-$mvBg: '../../../assets/mask.png';
+$mvBg: "../../../assets/mask.png";
 
 ._collect {
   .radioGroup {
@@ -12,37 +14,44 @@ $mvBg: '../../../assets/mask.png';
 
   .albumItem {
     padding: 8px 20px;
-    @include zebra-lists(#333333, #FAFAFA, #333333, #F5F5F7);
+    @include zebra-lists(#333333, #fafafa, #333333, #f5f5f7);
     cursor: pointer;
 
     &:hover {
-      background-color: #F2F2F3;
+      background-color: #f2f2f3;
     }
 
     .albumDescription {
-
       display: flex;
       justify-content: space-between;
       align-items: center;
 
-      .time, .mvSize {
+      .time,
+      .mvSize {
         //padding-right: 20px;
       }
-
     }
   }
 
   .mvItem {
     position: relative;
     cursor: pointer;
+    p {
+      margin-bottom: 0;
+    }
 
     .img {
+      position: relative;
+      height: 200px;
       img {
+        height: 100%;
         width: 100%;
+        border-radius: 5px;
       }
     }
 
     .player {
+      border-radius: 0 5px;
       position: absolute;
       top: 0;
       right: 0;
@@ -52,9 +61,9 @@ $mvBg: '../../../assets/mask.png';
       text-align: right;
       color: #fff;
       box-sizing: border-box;
-      text-shadow: -2px 1px rgba(0, 0, 0, .4);
+      text-shadow: -2px 1px rgba(0, 0, 0, 0.4);
       width: 30%;
-      background: url($mvBg) no-repeat 0 0;
+      // background: url($mvBg) 1px 2px;
 
       span {
         padding-right: 5px;
@@ -62,24 +71,39 @@ $mvBg: '../../../assets/mask.png';
     }
 
     .time {
+      border-radius: 0 0 0 5px;
       margin-bottom: 0;
       position: absolute;
-      bottom: 22px;
+      bottom: 2px;
       left: 0;
       padding-left: 5px;
       height: 20px;
       line-height: 20px;
       color: #fff;
-      text-shadow: -2px 1px rgba(0, 0, 0, .4);
+      text-shadow: -2px 1px rgba(0, 0, 0, 0.4);
       width: 40%;
-      background: url($mvBg) no-repeat 0 -25px;
+      // background: url($mvBg) no-repeat 0 -25px;
+    }
+    .title {
+      // display: flex;
+      // align-items: center;
+      margin: 10px 0;
+      .tag {
+        border-radius: 2px;
+        padding: 0 2px;
+        font-size: 11px;
+        margin-right: 3px;
+        color: #e03f40;
+        border: 1px solid #e03f40;
+      }
     }
 
     .singer {
-      font-size: 14px;
+      font-size: 12px;
+      color: #bfbfbf;
+      &:hover {
+        color: #8c8c8c;
+      }
     }
-
   }
-
-
 }

@@ -1,11 +1,14 @@
-import React, {FC, useState, useEffect} from 'react'
-import { VideoCameraOutlined } from '@ant-design/icons';
-import { Radio, Tabs, message, List, Avatar, Col, Row } from 'antd';
-import API from '@/api'
-import moment from 'moment'
-import {history,Link} from "umi"
-import Utils from '@/help'
-import styles from './index.scss'
+/** @format */
+
+import React, {FC, useState, useEffect} from "react"
+import {VideoCameraOutlined} from "@ant-design/icons"
+import {Tabs, List, Avatar, Col, Row} from "antd"
+import API from "@/api"
+import moment from "moment"
+import {useHistory} from "umi"
+import Utils from "@/help"
+import Artists from "@/components/Artists"
+import styles from "./index.scss"
 
 const {TabPane} = Tabs
 const initSubData = {
@@ -18,26 +21,45 @@ type Props = {
 }
 
 const MvList: FC<Props> = ({data}) => {
-  const onMv = () => {
-    history.push({
-      pathname: "/recommend/video/mvdetail",
-      query: {
-        mvid: data.vid
-      }
-    })
-  }
+  const history = useHistory()
+  const creator = data.creator.map((item: any) => {
+    return {
+      id: item.userId,
+      name: item.userName
+    }
+  })
   return (
-    <div className={styles.mvItem} onClick={onMv}>
-      <div className={styles.img}>
+    <div className={styles.mvItem}>
+      <div
+        className={styles.img}
+        onClick={() => history.push(`/recommend/video/mvdetail?mvid=${data.vid}`)}>
         <img src={data.coverUrl} alt={data.coverUrl} />
+        <p className={styles.player}>
+          <VideoCameraOutlined />
+          <span>{Utils.tranNumber(data.playTime, 2)}</span>
+        </p>
+        <p className={styles.time}>{Utils.formatPlayerTime(data.durationms / 1000)}</p>
       </div>
-      <p className={styles.player}>
-        <VideoCameraOutlined />
-        <span>{Utils.tranNumber(data.playTime, 2)}</span>
+
+      <p className={styles.title}>
+        {data.type === 0 ? <span className={styles.tag}>MV</span> : null}
+        <span>{data.title}</span>
       </p>
-      <p className={styles.time}>{Utils.formatPlayerTime(data.durationms / 1000)}</p>
-      <p className={styles.title}>{data.title}</p>
-      <p className={styles.singer}>{Utils.formatName(data.creator)}</p>
+      {data.type === 0 ? (
+        <Artists data={creator} />
+      ) : (
+        <p>
+          by
+          {data.creator.map((item: any, index: any) => {
+            return (
+              <span className={styles.singer} onClick={() => history.push(`/个人主页`)}>
+                {item.userName}
+                {data.creator.length !== index + 1 ? "/" : null}
+              </span>
+            )
+          })}
+        </p>
+      )}
     </div>
   )
 }
@@ -53,12 +75,12 @@ const Collect: FC = (props) => {
     return (
       <div className={styles.albumDescription}>
         <span>{item.name}</span>
-        <span className={styles.time}>{moment(item.subTime).format('YYYY-MM-DD HH:mm:ss')}</span>
+        <span className={styles.time}>{moment(item.subTime).format("YYYY-MM-DD HH:mm:ss")}</span>
       </div>
     )
   }
   const albumTitle = (artists: any) => {
-    return artists.map((item: any) => item.name).join('/')
+    return artists.map((item: any) => item.name).join("/")
   }
 
   const artistDescription = (item: any) => {
@@ -72,7 +94,11 @@ const Collect: FC = (props) => {
   }
 
   const getData = async () => {
-    const Ret = await Promise.all([API.artistSublist(), API.albumSublist(), API.mvSublist({loading: true})])
+    const Ret = await Promise.all([
+      API.artistSublist(),
+      API.albumSublist(),
+      API.mvSublist({loading: true})
+    ])
     setSubData({
       artistSublist: Ret[0].data || [],
       albumSublist: Ret[1].data || [],
@@ -81,7 +107,7 @@ const Collect: FC = (props) => {
   }
 
   useEffect(() => {
-    getData().then(r => r)
+    getData().then((r) => r)
   }, [])
 
   return (
