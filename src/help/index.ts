@@ -177,6 +177,7 @@ class Utils {
 
   //关键词高亮
   static highLight(content: string) {
+    if (!content) return ''
     const keywords = String(store.getStorage('keywords'))
     const Reg = new RegExp(keywords, 'gi')
     return content.replace(Reg, `<span style="color: #5D73C5; ">${keywords}</span>`)

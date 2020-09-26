@@ -10,25 +10,61 @@
   }
 
   .tab {
+    .loading {
+      position: absolute;
+      top: 300px;
+      width: 100%;
+      text-align: center;
+    }
+    .single,
+    .singer,
+    .album,
+    .video,
+    .songList {
+      overflow-x: hidden;
+      overflow-y: scroll;
+      height: calc(100vh - 300px);
+      margin-top: 20px;
+    }
     .heartIcon {
+      color: #969696;
       padding: 0 8px;
+      cursor: pointer;
+      &:hover {
+        color: #616161;
+      }
+    }
+    .albumText {
+      cursor: pointer;
+      &:hover {
+        color: #303031;
+      }
     }
 
     .musicTitle {
-      display: flex;
-      flex-direction: column;
+      cursor: default;
+      // display: flex;
+      // flex-direction: column;
+      p {
+        margin-bottom: 0;
+      }
 
       .icon {
         margin-left: 8px;
         color: $fontColor;
+        &:hover {
+          color: #dc625b;
+        }
       }
 
       .bottom {
         margin-top: 8px;
+        color: #999999;
+        @include ellipsis();
       }
     }
 
-    .singer {
+    .artists {
       display: flex;
 
       .split {
@@ -36,7 +72,10 @@
       }
     }
 
-    ._singerList {
+    ._singerList,
+    .singer,
+    .album,
+    .songList {
       ul {
         @include clearfix();
         .item {
@@ -50,12 +89,17 @@
           align-items: center;
           .img {
             margin-right: 15px;
-            //width: 50px;
-            //img {
-            //  width: 100%;
-            //}
+          }
+          .user {
+            color: #e24137;
+            flex: 1;
+            text-align: right;
           }
           .title {
+            p {
+              margin-bottom: 0;
+            }
+            color: #4f7daf;
             font-size: 12px;
             flex: 1;
             display: flex;
@@ -70,10 +114,22 @@
               color: #e495d3;
             }
           }
-          .singer {
+          .albumName {
+            flex: 1;
+            justify-content: flex-end;
+            .tips {
+              color: #929293;
+            }
+          }
+          .name {
             width: 200px;
             color: #666666;
+            flex: 1;
+            text-align: right;
             @include ellipsis();
+          }
+          .alias {
+            color: #999999;
           }
           .nickname {
             width: 150px;
@@ -84,23 +140,24 @@
     }
 
     ._videoList {
+      p {
+        margin-bottom: 0;
+      }
       .card {
         margin-bottom: 15px;
         .top {
-          width: 150px;
           position: relative;
 
           .img {
-            width: 150px;
             img {
               width: 100%;
+              border-radius: 5px;
             }
           }
           .playNumber {
-            background-color: rgba(0, 0, 0, 0.4);
             position: absolute;
-            right: 0;
-            top: 0;
+            right: 10px;
+            top: 2px;
             display: flex;
             color: #ffffff;
             align-items: center;
@@ -123,9 +180,11 @@
           .content {
             display: flex;
             margin-top: 8px;
+            align-items: center;
             .mv {
-              width: 30px;
-              height: 20px;
+              width: 25px;
+              height: 15px;
+              border-radius: 3px;
               color: #e43f68;
               border: 1px solid #e87778;
               display: flex;

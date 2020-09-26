@@ -3,7 +3,7 @@
 import React, {FC} from "react"
 import {CaretRightOutlined, PlaySquareOutlined} from "@ant-design/icons"
 import Artists from "@/components/Artists"
-import {useDispatch,useHistory} from "umi"
+import {useDispatch, useHistory} from "umi"
 import styles from "./index.scss"
 
 export interface INewSongItem {
@@ -53,7 +53,11 @@ const NewMusic: FC<INewMusic> = ({data, index}) => {
           {!!data.song.mvid ? (
             <PlaySquareOutlined
               className={styles.icon}
-              onClick={() => history.push(`/recommend/video/mvdetail?mvid=${data.song.mvid}`)}
+              onClick={() =>
+                history.push(
+                  `/recommend/video/mvdetail?mvid=${data.song.mvid}&typs=${data.song.type}`
+                )
+              }
             />
           ) : null}
         </p>

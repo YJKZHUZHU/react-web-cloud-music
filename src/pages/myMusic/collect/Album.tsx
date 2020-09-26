@@ -1,15 +1,11 @@
 /** @format */
 
-import React, {useEffect, FC} from "react"
-import {List, Spin, Avatar, Tabs, Space} from "antd"
-import {useRequest} from "ahooks"
+import React, {FC} from "react"
+import {List, Spin, Avatar, Space} from "antd"
 import {useHistory} from "umi"
-import API from "@/api"
 import moment from "moment"
 import Utils from "@/help"
 import styles from "./index.scss"
-
-const {TabPane} = Tabs
 
 interface IArtists {
   img1v1Id: number
@@ -41,7 +37,7 @@ interface IAlbum {
   transNames: any[]
 }
 
-interface IData {
+export interface IAlbumData {
   data: IAlbum[]
   hasMore: boolean
   count: number
@@ -49,16 +45,11 @@ interface IData {
   paidCount: number
 }
 interface IAlbumProps {
-  getCount: (count: number) => void
+  data: IAlbumData
+  loading: boolean
 }
-const Album: FC<IAlbumProps> = ({getCount}) => {
+const Album: FC<IAlbumProps> = ({data, loading}) => {
   const history = useHistory()
-  const {data, run, loading} = useRequest<IData>(API.albumSublist, {
-    manual: true,
-    onSuccess: (response) => {
-      getCount(response.count)
-    }
-  })
   const albumDescription = (item: IAlbum) => {
     return (
       <div className={styles.albumDescription}>
@@ -73,9 +64,6 @@ const Album: FC<IAlbumProps> = ({getCount}) => {
       </div>
     )
   }
-  useEffect(() => {
-    run()
-  }, [])
   return (
     <Spin spinning={loading} tip="Loadiing...">
       <List

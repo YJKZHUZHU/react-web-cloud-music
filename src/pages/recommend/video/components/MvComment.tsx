@@ -9,15 +9,20 @@ import styles from "../index.scss"
 
 interface IProps {
   id: number
+  type: number
 }
 
-const getData = ({id, pageSize, current, before}: Iparams): Promise<IData> =>
-  API.getMvComment({id, limit: pageSize, offset: (current - 1) * pageSize, before})
+const getData = ({id, type, pageSize, current, before}: Iparams): Promise<IData> => {
+  if (+type === 0) {
+    return API.getMvComment({id, limit: pageSize, offset: (current - 1) * pageSize, before})
+  }
+  return API.getVedioComment({id, limit: pageSize, offset: (current - 1) * pageSize, before})
+}
 
-const MvComment: FC<IProps> = ({id}) => {
+const MvComment: FC<IProps> = ({id, type}) => {
   const [time, setTime] = useState(0)
   const {data, run, loading, pagination} = useRequest(
-    ({current, pageSize}) => getData({id, current, pageSize, before: time}),
+    ({current, pageSize}) => getData({id, type, current, pageSize, before: time}),
     {
       manual: true,
       paginated: true,

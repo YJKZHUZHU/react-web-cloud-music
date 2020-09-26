@@ -2,6 +2,7 @@
 
 import React, {FC} from "react"
 import {useHistory} from "umi"
+import Utils from "@/help"
 import styles from "./index.scss"
 
 export interface IItem {
@@ -26,19 +27,28 @@ interface IArtists {
 }
 
 const Artists: FC<IArtists> = ({data}) => {
-
   if (!data || data.length === 0) return null
 
   const history = useHistory()
+
+  const onLink = (
+    e: React.MouseEvent<HTMLElement, MouseEvent>,
+    id: number | undefined,
+    name: string | undefined
+  ) => {
+    e.preventDefault()
+    e.stopPropagation()
+    history.push(`/artists-detail/album?id=${id}&name=${name}`)
+  }
 
   return (
     <>
       {data.map((item, index) => (
         <span
-          key={item.id}
+          key={(item.id as number) + index}
           className={styles.artists}
-          onClick={() => history.push(`/artists-detail/album?id=${item.id}&name=${item.name}`)}>
-          {item.name}
+          onClick={(e) => onLink(e, item.id, item.name)}>
+          <span dangerouslySetInnerHTML={{__html: Utils.highLight(item.name as string)}} />
           {index !== data.length - 1 ? "/" : null}
         </span>
       ))}

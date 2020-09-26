@@ -2,7 +2,7 @@
 
 import React, {useState, useEffect} from "react"
 import {Tabs} from "antd"
-import Album from "./Album"
+import Album, {IAlbumData} from "./Album"
 import Mv from "./Mv"
 import Singer from "./Singer"
 import {useHistory, useLocation} from "umi"
@@ -42,14 +42,14 @@ const Collect = () => {
   const path =
     location.pathname.split("/").pop() === "collect" ? "album" : location.pathname.split("/").pop()
   const [key, setTabKey] = useState(path || "album")
-  const [albumCount, setAlbumConnt] = useState(0)
 
   const {data, run} = useRequest<IData>(API.subCount, {
     manual: true,
-    initialData: INIT_DATA,
-    onSuccess: (response) => {
-      console.log(response)
-    }
+    initialData: INIT_DATA
+  })
+
+  const {data: albumData, run: runAlbum, loading} = useRequest<IAlbumData>(API.albumSublist, {
+    manual: true
   })
 
   const callback = (activeKey: string) => {
@@ -59,13 +59,14 @@ const Collect = () => {
 
   useEffect(() => {
     run()
+    runAlbum()
   }, [])
 
   return (
     <div className={styles._collect}>
       <Tabs activeKey={key} onChange={callback}>
-        <TabPane tab={`专辑 ${albumCount}`} key="album">
-          <Album getCount={(count) => setAlbumConnt(count)} />
+        <TabPane tab={`专辑 ${albumData?.count || 0}`} key="album">
+          <Album data={albumData as IAlbumData} loading={loading} />
         </TabPane>
         <TabPane tab={`歌手 ${data?.artistCount}`} key="singer">
           <Singer />

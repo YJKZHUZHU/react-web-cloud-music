@@ -9,6 +9,7 @@ import moment from "moment"
 import styles from "./index.scss"
 
 export interface Iparams {
+  type:number
   id: number
   pageSize: number
   current: number

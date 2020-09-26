@@ -39,10 +39,12 @@ const ExclusiveBroadcast = () => {
     try {
       const Ret: IData = await API.getExclusiveBroadcastList(page)
       setLoading(false)
-      setList(list.concat(Ret.result))
+      if (Ret.result.length !== 0) {
+        setList(list.concat(Ret.result))
+      }
       setPage({
         ...page,
-        offset: page.offset + 1
+        offset: page.offset + page.limit
       })
       setMore(Ret.more)
     } catch (error) {
@@ -76,7 +78,7 @@ const ExclusiveBroadcast = () => {
               <Col
                 span={6}
                 key={item.picUrl}
-                onClick={() => history.push(`/recommend/video/mvdetail?mvid=${item.id}`)}>
+                onClick={() => history.push(`/recommend/video/mvdetail?mvid=${item.id}&type=${item.type}`)}>
                 <div className={styles.img}>
                   <PlayIcon iconClassName={styles.playIcon} />
                   <img src={item.sPicUrl} />

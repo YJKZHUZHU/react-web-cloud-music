@@ -56,60 +56,62 @@ const Mv = () => {
   }, [])
   return (
     // <TabPane tab={`MV ${data?.code}`} key="mv">
-      <Spin spinning={loading} tip="LOading...">
-        <>
-          {data?.data.length === 0 ? (
-            <Row>
-              <Col span={24}>暂无收藏MV</Col>
-            </Row>
-          ) : (
-            <Row gutter={32}>
-              {data?.data.map((item) => {
-                return (
-                  <Col span={6} key={item.vid}>
-                    <div className={styles.mvItem}>
-                      <div
-                        className={styles.img}
-                        onClick={() => history.push(`/recommend/video/mvdetail?mvid=${item.vid}`)}>
-                        <img src={item.coverUrl} alt={item.coverUrl} />
-                        <p className={styles.player}>
-                          <VideoCameraOutlined />
-                          <span>{Utils.tranNumber(item.playTime, 2)}</span>
-                        </p>
-                        <p className={styles.time}>
-                          {Utils.formatPlayerTime(item.durationms / 1000)}
-                        </p>
-                      </div>
-
-                      <p className={styles.title}>
-                        {item.type === 0 ? <span className={styles.tag}>MV</span> : null}
-                        <span>{item.title}</span>
+    <Spin spinning={loading} tip="LOading...">
+      <>
+        {data?.data.length === 0 ? (
+          <Row>
+            <Col span={24}>暂无收藏MV</Col>
+          </Row>
+        ) : (
+          <Row gutter={32}>
+            {data?.data.map((item) => {
+              return (
+                <Col span={6} key={item.vid}>
+                  <div className={styles.mvItem}>
+                    <div
+                      className={styles.img}
+                      onClick={() =>
+                        history.push(`/recommend/video/mvdetail?mvid=${item.vid}&type=${item.type}`)
+                      }>
+                      <img src={item.coverUrl} alt={item.coverUrl} />
+                      <p className={styles.player}>
+                        <VideoCameraOutlined />
+                        <span>{Utils.tranNumber(item.playTime, 2)}</span>
                       </p>
-                      {item.type === 0 ? (
-                        <Artists data={creator(item.creator)} />
-                      ) : (
-                        <p>
-                          by
-                          {item.creator.map((items, index) => {
-                            return (
-                              <span
-                                className={styles.singer}
-                                onClick={() => history.push(`/个人主页`)}>
-                                {items.userName}
-                                {item.creator.length !== index + 1 ? "/" : null}
-                              </span>
-                            )
-                          })}
-                        </p>
-                      )}
+                      <p className={styles.time}>
+                        {Utils.formatPlayerTime(item.durationms / 1000)}
+                      </p>
                     </div>
-                  </Col>
-                )
-              })}
-            </Row>
-          )}
-        </>
-      </Spin>
+
+                    <p className={styles.title}>
+                      {item.type === 0 ? <span className={styles.tag}>MV</span> : null}
+                      <span>{item.title}</span>
+                    </p>
+                    {item.type === 0 ? (
+                      <Artists data={creator(item.creator)} />
+                    ) : (
+                      <p>
+                        by
+                        {item.creator.map((items, index) => {
+                          return (
+                            <span
+                              className={styles.singer}
+                              onClick={() => history.push(`/homepage?uid=${items.userId}`)}>
+                              {items.userName}
+                              {item.creator.length !== index + 1 ? "/" : null}
+                            </span>
+                          )
+                        })}
+                      </p>
+                    )}
+                  </div>
+                </Col>
+              )
+            })}
+          </Row>
+        )}
+      </>
+    </Spin>
     // </TabPane>
   )
 }

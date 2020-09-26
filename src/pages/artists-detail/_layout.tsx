@@ -115,7 +115,7 @@ const ArtistsDetail = () => {
                     {collect ? "已收藏" : "收藏"}
                   </Button>
 
-                  <Button shape="round">
+                  <Button shape="round" onClick={() => history.push(`/homepage/uid=${data?.id}`)}>
                     <UserOutlined />
                     个人主页
                   </Button>

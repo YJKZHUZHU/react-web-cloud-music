@@ -281,7 +281,28 @@ enum FetchUrl {
   /**
    * 独家放送列表
    */
-  ExclusiveBroadcastList = '/personalized/privatecontent/list'
+  ExclusiveBroadcastList = '/personalized/privatecontent/list',
+  /**
+   * 视频评论
+   */
+  VedioComment = '/comment/video',
+  /**
+   * 视频详情
+   */
+  VedioDetail = '/video/detail',
+  /**
+   * 相关视频
+   */
+  RelatedVedio = '/related/allvideo',
+  /**
+   * 获取视频点赞转发评论数数据
+   * @param(vid)
+   */
+  VedioDetailInfo = '/video/detail/info',
+  /**
+   * 获取视频播放地址
+   */
+  VedioUrl = '/video/url'
 }
 
 export class API {
@@ -421,6 +442,16 @@ export class API {
   static getSingerTopList = (params?: any) => request(FetchUrl.SingerTopList, { params })
   // 独家放送列表
   static getExclusiveBroadcastList = (params: any) => request(FetchUrl.ExclusiveBroadcastList, { params })
+  // 视频评论
+  static getVedioComment = (params: any) => request(FetchUrl.VedioComment, { params })
+  // 视频详情
+  static getVedioDetail = (params: any) => request(FetchUrl.VedioDetail, { params })
+  // 相关视频
+  static getRelateVedio = (params: any) => request(FetchUrl.RelatedVedio, { params })
+  // 获取视频点赞转发评论数数据
+  static getVedioDetailInfo = (params: any) => request(FetchUrl.VedioDetailInfo, { params })
+  // 获取视频播放地址
+  static getVedioUrl = (params: any) => request(FetchUrl.VedioUrl, { params })
 }
 
 

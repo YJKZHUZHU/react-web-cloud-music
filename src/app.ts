@@ -31,7 +31,7 @@ const errorHandler = (error: any) => {
 
 export const request: RequestConfig = {
   prefix: '/api',
-  timeout: 5000, // 部分接口响应偏慢
+  timeout: 10000, // 部分接口响应偏慢
   errorHandler,
   headers: {
     'Content-Type': 'multipart/form-data',

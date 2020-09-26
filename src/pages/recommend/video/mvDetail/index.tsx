@@ -74,6 +74,11 @@ interface MvDetailInterface {
   isReward: boolean
   commentThreadId: string
   videoGroup: IVideoGroup[]
+  resolutions: any[]
+  coverUrl: string
+  creator: any
+  description: string
+  title: string
 }
 
 interface IData {
@@ -108,8 +113,9 @@ const MvDetail: FC = () => {
   const {query} = history.location
   const [showDesc, setShowDesc] = useState(false)
   const [autoPlay, setAutoPlay] = useState(false)
-  const {run: runMvurl, data: mvUrlData} = useRequest<{data: IMvUrl; code: number}>(
-    (r?: any) => API.getMvUrl({id: query.mvid, r}),
+  const {run: runMvurl, data: mvUrlData} = useRequest<{data: IMvUrl; code: number; urls: any[]}>(
+    (r?: any) =>
+      +query.type === 0 ? API.getMvUrl({id: query.mvid, r}) : API.getVedioUrl({id: query.mvid, r}),
     {
       manual: true,
       onSuccess: () => {
@@ -119,14 +125,23 @@ const MvDetail: FC = () => {
     }
   )
   const {run: runMvDetailInfo, data: mvDetailInfo} = useRequest<IMvDetailInfo>(
-    () => API.getMvDetailInfo({...query}),
+    () =>
+      +query.type === 0
+        ? API.getMvDetailInfo({...query})
+        : API.getVedioDetailInfo({vid: query.mvid}),
     {
       manual: true
     }
   )
-  const {data, run} = useRequest<IData>(() => API.getMvDetail({...query, loading: true}), {
-    manual: true
-  })
+  const {data, run} = useRequest<IData>(
+    () =>
+      +query.type === 0
+        ? API.getMvDetail({...query, loading: true})
+        : API.getVedioDetail({id: query.mvid, loading: true}),
+    {
+      manual: true
+    }
+  )
   const {run: runSub} = useRequest(() => API.setMvSub({...query, t: data?.subed ? -1 : 1}), {
     manual: true,
     onSuccess: (response) => {
@@ -165,7 +180,7 @@ const MvDetail: FC = () => {
           height={350}
           width="100%"
           autoPlay={autoPlay}
-          src={mvUrlData?.data?.url}
+          src={+query.type === 0 ? mvUrlData?.data?.url : mvUrlData?.urls[0]?.url}
           poster={data?.data?.cover}
           ref={(player: any) => (playRef.current = player)}>
           <BigPlayButton position="center" className={styles.btn} />
@@ -176,33 +191,55 @@ const MvDetail: FC = () => {
             <ReplayControl econds={15} order={2.1} />
             <ForwardControl econds={15} order={3.2} />
             <Select
-              value={mvUrlData?.data?.r}
+              value={+query.type === 0 ? mvUrlData?.data?.r : mvUrlData?.urls[0]?.r}
               bordered={false}
               style={{width: 80}}
               onChange={(value) => runMvurl(value)}
               showArrow={false}
               className={styles.select}
               size="small">
-              {data?.data?.brs.reverse().map((item) => {
-                return (
-                  <Option value={item.br} key={item.br}>
-                    {BRS_MAP[item.br]}
-                  </Option>
-                )
-              })}
+              {+query.type === 0
+                ? data?.data?.brs.reverse().map((item) => {
+                    return (
+                      <Option value={item.br} key={item.br}>
+                        {BRS_MAP[item.br]}
+                      </Option>
+                    )
+                  })
+                : data?.data?.resolutions.reverse().map((item) => {
+                    return (
+                      <Option value={item.resolution} key={item.resolution}>
+                        {BRS_MAP[item.resolution]}
+                      </Option>
+                    )
+                  })}
             </Select>
           </ControlBar>
         </Player>
         <p className={styles.avatar}>
-          <Avatar size={64} icon={<UserOutlined />} src={data?.data?.cover} alt="暂无图片哦" />
-          <span className={styles.singer}>
-            <Artists data={data?.data?.artists as IItem[]} />
-          </span>
+          <Avatar
+            size={64}
+            icon={<UserOutlined />}
+            src={+query.type === 0 ? data?.data?.cover : data?.data?.coverUrl}
+            alt="暂无图片哦"
+          />
+          {+query.type === 0 ? (
+            <span className={styles.singer}>
+              <Artists data={data?.data?.artists as IItem[]} />
+            </span>
+          ) : (
+            <span className={styles.singer}>{data?.data?.creator?.nickname}</span>
+          )}
         </p>
         <div className={styles.songDesc}>
           <p className={styles.title} onClick={() => setShowDesc(!showDesc)}>
-            <span className={styles.songName}>{data?.data?.name}</span>
+            <span className={styles.songName}>
+              {+query.type === 0 ? data?.data?.name : data?.data.title}
+            </span>
             {!!data?.data?.desc ? (
+              <>{showDesc ? <CaretUpOutlined /> : <CaretDownOutlined />}</>
+            ) : null}
+            {!!data?.data?.description ? (
               <>{showDesc ? <CaretUpOutlined /> : <CaretDownOutlined />}</>
             ) : null}
           </p>
@@ -212,7 +249,7 @@ const MvDetail: FC = () => {
           </p>
           {showDesc ? (
             <p className={styles.desc} title={data?.data?.desc}>
-              {data?.data?.desc}
+              {+query.type === 0 ? data?.data?.desc : !!data?.data?.description}
             </p>
           ) : null}
         </div>
@@ -237,7 +274,7 @@ const MvDetail: FC = () => {
             分享({mvDetailInfo?.shareCount})
           </Button>
         </div>
-        <MvComment id={query.mvid} />
+        <MvComment id={query.mvid} type={query.type} />
       </div>
       <div className={styles.right}>
         <p className={styles.title}>相关推荐</p>

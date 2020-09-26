@@ -26,22 +26,33 @@ export interface ISimiInterface {
     transNames: string | null
   }[]
   alg: string
+  coverUrl: string
+  playTime: number
+  title: string
+  durationms: number
 }
 
 const SimiDetail = () => {
   const location: any = useLocation()
+
+  const {query} = location
+  const mvBool = +query.type === 0
+
   const onMv = (mvid: number) => {
     history.push({
       pathname: "/recommend/video/mvDetail",
       query: {mvid}
     })
   }
-  const {data, run} = useRequest(() => API.getSimi({...location.query}), {
-    manual: true,
-    formatResult: (response): ISimiInterface[] => {
-      return response.mvs
+  const {data, run} = useRequest(
+    () => (+query.type === 0 ? API.getSimi({...query}) : API.getRelateVedio({id: query.mvid})),
+    {
+      manual: true,
+      formatResult: (response): ISimiInterface[] => {
+        return mvBool ? response.mvs : response.data
+      }
     }
-  })
+  )
 
   useEffect(() => {
     run()
@@ -52,15 +63,24 @@ const SimiDetail = () => {
         return (
           <div key={item.id} className={styles.simiItem} onClick={() => onMv(item.id)}>
             <div className={styles.left}>
-              <img src={item.cover} />
+              <img src={mvBool ? item.cover : item?.coverUrl} />
               <span className={styles.playCount}>
                 <CaretRightOutlined />
-                {Utils.tranNumber(item.playCount, 2)}
+                {mvBool
+                  ? Utils.tranNumber(item?.playCount, 2)
+                  : Utils.tranNumber(item?.playTime, 2)}
               </span>
-              <span className={styles.time}>{Utils.formatPlayerTime(item.duration / 1000)}</span>
+              <span className={styles.time}>
+                {mvBool
+                  ? Utils.formatPlayerTime(item.duration / 1000)
+                  : Utils.formatPlayerTime(item.durationms / 1000)}
+              </span>
             </div>
             <p className={styles.right}>
-              {item.name}-{Utils.formatName(item.artists)}
+              {mvBool ? item.name : item.title}-
+              {mvBool
+                ? Utils.formatName(item.artists)
+                : Utils.formatName(item.creator, "/", "userName")}
             </p>
           </div>
         )
