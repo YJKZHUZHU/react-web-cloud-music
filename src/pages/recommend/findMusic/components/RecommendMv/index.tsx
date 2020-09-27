@@ -35,7 +35,7 @@ interface IRecommendMv {
 
 const RecommendMv: FC<IRecommendMv> = ({data}) => {
   return (
-    <Link to={`/recommend/video/mvdetail?mvid=${data.id}&type=${data.type}`}>
+    <Link to={`/recommend/video/mvdetail?mvid=${data.id}&type=${+data.type - 5}`}>
       <div className={styles._list}>
         <div className={styles.imgWrap}>
           <img src={data.picUrl} />

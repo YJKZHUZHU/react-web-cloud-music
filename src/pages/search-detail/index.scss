@@ -90,6 +90,13 @@
           .img {
             margin-right: 15px;
           }
+          .listNmuber {
+            padding-right: 20px;
+            flex: 1;
+            display: flex;
+            justify-content: flex-end;
+            color: #bfbfbf;
+          }
           .user {
             color: #e24137;
             flex: 1;
@@ -134,6 +141,7 @@
           .nickname {
             width: 150px;
             @include ellipsis();
+            color: #bfbfbf;
           }
         }
       }

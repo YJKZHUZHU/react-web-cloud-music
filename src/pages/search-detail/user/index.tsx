@@ -4,6 +4,7 @@ import React, {FC, useEffect} from "react"
 import {Spin, Avatar} from "antd"
 import {UserOutlined, ManOutlined, WomanOutlined} from "@ant-design/icons"
 import InfiniteScroll from "react-infinite-scroller"
+import {useHistory} from "umi"
 import useSearchDetail from "../hooks/useSearchDetail"
 import Utils from "@/help"
 import styles from "../index.scss"
@@ -13,6 +14,7 @@ interface IUser {
 }
 
 const User: FC<IUser> = ({getCount}) => {
+  const history = useHistory()
   const {loadMore, loading, more, list, count} = useSearchDetail({
     type: 1002,
     initFetch: true,
@@ -35,7 +37,10 @@ const User: FC<IUser> = ({getCount}) => {
         <ul>
           {list.map((item: any) => {
             return (
-              <li className={styles.item} key={Utils.createRandomId()}>
+              <li
+                className={styles.item}
+                key={Utils.createRandomId()}
+                onClick={() => history.push(`/homePage?uid=${item.userId}`)}>
                 <div className={styles.img}>
                   <Avatar
                     size={64}

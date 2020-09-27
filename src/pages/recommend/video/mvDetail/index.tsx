@@ -173,7 +173,7 @@ const MvDetail: FC = () => {
       <div className={styles.left}>
         <p className={styles.title} onClick={() => history.goBack()}>
           <LeftOutlined />
-          <span className={styles.name}>MV详情</span>
+          <span className={styles.name}>{+query.type === 0 ? "MV详情" : "视频详情"}</span>
         </p>
         <Player
           fluid={false}
@@ -234,7 +234,7 @@ const MvDetail: FC = () => {
         <div className={styles.songDesc}>
           <p className={styles.title} onClick={() => setShowDesc(!showDesc)}>
             <span className={styles.songName}>
-              {+query.type === 0 ? data?.data?.name : data?.data.title}
+              {+query.type === 0 ? data?.data?.name : data?.data?.title}
             </span>
             {!!data?.data?.desc ? (
               <>{showDesc ? <CaretUpOutlined /> : <CaretDownOutlined />}</>
@@ -254,7 +254,7 @@ const MvDetail: FC = () => {
           ) : null}
         </div>
         <Space className={styles.mvTag}>
-          {data?.data.videoGroup.map((item) => {
+          {data?.data?.videoGroup.map((item) => {
             return <Tag key={item.id}>{item.name}</Tag>
           })}
         </Space>

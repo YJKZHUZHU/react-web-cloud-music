@@ -14,6 +14,7 @@ export interface IExclusiveBroadcastItem {
   copywriter: string
   name: string
   alg: string
+  videoId: number
 }
 
 interface IExclusiveBroadcast {
@@ -21,10 +22,18 @@ interface IExclusiveBroadcast {
 }
 
 const ExclusiveBroadcast: FC<IExclusiveBroadcast> = ({data}) => {
+  const onLink = (item: IExclusiveBroadcastItem) => {
+    let result = ""
+    if (+item.type === 5) {
+      result = `/recommend/video/mvdetail?mvid=${item.id}&type=0`
+    }
+    if (+item.type === 24) {
+      result = `/recommend/video/mvdetail?mvid=${item.videoId}&type=1`
+    }
+    return result
+  }
   return (
-    <Link
-      to={`/recommend/video/mvdetail?mvid=${data.id}`}
-      className={styles.exclusiveBroadcastItem}>
+    <Link to={onLink(data)} className={styles.exclusiveBroadcastItem}>
       <div className={styles.img}>
         <img src={data.picUrl} />
         <PlayCircleOutlined className={styles.icon} />

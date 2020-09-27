@@ -17,6 +17,7 @@ interface IList {
   copywriter: string
   name: string
   time: number
+  videoId: number
 }
 
 interface IData {
@@ -60,6 +61,16 @@ const ExclusiveBroadcast = () => {
     getList()
   }
 
+  const onLink = (item: IList) => {
+    if (+item.type === 5) {
+      return history.push(`/recommend/video/mvdetail?mvid=${item.id}&type=0`)
+    }
+    if (+item.type === 24) {
+      return history.push(`/recommend/video/mvdetail?mvid=${item.videoId}&type=1`)
+    }
+    return message.info('该视频暂时无法播放哦')
+  }
+
   useEffect(() => {
     getList()
   }, [])
@@ -67,7 +78,7 @@ const ExclusiveBroadcast = () => {
   return (
     <div className={styles.exclusiveBroadcast}>
       <InfiniteScroll
-        initialLoad
+        initialLoad={false}
         pageStart={1}
         loadMore={loadMore}
         hasMore={!loading && more}
@@ -75,10 +86,7 @@ const ExclusiveBroadcast = () => {
         <Row gutter={32}>
           {list.map((item) => {
             return (
-              <Col
-                span={6}
-                key={item.picUrl}
-                onClick={() => history.push(`/recommend/video/mvdetail?mvid=${item.id}&type=${item.type}`)}>
+              <Col span={6} key={item.picUrl} onClick={() => onLink(item)}>
                 <div className={styles.img}>
                   <PlayIcon iconClassName={styles.playIcon} />
                   <img src={item.sPicUrl} />

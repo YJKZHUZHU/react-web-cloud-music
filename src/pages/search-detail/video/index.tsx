@@ -55,7 +55,7 @@ const Video: FC<IVideo> = ({getCount}) => {
                 <Col span={4} key={item.vid}>
                   <div className={styles.card}>
                     <div className={styles.top}>
-                      <div className={styles.img} onClick={() => onMv(item.mvid, item.type)}>
+                      <div className={styles.img} onClick={() => onMv(item.vid, item.type)}>
                         <img src={item.coverUrl} />
                       </div>
                       <p className={styles.playNumber}>

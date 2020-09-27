@@ -1,9 +1,10 @@
 /** @format */
 
 import React, {FC, useEffect} from "react"
-import {Spin, Avatar} from "antd"
+import {Spin, Avatar, Space} from "antd"
 import {UserOutlined} from "@ant-design/icons"
 import InfiniteScroll from "react-infinite-scroller"
+import {useHistory} from "umi"
 import useSearchDetail from "../hooks/useSearchDetail"
 import Utils from "@/help"
 import styles from "../index.scss"
@@ -13,6 +14,7 @@ interface ISongList {
 }
 
 const SongList: FC<ISongList> = ({getCount}) => {
+  const history = useHistory()
   const {loadMore, loading, more, list, count} = useSearchDetail({
     type: 1000,
     initFetch: true,
@@ -35,25 +37,31 @@ const SongList: FC<ISongList> = ({getCount}) => {
         <ul>
           {list.map((item: any) => {
             return (
-              <li className={styles.item} key={Utils.createRandomId()}>
-                <div className={styles.img}>
-                  <Avatar
-                    shape="square"
-                    size={64}
-                    icon={<UserOutlined />}
-                    src={item.coverImgUrl}
-                    className={styles.icon}
-                  />
-                </div>
-                {item.name && (
-                  <p
+              <li
+                className={styles.item}
+                key={Utils.createRandomId()}
+                onClick={() => history.push(`/playList?listId=${item.id}`)}>
+                <Space>
+                  <div className={styles.img}>
+                    <Avatar
+                      shape="square"
+                      size={64}
+                      icon={<UserOutlined />}
+                      src={item.coverImgUrl}
+                      className={styles.icon}
+                    />
+                  </div>
+                  <span
                     className={styles.title}
-                    dangerouslySetInnerHTML={{__html: Utils.highLight(item.name)}}
+                    dangerouslySetInnerHTML={{__html: Utils.highLight(item?.name)}}
                   />
-                )}
+                </Space>
 
-                <p className={styles.name}>{item.trackCount}首</p>
-                <p className={styles.nickname}>{item.creator && item.creator.nickname}</p>
+                <span className={styles.listNmuber}>{item.trackCount}首</span>
+                <Space className={styles.nickname}>
+                  <span>by</span>
+                  <span>{item?.creator?.nickname}</span>
+                </Space>
               </li>
             )
           })}
