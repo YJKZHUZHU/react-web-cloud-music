@@ -1,10 +1,12 @@
 /** @format */
 
 import React, {FC} from "react"
+import {Modal} from 'antd'
 import {CaretRightOutlined, PlaySquareOutlined} from "@ant-design/icons"
 import Artists from "@/components/Artists"
 import {useDispatch, useHistory} from "umi"
 import styles from "./index.scss"
+
 
 export interface INewSongItem {
   alg: string
@@ -37,7 +39,7 @@ const NewMusic: FC<INewMusic> = ({data, index}) => {
           }
         })
       }>
-      <span className={styles.number}>{index < 9 ? `0${index}` : index}</span>
+      <span className={styles.number}>{index < 10 ? `0${index}` : index}</span>
       <div className={styles.img}>
         <img src={data.picUrl} />
         <span className={styles.playIcon}>

@@ -2,7 +2,7 @@
 
 import React, {FC, useState, useEffect} from "react"
 import {Tabs} from "antd"
-import {useUpdate} from 'ahooks'
+import {useUpdate} from "ahooks"
 import Singer from "./singer"
 import Single from "./single"
 import SongList from "./song-list"
@@ -50,8 +50,6 @@ const SearchDetail = () => {
     storeHistory = storeHistory.filter((item) => item.keywords !== keywords)
     store.setValue("searchHistory", [...storeHistory, {id, keywords}])
   }, [keywords])
-
-   
 
   return (
     <div className={styles._searchDetail}>

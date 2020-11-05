@@ -15,7 +15,7 @@ class LocalStorage {
   static getStorage = (key: StorageKey) => store.getItem(key)
   static deleteStorage = (key: StorageKey) => store.removeItem(key)
   static clearStorage = () => store.clear()
-  static getValue = (key: StorageKey): HistoryInterface[] => JSON.parse(LocalStorage.getStorage(key) as string)
+  static getValue = (key: StorageKey): any[] => JSON.parse(LocalStorage.getStorage(key) as string)
   static setValue = (key: StorageKey,value:any) => store.setItem(key,JSON.stringify(value))
 }
 

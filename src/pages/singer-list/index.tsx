@@ -3,7 +3,6 @@
 import React, {useState} from "react"
 import {Tabs} from "antd"
 import List from "./components/List"
-import {Link} from "umi"
 
 const {TabPane} = Tabs
 

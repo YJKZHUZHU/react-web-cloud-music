@@ -108,7 +108,6 @@ const PersonalRecommendation = () => {
       <div className={styles.recommend}>
         {renderLink("最新音乐", "/recommend/findmusic/latest-music")}
 
-        <Divider />
         <div className={styles.newMusic}>
           <Row>
             {newSongData?.result.map((item, index) => {

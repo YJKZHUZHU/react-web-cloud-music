@@ -31,7 +31,7 @@ const PlayModel: PlayModelType = {
   state: {
     showPlayer: false,
     playerObj: {} as PlayerInterface,
-    volume: store.getValue('volume'), //默认音量
+    volume: parseInt(store.getStorage('volume') as string,10), //默认音量
     playMode: 0,
     playerRate: 1,
   },

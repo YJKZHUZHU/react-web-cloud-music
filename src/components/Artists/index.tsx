@@ -42,17 +42,17 @@ const Artists: FC<IArtists> = ({data}) => {
   }
 
   return (
-    <>
+    <span className={styles.allArtists}>
       {data.map((item, index) => (
-        <span
+        <i
           key={(item.id as number) + index}
           className={styles.artists}
           onClick={(e) => onLink(e, item.id, item.name)}>
           <span dangerouslySetInnerHTML={{__html: Utils.highLight(item.name as string)}} />
           {index !== data.length - 1 ? "/" : null}
-        </span>
+        </i>
       ))}
-    </>
+    </span>
   )
 }
 export default Artists

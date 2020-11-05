@@ -20,7 +20,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3ac4d602-c92c-4419-bff4-268fa41f4872" name="默认的" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Artists/index.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Artists/index.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Artists/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Artists/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/NewMusic/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/NewMusic/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/help/localStorage.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/help/localStorage.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/playStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/playStore.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/songInfoStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/songInfoStore.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/document.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/document.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/recommend/findMusic/personal-recommendation/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/recommend/findMusic/personal-recommendation/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/search-detail/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/search-detail/_layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/singer-list/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/singer-list/index.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -113,6 +122,7 @@
       <workItem from="1585915427242" duration="2146000" />
       <workItem from="1589549473293" duration="1610000" />
       <workItem from="1589700006036" duration="8430000" />
+      <workItem from="1603810178907" duration="15000" />
     </task>
     <servers />
   </component>

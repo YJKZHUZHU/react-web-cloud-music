@@ -1,0 +1,97 @@
+/** @format */
+@import "utils";
+
+.menu {
+  h2 {
+    margin: 15px 0 10px 10px;
+    color: var(--font-color);
+  }
+  .item {
+    height: 30px;
+    line-height: 30px;
+    padding-left: 15px;
+    display: block;
+    &:hover {
+      color: var(--font-color);
+      background: var(--menu-item-hover-bg);
+    }
+  }
+  .activeRouter {
+    color: var(--font-color);
+    background: var(--menu-item-active-bg);
+  }
+}
+
+.songList {
+  .createList {
+    margin-top: 15px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    color: var(--font-color);
+    font-size: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+
+    .icon {
+      color: #c4c4c5;
+      font-size: 14px;
+      margin: 0;
+      padding-right: 10px;
+    }
+    &:hover {
+      .icon {
+        color: #939394;
+        font-weight: 800;
+      }
+    }
+  }
+
+  .list {
+    .item {
+      display: flex;
+      padding-left: 10px;
+      padding-bottom: 5px;
+      width: 100%;
+      &:hover {
+        color: var(--font-color);
+        background: var(--menu-item-active-bg);
+      }
+
+      .img {
+        border-radius: 5px;
+      }
+
+      .right {
+        display: flex;
+        flex-direction: column;
+        line-height: 16px;
+        width: 100%;
+        justify-content: space-between;
+        padding: 0 10px;
+        overflow: hidden;
+
+        .content {
+          @include ellipsis();
+          display: block;
+        }
+
+        .operator {
+          display: flex;
+          justify-content: space-between;
+
+          .icon {
+            a {
+              line-height: 14px;
+            }
+
+            i:nth-child(1) {
+              margin-right: 8px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

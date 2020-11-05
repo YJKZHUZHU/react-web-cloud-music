@@ -1,9 +1,13 @@
 /** @format */
 @import "utils";
 
-.artists {
-  cursor: pointer;
-  &:hover {
-    color: $fontColor;
+.allArtists {
+  @include ellipsis();
+  width: 100px;
+  .artists {
+    cursor: pointer;
+    &:hover {
+      color: $fontColor;
+    }
   }
 }
