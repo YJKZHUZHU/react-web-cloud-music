@@ -1,21 +1,20 @@
 /** @format */
 
-import React, {useState, useEffect} from "react"
-import SelectTag from "../components/Selecttag"
-import {message, Card, Row, Col, Button} from "antd"
-import {UserOutlined} from "@ant-design/icons"
+import React, {useRef} from "react"
+import {Card, Row, Col} from "antd"
+import {UserOutlined, LoadingOutlined} from "@ant-design/icons"
+import {useRequest} from "ahooks"
 import {history} from "umi"
+import SelectTag from "../components/Selecttag"
 import {CLASSIFICATION, LANGUAGE, SELECT} from "@/help/map"
 import API from "@/api"
 import styles from "./index.scss"
 import Artists from "@/components/Artists"
 
-let param = {
-  type: -1,
-  area: -1,
-  initial: -1,
-  limit: 30,
-  offset: 0
+interface IParams {
+  initial: number
+  type: number
+  area: number
 }
 interface ArtistItemInterface {
   accountId?: number
@@ -37,48 +36,59 @@ interface ArtistItemInterface {
 }
 
 const Singer = () => {
-  const [data, setData] = useState<ArtistItemInterface[]>([])
-  const [loading, setLoading] = useState(false)
-  const [hasMore, setHasMore] = useState(false)
-  const getData = async (params: any, type: number = 0) => {
-    param = params
-    setLoading(true)
-    try {
-      const Ret = await API.getArtistList(params)
-      setLoading(false)
-      if (Ret.code !== 200) message.info("稍后再试哦。。。")
-      if (Ret.artists.length === 0) {
-        message.info("已全部加载完毕")
-        return setHasMore(false)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const paramsRef = useRef<IParams>({type: -1, area: -1, initial: -1})
+  const {data, loading, reload, noMore} = useRequest(
+    (result: {list: ArtistItemInterface[]; more: any; total: number}) =>
+      API.getArtistList({...paramsRef.current, limit: 30, offset: result?.list.length || 0}),
+    {
+      loadMore: true,
+      ref: containerRef,
+      isNoMore: (d) => {
+        console.log(d ? d.list.length >= d.total : false)
+        return !d?.more
+      },
+      formatResult: (response) => {
+        return {
+          list: response.artists || [],
+          more: response.more || false,
+          total: 100
+        }
       }
-      setHasMore(true)
-      return type === 1 ? setData(data.concat(Ret.artists)) : setData(Ret.artists)
-    } catch (error) {
-      return setLoading(false)
     }
+  )
+
+  const setParamsRef = (
+    props: "area" | "type" | "initial",
+    value: number,
+    callback: () => void
+  ) => {
+    paramsRef.current[props] = value
+    callback()
   }
-  const getLanguage = (area: number) => {
-    getData({...param, area, offset: 0})
-  }
-  const getClassification = (type: number) => {
-    getData({...param, type, offset: 0})
-  }
-  const getSelect = (initial: any) => {
-    getData({...param, initial, offset: 0})
-  }
-  const onLoadMore = () => {
-    getData({...param, offset: param.offset + param.limit}, 1)
-  }
-  useEffect(() => {
-    getData({...param, loading: true})
-  }, [])
+
   return (
-    <div className={styles.singer}>
-      <SelectTag data={LANGUAGE} getSelectTag={getLanguage} label="语种" />
-      <SelectTag data={CLASSIFICATION} getSelectTag={getClassification} label="分类" />
-      <SelectTag data={SELECT} getSelectTag={getSelect} label="分类" />
-      <Row gutter={24}>
-        {data.map((item) => (
+    <div
+      className={styles.singer}
+      ref={containerRef}
+      style={{height: "calc(100vh - 200px)", overflowY: "scroll"}}>
+      <SelectTag
+        data={LANGUAGE}
+        getSelectTag={(val) => setParamsRef("area", val, reload)}
+        label="语种"
+      />
+      <SelectTag
+        data={CLASSIFICATION}
+        getSelectTag={(val) => setParamsRef("type", val, reload)}
+        label="分类"
+      />
+      <SelectTag
+        data={SELECT}
+        getSelectTag={(val) => setParamsRef("initial", val, reload)}
+        label="分类"
+      />
+      <Row>
+        {data?.list.map((item) => (
           <Col span={4} className={styles.card} key={item.id}>
             <Card
               bordered={false}
@@ -95,20 +105,22 @@ const Singer = () => {
               }>
               <p className={styles.name}>
                 <Artists data={[{id: item.id, name: item.name}]} />
-                {/* <span className={styles.singerName}>{item.name}</span> */}
                 {item?.accountId ? <UserOutlined className={styles.icon} /> : null}
               </p>
             </Card>
           </Col>
         ))}
       </Row>
-      {!loading && hasMore && (
-        <div className={styles.loadMore}>
-          <Button loading={loading} type="primary" onClick={onLoadMore}>
-            加载更多
-          </Button>
-        </div>
-      )}
+      <div className={styles.loadMore}>
+        {noMore ? (
+          "加载完了哦..."
+        ) : (
+          <span>
+            Loading
+            <LoadingOutlined />
+          </span>
+        )}
+      </div>
     </div>
   )
 }

@@ -18,7 +18,8 @@ interface SelectTagInterface {
   label: string
 }
 
-const SelectTag: FC<SelectTagInterface> = ({data, getSelectTag, label}) => {
+const SelectTag: FC<SelectTagInterface> = (prosp) => {
+  const {data, getSelectTag, label} = prosp
   const [selectTag, setSelectTag] = useState([-1])
   const onlanguageTag = (id: number, checked: boolean) => {
     if (checked) {
