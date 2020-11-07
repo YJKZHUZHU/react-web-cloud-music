@@ -1,6 +1,6 @@
 /** @format */
 
-import React, {useEffect, useState, useRef} from "react"
+import React, {useEffect, useRef} from "react"
 import {LeftCircleOutlined, RightCircleOutlined} from "@ant-design/icons"
 import {Carousel} from "antd"
 import {useRequest} from "ahooks"
@@ -36,15 +36,15 @@ interface IBanner {
   video: string | null
 }
 
-interface IData {
-  banners: IBanner[]
+interface IData<T = []> {
+  banners: T
   code: number
 }
 
 const CarouselImg = () => {
   const dispatch = useDispatch()
-  let slider: any = null
-  const {run, data} = useRequest<IData>(() => API.banner({type: 0}), {
+  const slider = useRef<any>(null)
+  const {data, run} = useRequest<IData<IBanner[]>>(() => API.banner({type: 0}), {
     manual: true
   })
   useEffect(() => {
@@ -54,14 +54,14 @@ const CarouselImg = () => {
     <div className={styles.carousel}>
       <Carousel
         dots
-        autoplay
+        autoplay={false}
         centerMode
         infinite
         focusOnSelect
         className="center"
         centerPadding="60px"
         slidesToShow={3}
-        ref={(e) => (slider = e)}>
+        ref={slider}>
         {data?.banners.map((item) => {
           return (
             <div
@@ -78,8 +78,14 @@ const CarouselImg = () => {
           )
         })}
       </Carousel>
-      <LeftCircleOutlined onClick={() => slider.slick.slickPrev()} className={styles.left} />
-      <RightCircleOutlined onClick={() => slider.slick.slickNext()} className={styles.right} />
+      <LeftCircleOutlined
+        onClick={() => slider.current.slick.slickPrev()}
+        className={styles.left}
+      />
+      <RightCircleOutlined
+        onClick={() => slider.current.slick.slickNext()}
+        className={styles.right}
+      />
     </div>
   )
 }

@@ -2,77 +2,63 @@
 
 import React, {useState} from "react"
 import classnames from "classnames"
-import {Row, Col, Space, Spin, Pagination} from "antd"
+import {Row, Col, Space, Spin, Pagination, message} from "antd"
+import {useRequest} from "ahooks"
 import API from "@/api"
-import SongListChoose from "../components/SongListChoose.tsx"
+import SongListChoose from "./components/SongListChoose"
 import CatCard from "../components/CatCard"
 import styles from "./index.scss"
 
 const classes = classnames(styles.songList, "catPopoverTag")
 
-let param = {
-  cat: "",
-  order: false,
-  limit: 50,
-  offset: 0
-}
-
 const SongList = () => {
-  const [data, setData] = useState<any[]>([])
   const [totalCount, setTotalCount] = useState(0)
-  const [loading, setLoading] = useState(false)
-  const [current, setCurrent] = useState(1)
 
-  const getHighquality = async (params: any) => {
-    setLoading(true)
-    try {
-      const Ret = await API.topPlaylist(params)
-      setLoading(false)
-      setData([])
-      if (Ret.code !== 200 || Ret.playlists.length === 0) return
-      setTotalCount(Ret.total)
-      return setData(Ret.playlists)
-    } catch (error) {
-      setLoading(false)
-      return error
+  const {pagination, run, data, loading} = useRequest(
+    ({current, pageSize}, params) =>
+      API.topPlaylist({...params, offset: (current - 1) * pageSize, limit: pageSize}),
+    {
+      manual: true,
+      paginated: true,
+      defaultPageSize: 50,
+      formatResult: (response) => {
+        if (response.code !== 200 || response.playlists.length === 0) {
+          message.error("歌单获取失败，稍后再试")
+          return []
+        }
+        setTotalCount(response.total)
+        return response.playlists
+      }
     }
-  }
-
-  const onTag = (value: string, order: boolean) => {
-    param = {...param, cat: value, order, offset: 0}
-    getHighquality(param)
-  }
-  const onPage = (page: number) => {
-    param = {...param, offset: (page - 1) * 50}
-    setCurrent(page)
-    getHighquality(param)
-  }
+  )
 
   return (
-    <Spin spinning={loading} tip="Loading...">
       <div className={classes}>
         <Space direction="vertical" size={20}>
-          <SongListChoose getTag={onTag} />
-          <Row gutter={24}>
-            {data.map((item) => (
-              <Col key={item.id} xxl={{span: 4}} xl={{span: 6}}>
-                <CatCard data={item} loading={loading} />
-              </Col>
-            ))}
-          </Row>
+          <SongListChoose
+            getTag={(value, order) => run({current: 1, pageSize: 50}, {cat: value, order})}
+          />
+          <Spin spinning={loading} tip="Loading...">
+            <Row gutter={24}>
+              {data?.map((item: any) => (
+                <Col key={item.id} xxl={{span: 4}} xl={{span: 6}}>
+                  <CatCard data={item} loading={loading} />
+                </Col>
+              ))}
+            </Row>
+          </Spin>
+
           <div className={styles.page}>
             <Pagination
-              onChange={onPage}
+              {...(pagination as any)}
               hideOnSinglePage
               showSizeChanger={false}
               size="small"
-              current={current}
               total={totalCount}
             />
           </div>
         </Space>
       </div>
-    </Spin>
   )
 }
 

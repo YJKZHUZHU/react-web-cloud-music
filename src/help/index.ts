@@ -31,6 +31,7 @@ export interface CatListItemInterface {
   resourceCount: number
   resourceType: number
   type: number
+  [props: string]: any
 }
 export interface CatListInterface {
   name: string

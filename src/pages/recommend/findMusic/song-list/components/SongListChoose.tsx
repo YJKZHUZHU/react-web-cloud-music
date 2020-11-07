@@ -2,12 +2,11 @@
 
 import React, {useEffect, useState, FC} from "react"
 import {Button, Row, Col, message, Tag, Divider, Popover, Descriptions} from "antd"
-import {RightOutlined, GlobalOutlined} from "@ant-design/icons"
-import {history} from "umi"
+import {RightOutlined} from "@ant-design/icons"
+import BoutiqueSongListDesc from "./BoutiqueSongListDesc"
 import API from "@/api"
-import {removeNewlines} from "@/help"
 import {formatCatList, CatListItemInterface, CatListInterface} from "@/help"
-import styles from "./index.scss"
+import styles from "../index.scss"
 
 const {Item} = Descriptions
 
@@ -43,45 +42,37 @@ interface SongListChooseProps {
   getTag: (tag: string, hot: boolean) => void
 }
 
-const onLink = (listId: number) => {
-  history.push({
-    pathname: "/playList",
-    query: {listId}
-  })
+interface ITagData {
+  data: CatListInterface[]
+  all: CatListItemInterface
+  hotData: HotItemInterface[]
+}
+
+const INNIT_TAG_DATA: ITagData = {
+  data: [],
+  all: {} as CatListItemInterface,
+  hotData: []
 }
 
 const SongListChoose: FC<SongListChooseProps> = ({getTag}) => {
-  const [data, setData] = useState<CatListInterface[]>([])
-  const [all, setAll] = useState<CatListItemInterface>({} as CatListItemInterface)
-  const [hotData, setHotData] = useState<HotItemInterface[]>([])
+  const [{data, all, hotData}, setTagData] = useState<ITagData>(INNIT_TAG_DATA)
   const [selectTag, setSelectTag] = useState("")
-  const [highQuality, setHighQuality] = useState<any>({})
   const [visible, setVisible] = useState(false)
-
-  const getHighquality = async (cat: string) => {
-    try {
-      const Ret = await API.getHighQuality({limit: 1, cat})
-      setHighQuality({})
-      if (Ret.code !== 200 || Ret.playlists.length === 0) return
-      return setHighQuality(Ret.playlists[0])
-    } catch (error) {
-      return error
-    }
-  }
 
   const getData = async () => {
     try {
       const Ret = await API.getCatlist()
       const HotRet = await API.getCatlistHot()
-      if (Ret.code !== 200 || HotRet.code !== 200) message.info("歌单获取异常，稍后再试...")
-      setAll(Ret.all)
-      setData(formatCatList(Ret.sub, Ret.categories))
-      setHotData(HotRet.tags)
+      if (Ret.code !== 200 || HotRet.code !== 200) return message.info("标签获取异常，稍后再试...")
+      setTagData({
+        data: formatCatList(Ret.sub, Ret.categories),
+        all: Ret.all,
+        hotData: HotRet.tags
+      })
       setSelectTag(Ret.all.name)
-      getTag(Ret.all.name, Ret.all.hot)
-      getHighquality(Ret.all.nam)
+      return getTag(Ret.all.name, Ret.all.hot)
     } catch (error) {
-      return error
+      throw Error(error)
     }
   }
 
@@ -89,7 +80,6 @@ const SongListChoose: FC<SongListChooseProps> = ({getTag}) => {
     setVisible(false)
     if (checked) {
       setSelectTag(name)
-      getHighquality(name)
       getTag(name, hot)
     }
   }
@@ -122,33 +112,10 @@ const SongListChoose: FC<SongListChooseProps> = ({getTag}) => {
 
   return (
     <Row className={styles.listChoose}>
-      {Object.keys(highQuality).length > 0 ? (
-        <Col span={24}>
-          <div className={styles.highQuality} onClick={() => onLink(highQuality.id)}>
-            <div className={styles.content}>
-              <div className={styles.img}>
-                <img src={`${highQuality?.coverImgUrl}?param=280y280`} alt={highQuality.name} />
-              </div>
-              <div className={styles.desc}>
-                {Object.keys(highQuality).length !== 0 && (
-                  <Button shape="round" className={styles.icon}>
-                    <GlobalOutlined />
-                    精品歌单
-                  </Button>
-                )}
-                <p className={styles.title}>{highQuality.name}</p>
-                <p className={styles.name}>{highQuality.copywriter}</p>
-                <p className={styles.detail}>{removeNewlines(highQuality?.description)}</p>
-              </div>
-            </div>
-            <div
-              className={styles.background}
-              style={{backgroundImage: `url(${highQuality.coverImgUrl})`}}></div>
-            <div className={styles.mask}></div>
-          </div>
-        </Col>
-      ) : null}
-      {data.length !== 0 ? (
+      <Col span={24}>
+        <BoutiqueSongListDesc cat={selectTag} />
+      </Col>
+      {!!data.length && (
         <Col span={3}>
           <Popover
             visible={visible}
@@ -172,7 +139,7 @@ const SongListChoose: FC<SongListChooseProps> = ({getTag}) => {
             </Button>
           </Popover>
         </Col>
-      ) : null}
+      )}
 
       <Col xxl={{span: 14, offset: 7}} xl={{span: 19, offset: 2}} className={styles.hotList}>
         <ul className={styles.select}>
