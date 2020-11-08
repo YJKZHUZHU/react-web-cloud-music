@@ -1,4 +1,11 @@
+/** @format */
+
 .singer {
+  .singerContainer {
+    height: calc(100vh - 300px);
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
   .card {
     margin-bottom: 15px;
     .name {

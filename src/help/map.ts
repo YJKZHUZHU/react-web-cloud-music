@@ -226,6 +226,53 @@ export const SELECT = [
   }
 ]
 
+// 最新音乐
+export const NEW_SONGS_TAB_MAP = [
+  {
+    name: "全部",
+    key: "0"
+  },
+  {
+    name: "华语",
+    key: "7"
+  },
+  {
+    name: "欧美",
+    key: "96"
+  },
+  {
+    name: "韩国",
+    key: "16"
+  },
+  {
+    name: "日本",
+    key: "8"
+  }
+]
+
+export const NEW_DISK_TAB_MAP = [
+  {
+    name: "全部",
+    key: "ALL"
+  },
+  {
+    name: "华语",
+    key: "ZH"
+  },
+  {
+    name: "欧美",
+    key: "EA"
+  },
+  {
+    name: "韩国",
+    key: "KR"
+  },
+  {
+    name: "日本",
+    key: "JP"
+  }
+]
+
 export default Map
 
 

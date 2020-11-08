@@ -68,10 +68,7 @@ const Singer = () => {
   }
 
   return (
-    <div
-      className={styles.singer}
-      ref={containerRef}
-      style={{height: "calc(100vh - 200px)", overflowY: "scroll"}}>
+    <div className={styles.singer}>
       <SelectTag
         data={LANGUAGE}
         getSelectTag={(val) => setParamsRef("area", val, reload)}
@@ -87,39 +84,41 @@ const Singer = () => {
         getSelectTag={(val) => setParamsRef("initial", val, reload)}
         label="分类"
       />
-      <Row>
-        {data?.list.map((item) => (
-          <Col span={4} className={styles.card} key={item.id}>
-            <Card
-              bordered={false}
-              bodyStyle={{padding: 0}}
-              loading={loading}
-              cover={
-                <div
-                  className={styles.singerCover}
-                  onClick={() =>
-                    history.push(`/artists-detail/album?id=${item.id}&name=${item.name}`)
-                  }>
-                  <img alt={item.name} src={item.picUrl} />
-                </div>
-              }>
-              <p className={styles.name}>
-                <Artists data={[{id: item.id, name: item.name}]} />
-                {item?.accountId ? <UserOutlined className={styles.icon} /> : null}
-              </p>
-            </Card>
-          </Col>
-        ))}
-      </Row>
-      <div className={styles.loadMore}>
-        {noMore ? (
-          "加载完了哦..."
-        ) : (
-          <span>
-            Loading
-            <LoadingOutlined />
-          </span>
-        )}
+      <div ref={containerRef} className={styles.singerContainer}>
+        <Row>
+          {data?.list.map((item) => (
+            <Col span={4} className={styles.card} key={item.id}>
+              <Card
+                bordered={false}
+                bodyStyle={{padding: 0}}
+                loading={loading}
+                cover={
+                  <div
+                    className={styles.singerCover}
+                    onClick={() =>
+                      history.push(`/artists-detail/album?id=${item.id}&name=${item.name}`)
+                    }>
+                    <img alt={item.name} src={item.picUrl} />
+                  </div>
+                }>
+                <p className={styles.name}>
+                  <Artists data={[{id: item.id, name: item.name}]} />
+                  {item?.accountId ? <UserOutlined className={styles.icon} /> : null}
+                </p>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+        <div className={styles.loadMore}>
+          {noMore ? (
+            "加载完了哦..."
+          ) : (
+            <span>
+              Loading
+              <LoadingOutlined />
+            </span>
+          )}
+        </div>
       </div>
     </div>
   )

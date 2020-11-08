@@ -2,8 +2,8 @@
 
 import React, {useState} from "react"
 import {Radio} from "antd"
-import NewSongs from "./NewSongs"
-import NewDisc from "./NewDisc"
+import NewSongs from "./components/NewSongs"
+import NewDisc from "./components/NewDisc"
 import styles from "./index.scss"
 
 const LatestMusic = () => {

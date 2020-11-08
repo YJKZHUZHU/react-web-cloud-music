@@ -2,13 +2,15 @@
 
 import React, {useEffect, useState, FC} from "react"
 import {useDispatch, useHistory} from "umi"
-import { Tabs, Spin} from "antd"
+import {Tabs, Spin} from "antd"
 import {CaretRightOutlined, PlaySquareOutlined} from "@ant-design/icons"
+import {useRequest} from "ahooks"
 import Artists from "@/components/Artists"
 import API from "@/api"
 import Utils from "@/help"
+import {NEW_SONGS_TAB_MAP} from "@/help/map"
 import styles from "../index.scss"
-import {useRequest} from "ahooks"
+
 const {TabPane} = Tabs
 
 interface IArtists {
@@ -126,28 +128,6 @@ interface IData {
   data: IListItem[]
 }
 
-const TAB_MAP = [
-  {
-    name: "全部",
-    key: "0"
-  },
-  {
-    name: "华语",
-    key: "7"
-  },
-  {
-    name: "欧美",
-    key: "96"
-  },
-  {
-    name: "韩国",
-    key: "16"
-  },
-  {
-    name: "日本",
-    key: "8"
-  }
-]
 
 interface IList {
   active: string
@@ -229,7 +209,7 @@ const NewSongs = () => {
   const [active, setActive] = useState("0")
   return (
     <Tabs defaultActiveKey="0" onChange={(value) => setActive(value)} activeKey={active} animated>
-      {TAB_MAP.map((item) => {
+      {NEW_SONGS_TAB_MAP.map((item) => {
         return (
           <TabPane tab={item.name} key={item.key}>
             <List active={active} tip={item.name} />
