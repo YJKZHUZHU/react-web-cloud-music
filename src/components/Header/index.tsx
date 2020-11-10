@@ -1,6 +1,6 @@
 /** @format */
 
-import React, {useState} from "react"
+import React from "react"
 import {
   CaretDownOutlined,
   CarryOutOutlined,
@@ -15,12 +15,13 @@ import {
 } from "@ant-design/icons"
 import {Divider, Avatar, Button, Popover, message, Modal} from "antd"
 import {Link, history, useSelector, useDispatch, PlayModelState} from "umi"
+import Draggable from "react-draggable"
+import {useBoolean, useRequest} from "ahooks"
 import API from "@/api"
 import classnames from "classnames"
 import Utils from "@/help"
 import Search from "@/components/Search"
 import LoginModal from "@/components/LoginModal"
-import store from "@/help/localStorage"
 import styles from "./index.scss"
 
 const ThEME_MAP = [
@@ -39,39 +40,36 @@ const ThEME_MAP = [
 ]
 
 const Header = () => {
-  const {loginStatus, userInfo} = useSelector((state: any) => state.userModel)
-  const [visible, setVisible] = useState(false)
-  const [signIn, setSignIn] = useState(false)
-  const [loginVisible, setLoginVisible] = useState(false)
-  const {showPlayer} = useSelector((state: any): PlayModelState => state.playmodel)
-
   const dispatch = useDispatch()
-
-
+  const {loginStatus, userInfo} = useSelector((state: any) => state.userModel)
+  const [visible, {setFalse: setVisibleFalse, toggle: visibleToggle}] = useBoolean(false)
+  const [signIn, {setTrue: setSignInTrue}] = useBoolean(false)
+  const [loginVisible, {toggle: loginToggle}] = useBoolean(false)
+  const [disabled, {setTrue, setFalse}] = useBoolean(false)
+  const {showPlayer} = useSelector((state: any): PlayModelState => state.playmodel)
   const onRoute = (path: string) => {
-    setVisible(false)
+    setVisibleFalse()
     history.push(path)
   }
 
-  const onLogout = async () => {
-    const Ret: any = await API.logout({loading: true})
-    if (Ret.code !== 200) {
-      return message.info("服务器开小差了哦。。")
+  const {run: runLogout} = useRequest(() => API.logout({loading: true}), {
+    manual: true,
+    onSuccess: (response: any) => {
+      if (response.code !== 200) return message.info("服务器开小差了哦。。")
+      setVisibleFalse()
+      message.success("退出成功")
+      window.location.reload()
     }
-    setVisible(false)
-    message.success("退出成功")
-    window.location.reload()
-  }
+  })
 
-  const dailySignIn = () => {
-    API.dailySignIn({type: 1}).then((res: any) => {
-      if (res.code !== 200) {
-        return message.info("已经签到过了哦")
-      }
-      setSignIn(true)
+  const {run: runSignin} = useRequest(() => API.dailySignIn({type: 1}), {
+    manual: true,
+    onSuccess: (response) => {
+      if (response.code !== 200) return message.info("已经签到过了哦")
+      setSignInTrue()
       return message.success("签到成功")
-    })
-  }
+    }
+  })
 
   const content = (
     <div className={styles.theme}>
@@ -96,7 +94,7 @@ const Header = () => {
               {Object.keys(userInfo).length && userInfo.profile.nickname}
             </i>
           </div>
-          <Button size="small" onClick={dailySignIn} disabled={userInfo.pcSign || signIn}>
+          <Button size="small" onClick={runSignin} disabled={userInfo.pcSign || signIn}>
             <CarryOutOutlined />
             {userInfo.pcSign || signIn ? "已签到" : "签到"}
           </Button>
@@ -150,7 +148,7 @@ const Header = () => {
         </ul>
       </div>
       <Divider className={styles.divider} />
-      <div className={styles.bottom} onClick={onLogout}>
+      <div className={styles.bottom} onClick={runLogout}>
         退出登录
       </div>
     </div>
@@ -186,7 +184,7 @@ const Header = () => {
       {loginStatus ? (
         <Popover
           visible={visible}
-          onVisibleChange={() => setVisible(!visible)}
+          onVisibleChange={visibleToggle}
           content={userContent}
           overlayClassName={classnames(styles.userPop, "_userPop")}
           getPopupContainer={(): any => document.getElementsByClassName("_userInfoPop")[0]}
@@ -198,9 +196,7 @@ const Header = () => {
           </div>
         </Popover>
       ) : (
-        <div
-          className={classnames(styles.user, "_userInfoPop")}
-          onClick={() => setLoginVisible(true)}>
+        <div className={classnames(styles.user, "_userInfoPop")} onClick={() => loginToggle(true)}>
           <Avatar
             src={Object.keys(userInfo).length && userInfo.profile.avatarUrl}
             icon={<UserOutlined />}
@@ -219,10 +215,21 @@ const Header = () => {
       </Popover>
       <Modal
         visible={loginVisible}
-        title={"账号登录"}
-        onCancel={() => setLoginVisible(false)}
+        title={
+          <div
+            style={{
+              width: "100%",
+              cursor: "move"
+            }}
+            onMouseOver={setFalse}
+            onMouseOut={setTrue}>
+            账号登录
+          </div>
+        }
+        onCancel={() => loginToggle(false)}
+        modalRender={(modal) => <Draggable disabled={disabled}>{modal}</Draggable>}
         footer={null}>
-        <LoginModal callback={(loginVisible: boolean) => setLoginVisible(loginVisible)} />
+        <LoginModal callback={(loginVisible) => loginToggle(loginVisible)} />
       </Modal>
     </header>
   )
