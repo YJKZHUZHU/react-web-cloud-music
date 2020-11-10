@@ -120,30 +120,25 @@ const Header = () => {
       <div className={styles.middle}>
         <ul>
           <li className={styles.item}>
-            <p>
+            <span>
               <CustomerServiceOutlined />
               <em>会员中心</em>
-            </p>
-            <p>{userInfo.profile && userInfo.profile.followed ? "已订购" : "未订购"}</p>
+            </span>
+            <span>{userInfo.profile && userInfo.profile.followed ? "已订购" : "未订购"}</span>
           </li>
           <li className={styles.item}>
-            <p>
+            <span>
               <ThunderboltOutlined />
               <em>会员等级</em>
-            </p>
-            <p className={styles.level}>
-              {/*<i/>*/}
-              <em>LV.7</em>
-            </p>
+            </span>
+            <em className={styles.level}>LV.7</em>
           </li>
           <li className={styles.item}>
-            <p>
+            <span>
               <SettingOutlined />
               <em>个人信息设置</em>
-            </p>
-            <p>
-              <RightOutlined />
-            </p>
+            </span>
+            <RightOutlined />
           </li>
         </ul>
       </div>

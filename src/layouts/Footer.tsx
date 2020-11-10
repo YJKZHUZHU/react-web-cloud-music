@@ -321,7 +321,9 @@ const Footer = () => {
                 tipFormatter={null}
               />
             </div>
-            <a href="https://github.com/YJKZHUZHU/react-web-cloud-music" target="_blank">
+            <a
+              href="https://github.com/YJKZHUZHU/react-web-cloud-music/tree/feature/public-setting"
+              target="_blank">
               <GithubOutlined />
             </a>
           </Col>
