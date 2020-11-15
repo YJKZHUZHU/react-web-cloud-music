@@ -25,15 +25,9 @@ const CatCard: FC<CatProps> = ({data, loading}) => {
   const onUser = (e: any) => {
     e.stopPropagation()
   }
-  return (
-    <div className={styles.catCard} onClick={() => onLink(data.id)}>
-      <Card
-        bordered={false}
-        bodyStyle={{padding: 0}}
-        loading={loading}
-        cover={<img alt={data.coverImgUrl} src={data.coverImgUrl} />}>
-        <p className={styles.name}>{data.name}</p>
-      </Card>
+  const cover = (
+    <div className={styles.item}>
+      <img alt={data.coverImgUrl} src={data.coverImgUrl} />
       <div className={styles.playCount}>
         <Space size={4}>
           <PlayCircleOutlined />
@@ -47,6 +41,13 @@ const CatCard: FC<CatProps> = ({data, loading}) => {
         </Space>
       </div>
       <PlayIcon iconClassName={styles.playIcon} />
+    </div>
+  )
+  return (
+    <div className={styles.catCard} onClick={() => onLink(data.id)}>
+      <Card bordered={false} bodyStyle={{padding: 0}} loading={loading} cover={cover}>
+        <p className={styles.name}>{data.name}</p>
+      </Card>
     </div>
   )
 }

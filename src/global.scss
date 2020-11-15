@@ -66,7 +66,7 @@ em {
 
 .playerWrapper {
   //white-space: nowrap; //让子元素超出不换行
-  padding: 25px 13px;
+  // padding: 50px 13px 0 13px;
   overflow: hidden;
   //width: 380px;
   height: 370px;
@@ -81,6 +81,7 @@ em {
     hsla(0, 0%, 100%, 0)
   );
 
+
   .bscroll-indicator {
     border: none !important;
     background: var(--scrollbar-color) !important;
@@ -88,12 +89,13 @@ em {
 
   .content {
     text-align: center;
+    margin-top: 100px;
 
     .wrapItem {
       margin-bottom: 14px;
       font-size: 14px;
 
-      &.active {
+      .active {
         font-size: 16px;
         color: var(--font-color-white);
         font-weight: 700;

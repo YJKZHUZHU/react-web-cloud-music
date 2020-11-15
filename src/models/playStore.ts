@@ -9,7 +9,6 @@ export interface PlayerInterface {
 export interface PlayModelState {
   showPlayer: boolean
   playerObj: PlayerInterface
-  volume: number
   playMode: number
   playerRate: number
 }
@@ -20,7 +19,6 @@ export interface PlayModelType {
   reducers: {
     setShowPlayer: ImmerReducer<PlayModelState>
     setPlayerObj: ImmerReducer<PlayModelState>
-    setVolume: ImmerReducer<PlayModelState>
     setPlayMode: ImmerReducer<PlayModelState>
     setPlayRate: ImmerReducer<PlayModelState>
   }
@@ -31,7 +29,6 @@ const PlayModel: PlayModelType = {
   state: {
     showPlayer: false,
     playerObj: {} as PlayerInterface,
-    volume: parseInt(store.getStorage('volume') as string,10), //默认音量
     playMode: 0,
     playerRate: 1,
   },
@@ -43,11 +40,6 @@ const PlayModel: PlayModelType = {
     setPlayerObj(state, action) {
       const { playerObj } = action.payload
       state.playerObj = playerObj
-    },
-    setVolume(state, action) {
-      const { volume } = action.payload
-      store.setValue('volume', volume)
-      state.volume = volume
     },
     setPlayMode(state, action) {
       const { playMode } = action.payload

@@ -5,6 +5,12 @@
   position: relative;
   cursor: pointer;
   font-size: 12px;
+  .item {
+    position: relative;
+    img {
+      width: 100%;
+    }
+  }
   &:hover {
     .playIcon {
       opacity: 1;
@@ -27,13 +33,14 @@
     width: 60%;
     @extend .com;
     left: 5px;
-    top: 170px;
+    bottom: 5px;
     .name {
       @include ellipsis-multi(1);
     }
   }
   .playIcon {
-    top: 170px;
+    top: auto;
+    bottom: 5px;
     left: auto;
     right: 5px;
   }

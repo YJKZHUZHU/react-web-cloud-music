@@ -19,7 +19,7 @@ export function onRouteChange({ location, matchedRoutes }: any) {
 
 
 const errorHandler = (error: any) => {
-  const code = [301, 400, 404, 405, 302]
+  const code = [301, 400, 404, 405, 302, 503]
   const { response = {}, data } = error
   const { status } = response
   //此时表示未登录

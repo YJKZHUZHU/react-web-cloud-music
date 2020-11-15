@@ -302,7 +302,15 @@ enum FetchUrl {
   /**
    * 获取视频播放地址
    */
-  VedioUrl = '/video/url'
+  VedioUrl = '/video/url',
+  /**
+   * 发送验证码
+   */
+  SentCaptcha = '/captcha/sent',
+  /**
+   * 验证验证码
+   */
+  CheckCaptcha = '/captcha/verify'
 }
 
 export class API {
@@ -452,6 +460,10 @@ export class API {
   static getVedioDetailInfo = (params: any) => request(FetchUrl.VedioDetailInfo, { params })
   // 获取视频播放地址
   static getVedioUrl = (params: any) => request(FetchUrl.VedioUrl, { params })
+  // 发送验证码
+  static sentCaptcha = (params: any) => request(FetchUrl.SentCaptcha, { params })
+  // 验证验证码
+  static checkCaptcha = (params: any) => request(FetchUrl.CheckCaptcha, { params })
 }
 
 

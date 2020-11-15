@@ -18,7 +18,9 @@ interface IHomeLayout {
 const HomeLayout: FC<IHomeLayout> = ({children, $app}) => {
   const dispatch = useDispatch()
 
-  const {showPlayRecord} = useSelector((state: any): SongInfoModelState => state.songInfoModel)
+  const {showPlayRecord, songObj} = useSelector(
+    (state: any): SongInfoModelState => state.songInfoModel
+  )
 
   useEffect(() => {
     dispatch({
@@ -49,7 +51,8 @@ const HomeLayout: FC<IHomeLayout> = ({children, $app}) => {
           <PlayRecord />
         </Drawer>
       </main>
-      <PlayerLayout />
+
+      {Object.keys(songObj).length !== 0 && <PlayerLayout />}
       <Footer />
     </div>
   )

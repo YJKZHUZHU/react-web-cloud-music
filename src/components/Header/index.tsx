@@ -210,6 +210,7 @@ const Header = () => {
       </Popover>
       <Modal
         visible={loginVisible}
+        width={350}
         title={
           <div
             style={{
@@ -221,6 +222,7 @@ const Header = () => {
             账号登录
           </div>
         }
+        maskClosable={false}
         onCancel={() => loginToggle(false)}
         modalRender={(modal) => <Draggable disabled={disabled}>{modal}</Draggable>}
         footer={null}>

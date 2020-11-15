@@ -1,36 +1,32 @@
+/** @format */
+
 @import "utils";
 
-$bgPath: '../../assets/xuebi.png';
+$bgPath: "../../assets/xuebi.png";
 ._login {
   align-items: inherit;
   display: flex;
   justify-content: space-between;
+  .pattern {
+    width: 100%;
+  }
 
   .img {
-    margin-bottom: 20px;
+    margin-bottom: 12px;
+    text-align: center;
   }
 
-  .phone {
-    button {
-      margin-bottom: 12px;
-    }
+  .form {
+    width: 100%;
   }
-
-  .divider {
-    height: inherit;
-  }
-
-  .type {
-    .title {
-      text-align: center;
-
-    }
-
-    .phoneForm {
-      display: flex;
-      flex-direction: column;
-      align-items: inherit;
+  .other {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    cursor: pointer;
+    margin-top: 12px;
+    &:hover {
+      color: #ca4841;
     }
   }
 }
-

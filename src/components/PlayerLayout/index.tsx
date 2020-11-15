@@ -1,14 +1,15 @@
 /** @format */
 
 import React, {FC, useEffect, useState, useRef} from "react"
-import styles from "./index.scss"
 import classnames from "classnames"
 import {useSelector, PlayModelState, SongInfoModelState} from "umi"
 import BScroll from "@better-scroll/core"
 import ScrollBar from "@better-scroll/scroll-bar"
 import MouseWheel from "@better-scroll/mouse-wheel"
 import Ripple from "Ripple"
+import Artists from "@/components/Artists"
 import Utils from "@/help"
+import styles from "./index.scss"
 
 BScroll.use(ScrollBar)
 BScroll.use(MouseWheel)
@@ -17,16 +18,12 @@ const PlayerLayout = () => {
   const {isPlay, songObj, lyric} = useSelector(
     (state: any): SongInfoModelState => state.songInfoModel
   )
-  console.log(songObj)
+
 
   const {playerObj, showPlayer} = useSelector((state: any): PlayModelState => state.playmodel)
   const [scroller, setScroller] = useState<any>(null)
   const [rd, setRd] = useState<any>(null)
   const imgContainerRef: any = useRef<any>(null)
-
-  const activeLyricIndex = (index: number) => {
-    return index === findLyricIndex()
-  }
 
   const detectDeviceType = () => {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
@@ -37,12 +34,16 @@ const PlayerLayout = () => {
   }
 
   const findLyricIndex = () => {
+    console.log(lyric)
+    console.log("播放时间")
+    console.log(playerObj.playedSeconds)
     return lyric
-      ? lyric.findIndex((l: any, index: number) => {
-          const nestLyric: any = lyric[index + 1]
+      ? lyric.findIndex((l, index) => {
+          const nextLyric: any = lyric[index + 1]
+          if (index === lyric.length - 1) return true
           return (
-            playerObj.playedSeconds >= l.time &&
-            (nestLyric ? playerObj.playedSeconds < nestLyric.time : true)
+            parseInt(String(playerObj.playedSeconds), 10) >= parseInt(String(l.time), 10) &&
+            playerObj.playedSeconds < nextLyric?.time
           )
         })
       : -1
@@ -99,7 +100,6 @@ const PlayerLayout = () => {
   useEffect(() => {
     scroller && scrollToActiveLyric()
   }, [scrollToActiveLyric, scroller])
-
   return (
     <div className={classnames(styles._playerLayout, showPlayer ? styles.show : styles.hide)}>
       <div className={styles.lyric}>
@@ -122,27 +122,20 @@ const PlayerLayout = () => {
           <div className={styles.middle}>
             <p className={styles.singer}>
               <span className={styles.name}>歌手：</span>
-              {Object.keys(songObj).length !== 0 &&
-                songObj.singerArr.map((item: any, index: any) => {
-                  return (
-                    <span key={Utils.createRandomId()}>
-                      {item.name}
-                      {songObj.singerArr.length === index + 1 ? null : "/"}
-                    </span>
-                  )
-                })}
+              {Object.keys(songObj).length !== 0 && <Artists data={songObj.singerArr} />})}
             </p>
           </div>
           <div className="playerWrapper">
             <div className="content">
               {lyric.map((v: any, index: number) => {
                 return (
-                  <div
-                    key={Utils.createRandomId()}
-                    className={classnames("wrapItem", {
-                      active: (index: number) => index === findLyricIndex()
-                    })}>
-                    <p className="title">{v.lyc}</p>
+                  <div key={Utils.createRandomId()} className="wrapItem">
+                    <p
+                      className={classnames("title", {
+                        active: index === findLyricIndex()
+                      })}>
+                      {v.lyc}
+                    </p>
                   </div>
                 )
               })}

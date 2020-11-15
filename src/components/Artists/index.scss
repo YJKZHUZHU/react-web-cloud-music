@@ -3,7 +3,8 @@
 
 .allArtists {
   @include ellipsis();
-  width: 100px;
+  width: 100%;
+  display: inline-block;
   .artists {
     cursor: pointer;
     &:hover {

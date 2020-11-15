@@ -1,6 +1,6 @@
 /** @format */
 
-import React, {useState, useEffect, useRef} from "react"
+import React, {useState, useRef, memo} from "react"
 import {Slider, Radio, Tooltip, Row, Col, Space} from "antd"
 import {
   FullscreenOutlined,
@@ -12,6 +12,7 @@ import {
   GithubOutlined,
   PauseOutlined
 } from "@ant-design/icons"
+import {useBoolean} from "ahooks"
 import usePlayRecord from "@/hooks/usePlayRecord"
 import style from "./index.scss"
 import classnames from "classnames"
@@ -28,65 +29,35 @@ interface PlayerInterface {
   playedSeconds?: number
 }
 
-const Footer = () => {
+const Footer = memo(() => {
   const dispatch = useDispatch()
-   const playRef: any = useRef(null)
-   const list = usePlayRecord()
-  const [lastVolume, setLastVolume] = useState(0)
+  const playRef = useRef<any>(null)
+  const list = usePlayRecord()
+  const volumnRef = useRef(0)
+  const [volume, setVolme] = useState(Number(store.getStorage("volume")))
+  const [showValumeIcon, {toggle}] = useBoolean(Number(store.getStorage("volume")) === 0) // 是否静音
   const {isPlay, showPlayRecord, playRecordTip, songObj} = useSelector(
     (state: any): SongInfoModelState => state.songInfoModel
   )
-  const {showPlayer, volume, playMode, playerRate, playerObj} = useSelector(
+  const {showPlayer, playMode, playerRate} = useSelector(
     (state: any): PlayModelState => state.playmodel
   )
 
-  useEffect(() => {
-    dispatch({
-      type: "playmodel/setVolume",
-      payload: {
-        volume: JSON.parse(store.getStorage("volume") as string)
-      }
-    })
-  }, [store.getStorage("volume")])
-
-  const onRate = (e: any) => {
-    dispatch({
-      type: "playmodel/setPlayRate",
-      payload: {
-        playerRate: +e.target.value
-      }
-    })
-  }
-
   const onVolume = (value: any) => {
-    console.log(value)
-    setLastVolume(value / 100)
-    dispatch({
-      type: "playmodel/setVolume",
-      payload: {
-        volume: value / 100
-      }
-    })
-  }
-  const onMute = () => {
-    if (volume !== 0) {
-      return dispatch({
-        type: "playmodel/setVolume",
-        payload: {
-          volume: 0
-        }
+    volumnRef.current = value / 100
+    if (value === 0) {
+      toggle(true)
+    } else {
+      toggle(false)
+      setVolme(() => {
+        store.setStorage("volume", String(value / 100))
+        return value / 100
       })
     }
-    return dispatch({
-      type: "playmodel/setVolume",
-      payload: {
-        volume: !!lastVolume ? lastVolume : 0
-      }
-    })
   }
-
-  const onStart = () => {
-    console.log("播放")
+  const onMute = () => {
+    toggle()
+    setVolme(showValumeIcon ? volumnRef.current : 0)
   }
 
   const onPlayBtn = () => {
@@ -106,9 +77,6 @@ const Footer = () => {
     }
   }
 
-  const onPause = () => {
-    console.log("暂停")
-  }
   const onEnded = () => {
     const {getSecondsLoaded, getCurrentTime} = playRef.current
     if (parseInt(getSecondsLoaded(), 10) === parseInt(getCurrentTime(), 10)) {
@@ -124,9 +92,6 @@ const Footer = () => {
       // 顺序或者随机播放，触发下一首点击事件
       onPlay(1)
     }
-  }
-  const onDuration = (time: any) => {
-    console.log("时间:" + time + "s")
   }
   const onProgress = (state: PlayerInterface) => {
     console.log("onProgress", state)
@@ -186,36 +151,23 @@ const Footer = () => {
       }
     })
   }
-  const onSlider = (value: any) => {
-    playRef.current.seekTo(value)
-    dispatch({
-      type: "playmodel/setPlayerObj",
-      payload: {
-        playerObj: {
-          ...playerObj,
-          playedSeconds: value
-        }
-      }
-    })
-  }
   return (
     <footer className={style._footer}>
       <div className={style.footerContainer}>
         <Slider
-          onChange={onSlider}
+          onChange={(val: number) => playRef.current.seekTo(val)}
           style={{
             padding: 0,
             margin: 0,
             visibility: Object.keys(songObj).length !== 0 ? "visible" : "hidden"
           }}
-          value={playerObj?.playedSeconds}
+          value={playRef.current?.getCurrentTime()}
           defaultValue={0}
           step={0.001}
           min={0}
-          max={playerObj?.loadedSeconds}
+          max={songObj?.songTime}
           tipFormatter={null}
         />
-
         <Row className={style.footer}>
           <Col span={4}>
             {Object.keys(songObj).length !== 0 ? (
@@ -259,9 +211,7 @@ const Footer = () => {
                     </span>
                     <i className={style.split}>/</i>
                     <span className={style.time}>
-                      {playRef
-                        ? Utils.formatPlayerTime(playRef.current?.getSecondsLoaded())
-                        : "00:00"}
+                      {playRef ? Utils.formatPlayerTime(songObj.songTime || 0) : "00:00"}
                     </span>
                   </div>
                 </div>
@@ -288,7 +238,17 @@ const Footer = () => {
           <Col span={5} push={2} className={style.playRate}>
             <Space>
               <p className={style.tip}>播放速度</p>
-              <Radio.Group value={playerRate} onChange={onRate}>
+              <Radio.Group
+                size="small"
+                value={playerRate}
+                onChange={(e) =>
+                  dispatch({
+                    type: "playmodel/setPlayRate",
+                    payload: {
+                      playerRate: +e.target.value
+                    }
+                  })
+                }>
                 <Radio.Button value={1}>1.x</Radio.Button>
                 <Radio.Button value={1.2}>1.2x</Radio.Button>
                 <Radio.Button value={1.5}>1.5x</Radio.Button>
@@ -308,7 +268,7 @@ const Footer = () => {
                 className={classnames(
                   style.voice,
                   "iconfont",
-                  volume === 0 ? "icon-jingyin" : "icon-volume"
+                  showValumeIcon ? "icon-jingyin" : "icon-volume"
                 )}
                 onClick={onMute}
               />
@@ -318,7 +278,6 @@ const Footer = () => {
                 max={100}
                 value={volume * 100}
                 className={style.slider}
-                tipFormatter={null}
               />
             </div>
             <a
@@ -329,24 +288,23 @@ const Footer = () => {
           </Col>
         </Row>
       </div>
-      <ReactPlayer
-        playsinline
-        url={songObj.url}
-        playing={isPlay}
-        style={{display: "none"}}
-        volume={volume}
-        playbackRate={playerRate}
-        onPlay={onStart}
-        onPause={onPause}
-        onDuration={onDuration}
-        onProgress={onProgress}
-        onEnded={onEnded}
-        loop={playMode === 1}
-        progressInterval={500}
-        ref={playRef}
-      />
+      {Object.keys(songObj).length !== 0 && (
+        <ReactPlayer
+          playsinline
+          url={songObj.url}
+          playing={isPlay}
+          style={{display: "none"}}
+          volume={volume}
+          playbackRate={playerRate}
+          onProgress={onProgress}
+          onEnded={onEnded}
+          loop={playMode === 1}
+          progressInterval={500}
+          ref={playRef}
+        />
+      )}
     </footer>
   )
-}
+})
 
 export default Footer
