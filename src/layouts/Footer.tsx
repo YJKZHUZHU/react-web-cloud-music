@@ -281,7 +281,7 @@ const Footer = memo(() => {
               />
             </div>
             <a
-              href="https://github.com/YJKZHUZHU/react-web-cloud-music/tree/feature/public-setting"
+              href="https://github.com/YJKZHUZHU/react-web-cloud-music"
               target="_blank">
               <GithubOutlined />
             </a>
