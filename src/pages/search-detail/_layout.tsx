@@ -46,7 +46,7 @@ const SearchDetail = () => {
   }
   useEffect(() => {
     let storeHistory = store.getValue("searchHistory")
-    let id = history.length === 0 ? 0 : storeHistory.sort((a, b) => b.id - a.id)[0].id + 1
+    let id = storeHistory.length === 0 ? 0 : storeHistory.sort((a, b) => b.id - a.id)[0]?.id + 1
     storeHistory = storeHistory.filter((item) => item.keywords !== keywords)
     store.setValue("searchHistory", [...storeHistory, {id, keywords}])
   }, [keywords])
