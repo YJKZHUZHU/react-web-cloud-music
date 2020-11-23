@@ -310,7 +310,19 @@ enum FetchUrl {
   /**
    * 验证验证码
    */
-  CheckCaptcha = '/captcha/verify'
+  CheckCaptcha = '/captcha/verify',
+  /**
+   * 歌曲评论
+   */
+  MusicComment = '/comment/music',
+  /**
+   * 相似音乐
+   */
+  SimiSong = '/simi/song',
+  /**
+   * 相似歌单
+   */
+  SimiSongList = '/simi/playlist'
 }
 
 export class API {
@@ -464,6 +476,12 @@ export class API {
   static sentCaptcha = (params: any) => request(FetchUrl.SentCaptcha, { params })
   // 验证验证码
   static checkCaptcha = (params: any) => request(FetchUrl.CheckCaptcha, { params })
+  // 歌曲评论
+  static getMusicComment = (params: any) => request(FetchUrl.MusicComment, { params })
+  // 相似歌曲
+  static getSimiSong = (params: any) => request(FetchUrl.SimiSong, { params })
+  // 相似歌单
+  static getSimiSongList = (params: any) => request(FetchUrl.SimiSongList, { params })
 }
 
 

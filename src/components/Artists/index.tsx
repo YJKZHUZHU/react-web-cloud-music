@@ -24,9 +24,10 @@ export interface IItem {
 
 interface IArtists {
   data: IItem[] | undefined
+  isJump?: boolean
 }
 
-const Artists: FC<IArtists> = ({data}) => {
+const Artists: FC<IArtists> = ({data, isJump}) => {
   if (!data || data.length === 0) return null
 
   const history = useHistory()
@@ -36,9 +37,10 @@ const Artists: FC<IArtists> = ({data}) => {
     id: number | undefined,
     name: string | undefined
   ) => {
+    if (!isJump) return false
     e.preventDefault()
     e.stopPropagation()
-    history.push(`/artists-detail/album?id=${id}&name=${name}`)
+    return history.push(`/artists-detail/album?id=${id}&name=${name}`)
   }
 
   return (
@@ -54,5 +56,8 @@ const Artists: FC<IArtists> = ({data}) => {
       ))}
     </span>
   )
+}
+Artists.defaultProps = {
+  isJump: true
 }
 export default Artists

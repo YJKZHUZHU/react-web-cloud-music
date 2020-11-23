@@ -38,6 +38,7 @@ export interface SongInfoModelState {
   playRecordTip: string
   keywords: string
   playRecord: PlayRecordInterface[]
+  songId: number
 }
 export interface SongInfoModeType {
   namespace: 'songInfoModel'
@@ -65,7 +66,8 @@ const SongInfoModel: SongInfoModeType = {
     showPlayRecord: false,
     playRecordTip: '',
     keywords: '',
-    playRecord: []
+    playRecord: [],
+    songId: 0
   },
   effects: {
     *getSongInfo({ payload }, { call, put, select }) {
@@ -78,14 +80,14 @@ const SongInfoModel: SongInfoModeType = {
       const { playHistory } = yield select((state: any): SongInfoModelState => state.songInfoModel)
       yield put({
         type: 'initSongInfo',
-        payload: { PlayRet, SongRet, lyric, isPlay: true, playHistory: Utils.removeRepeat([...playHistory, songObj], 'id') }
+        payload: { id, PlayRet, SongRet, lyric, isPlay: true, playHistory: Utils.removeRepeat([...playHistory, songObj], 'id') }
       })
     }
 
   },
   reducers: {
     initSongInfo(state, action) {
-      const { PlayRet, SongRet, lyric, isPlay, playHistory } = action.payload
+      const { PlayRet, SongRet, lyric, isPlay, playHistory, id } = action.payload
       state.songObj = {
         url: PlayRet.data[0].url,
         id: PlayRet.data[0].id,
@@ -97,6 +99,7 @@ const SongInfoModel: SongInfoModeType = {
       state.playHistory = playHistory
       state.isPlay = isPlay
       state.lyric = lyric
+      state.songId = id
       store.setValue('playHistory', playHistory)
     },
     setIsPlay(state, action) {

@@ -19,12 +19,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3ac4d602-c92c-4419-bff4-268fa41f4872" name="默认的" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.umirc.local.ts" beforeDir="false" afterPath="$PROJECT_DIR$/.umirc.local.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/search-detail/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/search-detail/_layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/search-detail/index.tsx" beforeDir="false" />
-    </list>
+    <list default="true" id="3ac4d602-c92c-4419-bff4-268fa41f4872" name="默认的" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

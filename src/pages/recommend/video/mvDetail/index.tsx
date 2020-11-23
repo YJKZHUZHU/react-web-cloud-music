@@ -217,19 +217,21 @@ const MvDetail: FC = () => {
           </ControlBar>
         </Player>
         <p className={styles.avatar}>
-          <Avatar
-            size={64}
-            icon={<UserOutlined />}
-            src={+query.type === 0 ? data?.data?.cover : data?.data?.coverUrl}
-            alt="暂无图片哦"
-          />
-          {+query.type === 0 ? (
-            <span className={styles.singer}>
-              <Artists data={data?.data?.artists as IItem[]} />
-            </span>
-          ) : (
-            <span className={styles.singer}>{data?.data?.creator?.nickname}</span>
-          )}
+          <Space direction="vertical">
+            <Avatar
+              size={64}
+              icon={<UserOutlined />}
+              src={+query.type === 0 ? data?.data?.cover : data?.data?.coverUrl}
+              alt="暂无图片哦"
+            />
+            {+query.type === 0 ? (
+              <span className={styles.singer}>
+                <Artists data={data?.data?.artists as IItem[]} />
+              </span>
+            ) : (
+              <span className={styles.singer}>{data?.data?.creator?.nickname}</span>
+            )}
+          </Space>
         </p>
         <div className={styles.songDesc}>
           <p className={styles.title} onClick={() => setShowDesc(!showDesc)}>

@@ -1,3 +1,5 @@
+/** @format */
+
 @import "utils";
 
 ._playerLayout {
@@ -39,7 +41,6 @@
         height: 32px;
         top: -16px;
         left: 53%;
-
       }
 
       .playBar {
@@ -51,7 +52,7 @@
         z-index: 1;
         transform-origin: 0 0;
 
-        transition: all .3s;
+        transition: all 0.3s;
 
         &.play {
           transform: rotate(14deg);
@@ -62,7 +63,6 @@
           top: 4px;
         }
       }
-
 
       .imgOuterBorder {
         height: 320px;
@@ -125,14 +125,15 @@
         justify-content: center;
         align-items: center;
         margin-bottom: 35px;
+        .name {
+          flex-basis: 100%;
+          text-align: right;
+        }
 
         .singer {
           font-size: 12px;
         }
-
       }
-
-
     }
   }
 
@@ -144,5 +145,13 @@
     font-size: 18px;
     color: var(--font-color);
   }
-}
 
+  .commentContainer {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    .comment {
+      flex-basis: 65%;
+    }
+  }
+}
