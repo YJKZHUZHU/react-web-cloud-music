@@ -65,10 +65,7 @@ em {
 }
 
 .playerWrapper {
-  //white-space: nowrap; //让子元素超出不换行
-  // padding: 50px 13px 0 13px;
   overflow: hidden;
-  //width: 380px;
   height: 370px;
   position: relative;
   mask-image: linear-gradient(

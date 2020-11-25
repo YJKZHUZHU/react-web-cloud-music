@@ -27,9 +27,9 @@ const formatSimiSong = (data: any[] = []): Iformat[] => {
       cover: item.coverImgUrl,
       path: `/aaa?id=${item.id}`,
       content: (
-        <Space>
+        <Space size={4}>
           <CaretRightOutlined />
-          {Utils.tranNumber(item.playCount, 2)}
+          <span>{Utils.tranNumber(item.playCount, 2)}</span>
         </Space>
       )
     }
@@ -217,24 +217,16 @@ const PlayerLayout = () => {
             />
           </Spin>
         </Space>
-        <Space direction="vertical">
-          <h3>包含这首歌的歌单</h3>
-          <SimiItem data={formatSimiSong(simiSongList?.playlists)} />
-          <h3>相似歌曲</h3>
-          <SimiItem data={formatSimiSongList(simiSong?.songs)} showPlayIcon={true} />
+        <Space direction="vertical" size={20} className={styles.right}>
+          <Space direction="vertical" className={styles.item}>
+            <h3>包含这首歌的歌单</h3>
+            <SimiItem data={formatSimiSong(simiSongList?.playlists)} />
+          </Space>
+          <Space direction="vertical" className={styles.item}>
+            <h3>相似歌曲</h3>
+            <SimiItem data={formatSimiSongList(simiSong?.songs)} showPlayIcon={true} />
+          </Space>
         </Space>
-        {/*<p>评论区展示</p>*/}
-        {/*<p>评论区展示</p>*/}
-        {/*<p>评论区展示</p>*/}
-        {/*<p>评论区展示</p>*/}
-        {/*<p>评论区展示</p>*/}
-        {/*<p>评论区展示</p>*/}
-        {/*<p>评论区展示</p>*/}
-        {/*<p>评论区展示</p>*/}
-        {/*<p>评论区展示</p>*/}
-        {/*<p>评论区展示</p>*/}
-        {/*<p>评论区展示</p>*/}
-        {/*<p>评论区展示</p>*/}
       </div>
     </div>
   )

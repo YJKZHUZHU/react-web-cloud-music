@@ -148,10 +148,18 @@
 
   .commentContainer {
     margin-top: 20px;
+    margin-bottom: 20px;
     display: flex;
     justify-content: space-between;
     .comment {
-      flex-basis: 65%;
+      flex-basis: 75%;
+    }
+    .right {
+      flex: 1;
+      margin-left: 30px;
+      .item {
+        width: 100%;
+      }
     }
   }
 }
