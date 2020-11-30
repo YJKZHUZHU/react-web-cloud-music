@@ -13,7 +13,7 @@ import {
 import {Input, Popover, Tag, Modal, message} from "antd"
 import API from "@/api"
 import styles from "./index.scss"
-import {useDebounceFn} from "@umijs/hooks"
+import {useDebounceFn} from "ahooks"
 import classnames from "classnames"
 import {history, useDispatch} from "umi"
 import store from "@/help/localStorage"
@@ -30,18 +30,23 @@ const Search = () => {
   const [historyList, setHistoryList] = useState(store.getValue("searchHistory") || [])
   const [inputValue, setInputValue] = useState("")
   const dispatch = useDispatch()
-  const {run} = useDebounceFn(async (keywords) => {
-    const Ret: any = await API.getSearchSuggest({keywords})
-    if (Ret.code === 200 && Ret.result) {
-      setSearchList(Ret.result)
-    }
-    dispatch({
-      type: "songInfoModel/setKeywords",
-      payload: {
-        keywords
+  const {run} = useDebounceFn(
+    async (keywords) => {
+      const Ret: any = await API.getSearchSuggest({keywords})
+      if (Ret.code === 200 && Ret.result) {
+        setSearchList(Ret.result)
       }
-    })
-  }, 500)
+      dispatch({
+        type: "songInfoModel/setKeywords",
+        payload: {
+          keywords
+        }
+      })
+    },
+    {
+      wait: 500
+    }
+  )
 
   const onClose = (items: any) => {
     const newHistory = historyList.filter((item: any) => item.id !== items.id)

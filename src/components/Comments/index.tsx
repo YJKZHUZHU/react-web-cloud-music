@@ -1,7 +1,8 @@
 /** @format */
 
 import React, {FC} from "react"
-import {List, Button, Avatar, Divider, Space} from "antd"
+import {List, Button, Avatar, Divider} from "antd"
+import {ListProps} from "antd/lib/list"
 import {PaginationProps} from "antd/lib/pagination"
 import {RightOutlined, ShareAltOutlined, CommentOutlined, LikeOutlined} from "@ant-design/icons"
 import classnames from "classnames"
@@ -9,7 +10,7 @@ import moment from "moment"
 import styles from "./index.scss"
 
 export interface Iparams {
-  type:number
+  type: number
   id: number
   pageSize: number
   current: number
@@ -93,7 +94,8 @@ interface IComments {
   pagination?: PaginationProps
 }
 
-const Comments: FC<IComments> = ({data, pagination, type}) => {
+const Comments: FC<IComments & ListProps<any>> = (props) => {
+  const {data, pagination, type, ...rest} = props
   const renderItem = (item: IHotComments) => (
     <List.Item key={item.commentId}>
       <List.Item.Meta
@@ -136,6 +138,7 @@ const Comments: FC<IComments> = ({data, pagination, type}) => {
   const showMore = type === 0 && data?.moreHot
   return (
     <List
+      {...rest}
       dataSource={type === 0 ? data?.hotComments : data?.comments}
       className={styles.commentList}
       pagination={pagination}

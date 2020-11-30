@@ -2,13 +2,12 @@
 
 import React, {FC, useState, useEffect} from "react"
 import {LockOutlined, UserOutlined} from "@ant-design/icons"
-import {Button, Divider, Input, message, Form, Space, Row, Col} from "antd"
+import {Button, Input, message, Form, Space, Row, Col} from "antd"
 import {RightOutlined} from "@ant-design/icons"
 import {useDispatch} from "umi"
 import {useBoolean} from "ahooks"
 import API from "@/api"
 import styles from "./index.scss"
-import {Store} from "@umijs/hooks/lib/useFormTable"
 
 interface ILoginModal {
   callback: (visible: boolean) => void
@@ -43,7 +42,7 @@ const LoginModal: FC<ILoginModal> = ({callback}) => {
 
   const dispatch = useDispatch()
 
-  const onFinish = async (values: Store) => {
+  const onFinish = async (values: any) => {
     try {
       toggle(true)
       if (loginPattern === 1) {

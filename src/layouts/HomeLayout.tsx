@@ -8,6 +8,7 @@ import {Subscribe} from "@/Appcontainer"
 import PlayRecord from "@/components/PlayRecord"
 import PlayerLayout from "@/components/PlayerLayout"
 import Menu from "@/layouts/Menu"
+import Loading from '@/components/Loading'
 import Footer from "./Footer"
 import styles from "./index.scss"
 
@@ -27,6 +28,7 @@ const HomeLayout: FC<IHomeLayout> = ({children, $app}) => {
       type: "userModel/getUserInfo"
     })
   }, [])
+
 
   return (
     <div className={styles.home}>

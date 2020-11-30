@@ -8,7 +8,6 @@ import {history, useSelector, UserModelState} from "umi"
 import {FormInstance} from "antd/lib/form"
 import API from "@/api"
 import Map from "@/help/map"
-import {Store} from "@umijs/hooks/lib/useFormTable"
 
 const {CheckableTag} = Tag
 const MapList = new Map()
@@ -126,7 +125,7 @@ const EditSongList: FC<Props> = (props) => {
     tags: creatorItem?.tags || []
   })
 
-  const onSubmit = async (values: Store) => {
+  const onSubmit = async (values: any) => {
     const Ret: any = await API.playlistUpdate({
       ...values,
       tags: values.tags.join(";"),

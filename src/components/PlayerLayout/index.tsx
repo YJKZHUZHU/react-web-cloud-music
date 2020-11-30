@@ -3,7 +3,7 @@
 import React, {useEffect, useState, useRef} from "react"
 import classnames from "classnames"
 import {useSelector, PlayModelState, SongInfoModelState} from "umi"
-import {Space, Spin} from "antd"
+import {Space} from "antd"
 import {CaretRightOutlined} from "@ant-design/icons"
 import BScroll from "@better-scroll/core"
 import ScrollBar from "@better-scroll/scroll-bar"
@@ -25,7 +25,7 @@ const formatSimiSong = (data: any[] = []): Iformat[] => {
     return {
       title: item.name,
       cover: item.coverImgUrl,
-      path: `/aaa?id=${item.id}`,
+      path: `/playList?listId=${item.id}`,
       content: (
         <Space size={4}>
           <CaretRightOutlined />
@@ -41,7 +41,7 @@ const formatSimiSongList = (data: any[] = []): Iformat[] => {
     return {
       title: item.name,
       cover: item?.album?.picUrl,
-      path: `/aaa?id=${item.id}`,
+      id: item.id,
       content: <Artists data={item.artists} isJump={false} />
     }
   })
@@ -70,16 +70,24 @@ const PlayerLayout = () => {
     }
   )
 
-  const {data: hotData, run: runHot} = useRequest(() => API.getMusicComment({id}), {
-    manual: true
-  })
+  const {data: hotData, run: runHot, loading: hotLoading} = useRequest(
+    () => API.getMusicComment({id}),
+    {
+      manual: true
+    }
+  )
   // 相似歌曲
-  const {run: runSimiSong, data: simiSong} = useRequest(() => API.getSimiSong({id}), {manual: true})
+  const {run: runSimiSong, data: simiSong, loading: simiLoading} = useRequest(
+    () => API.getSimiSong({id}),
+    {manual: true}
+  )
   // 相似歌单
-  const {run: runSimiSongList, data: simiSongList} = useRequest(() => API.getSimiSongList({id}), {
-    manual: true
-  })
-  console.log(simiSong)
+  const {run: runSimiSongList, data: simiSongList, loading: simiListLoading} = useRequest(
+    () => API.getSimiSongList({id}),
+    {
+      manual: true
+    }
+  )
   const detectDeviceType = () => {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
       navigator.userAgent
@@ -158,7 +166,7 @@ const PlayerLayout = () => {
     runHot()
     runSimiSong()
     runSimiSongList()
-  }, [])
+  }, [id])
   return (
     <div className={classnames(styles._playerLayout, showPlayer ? styles.show : styles.hide)}>
       <div className={styles.lyric}>
@@ -203,28 +211,35 @@ const PlayerLayout = () => {
       <div className={styles.commentContainer}>
         <Space direction="vertical" className={styles.comment}>
           <span>精彩评论</span>
-          <Comment data={hotData} type={0} />
+          <Comment loading={hotLoading} data={hotData} type={0} />
           <span>最新评论({data?.total})</span>
-          <Spin spinning={loading} tip="评论加载中">
-            <Comment
-              data={data}
-              type={1}
-              pagination={{
-                ...(pagination as any),
-                size: "small",
-                style: {textAlign: "center"}
-              }}
-            />
-          </Spin>
+          <Comment
+            loading={loading}
+            data={data}
+            type={1}
+            pagination={{
+              ...(pagination as any),
+              size: "small",
+              style: {textAlign: "center"}
+            }}
+          />
         </Space>
         <Space direction="vertical" size={20} className={styles.right}>
           <Space direction="vertical" className={styles.item}>
             <h3>包含这首歌的歌单</h3>
-            <SimiItem data={formatSimiSong(simiSongList?.playlists)} />
+            <SimiItem
+              loading={simiListLoading}
+              hidePlayer
+              data={formatSimiSong(simiSongList?.playlists)}
+            />
           </Space>
           <Space direction="vertical" className={styles.item}>
             <h3>相似歌曲</h3>
-            <SimiItem data={formatSimiSongList(simiSong?.songs)} showPlayIcon={true} />
+            <SimiItem
+              loading={simiLoading}
+              data={formatSimiSongList(simiSong?.songs)}
+              showPlayIcon={true}
+            />
           </Space>
         </Space>
       </div>
