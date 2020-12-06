@@ -132,7 +132,7 @@ em {
 }
 // 顶部加载效果样式充值
 #nprogress .bar {
-  background: #00cf8a !important; //自定义颜色
+  background: var(--font-color) !important; //自定义颜色
 }
 
 .ant-descriptions-item-label {
