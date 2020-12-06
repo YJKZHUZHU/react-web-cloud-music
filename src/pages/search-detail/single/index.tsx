@@ -6,7 +6,7 @@ import {useDispatch, useHistory, useLocation} from "umi"
 import {HeartOutlined, PlaySquareOutlined} from "@ant-design/icons"
 import InfiniteScroll from "react-infinite-scroller"
 import Utils from "@/help"
-import Artists from "@/components/Artists"
+import {Artists} from "@/components"
 import useSearchDetail from "../hooks/useSearchDetail"
 import styles from "../index.scss"
 

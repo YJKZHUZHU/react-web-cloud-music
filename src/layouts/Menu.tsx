@@ -13,9 +13,14 @@ import {
 import {useBoolean, useRequest} from "ahooks"
 import {message, Popover, Input, Switch, Button, Space} from "antd"
 import {useSelector, useDispatch} from "umi"
-import {TopMenu, SongListmenu, stopPropagation} from "@/components/MenuItem"
+import {MenuItem} from "@/components"
 import API from "@/api"
 import styles from "./index.scss"
+
+const stopPropagation = (e: React.MouseEvent) => {
+  e.preventDefault()
+  e.stopPropagation()
+}
 
 const MenuList = () => {
   const dispatch = useDispatch()
@@ -108,11 +113,11 @@ const MenuList = () => {
   return (
     <aside>
       <div className={styles.menu}>
-        <TopMenu list={recommendMenu.filter((item) => item.login)}>推荐</TopMenu>
+        <MenuItem.TopMenu list={recommendMenu.filter((item) => item.login)}>推荐</MenuItem.TopMenu>
         {loginStatus && (
           <>
-            <TopMenu list={myMenu}>我的音乐</TopMenu>
-            <SongListmenu list={creator} text="创建的歌单" type={0}>
+            <MenuItem.TopMenu list={myMenu}>我的音乐</MenuItem.TopMenu>
+            <MenuItem.SongListmenu list={creator} text="创建的歌单" type={0}>
               <Popover
                 placement="topRight"
                 content={content}
@@ -124,8 +129,8 @@ const MenuList = () => {
                 onVisibleChange={toggle}>
                 <PlusOutlined className={styles.iconAdd} onClick={stopPropagation} />
               </Popover>
-            </SongListmenu>
-            <SongListmenu list={favorite} text="收藏的歌单" type={1} />
+            </MenuItem.SongListmenu>
+            <MenuItem.SongListmenu list={favorite} text="收藏的歌单" type={1} />
           </>
         )}
       </div>

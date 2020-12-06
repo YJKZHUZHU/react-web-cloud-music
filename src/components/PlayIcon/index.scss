@@ -11,13 +11,13 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: hsla(0, 0%, 100%, 0.5);
+  background: #faca2e;
   display: flex;
   justify-content: center;
   align-items: center;
 
   span {
     font-size: 16px;
-    color: $bgColor;
+    color: var(--font-color);
   }
 }

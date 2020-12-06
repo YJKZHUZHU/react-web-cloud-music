@@ -54,7 +54,7 @@ export const request: RequestConfig = {
       Nprogress.done()
       appState.setLoading(false)
       if (response.status === 301) {
-        message.info('登录才能进行相关操作哦。。。')
+        message.info('登录可以体验更多功能哦！')
       }
       if (response.status === 302) {
         return new Promise(() => { })

@@ -6,7 +6,7 @@ import {Col} from "antd"
 import {Link, useDispatch, useHistory} from "umi"
 import moment from "moment"
 import classnames from "classnames"
-import Artists from "@/components/Artists"
+import {Artists} from "@/components"
 import styles from "./index.scss"
 
 interface IAr {

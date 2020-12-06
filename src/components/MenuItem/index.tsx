@@ -132,3 +132,9 @@ SongListmenu.defaultProps = {
   list: [],
   text: "创建的歌单"
 }
+
+const MenuItem = {
+  TopMenu,
+  SongListmenu
+}
+export default MenuItem

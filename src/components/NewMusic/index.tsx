@@ -1,12 +1,10 @@
 /** @format */
 
 import React, {FC} from "react"
-import {Modal} from 'antd'
 import {CaretRightOutlined, PlaySquareOutlined} from "@ant-design/icons"
-import Artists from "@/components/Artists"
+import {Artists} from "@/components"
 import {useDispatch, useHistory} from "umi"
 import styles from "./index.scss"
-
 
 export interface INewSongItem {
   alg: string

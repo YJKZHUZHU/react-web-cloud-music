@@ -3,7 +3,7 @@
 import React, {FC} from "react"
 import {Space, Spin} from "antd"
 import {useHistory, useDispatch} from "umi"
-import PlayIcon from "@/components/PlayIcon"
+import {PlayIcon} from "@/components"
 import styles from "./index.scss"
 
 export interface IData {

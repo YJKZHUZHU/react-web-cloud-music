@@ -19,7 +19,7 @@ import classnames from "classnames"
 import Utils from "@/help"
 import ReactPlayer from "react-player"
 import store from "@/help/localStorage"
-import PlayMode from "@/components/PlayMode"
+import {PlayMode} from "@/components"
 import {useDispatch, useSelector, SongInfoModelState, PlayModelState, SingerInterface} from "umi"
 
 interface PlayerInterface {

@@ -1,11 +1,11 @@
 /** @format */
 
 import React, {useEffect} from "react"
-import {List, Spin, Avatar, Tabs, Row, Col} from "antd"
+import {Spin, Tabs, Row, Col} from "antd"
 import {VideoCameraOutlined} from "@ant-design/icons"
 import {useRequest} from "ahooks"
 import {useHistory} from "umi"
-import Artists from "@/components/Artists"
+import {Artists} from "@/components"
 import Utils from "@/help"
 import API from "@/api"
 import styles from "./index.scss"

@@ -3,41 +3,21 @@
 import React from "react"
 import {
   CaretDownOutlined,
-  CarryOutOutlined,
-  CustomerServiceOutlined,
   DownOutlined,
   LeftOutlined,
   RightOutlined,
-  SettingOutlined,
-  SkinOutlined,
-  ThunderboltOutlined,
   UserOutlined
 } from "@ant-design/icons"
-import {Divider, Avatar, Button, Popover, message, Modal} from "antd"
+import {Avatar, Popover, message, Modal, Space} from "antd"
 import {Link, history, useSelector, useDispatch, PlayModelState} from "umi"
 import Draggable from "react-draggable"
 import {useBoolean, useRequest} from "ahooks"
 import API from "@/api"
 import classnames from "classnames"
-import Utils from "@/help"
-import Search from "@/components/Search"
-import LoginModal from "@/components/LoginModal"
+import UserContent from "./components/userContent"
+import Search from "./components/Search"
+import Login from "./components/Login"
 import styles from "./index.scss"
-
-const ThEME_MAP = [
-  {
-    theme: "黑色",
-    id: "black"
-  },
-  {
-    theme: "浅色",
-    id: "shallow"
-  },
-  {
-    theme: "红色",
-    id: "red"
-  }
-]
 
 const Header = () => {
   const dispatch = useDispatch()
@@ -67,96 +47,16 @@ const Header = () => {
     onSuccess: (response) => {
       if (response.code !== 200) return message.info("已经签到过了哦")
       setSignInTrue()
+      setVisibleFalse()
       return message.success("签到成功")
     }
   })
-
-  const content = (
-    <div className={styles.theme}>
-      {ThEME_MAP.map((item) => (
-        <p className={styles.item} key={item.id} onClick={() => Utils.setTheme(item.id)}>
-          <span className={classnames(styles[item.id], styles.com)} />
-          <span>{item.theme}</span>
-        </p>
-      ))}
-    </div>
-  )
-  const userContent = (
-    <div className={styles._main}>
-      <div className={styles.top}>
-        <div className={styles.user}>
-          <div className={styles.left}>
-            <Avatar
-              src={Object.keys(userInfo).length && userInfo.profile.avatarUrl}
-              icon={<UserOutlined />}
-            />
-            <i className={styles.name}>
-              {Object.keys(userInfo).length && userInfo.profile.nickname}
-            </i>
-          </div>
-          <Button size="small" onClick={runSignin} disabled={userInfo.pcSign || signIn}>
-            <CarryOutOutlined />
-            {userInfo.pcSign || signIn ? "已签到" : "签到"}
-          </Button>
-        </div>
-        <div className={styles.attention}>
-          <p className={styles.item} onClick={() => onRoute("/care/dynamic")}>
-            <i>{userInfo.profile && userInfo.profile.eventCount}</i>
-            <em>动态</em>
-          </p>
-          <Divider type="vertical" className={styles.divider} />
-          <p className={styles.item} onClick={() => onRoute("/care/follows")}>
-            <i>{userInfo.profile && userInfo.profile.follows}</i>
-            <em>关注</em>
-          </p>
-          <Divider type="vertical" className={styles.divider} />
-          <p className={styles.item} onClick={() => onRoute("/care/fan")}>
-            <i>{userInfo.profile && userInfo.profile.followeds}</i>
-            <em>粉丝</em>
-          </p>
-        </div>
-      </div>
-      <Divider className={styles.divider} />
-      <div className={styles.middle}>
-        <ul>
-          <li className={styles.item}>
-            <span>
-              <CustomerServiceOutlined />
-              <em>会员中心</em>
-            </span>
-            <span>{userInfo.profile && userInfo.profile.followed ? "已订购" : "未订购"}</span>
-          </li>
-          <li className={styles.item}>
-            <span>
-              <ThunderboltOutlined />
-              <em>会员等级</em>
-            </span>
-            <em className={styles.level}>LV.7</em>
-          </li>
-          <li className={styles.item}>
-            <span>
-              <SettingOutlined />
-              <em>个人信息设置</em>
-            </span>
-            <RightOutlined />
-          </li>
-        </ul>
-      </div>
-      <Divider className={styles.divider} />
-      <div className={styles.bottom} onClick={runLogout}>
-        退出登录
-      </div>
-    </div>
-  )
 
   return (
     <header className={styles._header}>
       <Link to="/" className={styles.logo}>
         <img src={require("../../assets/home.png")}></img>
       </Link>
-      {/* <h1 className={styles.logo}>
-        <Link to="/" />
-      </h1> */}
       <div className={styles.routerBtn}>
         {showPlayer ? (
           <DownOutlined
@@ -166,24 +66,28 @@ const Header = () => {
             className={styles.down}
           />
         ) : (
-          <Button.Group>
-            <Button onClick={() => history.goBack()}>
-              <LeftOutlined />
-            </Button>
-            <Button onClick={() => history.go(1)}>
-              <RightOutlined />
-            </Button>
-          </Button.Group>
+          <Space size={20}>
+            <LeftOutlined onClick={() => history.goBack()} />
+            <RightOutlined onClick={() => history.go(1)} />
+          </Space>
         )}
       </div>
-      <div className="_search">
+      <div className={classnames(styles.search, "_search")}>
         <Search />
       </div>
       {loginStatus ? (
         <Popover
           visible={visible}
           onVisibleChange={visibleToggle}
-          content={userContent}
+          content={
+            <UserContent
+              userInfo={userInfo}
+              runLogout={runLogout}
+              runSignin={runSignin}
+              signIn={signIn}
+              onLink={onRoute}
+            />
+          }
           overlayClassName={classnames(styles.userPop, "_userPop")}
           getPopupContainer={(): any => document.getElementsByClassName("_userInfoPop")[0]}
           trigger="click">
@@ -202,15 +106,6 @@ const Header = () => {
           <i className={styles.name}>未登录</i>
         </div>
       )}
-      <Popover
-        className={styles.skin}
-        content={content}
-        title="选择您喜欢的主题"
-        trigger="click"
-        overlayClassName={styles.themePop}
-        getPopupContainer={(): any => document.getElementsByClassName("_changeSkin")[0]}>
-        <SkinOutlined className={classnames(styles.skin, "_changeSkin")} />
-      </Popover>
       <Modal
         visible={loginVisible}
         width={350}
@@ -229,7 +124,7 @@ const Header = () => {
         onCancel={() => loginToggle(false)}
         modalRender={(modal) => <Draggable disabled={disabled}>{modal}</Draggable>}
         footer={null}>
-        <LoginModal callback={(loginVisible) => loginToggle(loginVisible)} />
+        <Login callback={(loginVisible) => loginToggle(loginVisible)} />
       </Modal>
     </header>
   )

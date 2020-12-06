@@ -5,13 +5,13 @@
   .content {
     width: 100%;
     margin-bottom: 0;
-    color: #333333;
+    color: var(--font-color);
     font-weight: normal;
     .nickname {
       cursor: pointer;
-      color: #4f7daf;
+      color: var(--font-color);
       &:hover {
-        color: #0d58b0;
+        color: var(--font-color);
       }
     }
   }
@@ -22,7 +22,7 @@
   }
   .more {
     text-align: center;
-    color: #000000;
+    color: var(--font-color);
   }
 
   .footer {
@@ -30,7 +30,7 @@
     justify-content: space-between;
     .time {
       margin-bottom: 0;
-      color: #bfbfbf;
+      color: var(--font-color);
     }
   }
 }

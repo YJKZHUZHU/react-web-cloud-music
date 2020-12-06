@@ -1,10 +1,14 @@
 /** @format */
 
 import React, {useEffect, useState} from "react"
-import {Skeleton, Space} from "antd"
+import {Skeleton, Space, Spin} from "antd"
+import {useLocation} from "umi"
 import styles from "./index.scss"
+
 const INIT_ROWS = Math.floor((document.body.clientHeight - 130) / 36)
+
 const Loading = () => {
+  const location = useLocation()
   const [rows, setRows] = useState(INIT_ROWS)
   useEffect(() => {
     const resetRows = () => {
@@ -13,6 +17,11 @@ const Loading = () => {
     document.addEventListener("resize", resetRows)
     return document.removeEventListener("resize", resetRows)
   })
+
+
+  if (location.pathname !== "/recommend/findmusic/personal-recommendation") {
+    return "Loading..."
+  }
 
   return (
     <div className={styles.loadingHome}>

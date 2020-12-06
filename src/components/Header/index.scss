@@ -5,8 +5,7 @@
 $logoPath: "../../assets/topbar.png";
 
 $lvBackground: "../../assets/mylevel.png";
-
-$homeBg: "../../assets/home.png";
+$bgPath: "../../assets/xuebi.png";
 
 header,
 ._header {
@@ -15,23 +14,18 @@ header,
   width: 100%;
   background-color: var(--header-bgcolor);
   background-color: #ffffff;
-  justify-content: space-between;
   align-items: center;
 
   .logo {
-    // width: 160px;
-    // height: 65px;
-    margin-left: 20px;
+    margin-right: 130px;
+    min-width: 174px;
     img {
       height: 65px;
     }
-    // background: url($homeBg) 0 -18px;
-    // width: 160px;
-    // height: 35px;
   }
 
   .routerBtn {
-    width: 125px;
+    flex-basis: 100px;
   }
   .skin {
     width: 200px;
@@ -43,58 +37,17 @@ header,
     margin-right: 8px;
     font: inherit;
   }
-  .user {
-    display: flex;
-    cursor: pointer;
-    align-items: center;
-    color: var(--font-color);
+  .search {
+    flex: 1;
   }
-
-  // .row {
-  //   padding-top: 15px;
-
-  //   .login {
-  //     display: flex;
-  //     margin-top: 5px;
-  //     cursor: pointer;
-
-  //     i {
-  //       font-size: 20px;
-  //       margin-right: 8px;
-  //     }
-  //   }
-  // }
-
-  // .skin {
-  //   font-size: 18px;
-  //   margin-top: 5px;
-  //   color: var(--header-font-color);
-  //   cursor: pointer;
-  // }
-
-  // .logo {
-  //   background: url($logoPath) 0 -18px;
-  //   width: 160px;
-  //   height: 35px;
-  // }
-
-  // .user {
-  //   display: flex;
-  //   cursor: pointer;
-  //   align-items: center;
-  //   color: var(--font-color);
-
-  //   .name {
-  //     margin-left: 8px;
-  //     font-size: 12px;
-  //     margin-right: 8px;
-  //     font: inherit;
-  //   }
-  // }
+  .user {
+    cursor: pointer;
+    margin-right: 100px;
+  }
 
   .down {
     color: var(--header-font-color);
-    font-size: 20px;
+    // font-size: 20px;
     margin-top: 7px;
   }
 }
@@ -148,9 +101,10 @@ header,
     }
 
     .top {
-      padding: 12px 18px;
+      padding: 12px 18px 0 18px;
 
       .user {
+        width: 100%;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -161,7 +115,6 @@ header,
         @extend .user;
 
         .item {
-          @extend .user;
           flex-direction: column;
         }
       }
@@ -224,8 +177,257 @@ header,
   }
 }
 
+// 登录
+
+._login {
+  align-items: inherit;
+  display: flex;
+  justify-content: space-between;
+  .pattern {
+    width: 100%;
+  }
+
+  .img {
+    margin-bottom: 12px;
+    text-align: center;
+  }
+
+  .form {
+    width: 100%;
+  }
+  .other {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    cursor: pointer;
+    margin-top: 12px;
+    &:hover {
+      color: #ca4841;
+    }
+  }
+}
+
+// 搜索
+
+._searchContent {
+  width: 500px;
+  height: 300px;
+  overflow-y: scroll;
+
+  .history {
+    padding: 12px 16px 0 16px;
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+
+      .icon {
+        color: #666666;
+        display: flex;
+
+        span {
+          margin-right: 10px;
+        }
+
+        i {
+          cursor: pointer;
+
+          &:hover {
+            color: #000000;
+          }
+        }
+      }
+
+      .all {
+        color: #666666;
+        cursor: pointer;
+
+        &:hover {
+          color: #000000;
+        }
+      }
+    }
+
+    .tag {
+      .item {
+        margin-bottom: 8px;
+        cursor: pointer;
+        height: 25px;
+        line-height: 25px;
+
+        &:hover {
+          background-color: #eeeeee;
+        }
+      }
+    }
+  }
+
+  .hot {
+    .title {
+      color: #717171;
+      margin: 8px 0 10px 16px;
+    }
+
+    ul {
+      @include clearfix();
+      padding-bottom: 12px;
+      font-size: 12px;
+
+      .item {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        padding: 0 16px;
+        margin-bottom: 5px;
+
+        &:hover {
+          background-color: #ededed;
+        }
+
+        .number {
+          width: 36px;
+          color: #999999;
+
+          &.diff {
+            color: #ff3a3a;
+          }
+
+          //text-align: center;
+        }
+
+        .content {
+          flex: 1;
+
+          .top {
+            display: flex;
+
+            .song {
+              margin-right: 8px;
+              font-weight: 700;
+            }
+
+            .img {
+              width: 15px;
+              margin-left: 10px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+
+              img {
+                width: 100%;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+._searchSuggest {
+  width: 500px;
+  max-height: 300px;
+  // height: 300px;
+  overflow-y: scroll;
+
+  .searchTitle {
+    color: #444444;
+    margin: 5px 0 5px 10px;
+  }
+
+  .linkColor {
+    color: var(--font-color);
+    cursor: pointer;
+  }
+
+  .singer {
+    ul {
+      .name {
+        padding-left: 30px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #eeeeee;
+        }
+      }
+    }
+  }
+
+  .song {
+    ul {
+      .item {
+        display: flex;
+        padding-left: 30px;
+        cursor: pointer;
+        p {
+          margin: 0;
+        }
+
+        &:hover {
+          background-color: #eeeeee;
+        }
+
+        .title {
+          .name {
+            margin-right: 5px;
+          }
+
+          .diff {
+            color: #888888;
+          }
+
+          .split {
+            margin: 0 5px;
+          }
+        }
+      }
+    }
+  }
+
+  .albums,
+  .mv {
+    ul {
+      .item {
+        padding-left: 30px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+
+        &:hover {
+          background-color: #eeeeee;
+        }
+
+        .split {
+          margin: 0 5px;
+        }
+      }
+    }
+  }
+
+  .commonTitle {
+    width: 100%;
+    background-color: #f5f5f7;
+    display: flex;
+    align-items: center;
+    margin: 0;
+
+    i {
+      margin-right: 8px;
+      margin-left: 10px;
+    }
+  }
+}
+.search {
+  width: 500px;
+}
+
 :global {
   ._userPop {
+    .ant-popover-inner-content {
+      padding: 0;
+    }
+  }
+  ._searchPop {
     .ant-popover-inner-content {
       padding: 0;
     }

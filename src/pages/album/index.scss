@@ -5,22 +5,22 @@
   .desc {
     display: flex;
     .name {
-      color: #4f7daf;
+      color: var(--font-color);
       cursor: pointer;
       &:hover {
-        color: #0d58b0;
+        color: var(--font-color);
       }
     }
     .tag {
-      color: #d33931;
-      border-color: #d33931;
+      color: var(--font-color);
+      border-color: var(--font-color);
     }
     .topName {
       color: #333333;
       font-size: 20px;
     }
     .extra {
-      color: #999999;
+      color: var(--font-color);
       font-size: 20px;
     }
     .img {

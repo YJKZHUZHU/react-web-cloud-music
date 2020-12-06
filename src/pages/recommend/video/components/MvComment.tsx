@@ -4,7 +4,8 @@ import React, {FC, useEffect, useState} from "react"
 import API from "@/api"
 import {Spin, Space} from "antd"
 import {useRequest} from "ahooks"
-import Comments, {IData, Iparams} from "@/components/Comments"
+import {Comments} from "@/components"
+import {IData, Iparams} from "@/components/Comments"
 import styles from "../index.scss"
 
 interface IProps {

@@ -1,6 +1,6 @@
 /** @format */
 
-import React, {useState, useEffect} from "react"
+import React, {useState, useEffect, FC} from "react"
 import {
   CustomerServiceOutlined,
   DeleteOutlined,
@@ -10,44 +10,42 @@ import {
   UserOutlined,
   SearchOutlined
 } from "@ant-design/icons"
-import {Input, Popover, Tag, Modal, message} from "antd"
+import {Input, Popover, Tag, Modal, message, Space} from "antd"
 import API from "@/api"
-import styles from "./index.scss"
-import {useDebounceFn} from "ahooks"
+import {useRequest, useBoolean} from "ahooks"
 import classnames from "classnames"
 import {history, useDispatch} from "umi"
 import store from "@/help/localStorage"
 import Utils from "@/help"
+import styles from "../index.scss"
 
 const {confirm} = Modal
 
 const Search = () => {
-  const [visible, setVisible] = useState(false)
+  const [visible, {toggle}] = useBoolean(false)
   const [modalVisible, setModalVisible] = useState(false)
-  const [hotList, setHotList] = useState([])
-  const [searchList, setSearchList] = useState<any>({})
-  const [popoverVisible, setPopoverVisible] = useState(false)
   const [historyList, setHistoryList] = useState(store.getValue("searchHistory") || [])
   const [inputValue, setInputValue] = useState("")
   const dispatch = useDispatch()
-  const {run} = useDebounceFn(
-    async (keywords) => {
-      const Ret: any = await API.getSearchSuggest({keywords})
-      if (Ret.code === 200 && Ret.result) {
-        setSearchList(Ret.result)
-      }
-      dispatch({
-        type: "songInfoModel/setKeywords",
-        payload: {
-          keywords
-        }
-      })
-    },
-    {
-      wait: 500
-    }
-  )
 
+  const {run, data: searchList} = useRequest((keywords) => API.getSearchSuggest({keywords}), {
+    manual: true,
+    debounceInterval: 500,
+    formatResult: (response) => {
+      if (response.code === 200 && response.result) {
+        return response.result
+      }
+      return {}
+    }
+  })
+  const {data: hotList} = useRequest(API.getHotList, {
+    formatResult: (response) => {
+      if (response.code === 200) {
+        return response.data
+      }
+      return []
+    }
+  })
   const onClose = (items: any) => {
     const newHistory = historyList.filter((item: any) => item.id !== items.id)
     setHistoryList(newHistory)
@@ -56,7 +54,6 @@ const Search = () => {
   const toDetail = (type: number, keywords: string) => {
     if (keywords === "") return message.info("请输入要查询的关键字")
     setInputValue(keywords)
-    setPopoverVisible(false)
     dispatch({
       type: "songInfoModel/setKeywords",
       payload: {
@@ -98,7 +95,6 @@ const Search = () => {
   }
 
   const onHistory = (keywords: string) => {
-    setPopoverVisible(false)
     setInputValue(keywords)
     history.push({
       pathname: "/search-detail/single",
@@ -109,8 +105,21 @@ const Search = () => {
     })
   }
 
+  const onInput = (e: any) => {
+    setInputValue(e.target.value)
+    if (e.target.value) {
+      run(e.target.value)
+      dispatch({
+        type: "songInfoModel/setKeywords",
+        payload: {
+          keywords: e.target.value
+        }
+      })
+    }
+  }
+
   const content =
-    inputValue && Object.keys(searchList).length !== 0 ? (
+    inputValue && searchList && Object.keys(searchList).length !== 0 ? (
       <div className={styles._searchSuggest}>
         <p className={styles.searchTitle}>
           搜“
@@ -118,14 +127,14 @@ const Search = () => {
           ”相关的结果
           <RightOutlined />
         </p>
-        <div className={styles.singer}>
-          <p className={styles.commonTitle}>
-            <UserOutlined />
-            <span>歌手</span>
-          </p>
-          <ul>
-            {searchList.artists &&
-              searchList.artists.reverse().map((item: any) => {
+        {searchList?.artists && (
+          <div className={styles.singer}>
+            <p className={styles.commonTitle}>
+              <UserOutlined />
+              <span>歌手</span>
+            </p>
+            <ul>
+              {searchList?.artists?.reverse()?.map((item: any) => {
                 return (
                   <li
                     key={item.id}
@@ -135,16 +144,17 @@ const Search = () => {
                   </li>
                 )
               })}
-          </ul>
-        </div>
-        <div className={styles.song}>
-          <p className={styles.commonTitle}>
-            <CustomerServiceOutlined />
-            <span>单曲</span>
-          </p>
-          <ul>
-            {searchList.songs &&
-              searchList.songs.map((item: any) => {
+            </ul>
+          </div>
+        )}
+        {searchList?.songs && (
+          <div className={styles.song}>
+            <Space className={styles.commonTitle}>
+              <CustomerServiceOutlined />
+              <span>单曲</span>
+            </Space>
+            <ul>
+              {searchList?.songs?.map((item: any) => {
                 return (
                   <li key={item.id} className={styles.item} onClick={() => toDetail(1, item.name)}>
                     <p className={styles.title}>
@@ -158,16 +168,18 @@ const Search = () => {
                   </li>
                 )
               })}
-          </ul>
-        </div>
-        <div className={styles.albums}>
-          <p className={styles.commonTitle}>
-            <InstagramOutlined />
-            <span>专辑</span>
-          </p>
-          <ul>
-            {searchList.albums &&
-              searchList.albums.map((item: any) => {
+            </ul>
+          </div>
+        )}
+
+        {searchList?.albums && (
+          <div className={styles.albums}>
+            <p className={styles.commonTitle}>
+              <InstagramOutlined />
+              <span>专辑</span>
+            </p>
+            <ul>
+              {searchList?.albums?.map((item: any) => {
                 return (
                   <li className={styles.item} key={item.id} onClick={() => toDetail(10, item.name)}>
                     <span>{item.name}</span>
@@ -176,16 +188,17 @@ const Search = () => {
                   </li>
                 )
               })}
-          </ul>
-        </div>
-        <div className={styles.mv}>
-          <p className={styles.commonTitle}>
-            <PlaySquareOutlined />
-            <span>视频</span>
-          </p>
-          <ul>
-            {searchList.mvs &&
-              searchList.mvs.map((item: any) => {
+            </ul>
+          </div>
+        )}
+        {searchList?.mvs && (
+          <div className={styles.mv}>
+            <p className={styles.commonTitle}>
+              <PlaySquareOutlined />
+              <span>视频</span>
+            </p>
+            <ul>
+              {searchList?.mvs?.map((item: any) => {
                 return (
                   <li
                     className={styles.item}
@@ -197,8 +210,9 @@ const Search = () => {
                   </li>
                 )
               })}
-          </ul>
-        </div>
+            </ul>
+          </div>
+        )}
       </div>
     ) : (
       <div className={styles._searchContent}>
@@ -210,9 +224,11 @@ const Search = () => {
                 <DeleteOutlined onClick={onDelete} />
               </div>
             </div>
-            <p className={styles.all} onClick={() => setVisible(!visible)}>
-              {visible ? "收起" : "查看全部"}
-            </p>
+            {historyList?.length !== 0 && (
+              <p className={styles.all} onClick={() => toggle()}>
+                {visible ? "收起" : "查看全部"}
+              </p>
+            )}
           </div>
           <div className={styles.tag}>
             {historyList?.map((item: any, index: number) => {
@@ -233,7 +249,7 @@ const Search = () => {
         <div className={styles.hot}>
           <p className={styles.title}>热搜榜</p>
           <ul>
-            {hotList.map((item: any, index: number) => {
+            {hotList?.map((item: any, index: number) => {
               return (
                 <li
                   className={styles.item}
@@ -252,7 +268,7 @@ const Search = () => {
                         </div>
                       ) : null}
                     </div>
-                    <p className={styles.bottom}>{item.content}</p>
+                    <span className={styles.bottom}>{item.content}</span>
                   </div>
                 </li>
               )
@@ -261,22 +277,6 @@ const Search = () => {
         </div>
       </div>
     )
-
-  const onInput = (e: any) => {
-    setPopoverVisible(true)
-    setInputValue(e.target.value)
-    if (e.target.value) {
-      run(e.target.value)
-    }
-  }
-
-  useEffect(() => {
-    API.getHotList().then((res: any) => {
-      if (res.code === 200) {
-        setHotList(res.data)
-      }
-    })
-  }, [])
 
   useEffect(() => {
     setHistoryList(store.getValue("searchHistory"))
@@ -288,7 +288,6 @@ const Search = () => {
       title={null}
       trigger="click"
       placement="bottomLeft"
-      visible={popoverVisible}
       overlayClassName={"_searchPop"}
       getPopupContainer={(): any => document.getElementsByClassName("_search")[0]}>
       <Input
@@ -297,7 +296,6 @@ const Search = () => {
         className={styles.search}
         value={inputValue}
         placeholder="搜索音乐，视频，歌词，电台"
-        onClick={() => setPopoverVisible(!popoverVisible)}
         onChange={onInput}
         onPressEnter={(e: any) => toDetail(1, e.target.value)}
       />

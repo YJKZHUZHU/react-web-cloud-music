@@ -30,7 +30,8 @@ import classnames from "classnames"
 import API from "@/api"
 import Utils from "@/help"
 import SimiItem from "../components/SimiItem"
-import Artists, {IItem} from "@/components/Artists"
+import {Artists} from "@/components"
+import {IItem} from "@/components/Artists"
 import styles from "../index.scss"
 
 const {Option} = Select

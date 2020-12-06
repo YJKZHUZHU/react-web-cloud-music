@@ -3,7 +3,7 @@
 import React, {FC} from "react"
 import {CustomerServiceOutlined} from "@ant-design/icons"
 import {Link} from "umi"
-import PlayIcon from "@/components/PlayIcon"
+import {PlayIcon} from "@/components"
 import Utils from "@/help/index"
 import styles from "./index.scss"
 

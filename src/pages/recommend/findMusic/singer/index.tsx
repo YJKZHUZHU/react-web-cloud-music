@@ -6,10 +6,10 @@ import {UserOutlined, LoadingOutlined} from "@ant-design/icons"
 import {useRequest} from "ahooks"
 import {history} from "umi"
 import SelectTag from "../components/Selecttag"
+import {Artists} from "@/components"
 import {CLASSIFICATION, LANGUAGE, SELECT} from "@/help/map"
 import API from "@/api"
 import styles from "./index.scss"
-import Artists from "@/components/Artists"
 
 interface IParams {
   initial: number

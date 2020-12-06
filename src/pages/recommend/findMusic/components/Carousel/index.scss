@@ -2,7 +2,7 @@
 
 @import "utils";
 .carousel {
-  // width: 1000px;
+  min-height: 150px;
   margin: auto;
   position: relative;
   svg {
@@ -40,7 +40,7 @@
   .common {
     position: absolute;
     top: 39%;
-    color: $bgColor;
+    color: var(--font-color);
   }
 
   .left {
@@ -52,10 +52,4 @@
     @extend .common;
     right: 5px;
   }
-
-  //.right {
-  //  position: absolute;
-  //  top: 39%;
-  //  right: 2%;
-  //}
 }

@@ -7,20 +7,10 @@ import {RightOutlined} from "@ant-design/icons"
 import {useDispatch} from "umi"
 import {useBoolean} from "ahooks"
 import API from "@/api"
-import styles from "./index.scss"
+import styles from "../index.scss"
 
-interface ILoginModal {
+interface ILoginProps {
   callback: (visible: boolean) => void
-}
-
-interface TypeInterface {
-  type: number
-  title: string
-}
-
-const initTYpe: TypeInterface = {
-  type: 1,
-  title: "手机号登录"
 }
 const LAYOUT = {
   labelCol: {
@@ -33,7 +23,7 @@ const INIT_FORM = {
   email: "",
   password: ""
 }
-const LoginModal: FC<ILoginModal> = ({callback}) => {
+const Login: FC<ILoginProps> = ({callback}) => {
   const [form] = Form.useForm()
   const [loading, {toggle}] = useBoolean(false)
   const [loginPattern, setLoginPattern] = useState(0)
@@ -117,7 +107,7 @@ const LoginModal: FC<ILoginModal> = ({callback}) => {
       {loginPattern === 0 ? (
         <Space direction="vertical" className={styles.pattern}>
           <div className={styles.img}>
-            <img src={require("../../assets/platform.png")} />
+            <img src={require("../../../assets/platform.png")} />
           </div>
           <Button type="primary" block onClick={() => setLoginPattern(1)}>
             手机号登录
@@ -218,4 +208,4 @@ const LoginModal: FC<ILoginModal> = ({callback}) => {
   )
 }
 
-export default LoginModal
+export default Login

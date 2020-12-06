@@ -4,7 +4,7 @@ import React, {FC} from "react"
 import {Space} from "antd"
 import {HeartOutlined} from "@ant-design/icons"
 import Utils from "@/help"
-import Artists from "@/components/Artists"
+import {Artists} from "@/components"
 import styles from "./index.scss"
 
 interface IAr {

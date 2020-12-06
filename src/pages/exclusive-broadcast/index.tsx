@@ -4,7 +4,7 @@ import React, {useEffect, useState} from "react"
 import {Row, Col, Spin, message} from "antd"
 import InfiniteScroll from "react-infinite-scroller"
 import {useHistory} from "umi"
-import PlayIcon from "@/components/PlayIcon"
+import {PlayIcon} from "@/components"
 import API from "@/api"
 import styles from "./index.scss"
 

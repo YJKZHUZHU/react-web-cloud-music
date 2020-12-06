@@ -1,14 +1,11 @@
 /** @format */
 
 import React, {FC, useEffect} from "react"
-import Header from "@/components/Header"
 import {Drawer, Spin} from "antd"
 import {useDispatch, useSelector, SongInfoModelState} from "umi"
 import {Subscribe} from "@/Appcontainer"
-import PlayRecord from "@/components/PlayRecord"
-import PlayerLayout from "@/components/PlayerLayout"
+import {PlayRecord, PlayerLayout, Header} from "@/components"
 import Menu from "@/layouts/Menu"
-import Loading from "@/components/Loading"
 import Footer from "./Footer"
 import styles from "./index.scss"
 
@@ -53,7 +50,6 @@ const HomeLayout: FC<IHomeLayout> = ({children, $app}) => {
         <Drawer
           className={styles.drawer}
           placement="right"
-          // closable={false}
           bodyStyle={{paddingTop: 18}}
           visible={showPlayRecord}
           width={640}

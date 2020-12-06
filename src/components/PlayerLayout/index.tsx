@@ -11,11 +11,12 @@ import MouseWheel from "@better-scroll/mouse-wheel"
 import Ripple from "Ripple"
 import {useRequest} from "ahooks"
 import API from "@/api"
-import Artists from "@/components/Artists"
-import Comment, {IData} from "@/components/Comments"
-import SimiItem, {IData as Iformat} from "@/components/SimiItem"
+import {Artists, Comments, SimiItem} from "@/components"
+import {IData} from "@/components/Comments"
+import {IData as Iformat} from "@/components/SimiItem"
 import Utils from "@/help"
 import styles from "./index.scss"
+
 
 BScroll.use(ScrollBar)
 BScroll.use(MouseWheel)
@@ -211,9 +212,9 @@ const PlayerLayout = () => {
       <div className={styles.commentContainer}>
         <Space direction="vertical" className={styles.comment}>
           <span>精彩评论</span>
-          <Comment loading={hotLoading} data={hotData} type={0} />
+          <Comments loading={hotLoading} data={hotData} type={0} />
           <span>最新评论({data?.total})</span>
-          <Comment
+          <Comments
             loading={loading}
             data={data}
             type={1}

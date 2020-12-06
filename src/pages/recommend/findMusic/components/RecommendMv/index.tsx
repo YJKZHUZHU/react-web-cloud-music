@@ -3,7 +3,7 @@
 import React, {FC} from "react"
 import {PlayCircleOutlined} from "@ant-design/icons"
 import {Link} from "umi"
-import Artists from "@/components/Artists"
+import {Artists} from "@/components"
 import Utils from "@/help/index"
 import styles from "./index.scss"
 
