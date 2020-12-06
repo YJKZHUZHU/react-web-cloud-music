@@ -151,9 +151,12 @@ const Header = () => {
 
   return (
     <header className={styles._header}>
-      <h1 className={styles.logo}>
+      <Link to="/" className={styles.logo}>
+        <img src={require("../../assets/home.png")}></img>
+      </Link>
+      {/* <h1 className={styles.logo}>
         <Link to="/" />
-      </h1>
+      </h1> */}
       <div className={styles.routerBtn}>
         {showPlayer ? (
           <DownOutlined

@@ -61,8 +61,8 @@
     }
 
     .drawer {
-      position: absolute;
-      z-index: 1001;
+      // position: absolute;
+      // z-index: 1001;
     }
   }
 
@@ -192,14 +192,14 @@
             width: 36px;
             height: 36px;
             border-radius: 50%;
-            background-color: #e83c3c;
+            background-color: #00A799;
             color: #ffffff;
             display: flex;
             justify-content: center;
             align-items: center;
 
             &:hover {
-              background-color: #d33030;
+              background-color: #00A799;
             }
 
             &.now {

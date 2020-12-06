@@ -6,24 +6,32 @@ $logoPath: "../../assets/topbar.png";
 
 $lvBackground: "../../assets/mylevel.png";
 
+$homeBg: "../../assets/home.png";
+
 header,
 ._header {
   display: flex;
   height: 65px;
   width: 100%;
   background-color: var(--header-bgcolor);
+  background-color: #ffffff;
   justify-content: space-between;
   align-items: center;
 
   .logo {
+    // width: 160px;
+    // height: 65px;
     margin-left: 20px;
-    background: url($logoPath) 0 -18px;
-    width: 160px;
-    height: 35px;
+    img {
+      height: 65px;
+    }
+    // background: url($homeBg) 0 -18px;
+    // width: 160px;
+    // height: 35px;
   }
 
   .routerBtn {
-    // width: 125px;
+    width: 125px;
   }
   .skin {
     width: 200px;

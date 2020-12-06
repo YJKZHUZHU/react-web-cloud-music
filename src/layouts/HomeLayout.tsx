@@ -8,7 +8,7 @@ import {Subscribe} from "@/Appcontainer"
 import PlayRecord from "@/components/PlayRecord"
 import PlayerLayout from "@/components/PlayerLayout"
 import Menu from "@/layouts/Menu"
-import Loading from '@/components/Loading'
+import Loading from "@/components/Loading"
 import Footer from "./Footer"
 import styles from "./index.scss"
 
@@ -23,12 +23,20 @@ const HomeLayout: FC<IHomeLayout> = ({children, $app}) => {
     (state: any): SongInfoModelState => state.songInfoModel
   )
 
+  const onClose = () => {
+    dispatch({
+      type: "songInfoModel/setShowPlayRecord",
+      payload: {
+        showPlayRecord: false
+      }
+    })
+  }
+
   useEffect(() => {
     dispatch({
       type: "userModel/getUserInfo"
     })
   }, [])
-
 
   return (
     <div className={styles.home}>
@@ -45,11 +53,12 @@ const HomeLayout: FC<IHomeLayout> = ({children, $app}) => {
         <Drawer
           className={styles.drawer}
           placement="right"
-          closable={false}
+          // closable={false}
+          bodyStyle={{paddingTop: 18}}
           visible={showPlayRecord}
           width={640}
-          getContainer={false}
-          mask={false}>
+          onClose={onClose}
+          getContainer={false}>
           <PlayRecord />
         </Drawer>
       </main>
