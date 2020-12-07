@@ -28,6 +28,7 @@
 .list {
   li {
     @include flex();
+    align-items: center;
     padding: 10px 0 10px 5px;
     @include zebra-lists(#333333, #ffffff, #333333, #fafafa);
     &:hover {

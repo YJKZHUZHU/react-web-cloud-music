@@ -48,6 +48,8 @@ export default defineConfig({
       includePaths: ['./src/theme/']
     }
   },
+  cssModulesTypescriptLoader: {},
+  fastRefresh:{},
   extraBabelPlugins: [IS_PROD ? 'transform-remove-console' : ''],
   dva: {
     immer: true,
