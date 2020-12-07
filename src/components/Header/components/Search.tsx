@@ -293,7 +293,7 @@ const Search = () => {
       <Input
         type="search"
         suffix={<SearchOutlined onClick={() => toDetail(1, inputValue)} />}
-        className={styles.search}
+        className={styles.inputSearch}
         value={inputValue}
         placeholder="搜索音乐，视频，歌词，电台"
         onChange={onInput}

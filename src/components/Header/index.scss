@@ -39,6 +39,9 @@ header,
   }
   .search {
     flex: 1;
+    .inputSearch {
+      width: 500px;
+    }
   }
   .user {
     cursor: pointer;
@@ -416,9 +419,6 @@ header,
       margin-left: 10px;
     }
   }
-}
-.search {
-  width: 500px;
 }
 
 :global {
