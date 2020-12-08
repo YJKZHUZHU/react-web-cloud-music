@@ -32,6 +32,7 @@ export default defineConfig({
   },
   title: '豆芽音乐',
   esbuild: {},
+  autoprefixer: {},
   targets: {
     chrome: 79,
     firefox: false,
@@ -49,7 +50,7 @@ export default defineConfig({
     }
   },
   cssModulesTypescriptLoader: {},
-  fastRefresh:{},
+  fastRefresh: {},
   extraBabelPlugins: [IS_PROD ? 'transform-remove-console' : ''],
   dva: {
     immer: true,
@@ -64,108 +65,5 @@ export default defineConfig({
   },
   devServer: {
     compress: true,
-  },
-  // chunks: ['vendors', 'umi'],
-  // chainWebpack: (config, { webpack }) => {
-  //   config.merge({
-  //     optimization: {
-  //       minimize: true,
-  //       splitChunks: {
-  //         chunks: 'async',
-  //         minSize: 0,
-  //         cacheGroups: {
-  //           vendors: {
-  //             chunks: 'all',
-  //             name: 'vendors',
-  //             test: (module: { context: string }) => {
-  //               const packageName = getModulePackageName(module) || '';
-  //               if (packageName) {
-  //                 return [
-  //                   'react',
-  //                   'react-dom',
-  //                   'react-router',
-  //                   'react-router-dom',
-  //                   'lodash',
-  //                   'moment',
-  //                   'react-draggable',
-  //                   'react-infinite-scroller',
-  //                   'react-player',
-  //                   'unstated',
-  //                   'video-react',
-  //                   'antd'
-  //                 ].includes(packageName);
-  //               }
-  //               return false;
-  //             },
-  //             priority: 10
-  //           },
-  //           // antd: {
-  //           //   name: "argrace",
-  //           //   test: /[\\/]node_modules[\\/](@ant-design|antd|antd-mobile)[\\/]/,
-  //           //   chunks: "all",
-  //           //   priority: 9
-  //           // }
-  //         }
-  //       }
-  //     }
-  //   })
-  //   // config.optimization
-  //   //   .runtimeChunk(false)
-  //   //   .splitChunks({
-  //   //     chunks: 'async',
-  //   //     minSize: 0,
-  //   //     cacheGroups: {
-  //   //       vendors: {
-  //   //         chunks: 'all',
-  //   //         name: 'vendors',
-  //   //         test: (module: { context: string }) => {
-  //   //           const packageName = getModulePackageName(module) || '';
-  //   //           if (packageName) {
-  //   //             return [
-  //   //               'react',
-  //   //               'react-dom',
-  //   //               'react-router',
-  //   //               'react-router-dom',
-  //   //               'lodash',
-  //   //               'moment',
-  //   //               'react-draggable',
-  //   //               'react-infinite-scroller',
-  //   //               'react-player',
-  //   //               'unstated',
-  //   //               'video-react'
-  //   //             ].includes(packageName);
-  //   //           }
-  //   //           return false;
-  //   //         },
-  //   //         priority: 10
-  //   //       },
-  //   //       antd: {
-  //   //         name: "argrace",
-  //   //         test: /[\\/]node_modules[\\/](@ant-design|antd|antd-mobile)[\\/]/,
-  //   //         chunks: "all",
-  //   //         priority: 9
-  //   //       }
-  //   //     }
-  //   //   })
-  //   // config.merge({
-  //   //   optimization: {
-  //   //     minimize: true,
-  //   //     splitChunks: {
-  //   //       chunks: 'all',
-  //   //       minSize: 30000,
-  //   //       minChunks: 1,
-  //   //       automaticNameDelimiter: '.',
-  //   //       cacheGroups: {
-  //   //         vendor: {
-  //   //           name: 'vendors',
-  //   //           test({ resource }) {
-  //   //             return /[\\/]node_modules[\\/]/.test(resource);
-  //   //           },
-  //   //           priority: 10,
-  //   //         }
-  //   //       }
-  //   //     }
-  //   //   }
-  //   // })
-  // }
+  }
 })
