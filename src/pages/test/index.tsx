@@ -1,13 +1,23 @@
-/** @format */
+// /** @format */
 
-import React from "react"
-import styles from "./index.scss"
+// import React from "react"
+// import {useRequest} from "ahooks"
+// import {ButtonPopover} from "@/components"
+// import API from "@/api"
+// import styles from "./index.scss"
 
-export default function () {
-  return (
-    <div className={styles.topNumber}>
-      <div className={styles.trangle}></div>
-      <span className={styles.number}>1</span>
-    </div>
-  )
-}
+// export default function () {
+//   const {data} = useRequest(API.getVedioGroupList, {
+//     formatResult: (response) => {
+//       if(response.code !== 200) return []
+//       return response.data
+//     }
+//   })
+
+
+//   return (
+//     <div className={styles.topNumber}>
+//       {/* <ButtonPopover data={data} /> */}
+//     </div>
+//   )
+// }

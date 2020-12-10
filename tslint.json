@@ -9,7 +9,7 @@
     "prefer-const":[false],
     "no-shadowed-variable":[false],
     "variable-name":[false],
-    "no-console":[true],
+    "no-console":[false],
     "no-unused-expression":[false],
     "no-var-requires":[false],
     "no-unused-vars":[false],
