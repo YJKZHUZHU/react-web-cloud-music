@@ -173,6 +173,8 @@ export class API {
   static getVedioGroup = (params: any) => request(FetchUrl.VedioGroup, { params })
   // 全部mv
   static getAllMv = (params: any) => request(FetchUrl.AllMv, { params })
+  // mv 排行榜
+  static getTopMv = (params: any) => request(FetchUrl.TopMv, { params })
 }
 
 

@@ -336,7 +336,11 @@ export enum FetchUrl {
   /**
    * 全部MV
    */
-  AllMv = '/mv/all'
+  AllMv = '/mv/all',
+  /**
+   * mv排行
+   */
+  TopMv = '/top/mv'
 }
 
 enum Banner {

@@ -13,14 +13,21 @@ import {
   PauseOutlined
 } from "@ant-design/icons"
 import {useBoolean} from "ahooks"
-import usePlayRecord from "@/hooks/usePlayRecord"
-import style from "./index.scss"
+import {
+  useDispatch,
+  useLocation,
+  useSelector,
+  SongInfoModelState,
+  PlayModelState,
+  SingerInterface
+} from "umi"
 import classnames from "classnames"
+import usePlayRecord from "@/hooks/usePlayRecord"
 import Utils from "@/help"
 import ReactPlayer from "react-player"
 import store from "@/help/localStorage"
 import {PlayMode} from "@/components"
-import {useDispatch, useSelector, SongInfoModelState, PlayModelState, SingerInterface} from "umi"
+import style from "./index.scss"
 
 interface PlayerInterface {
   loaded?: number
@@ -31,6 +38,7 @@ interface PlayerInterface {
 
 const Footer = memo(() => {
   const dispatch = useDispatch()
+  const location = useLocation()
   const playRef = useRef<any>(null)
   const list = usePlayRecord()
   const volumnRef = useRef(0)
@@ -151,6 +159,8 @@ const Footer = memo(() => {
       }
     })
   }
+  // 视频播放隐藏
+  if (location.pathname === "/recommend/video/mvdetail") return null
   return (
     <footer className={style._footer}>
       <div className={style.footerContainer}>
@@ -280,9 +290,7 @@ const Footer = memo(() => {
                 className={style.slider}
               />
             </div>
-            <a
-              href="https://github.com/YJKZHUZHU/react-web-cloud-music"
-              target="_blank">
+            <a href="https://github.com/YJKZHUZHU/react-web-cloud-music" target="_blank">
               <GithubOutlined />
             </a>
           </Col>

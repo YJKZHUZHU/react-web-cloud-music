@@ -88,16 +88,22 @@ const MenuList = () => {
       icon: <PlayCircleOutlined />
     },
     {
-      url: "/recommend/friend",
-      text: "朋友",
-      login: loginStatus,
-      icon: <TeamOutlined />
-    },
-    {
       url: "/recommend/mv",
       text: "MV",
       login: true,
       icon: <PlayCircleOutlined />
+    },
+    {
+      url: "/recommend/top-mv",
+      text: "MV排行榜",
+      login: true,
+      icon: <PlayCircleOutlined />
+    },
+    {
+      url: "/recommend/friend",
+      text: "朋友",
+      login: loginStatus,
+      icon: <TeamOutlined />
     }
   ]
 
