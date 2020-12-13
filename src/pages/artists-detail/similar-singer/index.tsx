@@ -27,7 +27,7 @@ export interface IArtists {
 }
 
 const SimilarSinger: FC<IProps> = ({query}) => {
-  const {id,name} = query
+  const {id, name} = query
   const {data, run, loading} = useRequest(() => API.getSimilarSinger({id}), {
     manual: true
   })
@@ -35,6 +35,7 @@ const SimilarSinger: FC<IProps> = ({query}) => {
   useEffect(() => {
     run()
   }, [name])
+  if (!data?.artists.length) return <div>没有相关歌手</div>
   return (
     <Spin spinning={loading} tip="Loading...">
       <Row gutter={24} className={styles.descContent}>

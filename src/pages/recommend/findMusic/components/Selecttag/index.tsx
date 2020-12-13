@@ -16,11 +16,13 @@ interface SelectTagInterface {
   data: ItemInterface[]
   getSelectTag: (value: any) => void
   label: string
+  initChecked?: any
+  style?: React.CSSProperties
 }
 
 const SelectTag: FC<SelectTagInterface> = (prosp) => {
-  const {data, getSelectTag, label} = prosp
-  const [selectTag, setSelectTag] = useState([-1])
+  const {data, getSelectTag, label, initChecked, style} = prosp
+  const [selectTag, setSelectTag] = useState([initChecked])
   const onlanguageTag = (id: number, checked: boolean) => {
     if (checked) {
       setSelectTag([id])
@@ -34,6 +36,7 @@ const SelectTag: FC<SelectTagInterface> = (prosp) => {
           {data.map((item, index) => (
             <li key={item.id} className={styles.item}>
               <CheckableTag
+                style={style}
                 className={styles.tag}
                 key={item.id}
                 checked={selectTag.indexOf(item.id) > -1}
@@ -50,7 +53,8 @@ const SelectTag: FC<SelectTagInterface> = (prosp) => {
 }
 
 SelectTag.defaultProps = {
-  label: ""
+  label: "",
+  initChecked: -1
 }
 
 export default SelectTag

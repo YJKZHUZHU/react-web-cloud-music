@@ -332,7 +332,11 @@ export enum FetchUrl {
   /**
    * 获取视频标签/分类下的视频
    */
-  VedioGroup ='/video/group'
+  VedioGroup ='/video/group',
+  /**
+   * 全部MV
+   */
+  AllMv = '/mv/all'
 }
 
 enum Banner {

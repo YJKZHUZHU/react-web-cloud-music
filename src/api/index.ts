@@ -171,6 +171,8 @@ export class API {
   static getAllVedioList = (params: any) => request(FetchUrl.ALLVedioList, { params })
   // 获取视频标签/分类下的视频
   static getVedioGroup = (params: any) => request(FetchUrl.VedioGroup, { params })
+  // 全部mv
+  static getAllMv = (params: any) => request(FetchUrl.AllMv, { params })
 }
 
 

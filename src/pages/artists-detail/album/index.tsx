@@ -186,7 +186,7 @@ const Album: FC<IAlbum> = (props) => {
   const renderRightTop = (data: IHotAlbum[], title?: string) => {
     return (
       <Space size={20}>
-        <span className={styles.title}>{title ? title : "热门50首"}</span>
+        <span>{title ? title : "热门50首"}</span>
         <Space>
           <PlayCircleOutlined
             onClick={() =>
@@ -262,6 +262,7 @@ const Album: FC<IAlbum> = (props) => {
   }
 
   const albumLayoutType = (type: LayoutType) => {
+    if (!data?.list.length) return <div>没有相关专辑</div>
     if (type === MapLayout.CARD) {
       return (
         <Row gutter={24} className={styles.descContent}>

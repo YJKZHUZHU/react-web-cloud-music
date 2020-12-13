@@ -58,6 +58,7 @@ const Mv: FC<IMvProps> = ({query, total}) => {
   useEffect(() => {
     run({current: 1, pageSize: 12})
   }, [name])
+  if(!data?.list.length) return <div>没有相关mv</div>
   return (
     <Spin spinning={loading} tip="Loading...">
       <Space direction="vertical" size={20}>

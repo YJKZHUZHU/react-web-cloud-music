@@ -41,9 +41,9 @@ const FindMusic = () => {
       <TabPane tab="歌单" key="song-list" className={styles.tabPane}>
         <SongList />
       </TabPane>
-      <TabPane tab="主播电台" key="anchor-station" className={styles.tabPane}>
+      {/* <TabPane tab="主播电台" key="anchor-station" className={styles.tabPane}>
         <AnchorStation />
-      </TabPane>
+      </TabPane> */}
       <TabPane tab="排行榜" key="leaderboard" className={styles.tabPane}>
         <Leaderboard />
       </TabPane>

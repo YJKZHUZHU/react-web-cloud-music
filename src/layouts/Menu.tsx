@@ -92,6 +92,12 @@ const MenuList = () => {
       text: "朋友",
       login: loginStatus,
       icon: <TeamOutlined />
+    },
+    {
+      url: "/recommend/mv",
+      text: "MV",
+      login: true,
+      icon: <PlayCircleOutlined />
     }
   ]
 
