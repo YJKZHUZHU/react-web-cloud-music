@@ -1,33 +1,29 @@
 const path = require('path')
 const fs = require('fs')
 const lessToJs = require('less-vars-to-js')
-import * as IWebpackChainConfig from 'webpack-chain'
 import { defineConfig } from 'umi'
 import px2rem from 'postcss-plugin-px2rem'
 
-function getModulePackageName(module: { context: string }) {
-  if (!module.context) return null;
-  const nodeModulesPath = path.join(__dirname, '../node_modules/');
-  if (module.context.substring(0, nodeModulesPath.length) !== nodeModulesPath) {
-    return null;
-  }
-  const moduleRelativePath = module.context.substring(nodeModulesPath.length);
-  const [moduleDirName] = moduleRelativePath.split(path.sep);
-  let packageName: string | null = moduleDirName;
-  if (packageName && packageName.match('^_')) {
-    // eslint-disable-next-line prefer-destructuring
-    packageName = packageName.match(/^_(@?[^@]+)/)![1];
-  }
-  return packageName;
-}
 
 //判断只有在生产模式才开启
 const IS_PROD = ["production", "prod"].includes(process.env.NODE_ENV)
 
+const prod = IS_PROD ? {
+  plugins: ['@alitajs/hd'],
+  hd: {},
+  extraPostCSSPlugins: [
+    px2rem({
+      rootValue: 256,//开启hd后需要换算：rootValue=designWidth*100/750,此处设计稿为1920，所以1920*100/750=256
+      propBlackList: ['*'],//这些属性不需要转换
+      selectorBlackList: []//
+    })
+  ]
+} : {}
+
 export default defineConfig({
+  ...prod,
   exportStatic: false,
   antd: {},
-  // forkTSChecker:{}, // 编译ts检测
   // dynamicImport: {
   //   loading: '@/components/Loading/index'
   // },
@@ -67,13 +63,25 @@ export default defineConfig({
   devServer: {
     compress: true,
   },
-  // plugins: ['@alitajs/hd'],
-  // hd: {},
-  // extraPostCSSPlugins: [
-  //   px2rem({
-  //     rootValue: 256,//开启hd后需要换算：rootValue=designWidth*100/750,此处设计稿为1920，所以1920*100/750=256
-  //     propBlackList: ['*'],//这些属性不需要转换
-  //     selectorBlackList: []//
-  //   })
-  // ]
+  chunks: ['react', 'antd', 'umi'],
+  chainWebpack(config, { webpack }) {
+    config.optimization.splitChunks({
+      cacheGroups: {
+        // react 相关
+        react: {
+          name: 'react',
+          chunks: 'all',
+          test: /[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom|video-react|react-player)[\\/]/,
+          priority: 12,
+        },
+        // antd
+        antd: {
+          name: 'antd',
+          chunks: 'all',
+          test: /[\\/]node_modules[\\/](moment|antd|@ant-design|antd-mobile|ahooks)[\\/]/,
+          priority: 11
+        }
+      }
+    })
+  }
 })

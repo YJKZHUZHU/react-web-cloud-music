@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "start": "umi dev",
-    "build": "UMI_ENV=build umi build",
+    "build": "umi build",
     "test": "umi test"
   },
   "dependencies": {
