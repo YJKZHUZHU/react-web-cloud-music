@@ -3,7 +3,7 @@
 import React, {FC} from "react"
 import {PlayCircleOutlined} from "@ant-design/icons"
 import {Link} from "umi"
-import {Artists} from "@/components"
+import {Artists, PlayIcon} from "@/components"
 import Utils from "@/help/index"
 import styles from "./index.scss"
 
@@ -46,6 +46,7 @@ const RecommendMv: FC<IRecommendMv> = ({data}) => {
           <div className={styles.descWrap}>
             <span className={styles.desc}>{data.copywriter}</span>
           </div>
+          <PlayIcon iconClassName={styles.playIcon}/>
         </div>
         <p className={styles.name}>{data.name}</p>
         <Artists data={data.artists} />

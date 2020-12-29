@@ -19,7 +19,13 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3ac4d602-c92c-4419-bff4-268fa41f4872" name="默认的" comment="" />
+    <list default="true" id="3ac4d602-c92c-4419-bff4-268fa41f4872" name="默认的" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/type.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/type.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/recommend/friend/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/recommend/friend/index.tsx" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -59,8 +65,8 @@
     <property name="node.js.selected.package.standard" value="" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
-    <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.TypeScript" />
+    <property name="ts.external.directory.path" value="$PROJECT_DIR$/node_modules/typescript/lib" />
     <property name="typescript.add.unambiguous.imports.on.the.fly" value="true" />
   </component>
   <component name="RecentsManager">
@@ -112,6 +118,7 @@
       <workItem from="1589549473293" duration="1610000" />
       <workItem from="1589700006036" duration="8430000" />
       <workItem from="1603810178907" duration="15000" />
+      <workItem from="1608967824903" duration="2141000" />
     </task>
     <servers />
   </component>
@@ -135,6 +142,14 @@
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
     <state x="634" y="311" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1792.1120@0.0.1792.1120" timestamp="1605618291539" />
+    <state x="405" y="196" key="SettingsEditor" timestamp="1608968068127">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state x="405" y="196" key="SettingsEditor/0.0.1792.1120@0.0.1792.1120" timestamp="1608968068127" />
+    <state x="596" y="317" width="599" height="486" key="find.popup" timestamp="1608968388874">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state x="596" y="317" width="599" height="486" key="find.popup/0.0.1792.1120@0.0.1792.1120" timestamp="1608968388874" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

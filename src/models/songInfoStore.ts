@@ -71,13 +71,14 @@ const SongInfoModel: SongInfoModeType = {
   },
   effects: {
     *getSongInfo({ payload }, { call, put, select }) {
+      const { playHistory, songObj: songInfo } = yield select((state: any): SongInfoModelState => state.songInfoModel)
+      if (songInfo.id === payload?.id) return false
       const { id } = payload
       const PlayRet = yield call(API.playSong, { id })
       const SongRet = yield call(API.song, { ids: id })
       const LyricRet = yield call(API.getLyric, { id })
       const [songObj] = SongRet.songs
       const lyric = Utils.formatterLyric(LyricRet.lrc ? LyricRet.lrc.lyric : '')
-      const { playHistory } = yield select((state: any): SongInfoModelState => state.songInfoModel)
       yield put({
         type: 'initSongInfo',
         payload: { id, PlayRet, SongRet, lyric, isPlay: true, playHistory: Utils.removeRepeat([...playHistory, songObj], 'id') }

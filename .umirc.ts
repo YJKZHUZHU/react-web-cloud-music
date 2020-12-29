@@ -28,9 +28,9 @@ export default defineConfig({
   exportStatic: false,
   antd: {},
   // forkTSChecker:{}, // 编译ts检测
-  dynamicImport: {
-    loading: '@/components/Loading/index'
-  },
+  // dynamicImport: {
+  //   loading: '@/components/Loading/index'
+  // },
   title: '豆芽音乐',
   esbuild: {},
   autoprefixer: {},

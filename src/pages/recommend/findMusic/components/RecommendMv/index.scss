@@ -5,6 +5,11 @@
 ._list {
   position: relative;
   width: 100%;
+  &:hover {
+    .playIcon {
+      opacity: 1;
+    }
+  }
 
   cursor: pointer;
 
@@ -51,10 +56,6 @@
     &:hover {
       .descWrap {
         transform: translateY(0);
-      }
-
-      .playIcon {
-        opacity: 1;
       }
     }
   }

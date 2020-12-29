@@ -2,7 +2,7 @@ import { request } from 'umi'
 import { ILoginByPhone, IBanner, IUser, FetchUrl } from './type'
 
 const POST: any = {
-  method: "POST",
+  method: 'POST',
   requestType: 'form'
 }
 
@@ -175,6 +175,10 @@ export class API {
   static getAllMv = (params: any) => request(FetchUrl.AllMv, { params })
   // mv 排行榜
   static getTopMv = (params: any) => request(FetchUrl.TopMv, { params })
+  // 获取动态
+  static getEvent = (params: { pageSize: number, lasttime: number }) => request(FetchUrl.Event, { params })
+  // 热门话题
+  static getHotTopic = (params: { limit?: number, offset?: number }) => request(FetchUrl.HotTopic, { params })
 }
 
 

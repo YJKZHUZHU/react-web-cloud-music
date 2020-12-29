@@ -2,7 +2,7 @@
 
 import React, {FC} from "react"
 import {CaretRightOutlined, PlaySquareOutlined} from "@ant-design/icons"
-import {Artists} from "@/components"
+import {Artists, PlayIcon} from "@/components"
 import {useDispatch, useHistory} from "umi"
 import styles from "./index.scss"
 
@@ -40,9 +40,7 @@ const NewMusic: FC<INewMusic> = ({data, index}) => {
       <span className={styles.number}>{index < 10 ? `0${index}` : index}</span>
       <div className={styles.img}>
         <img src={data.picUrl} />
-        <span className={styles.playIcon}>
-          <CaretRightOutlined />
-        </span>
+        <PlayIcon iconClassName={styles.playIcon}/>
       </div>
       <div className={styles.content}>
         <p>{data.name}</p>

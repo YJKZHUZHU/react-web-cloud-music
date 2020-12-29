@@ -7,6 +7,11 @@
   cursor: pointer;
   padding: 15px 15px 7px 0;
   border-right: 1px solid var(--border);
+  &:hover {
+    .playIcon {
+      opacity: 1;
+    }
+  }
 
   &:hover {
     background: var(--playlist-hover-bgcolor);
@@ -30,26 +35,26 @@
       border-radius: 5px;
     }
 
-    .playIcon {
-      @include know-center(26px, 26px);
-      color: #fff;
-      width: 26px;
-      height: 26px;
-      border: 1px solid #d2cfc4;
-      background-color: #6c6d64;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    // .playIcon {
+    //   @include know-center(26px, 26px);
+    //   color: #fff;
+    //   width: 26px;
+    //   height: 26px;
+    //   border: 1px solid #d2cfc4;
+    //   background-color: #6c6d64;
+    //   border-radius: 50%;
+    //   display: flex;
+    //   justify-content: center;
+    //   align-items: center;
 
-      &:hover {
-        background-color: #474843;
-      }
+    //   &:hover {
+    //     background-color: #474843;
+    //   }
 
-      i {
-        margin-left: 2px;
-      }
-    }
+    //   i {
+    //     margin-left: 2px;
+    //   }
+    // }
   }
 
   .content {

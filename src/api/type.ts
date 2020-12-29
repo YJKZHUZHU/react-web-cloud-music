@@ -340,7 +340,15 @@ export enum FetchUrl {
   /**
    * mv排行
    */
-  TopMv = '/top/mv'
+  TopMv = '/top/mv',
+  /**
+   * 动态
+   */
+  Event = '/event',
+  /**
+   * 热门话题
+   */
+  HotTopic = '/hot/topic'
 }
 
 enum Banner {

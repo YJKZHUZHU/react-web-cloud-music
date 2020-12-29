@@ -21,8 +21,19 @@
       height: 80px;
       justify-content: space-around;
       align-items: center;
+      .icon {
+        width: 18px;
+        height: 18px;
+        margin: -9px -9px;
+      }
+      .playFont {
+        font-size: 12px;
+      }
       &:hover {
         background-color: #f2f2f3;
+        .icon {
+          opacity: 1;
+        }
       }
       .number {
         font-size: 12px;
@@ -40,25 +51,6 @@
         img {
           width: 100%;
           border-radius: 5px;
-        }
-        .icon {
-          @include know-center(20px, 20px);
-          width: 20px;
-          height: 20px;
-          border: 1px solid #d2cfc4;
-          background-color: #6c6e63;
-          color: #ffffff;
-          border-radius: 50%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          cursor: pointer;
-          &:hover {
-            background-color: #474943;
-          }
-          i {
-            margin-left: 2px;
-          }
         }
       }
       .smallTip {
@@ -144,6 +136,8 @@
     }
 
     .img {
+      min-width: 160px;
+      
       cursor: pointer;
       position: relative;
       background: url("../../../../assets/coverall.png") no-repeat;

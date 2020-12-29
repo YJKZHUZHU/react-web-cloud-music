@@ -5,7 +5,7 @@ import {useDispatch, useHistory} from "umi"
 import {Tabs, Spin} from "antd"
 import {CaretRightOutlined, PlaySquareOutlined} from "@ant-design/icons"
 import {useRequest} from "ahooks"
-import {Artists} from "@/components"
+import {Artists, PlayIcon} from "@/components"
 import API from "@/api"
 import Utils from "@/help"
 import {NEW_SONGS_TAB_MAP} from "@/help/map"
@@ -128,7 +128,6 @@ interface IData {
   data: IListItem[]
 }
 
-
 interface IList {
   active: string
   tip: string
@@ -166,9 +165,7 @@ const List: FC<IList> = ({active, tip}) => {
                 <span className={styles.number}>{index < 9 ? `0${index + 1}` : index + 1}</span>
                 <div className={styles.img}>
                   <img src={item.album.picUrl} />
-                  <div className={styles.icon}>
-                    <CaretRightOutlined />
-                  </div>
+                  <PlayIcon iconClassName={styles.icon} className={styles.playFont} />
                 </div>
                 <p className={styles.content}>
                   <span>{item.name}</span>
