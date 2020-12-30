@@ -24,9 +24,9 @@ export default defineConfig({
   ...prod,
   exportStatic: false,
   antd: {},
-  // dynamicImport: {
-  //   loading: '@/components/Loading/index'
-  // },
+  dynamicImport: {
+    loading: '@/components/Loading/index'
+  },
   title: '豆芽音乐',
   esbuild: {},
   autoprefixer: {},
@@ -63,23 +63,24 @@ export default defineConfig({
   devServer: {
     compress: true,
   },
-  chunks: ['react', 'antd', 'umi'],
+  chunks: ['vendors', 'umi'],
   chainWebpack(config, { webpack }) {
-    config.optimization.splitChunks({
-      cacheGroups: {
-        // react 相关
-        react: {
-          name: 'react',
-          chunks: 'all',
-          test: /[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom|video-react|react-player)[\\/]/,
-          priority: 12,
-        },
-        // antd
-        antd: {
-          name: 'antd',
-          chunks: 'all',
-          test: /[\\/]node_modules[\\/](moment|antd|@ant-design|antd-mobile|ahooks)[\\/]/,
-          priority: 11
+    config.merge({
+      optimization:{
+        splitChunks: {
+          chunks: 'async',
+          minSize: 30000,
+          minChunks: 3,
+          automaticNameDelimiter: '.',
+          cacheGroups: {
+            vendor: {
+              name: 'vendors',
+              test({ resource }) {
+                return /[\\/]node_modules[\\/]/.test(resource);
+              },
+              priority: 10,
+            }
+          }
         }
       }
     })
