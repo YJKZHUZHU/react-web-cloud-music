@@ -26,7 +26,7 @@ const UserContent: FC<IUserContent> = (props) => {
     <div className={styles._main}>
       <div className={styles.top}>
         <div className={styles.user}>
-          <div className={styles.left}>
+          <Space>
             <Avatar
               src={Object.keys(userInfo).length && userInfo.profile.avatarUrl}
               icon={<UserOutlined />}
@@ -34,7 +34,8 @@ const UserContent: FC<IUserContent> = (props) => {
             <i className={styles.name}>
               {Object.keys(userInfo).length && userInfo.profile.nickname}
             </i>
-          </div>
+          </Space>
+
           <Button size="small" onClick={runSignin} disabled={userInfo.pcSign || signIn}>
             <CarryOutOutlined />
             {userInfo.pcSign || signIn ? "已签到" : "签到"}
@@ -42,21 +43,21 @@ const UserContent: FC<IUserContent> = (props) => {
         </div>
         <div className={styles.attention}>
           <div onClick={() => onLink("/care/dynamic")}>
-            <Space direction="vertical" size={5}>
+            <Space direction="vertical" size={5} className={styles.link}>
               <i>{userInfo.profile && userInfo.profile.eventCount}</i>
               <em>动态</em>
             </Space>
           </div>
           <Divider type="vertical" className={styles.divider} />
           <div onClick={() => onLink("/care/follows")}>
-            <Space direction="vertical" size={4}>
+            <Space direction="vertical" size={5} className={styles.link}>
               <i>{userInfo.profile && userInfo.profile.follows}</i>
               <em>关注</em>
             </Space>
           </div>
           <Divider type="vertical" className={styles.divider} />
           <div onClick={() => onLink("/care/fan")}>
-            <Space direction="vertical" size={4}>
+            <Space direction="vertical" size={5} className={styles.link}>
               <i>{userInfo.profile && userInfo.profile.followeds}</i>
               <em>粉丝</em>
             </Space>
@@ -67,24 +68,24 @@ const UserContent: FC<IUserContent> = (props) => {
       <div className={styles.middle}>
         <ul>
           <li className={styles.item}>
-            <span>
+            <Space>
               <CustomerServiceOutlined />
               <em>会员中心</em>
-            </span>
+            </Space>
             <span>{userInfo.profile && userInfo.profile.followed ? "已订购" : "未订购"}</span>
           </li>
           <li className={styles.item}>
-            <span>
+            <Space>
               <ThunderboltOutlined />
               <em>会员等级</em>
-            </span>
+            </Space>
             <em className={styles.level}>LV.7</em>
           </li>
           <li className={styles.item}>
-            <span>
+            <Space>
               <SettingOutlined />
               <em>个人信息设置</em>
-            </span>
+            </Space>
             <RightOutlined />
           </li>
         </ul>

@@ -26,6 +26,7 @@ interface CssExports {
   'inputSearch': string;
   'item': string;
   'level': string;
+  'link': string;
   'linkColor': string;
   'logo': string;
   'middle': string;

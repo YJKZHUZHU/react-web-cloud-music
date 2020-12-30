@@ -3,7 +3,6 @@
 @import "utils";
 
 $logoPath: "../../assets/topbar.png";
-
 $lvBackground: "../../assets/mylevel.png";
 $bgPath: "../../assets/xuebi.png";
 
@@ -116,6 +115,9 @@ header,
       .attention {
         margin-top: 10px;
         @extend .user;
+        .link {
+          align-items: center;
+        }
 
         .item {
           flex-direction: column;
@@ -330,6 +332,7 @@ header,
 ._searchSuggest {
   width: 500px;
   max-height: 300px;
+  padding: 0 0 10px 10px;
   // height: 300px;
   overflow-y: scroll;
 

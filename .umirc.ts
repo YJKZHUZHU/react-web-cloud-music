@@ -9,6 +9,7 @@ import px2rem from 'postcss-plugin-px2rem'
 const IS_PROD = ["production", "prod"].includes(process.env.NODE_ENV)
 
 const prod = IS_PROD ? {
+  extraBabelPlugins: [IS_PROD ? 'transform-remove-console' : ''],
   plugins: ['@alitajs/hd'],
   hd: {},
   extraPostCSSPlugins: [
@@ -48,7 +49,6 @@ export default defineConfig({
   },
   cssModulesTypescriptLoader: {},
   fastRefresh: {},
-  extraBabelPlugins: [IS_PROD ? 'transform-remove-console' : ''],
   dva: {
     immer: true,
     hmr: false,
@@ -66,7 +66,7 @@ export default defineConfig({
   chunks: ['vendors', 'umi'],
   chainWebpack(config, { webpack }) {
     config.merge({
-      optimization:{
+      optimization: {
         splitChunks: {
           chunks: 'async',
           minSize: 30000,

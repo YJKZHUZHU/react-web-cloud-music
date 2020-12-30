@@ -22,7 +22,7 @@ import {
   SingerInterface
 } from "umi"
 import classnames from "classnames"
-import usePlayRecord from "@/hooks/usePlayRecord"
+import {usePlayRecord} from "@/hooks"
 import Utils from "@/help"
 import ReactPlayer from "react-player"
 import store from "@/help/localStorage"
