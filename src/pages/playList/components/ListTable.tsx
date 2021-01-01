@@ -1,50 +1,23 @@
 /** @format */
 
-import React, {FC, useEffect, useState, useMemo} from "react"
+import React, {FC} from "react"
 import {HeartOutlined, PlayCircleOutlined} from "@ant-design/icons"
-import {Table, message} from "antd"
-import {history, useDispatch} from "umi"
+import {Table} from "antd"
+import {useDispatch, useHistory} from "umi"
 import {Artists} from "@/components"
-import API from "@/api"
 import Utils from "@/help"
 import styles from "../index.scss"
 
 interface TableListProps {
-  trackIds?: any[]
-  tracks?: any
+  data: any[]
+  loading: boolean
   searchValue: string
-  getRecord: (record: any) => void
 }
 
-const TableList: FC<TableListProps> = ({trackIds = [], searchValue = "", getRecord}) => {
-  const [tableData, setTableData] = useState([])
-  const [loading, setLoading] = useState(false)
+const TableList: FC<TableListProps> = (props) => {
+  const {data, loading, searchValue} = props
   const dispatch = useDispatch()
-  const getData = async () => {
-    if (trackIds.length === 0) return false
-    setLoading(true)
-    try {
-      const Ret = await API.song({ids: trackIdsStr})
-      setLoading(false)
-      setTableData([])
-      getRecord([])
-      if (Ret.code !== 200) return message.info("稍后再试")
-      setTableData(Ret.songs)
-      return getRecord(Ret.songs)
-    } catch (error) {
-      setLoading(false)
-      setTableData([])
-      getRecord([])
-      return message.info("稍后再试")
-    }
-  }
-
-  const onMv = (mvid: string) => {
-    history.push({
-      pathname: "/recommend/video/mvDetail",
-      query: {mvid}
-    })
-  }
+  const history = useHistory()
 
   const columns: any[] = [
     {
@@ -58,7 +31,10 @@ const TableList: FC<TableListProps> = ({trackIds = [], searchValue = "", getReco
             <span>{index < 10 ? `0${index}` : index}</span>
             <HeartOutlined className={styles.heartIcon} />
             {!!record.mv ? (
-              <PlayCircleOutlined className={styles.playIcon} onClick={() => onMv(record.mv)} />
+              <PlayCircleOutlined
+                className={styles.playIcon}
+                onClick={() => history.push(`/recommend/video/mvDetail?mvid=${record.mv}`)}
+              />
             ) : null}
           </div>
         )
@@ -98,14 +74,6 @@ const TableList: FC<TableListProps> = ({trackIds = [], searchValue = "", getReco
     }
   ]
 
-  const trackIdsStr = useMemo(() => {
-    return trackIds.reduce((memo: any, item: any) => memo.concat(item.id), []).toString()
-  }, [trackIds])
-
-  useEffect(() => {
-    getData()
-  }, [trackIdsStr])
-
   return (
     <Table
       loading={loading}
@@ -123,9 +91,7 @@ const TableList: FC<TableListProps> = ({trackIds = [], searchValue = "", getReco
       columns={columns}
       size="small"
       dataSource={
-        searchValue
-          ? tableData.filter((item: {name: string}) => item.name.includes(searchValue))
-          : tableData
+        searchValue ? data?.filter((item: {name: string}) => item.name.includes(searchValue)) : data
       }
       pagination={false}
       rowKey={(record: any) => record.id}

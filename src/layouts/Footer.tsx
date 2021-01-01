@@ -1,6 +1,6 @@
 /** @format */
 
-import React, {useState, useRef, memo} from "react"
+import React, {useState, useRef, memo, useEffect} from "react"
 import {Slider, Radio, Tooltip, Row, Col, Space} from "antd"
 import {
   FullscreenOutlined,
@@ -12,7 +12,7 @@ import {
   GithubOutlined,
   PauseOutlined
 } from "@ant-design/icons"
-import {useBoolean} from "ahooks"
+import {useBoolean, useUpdateEffect} from "ahooks"
 import {
   useDispatch,
   useLocation,
@@ -44,6 +44,7 @@ const Footer = memo(() => {
   const list = usePlayRecord()
   const volumnRef = useRef(0)
   const [volume, setVolme] = useState(Number(store.getStorage("volume")))
+  const [recordTip, setRecordTip] = useState('')
   const [showValumeIcon, {toggle}] = useBoolean(Number(store.getStorage("volume")) === 0) // 是否静音
   const {songInfoModel, playmodel} = useSelector((state: IState) => state)
   const {isPlay, showPlayRecord, playRecordTip, songObj} = songInfoModel
@@ -157,8 +158,17 @@ const Footer = memo(() => {
       }
     })
   }
+  useUpdateEffect(() => {
+    setRecordTip("播放列表更新啦")
+    const timer = setTimeout(() => {
+      setRecordTip("")
+    }, 1000)
+    return () => clearTimeout(timer)
+  }, [JSON.stringify(list)])
+
   // 视频播放隐藏
   if (location.pathname === "/recommend/video/mvdetail") return null
+
   return (
     <footer className={style._footer}>
       <div className={style.footerContainer}>
@@ -267,9 +277,13 @@ const Footer = memo(() => {
           <Col span={5} className={style.operating}>
             <ShareAltOutlined />
             <PlayMode />
-            <Tooltip title={playRecordTip} visible={!!playRecordTip}>
+            {playRecordTip ? (
+              <Tooltip title={playRecordTip} visible={true}>
+                <i className={classnames("iconfont", "icon-bofangliebiao")} onClick={onRecord} />
+              </Tooltip>
+            ) : (
               <i className={classnames("iconfont", "icon-bofangliebiao")} onClick={onRecord} />
-            </Tooltip>
+            )}
 
             <div className={style.progress}>
               <i
