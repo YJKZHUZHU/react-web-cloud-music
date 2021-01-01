@@ -8,9 +8,10 @@ import classnames from "classnames"
 import Utils from "@/help/index"
 import API from "@/api"
 import styles from "@/pages/care/index.scss"
+import { IState } from 'typings'
 
 const Dynamic: FC = () => {
-  const {userInfo} = useSelector((state: any): UserModelState => state.userModel)
+  const {userInfo} = useSelector((state: IState) => state.userModel)
   const [dynamicArr, setDynamicArr] = useState([])
 
   const commentLike = async (info: any, t: number) => {

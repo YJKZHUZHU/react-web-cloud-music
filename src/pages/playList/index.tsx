@@ -17,6 +17,7 @@ import Collection from "./components/Collection"
 import moment from "moment"
 import Utils from "@/help"
 import styles from "./index.scss"
+import { IState } from 'typings'
 
 const {TabPane} = Tabs
 const {Search} = Input
@@ -34,7 +35,7 @@ const PlayList = () => {
   const [searchValue, setSearchValue] = useState("")
   const dispatch = useDispatch()
 
-  const {playRecord} = useSelector((state: any): SongInfoModelState => state.songInfoModel)
+  const {playRecord} = useSelector((state: IState) => state.songInfoModel)
 
   const onTabs = (activeKey: string) => (+activeKey === 1 ? setSearch(true) : setSearch(false))
 

@@ -4,10 +4,11 @@ import React, {FC, useEffect, useState, forwardRef} from "react"
 import {InfoCircleOutlined} from "@ant-design/icons"
 import {Divider, Input, Popover, Button, Tag, message, Form} from "antd"
 import styles from "./index.scss"
-import {history, useSelector, UserModelState} from "umi"
+import {history, useSelector} from "umi"
 import {FormInstance} from "antd/lib/form"
 import API from "@/api"
 import Map from "@/help/map"
+import {IState} from "typings"
 
 const {CheckableTag} = Tag
 const MapList = new Map()
@@ -114,7 +115,7 @@ const mapToForm = (data: any[], id: number) => {
 }
 
 const EditSongList: FC<Props> = (props) => {
-  const {playList, userId} = useSelector((state: any): UserModelState => state.userModel)
+  const {playList, userId} = useSelector((state: IState) => state.userModel)
   const [form] = Form.useForm()
   const {setFieldsValue} = form
   const creatorItem = mapToForm(playList.creator, history.location.query.id)
@@ -149,11 +150,7 @@ const EditSongList: FC<Props> = (props) => {
       <Divider className={styles.divider} />
       <div className={styles.content}>
         <div className={styles.form}>
-          <Form
-            onFinish={onSubmit}
-            form={form}
-            labelCol={{span: 2}}
-            wrapperCol={{span: 20}}>
+          <Form onFinish={onSubmit} form={form} labelCol={{span: 2}} wrapperCol={{span: 20}}>
             <Form.Item label="歌单名" name="name">
               <Input placeholder="歌单名" allowClear />
             </Form.Item>
@@ -187,6 +184,5 @@ const EditSongList: FC<Props> = (props) => {
     </div>
   )
 }
-
 
 export default EditSongList

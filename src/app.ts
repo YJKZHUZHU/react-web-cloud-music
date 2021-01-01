@@ -1,7 +1,6 @@
 import { history, RequestConfig } from 'umi'
 import { message } from 'antd'
 import Nprogress from 'nprogress'
-import { appState } from '@/models/gloable'
 import 'nprogress/nprogress.css'
 
 export function onRouteChange({ location, matchedRoutes }: any) {
@@ -40,7 +39,6 @@ export const request: RequestConfig = {
     (url, options: any) => {
       Nprogress.start()
       if (options.params.loading === true) {
-        appState.setLoading(true)
         delete options.params.loading
       }
       return {
@@ -52,7 +50,6 @@ export const request: RequestConfig = {
   responseInterceptors: [
     (response) => {
       Nprogress.done()
-      appState.setLoading(false)
       if (response.status === 301) {
         message.info('登录可以体验更多功能哦！')
       }

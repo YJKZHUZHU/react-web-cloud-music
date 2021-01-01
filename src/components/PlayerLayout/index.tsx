@@ -2,7 +2,7 @@
 
 import React, {useEffect, useState, useRef} from "react"
 import classnames from "classnames"
-import {useSelector, PlayModelState, SongInfoModelState} from "umi"
+import {useSelector} from "umi"
 import {Space} from "antd"
 import {CaretRightOutlined} from "@ant-design/icons"
 import BScroll from "@better-scroll/core"
@@ -16,7 +16,7 @@ import {IData} from "@/components/Comments"
 import {IData as Iformat} from "@/components/SimiItem"
 import Utils from "@/help"
 import styles from "./index.scss"
-
+import {IState} from "typings"
 
 BScroll.use(ScrollBar)
 BScroll.use(MouseWheel)
@@ -49,10 +49,9 @@ const formatSimiSongList = (data: any[] = []): Iformat[] => {
 }
 
 const PlayerLayout = () => {
-  const {isPlay, songObj, lyric, songId: id} = useSelector(
-    (state: any): SongInfoModelState => state.songInfoModel
-  )
-  const {playerObj, showPlayer} = useSelector((state: any): PlayModelState => state.playmodel)
+  const {songInfoModel, playmodel} = useSelector((state: IState) => state)
+  const {isPlay, songObj, lyric, songId: id} = songInfoModel
+  const {playerObj, showPlayer} = playmodel
   const [scroller, setScroller] = useState<any>(null)
   const [rd, setRd] = useState<any>(null)
   const imgContainerRef: any = useRef<any>(null)

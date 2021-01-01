@@ -3,10 +3,11 @@
 import React from "react"
 import {DeleteOutlined, FileAddOutlined} from "@ant-design/icons"
 import {Tabs, Divider, Table} from "antd"
-import {useSelector, useDispatch, UserModelState, SongInfoModelState} from "umi"
+import {useSelector, useDispatch} from "umi"
 import styles from "./index.scss"
 import Utils from "@/help/index"
 import classnames from "classnames"
+import {IState} from "typings"
 const {TabPane} = Tabs
 
 const columns: any[] = [
@@ -48,15 +49,14 @@ const allRecordsColumns: any[] = [
 
 const PlayRecord = () => {
   const dispatch = useDispatch()
-  const {allPlayRecord} = useSelector((state: any): UserModelState => state.userModel)
-  const {playRecord, playHistory} = useSelector(
-    (state: any): SongInfoModelState => state.songInfoModel
-  )
+  const {userModel, songInfoModel} = useSelector((state: IState) => state)
+  const {allPlayRecord} = userModel
+  const {playRecord, playHistory} = songInfoModel
 
   const header = (total: number, isDelete: boolean = true, isCollect: boolean = true) => {
     return (
       <div className={styles.header}>
-        <p className={styles.left}>总共{total}首</p>
+        <p>总共{total}首</p>
         <div className={styles.right}>
           {isCollect && (
             <p className={styles.delete}>

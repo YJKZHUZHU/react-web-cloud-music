@@ -1,24 +1,18 @@
 /** @format */
 
 import React, {FC, useEffect} from "react"
-import {Drawer, Spin} from "antd"
-import {useDispatch, useSelector, SongInfoModelState} from "umi"
-import {Subscribe} from "@/Appcontainer"
+import {Drawer} from "antd"
+import {useDispatch, useSelector} from "umi"
 import {PlayRecord, PlayerLayout, Header} from "@/components"
 import Menu from "@/layouts/Menu"
 import Footer from "./Footer"
+import {IState} from "typings"
 import styles from "./index.scss"
 
-interface IHomeLayout {
-  $app: any
-}
-
-const HomeLayout: FC<IHomeLayout> = ({children, $app}) => {
+const HomeLayout: FC = ({children}) => {
   const dispatch = useDispatch()
 
-  const {showPlayRecord, songObj} = useSelector(
-    (state: any): SongInfoModelState => state.songInfoModel
-  )
+  const {showPlayRecord, songObj} = useSelector((state: IState) => state.songInfoModel)
 
   const onClose = () => {
     dispatch({
@@ -41,11 +35,7 @@ const HomeLayout: FC<IHomeLayout> = ({children, $app}) => {
       <main>
         <Menu />
         <article>
-          <div className={styles.containerWrapper}>
-            <Spin size="large" spinning={$app.state.loading} tip="Loading...">
-              {children}
-            </Spin>
-          </div>
+          <div className={styles.containerWrapper}>{children}</div>
         </article>
         <Drawer
           className={styles.drawer}
@@ -65,4 +55,4 @@ const HomeLayout: FC<IHomeLayout> = ({children, $app}) => {
   )
 }
 
-export default Subscribe(HomeLayout)
+export default HomeLayout

@@ -1,16 +1,18 @@
-import React, {FC, useEffect, useState} from 'react'
-import { WechatOutlined,CheckOutlined , PlusOutlined} from '@ant-design/icons';
-import { List, Avatar, Divider, Button, message } from 'antd';
-import {Link, useSelector,UserModelState} from "umi"
-import API from '@/api'
-import styles from "../index.scss"
+/** @format */
 
+import React, {FC, useEffect, useState} from "react"
+import {WechatOutlined, CheckOutlined, PlusOutlined} from "@ant-design/icons"
+import {List, Avatar, Divider, Button, message} from "antd"
+import {Link, useSelector} from "umi"
+import API from "@/api"
+import styles from "../index.scss"
+import {IState} from "typings"
 
 interface ICare {
-  type:number
+  type: number
 }
 const Care: FC<ICare> = (props) => {
-  const {userInfo} = useSelector((state: any): UserModelState => state.userModel)
+  const {userInfo} = useSelector((state: IState) => state.userModel)
   const [followsArr, setFollowsArr] = useState([])
   const [isFollowed, setIsFollowed] = useState(false)
 

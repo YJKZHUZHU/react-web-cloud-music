@@ -102,7 +102,7 @@ export const SongListmenu: FC<SongListmenuProps> = (props) => {
                   <div className={styles.operator}>
                     <span>{item.trackCount}首</span>
                     {type === 0 && item.privacy === 10 && (
-                      <EyeInvisibleOutlined title="隐私歌单" className={styles.privacy} />
+                      <EyeInvisibleOutlined title="隐私歌单" />
                     )}
 
                     {index === 0 && type === 0 ? null : (

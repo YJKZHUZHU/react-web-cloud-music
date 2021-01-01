@@ -16,6 +16,7 @@ import {useSelector, useDispatch} from "umi"
 import {MenuItem} from "@/components"
 import API from "@/api"
 import styles from "./index.scss"
+import { IState } from 'typings'
 
 const stopPropagation = (e: React.MouseEvent) => {
   e.preventDefault()
@@ -24,7 +25,7 @@ const stopPropagation = (e: React.MouseEvent) => {
 
 const MenuList = () => {
   const dispatch = useDispatch()
-  const {loginStatus, playList} = useSelector((state: any) => state.userModel)
+  const {loginStatus, playList} = useSelector((state: IState) => state.userModel)
   const {creator, favorite} = playList
   const [visible, {toggle, setFalse}] = useBoolean(false)
   const [checked, {toggle: toggleChecked}] = useBoolean(false)

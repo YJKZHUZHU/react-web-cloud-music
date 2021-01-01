@@ -17,16 +17,18 @@ import classnames from "classnames"
 import UserContent from "./components/userContent"
 import Search from "./components/Search"
 import Login from "./components/Login"
+import {IState} from "typings"
 import styles from "./index.scss"
 
 const Header = () => {
   const dispatch = useDispatch()
-  const {loginStatus, userInfo} = useSelector((state: any) => state.userModel)
+  const {userModel,playmodel} = useSelector((state: IState) => state)
+  const {loginStatus, userInfo} = userModel
+  const {showPlayer} = playmodel
   const [visible, {setFalse: setVisibleFalse, toggle: visibleToggle}] = useBoolean(false)
   const [signIn, {setTrue: setSignInTrue}] = useBoolean(false)
   const [loginVisible, {toggle: loginToggle}] = useBoolean(false)
   const [disabled, {setTrue, setFalse}] = useBoolean(false)
-  const {showPlayer} = useSelector((state: any): PlayModelState => state.playmodel)
   const onRoute = (path: string) => {
     setVisibleFalse()
     history.push(path)

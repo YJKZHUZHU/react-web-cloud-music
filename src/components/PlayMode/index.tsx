@@ -3,7 +3,8 @@
 import React from "react"
 import {Tooltip} from "antd"
 import classnames from "classnames"
-import {useSelector, useDispatch, PlayModelState} from "umi"
+import {useSelector, useDispatch} from "umi"
+import { IState } from 'typings'
 
 
 interface IMap {
@@ -28,7 +29,7 @@ const MAP_MODE: IMap = {
 
 const PlayMode = () => {
   const dispatch = useDispatch()
-  const {playMode} = useSelector((state: any): PlayModelState => state.playmodel)
+  const {playMode} = useSelector((state: IState) => state.playmodel)
   return (
     <Tooltip placement="top" title={MAP_TITLE[playMode]}>
       <i

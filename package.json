@@ -19,12 +19,11 @@
     "react-draggable": "^4.4.3",
     "react-infinite-scroller": "^1.2.4",
     "react-player": "^1.15.2",
-    "unstated": "^2.1.1",
     "video-react": "^0.14.1"
   },
   "devDependencies": {
     "@alitajs/hd": "^2.5.5",
-    "@types/classnames": "^2.2.9",
+    "@types/classnames": "^2.2.11",
     "@types/jest": "^23.3.12",
     "@types/nprogress": "^0.2.0",
     "@types/qs": "^6.9.1",

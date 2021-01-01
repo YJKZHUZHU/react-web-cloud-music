@@ -28,6 +28,7 @@ import ReactPlayer from "react-player"
 import store from "@/help/localStorage"
 import {PlayMode} from "@/components"
 import style from "./index.scss"
+import {IState} from "typings"
 
 interface PlayerInterface {
   loaded?: number
@@ -44,12 +45,9 @@ const Footer = memo(() => {
   const volumnRef = useRef(0)
   const [volume, setVolme] = useState(Number(store.getStorage("volume")))
   const [showValumeIcon, {toggle}] = useBoolean(Number(store.getStorage("volume")) === 0) // 是否静音
-  const {isPlay, showPlayRecord, playRecordTip, songObj} = useSelector(
-    (state: any): SongInfoModelState => state.songInfoModel
-  )
-  const {showPlayer, playMode, playerRate} = useSelector(
-    (state: any): PlayModelState => state.playmodel
-  )
+  const {songInfoModel, playmodel} = useSelector((state: IState) => state)
+  const {isPlay, showPlayRecord, playRecordTip, songObj} = songInfoModel
+  const {showPlayer, playMode, playerRate} = playmodel
 
   const onVolume = (value: any) => {
     volumnRef.current = value / 100
