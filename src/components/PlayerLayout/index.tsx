@@ -11,8 +11,7 @@ import MouseWheel from "@better-scroll/mouse-wheel"
 import Ripple from "Ripple"
 import {useRequest} from "ahooks"
 import API from "@/api"
-import {Artists, Comments, SimiItem} from "@/components"
-import {IData} from "@/components/Comments"
+import {Artists, HotComment, NewComment, SimiItem} from "@/components"
 import {IData as Iformat} from "@/components/SimiItem"
 import Utils from "@/help"
 import styles from "./index.scss"
@@ -57,25 +56,6 @@ const PlayerLayout = () => {
   const imgContainerRef: any = useRef<any>(null)
   const [time, setTime] = useState(0)
 
-  const {data, run, loading, pagination} = useRequest<IData, any[], IData, IData>(
-    ({current, pageSize}) =>
-      API.getMusicComment({id, limit: pageSize, offset: (current - 1) * pageSize, before: time}),
-    {
-      manual: true,
-      paginated: true,
-      defaultPageSize: 10,
-      onSuccess: (response) => {
-        setTime(response?.comments?.pop()?.time as number)
-      }
-    }
-  )
-
-  const {data: hotData, run: runHot, loading: hotLoading} = useRequest(
-    () => API.getMusicComment({id}),
-    {
-      manual: true
-    }
-  )
   // 相似歌曲
   const {run: runSimiSong, data: simiSong, loading: simiLoading} = useRequest(
     () => API.getSimiSong({id}),
@@ -162,8 +142,6 @@ const PlayerLayout = () => {
   }, [scrollToActiveLyric, scroller])
 
   useEffect(() => {
-    run({current: 1, pageSize: 10})
-    runHot()
     runSimiSong()
     runSimiSongList()
   }, [id])
@@ -210,19 +188,8 @@ const PlayerLayout = () => {
       </div>
       <div className={styles.commentContainer}>
         <Space direction="vertical" className={styles.comment}>
-          <span>精彩评论</span>
-          <Comments loading={hotLoading} data={hotData} type={0} />
-          <span>最新评论({data?.total})</span>
-          <Comments
-            loading={loading}
-            data={data}
-            type={1}
-            pagination={{
-              ...(pagination as any),
-              size: "small",
-              style: {textAlign: "center"}
-            }}
-          />
+          <HotComment type={0} id={id} />
+          <NewComment type={0} id={id} />
         </Space>
         <Space direction="vertical" size={20} className={styles.right}>
           <Space direction="vertical" className={styles.item}>

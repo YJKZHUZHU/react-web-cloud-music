@@ -11,9 +11,9 @@ import {
 } from "@ant-design/icons"
 import {useLocation, history} from "umi"
 import moment from "moment"
+import {NewComment,HotComment} from '@/components'
 import List from "./list"
 import Detail from "./detail"
-import Comment from "./comment"
 import API from "@/api"
 import styles from "./index.scss"
 
@@ -25,6 +25,8 @@ const Album: FC = () => {
     location.pathname.split("/").pop() === "album" ? "list" : location.pathname.split("/").pop()
 
   const [tabKey, setTabKey] = useState(path || "list")
+
+  const {id} = location.query
 
   const callback = (activeKey: string) => {
     setTabKey(activeKey)
@@ -118,7 +120,8 @@ const Album: FC = () => {
             <List list={data?.songs} />
           </TabPane>
           <TabPane tab={`评论(${albumInfo?.commentCount})`} key="comment">
-            <Comment />
+            <HotComment type={3} id={id} />
+            <NewComment type={3} id={id} />
           </TabPane>
           <TabPane tab="专辑详情" key="detail">
             <Detail data={data?.album?.description} />

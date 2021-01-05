@@ -1,4 +1,5 @@
 import { PlayModelState, SongInfoModelState, UserModelState } from 'umi'
+
 declare module '*.css'
 declare module '*.png'
 declare module '*.scss'

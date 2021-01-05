@@ -1,7 +1,6 @@
 /** @format */
 
 import React, {FC, useEffect, useState, useRef} from "react"
-import MvComment from "../components/MvComment"
 import {history} from "umi"
 import {
   Player,
@@ -29,8 +28,8 @@ import {useRequest} from "ahooks"
 import classnames from "classnames"
 import API from "@/api"
 import Utils from "@/help"
-import SimiItem from "../components/SimiItem"
-import {Artists} from "@/components"
+import {SimiItem,} from '../components'
+import {Artists, NewComment, HotComment} from "@/components"
 import {IItem} from "@/components/Artists"
 import styles from "../index.scss"
 
@@ -277,7 +276,8 @@ const MvDetail: FC = () => {
             分享({mvDetailInfo?.shareCount})
           </Button>
         </div>
-        <MvComment id={query.mvid} type={query.type} />
+        <HotComment type={+query.type === 0 ? 1 : 5} id={query.mvid} />
+        <NewComment type={+query.type === 0 ? 1 : 5} id={query.mvid} />
       </div>
       <div className={styles.right}>
         <p className={styles.title}>相关推荐</p>

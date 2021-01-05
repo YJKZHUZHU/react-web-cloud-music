@@ -11,7 +11,8 @@ import {
 import {Divider, Button, Tabs, Input, Space} from "antd"
 import {Link, history} from "umi"
 import moment from "moment"
-import {ListTable, CommentList, Collection} from "./components"
+import {HotComment, NewComment} from "@/components"
+import {ListTable, Collection} from "./components"
 import usePlayList from "./hooks/usePlayList"
 import Utils from "@/help"
 import styles from "./index.scss"
@@ -20,7 +21,7 @@ const {TabPane} = Tabs
 const {Search} = Input
 
 const PlayList = () => {
-  const {listId} = history.location.query
+  const {listId: id} = history.location.query
   const {
     isSearch,
     toggle,
@@ -30,7 +31,7 @@ const PlayList = () => {
     onPlayAll,
     label,
     commentTabContent
-  } = usePlayList(listId)
+  } = usePlayList(id)
   const [searchValue, setSearchValue] = useState("")
 
   return (
@@ -120,7 +121,8 @@ const PlayList = () => {
           <ListTable data={tableList} loading={loading} searchValue={searchValue} />
         </TabPane>
         <TabPane tab={commentTabContent} key="2">
-          <CommentList />
+          <HotComment type={2} id={id} />
+          <NewComment type={2} id={id} />
         </TabPane>
         <TabPane tab="收藏者" key="3">
           <Collection subscribedCount={data?.subscribedCount} />

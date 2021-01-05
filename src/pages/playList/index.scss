@@ -122,51 +122,25 @@
       color: $fontColor;
       margin-left: 8px;
     }
+
     .comment {
-      min-height: 200px;
-      h2 {
-        margin-top: 20px;
+      min-height: 300px;
+      .title {
         font-size: 20px;
-        font-weight: 400;
       }
-      .content {
+      .user {
+        cursor: pointer;
+      }
+      .hotLink {
+        text-align: center;
+      }
+      .footer {
         display: flex;
-        .img {
-          width: 45px;
-          height: 50px;
-          margin-right: 20px;
-          img {
-            width: 100%;
-            border-radius: 50%;
-          }
-        }
-        .right {
-          display: flex;
-          flex: 1;
-          flex-direction: column;
-          .name {
-            .link {
-              color: $fontColor;
-            }
-            .title {
-              font-size: 14px;
-              margin-left: 15px;
-            }
-          }
-
-          .time {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 5px;
-
-            .like {
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-              min-width: 25px;
-            }
-          }
+        justify-content: space-between;
+        align-items: center;
+        .number {
+          display: block;
+          width: 35px;
         }
       }
     }

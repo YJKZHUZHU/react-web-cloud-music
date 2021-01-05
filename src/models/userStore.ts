@@ -46,10 +46,9 @@ const UserModel: UserModelType = {
   effects: {
     *getUserInfo({ payload }, { call, put }) {
       const StatusRet = yield call(API.status)
-      if (StatusRet.code !== 200) {
-        return [false, '服务器开小差了，再试一次哦']
-      }
-      const { userId } = StatusRet.profile
+      if (StatusRet?.data.code !== 200 || !StatusRet?.data?.profile) return [false, '服务器开小差了，再试一次哦']
+
+      const { userId } = StatusRet?.data?.profile
       const LoginRet = yield call(API.useInfo, { uid: userId })
       const RecordRet = yield call(API.getPlayRecord, { uid: userId, type: 0 }) //type:0 所有 1 一周
       const playListRet = yield call(API.userPlaylist, { uid: userId })

@@ -1,0 +1,39 @@
+/** @format */
+
+.newComment {
+  font-size: 12px;
+  .title {
+    font-size: 16px;
+  }
+  .content {
+    width: 100%;
+    margin-bottom: 0;
+    color: var(--font-color);
+    font-weight: normal;
+    .nickname {
+      cursor: pointer;
+      color: var(--font-color);
+      &:hover {
+        color: var(--font-color);
+      }
+    }
+  }
+  .otherContent {
+    padding: 5px;
+    background-color: #f4f4f5;
+    margin-bottom: 8px;
+  }
+  .more {
+    text-align: center;
+    color: var(--font-color);
+  }
+
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    .time {
+      margin-bottom: 0;
+      color: var(--font-color);
+    }
+  }
+}

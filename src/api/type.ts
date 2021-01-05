@@ -348,7 +348,15 @@ export enum FetchUrl {
   /**
    * 热门话题
    */
-  HotTopic = '/hot/topic'
+  HotTopic = '/hot/topic',
+  /**
+   * 热门评论
+   */
+  hotComment = '/comment/hot',
+  /**
+   * 新评论
+   */
+  newComment = '/comment/new'
 }
 
 enum Banner {

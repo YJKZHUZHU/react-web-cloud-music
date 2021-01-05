@@ -10,12 +10,13 @@ interface CssExports {
   'content': string;
   'creator': string;
   'divider': string;
+  'footer': string;
   'heartIcon': string;
+  'hotLink': string;
   'img': string;
   'introduction': string;
   'label': string;
   'left': string;
-  'like': string;
   'link': string;
   'markTitle': string;
   'name': string;
@@ -27,9 +28,9 @@ interface CssExports {
   'right': string;
   'songIntroduction': string;
   'tabs': string;
-  'time': string;
   'title': string;
   'top': string;
+  'user': string;
 }
 export const cssExports: CssExports;
 export default cssExports;

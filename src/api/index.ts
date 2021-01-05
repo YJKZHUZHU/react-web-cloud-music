@@ -179,6 +179,10 @@ export class API {
   static getEvent = (params: { pageSize: number, lasttime: number }) => request(FetchUrl.Event, { params })
   // 热门话题
   static getHotTopic = (params: { limit?: number, offset?: number }) => request(FetchUrl.HotTopic, { params })
+  // 热门评论
+  static getHotComment = (params: any) => request(FetchUrl.hotComment, { params })
+  // 新版评论接口
+  static getNewComment = (params: any) => request(FetchUrl.newComment, { params })
 }
 
 
