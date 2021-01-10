@@ -16,7 +16,7 @@ import {useSelector, useDispatch} from "umi"
 import {MenuItem} from "@/components"
 import API from "@/api"
 import styles from "./index.scss"
-import { IState } from 'typings'
+import {IState} from "typings"
 
 const stopPropagation = (e: React.MouseEvent) => {
   e.preventDefault()
@@ -85,7 +85,7 @@ const MenuList = () => {
     {
       url: "/recommend/video",
       text: "视频",
-      login: true,
+      login: loginStatus,
       icon: <PlayCircleOutlined />
     },
     {
