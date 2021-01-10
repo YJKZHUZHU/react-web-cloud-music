@@ -18,3 +18,4 @@
 # umi
 .umi
 .umi-production
+.umirc.local.ts
