@@ -5,6 +5,10 @@
   overflow-y: scroll;
   height: calc(100vh - 160px);
   margin-top: 20px;
+  position: relative;
+  .loading {
+    position: fixed !important;
+  }
   .name {
     display: block;
     margin-bottom: 20px;
@@ -28,11 +32,5 @@
         opacity: 1;
       }
     }
-  }
-  .loading {
-    position: absolute;
-    top: 300px;
-    width: 100%;
-    text-align: center;
   }
 }

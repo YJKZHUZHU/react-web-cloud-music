@@ -28,7 +28,7 @@ import {useRequest} from "ahooks"
 import classnames from "classnames"
 import API from "@/api"
 import Utils from "@/help"
-import {SimiItem,} from '../components'
+import {SimiItem} from "../components"
 import {Artists, NewComment, HotComment} from "@/components"
 import {IItem} from "@/components/Artists"
 import styles from "../index.scss"
@@ -177,7 +177,7 @@ const MvDetail: FC = () => {
         </p>
         <Player
           fluid={false}
-          height={350}
+          height={500}
           width="100%"
           autoPlay={autoPlay}
           src={+query.type === 0 ? mvUrlData?.data?.url : mvUrlData?.urls[0]?.url}

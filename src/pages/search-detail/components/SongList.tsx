@@ -3,39 +3,31 @@
 import React, {FC, useEffect} from "react"
 import {Spin, Avatar, Space} from "antd"
 import {UserOutlined} from "@ant-design/icons"
-import InfiniteScroll from "react-infinite-scroller"
 import {useHistory} from "umi"
-import useSearchDetail from "../hooks/useSearchDetail"
 import Utils from "@/help"
+import {useSearchDetail} from "@/hooks"
+import {IComProps} from "../_layout"
 import styles from "../index.scss"
 
-interface ISongList {
-  getCount: (count: number) => void
-}
-
-const SongList: FC<ISongList> = ({getCount}) => {
+const SongList: FC<IComProps> = ({getCount}) => {
   const history = useHistory()
-  const {loadMore, loading, more, list, count} = useSearchDetail({
+
+  const {request, containerRef} = useSearchDetail({
+    countKey: "playlistCount",
+    listKey: "playlists",
     type: 1000,
-    initFetch: true,
-    countName: "playlistCount",
-    listName: "playlists"
+    limit: 30
   })
 
   useEffect(() => {
-    getCount(count)
-  }, [count])
+    getCount(1000, request?.data?.total)
+  }, [request])
 
   return (
-    <div className={styles.songList}>
-      <InfiniteScroll
-        initialLoad={false}
-        pageStart={1}
-        loadMore={loadMore}
-        hasMore={!loading && more}
-        useWindow={false}>
+    <div className={styles.songList} ref={containerRef}>
+      <Spin spinning={request?.loadingMore} tip="Loading..." className={styles.loading}>
         <ul>
-          {list.map((item: any) => {
+          {request?.data?.list.map((item: any) => {
             return (
               <li
                 className={styles.item}
@@ -66,12 +58,7 @@ const SongList: FC<ISongList> = ({getCount}) => {
             )
           })}
         </ul>
-      </InfiniteScroll>
-      {loading && more && (
-        <div className={styles.loading}>
-          <Spin spinning={loading} tip="Loading..." />
-        </div>
-      )}
+      </Spin>
     </div>
   )
 }

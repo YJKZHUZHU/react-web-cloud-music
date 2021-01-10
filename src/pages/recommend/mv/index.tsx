@@ -69,7 +69,7 @@ const Mv = () => {
   useEffect(() => {
     run({current: 1, pageSize: 30})
   }, [])
-  console.log(data)
+  
   return (
     <div className={styles._mv}>
       <SelectTag

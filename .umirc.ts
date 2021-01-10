@@ -63,23 +63,25 @@ export default defineConfig({
   devServer: {
     compress: true,
   },
-  chunks: ['vendors', 'umi'],
+  // chunks: ['vendors', 'umi'],
+  chunks: ['react', 'vendors', 'umi'],
   chainWebpack(config, { webpack }) {
     config.merge({
       optimization: {
         splitChunks: {
-          chunks: 'async',
-          minSize: 30000,
-          minChunks: 3,
-          automaticNameDelimiter: '.',
           cacheGroups: {
-            vendor: {
+            react: {
+              name: 'react',
+              chunks: 'all',
+              test: ({ resource }) => /[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom|moment|antd|@ant-design|react-player|video-react)[\\/]/.test(resource),
+              priority: 12,
+            },
+            vendors: {
               name: 'vendors',
-              test({ resource }) {
-                return /[\\/]node_modules[\\/]/.test(resource);
-              },
+              chunks: 'all',
+              test: /[\\/]node_modules[\\/]/,
               priority: 10,
-            }
+            },
           }
         }
       }

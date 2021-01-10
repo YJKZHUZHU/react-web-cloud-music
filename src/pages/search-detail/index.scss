@@ -10,12 +10,6 @@
   }
 
   .tab {
-    .loading {
-      position: absolute;
-      top: 300px;
-      width: 100%;
-      text-align: center;
-    }
     .single,
     .singer,
     .album,
@@ -23,8 +17,10 @@
     .songList {
       overflow-x: hidden;
       overflow-y: scroll;
-      height: calc(100vh - 300px);
-      margin-top: 20px;
+      height: calc(100vh - 250px);
+      .loading {
+        position: fixed;
+      }
     }
     .heartIcon {
       color: #969696;
@@ -43,8 +39,7 @@
 
     .musicTitle {
       cursor: default;
-      // display: flex;
-      // flex-direction: column;
+
       p {
         margin-bottom: 0;
       }
@@ -157,9 +152,11 @@
           position: relative;
 
           .img {
+            height: 112px;
             img {
               width: 100%;
               border-radius: 5px;
+              height: 100%;
             }
           }
           .playNumber {
@@ -213,24 +210,4 @@
       }
     }
   }
-}
-
-:global {
-  .demo-infinite-container {
-    border-top: 1px solid #e8e8e8;
-    border-radius: 4px;
-    overflow-y: scroll;
-    height: 650px;
-  }
-
-  .demo-loading-container {
-    position: absolute;
-    bottom: 40px;
-    width: 100%;
-    text-align: center;
-  }
-
-  // .demo-loading-container {
-  //   @include center();
-  // }
 }

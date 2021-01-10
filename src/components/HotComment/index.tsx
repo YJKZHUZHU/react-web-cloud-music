@@ -5,7 +5,7 @@ import {List, Button, Avatar, Divider} from "antd"
 import {RightOutlined, ShareAltOutlined, CommentOutlined, LikeOutlined} from "@ant-design/icons"
 import classnames from "classnames"
 import {useRequest} from "ahooks"
-import moment from "moment"
+import Utils from "@/help"
 import API from "@/api"
 import {IComments, ICommentsProps} from "@/components"
 import styles from "./index.scss"
@@ -62,7 +62,7 @@ const HotComments: FC<ICommentsProps> = (props) => {
                   </>
                 ) : null}
                 <div className={styles.footer}>
-                  <p className={styles.time}>{moment(item.time).format("YYYY-MM-DD HH:mm:ss")}</p>
+                  <p className={styles.time}>{Utils.commentFormatTime(item.time)}</p>
                   <div>
                     <LikeOutlined />({item.likedCount})
                     <Divider type="vertical" />

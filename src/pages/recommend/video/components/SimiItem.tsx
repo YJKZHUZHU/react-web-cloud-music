@@ -10,6 +10,7 @@ import styles from "../index.scss"
 
 export interface ISimiInterface {
   id: number
+  vid: string
   cover: string
   name: string
   playCount: number
@@ -25,6 +26,7 @@ export interface ISimiInterface {
     alias: any[]
     transNames: string | null
   }[]
+  creator: any
   alg: string
   coverUrl: string
   playTime: number
@@ -41,27 +43,25 @@ const SimiDetail = () => {
   const onMv = (mvid: number) => {
     history.push({
       pathname: "/recommend/video/mvDetail",
-      query: {mvid}
+      query: {mvid, type: query.type}
     })
   }
-  const {data, run} = useRequest(
+  const {data} = useRequest(
     () => (+query.type === 0 ? API.getSimi({...query}) : API.getRelateVedio({id: query.mvid})),
     {
-      manual: true,
       formatResult: (response): ISimiInterface[] => {
         return mvBool ? response.mvs : response.data
       }
     }
   )
-
-  useEffect(() => {
-    run()
-  }, [])
   return (
     <>
       {data?.map((item) => {
         return (
-          <div key={item.id} className={styles.simiItem} onClick={() => onMv(item.id)}>
+          <div
+            key={item.id}
+            className={styles.simiItem}
+            onClick={() => onMv(+query.type === 0 ? item.id : item.vid)}>
             <div className={styles.left}>
               <img src={mvBool ? item.cover : item?.coverUrl} />
               <span className={styles.playCount}>
@@ -80,7 +80,7 @@ const SimiDetail = () => {
               {mvBool ? item.name : item.title}-
               {mvBool
                 ? Utils.formatName(item.artists)
-                : Utils.formatName(item.creator, "/", "userName")}
+                : Utils.formatName(item?.creator, "/", "userName")}
             </p>
           </div>
         )

@@ -14,6 +14,8 @@ export { default as HotComment } from './HotComment'
 
 export { default as NewComment } from './NewComment'
 
+export { default as VideoIcon } from './VideoIcon'
+
 
 interface IUser {
   locationInfo: any

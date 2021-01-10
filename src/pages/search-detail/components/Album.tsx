@@ -4,47 +4,34 @@ import React, {FC, useEffect} from "react"
 import {Spin, Avatar, Space} from "antd"
 import {useHistory} from "umi"
 import {UserOutlined} from "@ant-design/icons"
-import InfiniteScroll from "react-infinite-scroller"
 import {Artists} from "@/components"
-import useSearchDetail from "../hooks/useSearchDetail"
+import {useSearchDetail} from "@/hooks"
+import {IComProps} from "../_layout"
 import Utils from "@/help"
 import styles from "../index.scss"
 
-interface IAlbum {
-  getCount: (count: number) => void
-}
-
-const Album: FC<IAlbum> = ({getCount, ...rest}) => {
-  console.log(rest)
+const Album: FC<IComProps> = ({getCount}) => {
   const history = useHistory()
-  const {loadMore, loading, more, list, count} = useSearchDetail({
+
+  const {request, containerRef} = useSearchDetail({
+    countKey: "albumCount",
+    listKey: "albums",
     type: 10,
-    initFetch: true,
-    countName: "albumCount",
-    listName: "albums"
+    limit: 10
   })
 
   useEffect(() => {
-    getCount(count)
-  }, [count])
-
-  const onAlbum = (e: React.MouseEvent<HTMLElement, MouseEvent>, id: number) => {
-    history.push(`/album?id=${id}`)
-  }
+    getCount(10, request?.data?.total)
+  }, [request])
 
   return (
-    <div className={styles.album}>
-      <InfiniteScroll
-        initialLoad={false}
-        pageStart={1}
-        loadMore={loadMore}
-        hasMore={!loading && more}
-        useWindow={false}>
+    <div className={styles.album} ref={containerRef}>
+      <Spin spinning={request?.loadingMore} tip="Loading..." className={styles.loading}>
         <ul>
-          {list.map((item: any) => {
+          {request?.data?.list.map((item: any) => {
             return (
               <li
-                onClick={(e) => onAlbum(e, item.id)}
+                onClick={() => history.push(`/album?id=${item.id}`)}
                 className={styles.item}
                 key={Utils.createRandomId()}>
                 <Space>
@@ -73,12 +60,7 @@ const Album: FC<IAlbum> = ({getCount, ...rest}) => {
             )
           })}
         </ul>
-      </InfiniteScroll>
-      {loading && more && (
-        <div className={styles.loading}>
-          <Spin spinning={loading} tip="Loading..." />
-        </div>
-      )}
+      </Spin>
     </div>
   )
 }

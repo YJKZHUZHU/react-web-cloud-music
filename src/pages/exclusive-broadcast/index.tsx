@@ -1,9 +1,9 @@
 /** @format */
 
-import React, {useEffect, useState} from "react"
+import React, {useRef} from "react"
 import {Row, Col, Spin, message} from "antd"
-import InfiniteScroll from "react-infinite-scroller"
 import {useHistory} from "umi"
+import {useRequest} from "ahooks"
 import {PlayIcon} from "@/components"
 import API from "@/api"
 import styles from "./index.scss"
@@ -20,46 +20,25 @@ interface IList {
   videoId: number
 }
 
-interface IData {
-  code: number
-  result: IList[]
-  more: boolean
-  offset: number
-}
 const ExclusiveBroadcast = () => {
-  const [list, setList] = useState<IList[]>([])
-  const [page, setPage] = useState({
-    offset: 0,
-    limit: 60
-  })
-  const [loading, setLoading] = useState(false)
-  const [more, setMore] = useState(false)
+  const containerRef = useRef<HTMLDivElement>(null)
   const history = useHistory()
 
-  const getList = async () => {
-    try {
-      const Ret: IData = await API.getExclusiveBroadcastList(page)
-      setLoading(false)
-      if (Ret.result.length !== 0) {
-        setList(list.concat(Ret.result))
+  const {data, loadingMore} = useRequest(
+    (d) => API.getExclusiveBroadcastList({offset: d?.list?.length || 0, limit: 60}),
+    {
+      loadMore: true,
+      ref: containerRef,
+      isNoMore: (d: any) => !d.hasMore,
+      formatResult: (response) => {
+        return {
+          list: response.code === 200 ? response.result : [],
+          total: 100,
+          hasMore: response.code === 200 ? response.more : false
+        }
       }
-      setPage({
-        ...page,
-        offset: page.offset + page.limit
-      })
-      setMore(Ret.more)
-    } catch (error) {
-      setLoading(false)
     }
-  }
-
-  const loadMore = () => {
-    setLoading(true)
-    if (!more) {
-      return message.warning("加载完了哦。。。")
-    }
-    getList()
-  }
+  )
 
   const onLink = (item: IList) => {
     if (+item.type === 5) {
@@ -68,23 +47,14 @@ const ExclusiveBroadcast = () => {
     if (+item.type === 24) {
       return history.push(`/recommend/video/mvdetail?mvid=${item.videoId}&type=1`)
     }
-    return message.info('该视频暂时无法播放哦')
+    return message.info("该视频暂时无法播放哦")
   }
 
-  useEffect(() => {
-    getList()
-  }, [])
-
   return (
-    <div className={styles.exclusiveBroadcast}>
-      <InfiniteScroll
-        initialLoad={false}
-        pageStart={1}
-        loadMore={loadMore}
-        hasMore={!loading && more}
-        useWindow={false}>
+    <div className={styles.exclusiveBroadcast} ref={containerRef}>
+      <Spin spinning={loadingMore} tip="Loading..." className={styles.loading}>
         <Row gutter={32}>
-          {list.map((item) => {
+          {data?.list?.map((item: IList) => {
             return (
               <Col span={6} key={item.picUrl} onClick={() => onLink(item)}>
                 <div className={styles.img}>
@@ -96,12 +66,7 @@ const ExclusiveBroadcast = () => {
             )
           })}
         </Row>
-        {loading && more && (
-          <div className={styles.loading}>
-            <Spin spinning={loading} tip="Loading..." />
-          </div>
-        )}
-      </InfiniteScroll>
+      </Spin>
     </div>
   )
 }

@@ -1,0 +1,6 @@
+export { default as Album } from './Album'
+export { default as SongList } from './SongList'
+export { default as Singer } from './Singer'
+export { default as Single } from './Single'
+export { default as User } from './User'
+export { default as Video } from './Video'

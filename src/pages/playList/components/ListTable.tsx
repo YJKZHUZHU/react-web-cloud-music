@@ -1,10 +1,10 @@
 /** @format */
 
 import React, {FC} from "react"
-import {HeartOutlined, PlayCircleOutlined} from "@ant-design/icons"
-import {Table} from "antd"
-import {useDispatch, useHistory} from "umi"
-import {Artists} from "@/components"
+import {HeartOutlined} from "@ant-design/icons"
+import {Table, Space} from "antd"
+import {useDispatch} from "umi"
+import {Artists, VideoIcon} from "@/components"
 import Utils from "@/help"
 import styles from "../index.scss"
 
@@ -17,7 +17,6 @@ interface TableListProps {
 const TableList: FC<TableListProps> = (props) => {
   const {data, loading, searchValue} = props
   const dispatch = useDispatch()
-  const history = useHistory()
 
   const columns: any[] = [
     {
@@ -27,16 +26,11 @@ const TableList: FC<TableListProps> = (props) => {
       align: "left",
       render: (text: any, record: any, index: number) => {
         return (
-          <div className={styles.operator}>
+          <Space className={styles.operator}>
             <span>{index < 10 ? `0${index}` : index}</span>
-            <HeartOutlined className={styles.heartIcon} />
-            {!!record.mv ? (
-              <PlayCircleOutlined
-                className={styles.playIcon}
-                onClick={() => history.push(`/recommend/video/mvDetail?mvid=${record.mv}`)}
-              />
-            ) : null}
-          </div>
+            <HeartOutlined />
+            {!!record.mv && <VideoIcon type={0} id={record.mv} />}
+          </Space>
         )
       },
       width: 100

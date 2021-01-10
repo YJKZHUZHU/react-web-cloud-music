@@ -44,7 +44,6 @@ const Footer = memo(() => {
   const list = usePlayRecord()
   const volumnRef = useRef(0)
   const [volume, setVolme] = useState(Number(store.getStorage("volume")))
-  const [recordTip, setRecordTip] = useState('')
   const [showValumeIcon, {toggle}] = useBoolean(Number(store.getStorage("volume")) === 0) // 是否静音
   const {songInfoModel, playmodel} = useSelector((state: IState) => state)
   const {isPlay, showPlayRecord, playRecordTip, songObj} = songInfoModel
@@ -158,16 +157,9 @@ const Footer = memo(() => {
       }
     })
   }
-  useUpdateEffect(() => {
-    setRecordTip("播放列表更新啦")
-    const timer = setTimeout(() => {
-      setRecordTip("")
-    }, 1000)
-    return () => clearTimeout(timer)
-  }, [JSON.stringify(list)])
 
   // 视频播放隐藏
-  if (location.pathname === "/recommend/video/mvdetail") return null
+  if (location.pathname === "/recommend/video/mvDetail") return null
 
   return (
     <footer className={style._footer}>

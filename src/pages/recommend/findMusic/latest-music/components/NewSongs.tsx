@@ -2,10 +2,10 @@
 
 import React, {useEffect, useState, FC} from "react"
 import {useDispatch, useHistory} from "umi"
-import {Tabs, Spin} from "antd"
+import {Tabs, Spin, Space} from "antd"
 import {CaretRightOutlined, PlaySquareOutlined} from "@ant-design/icons"
 import {useRequest} from "ahooks"
-import {Artists, PlayIcon} from "@/components"
+import {Artists, PlayIcon, VideoIcon} from "@/components"
 import API from "@/api"
 import Utils from "@/help"
 import {NEW_SONGS_TAB_MAP} from "@/help/map"
@@ -167,20 +167,15 @@ const List: FC<IList> = ({active, tip}) => {
                   <img src={item.album.picUrl} />
                   <PlayIcon iconClassName={styles.icon} className={styles.playFont} />
                 </div>
-                <p className={styles.content}>
+                <Space className={styles.content}>
                   <span>{item.name}</span>
-                  {item.alias.length !== 0 ? (
+                  {item.alias.length ? (
                     <i className={styles.smallTip} key={index}>
                       ({item.alias.join()})
                     </i>
                   ) : null}
-                  {!!item.mvid ? (
-                    <PlaySquareOutlined
-                      className={styles.playIcon}
-                      onClick={() => history.push(`/recommend/video/mvDetail?mvid=${item.mvid}`)}
-                    />
-                  ) : null}
-                </p>
+                  {!!item.mvid ? <VideoIcon id={item.mvid} type={0} /> : null}
+                </Space>
                 <p className={styles.name}>
                   <Artists data={item.artists} />
                 </p>
