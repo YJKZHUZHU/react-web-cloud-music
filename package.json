@@ -21,6 +21,7 @@
     "video-react": "^0.14.1"
   },
   "devDependencies": {
+    "@alitajs/hd": "^2.6.16",
     "@types/classnames": "^2.2.11",
     "@types/jest": "^23.3.12",
     "@types/nprogress": "^0.2.0",
