@@ -1,8 +1,10 @@
 const path = require('path')
 const fs = require('fs')
 const lessToJs = require('less-vars-to-js')
+const CompressionWebpackPlugin = require('compression-webpack-plugin')
 import { defineConfig } from 'umi'
 import px2rem from 'postcss-plugin-px2rem'
+const prodGzipList = ['js', 'css'];
 
 
 //判断只有在生产模式才开启
@@ -63,25 +65,52 @@ export default defineConfig({
   devServer: {
     compress: true,
   },
-  // chunks: ['vendors', 'umi'],
-  chunks: ['react', 'vendors', 'umi'],
+  chunks: ['react', 'antd', 'utils', 'vendors', 'umi'],
+  // chunks: ['react', 'vendors', 'umi'],
   chainWebpack(config, { webpack }) {
     config.merge({
       optimization: {
         splitChunks: {
           cacheGroups: {
             react: {
-              name: 'react',
+              name: "react",
               chunks: 'all',
-              test: ({ resource }) => /[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom|moment|antd|@ant-design|react-player|video-react)[\\/]/.test(resource),
-              priority: 12,
+              test: /[\\/]node_modules[\\/](react-dom|react|react-router|moment|react-router-dom|react-player|video-react|react-draggable)[\\/]/,
+              priority: 10,
+              enforce: true,
+            },
+            antd: {
+              name: "antd",
+              chunks: 'async',
+              test: /[\\/]node_modules[\\/](@ant-design|antd|antd-mobile)[\\/]/,
+              priority: -10,
+              enforce: true,
+            },
+            utils: {
+              name: "utils",
+              chunks: 'async',
+              test: /[\\/]node_modules[\\/](rc-tabs|@better-scroll|ahooks|better-scroll|nprogress)[\\/]/,
+              priority: -11,
+              enforce: true,
             },
             vendors: {
               name: 'vendors',
               chunks: 'all',
               test: /[\\/]node_modules[\\/]/,
-              priority: 10,
+              priority: -12,
             },
+            // react: {
+            //   name: 'react',
+            //   chunks: 'all',
+            //   test: ({ resource }) => /[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom|moment|antd|@ant-design|react-player|video-react)[\\/]/.test(resource),
+            //   priority: 12,
+            // },
+            // vendors: {
+            //   name: 'vendors',
+            //   chunks: 'all',
+            //   test: /[\\/]node_modules[\\/]/,
+            //   priority: 10,
+            // },
           }
         }
       }

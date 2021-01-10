@@ -1,23 +1,14 @@
-// /** @format */
+/** @format */
 
-// import React from "react"
-// import {useRequest} from "ahooks"
-// import {ButtonPopover} from "@/components"
-// import API from "@/api"
-// import styles from "./index.scss"
+import React, {useState, useEffect} from "react"
+import {message} from "antd"
+import {useRequest} from "ahooks"
+import QrCode from "qrcode.react"
+import API from "@/api"
+import {QrLogin} from "@/components"
 
-// export default function () {
-//   const {data} = useRequest(API.getVedioGroupList, {
-//     formatResult: (response) => {
-//       if(response.code !== 200) return []
-//       return response.data
-//     }
-//   })
+const Test = () => {
+  return <QrLogin/>
+}
 
-
-//   return (
-//     <div className={styles.topNumber}>
-//       {/* <ButtonPopover data={data} /> */}
-//     </div>
-//   )
-// }
+export default Test

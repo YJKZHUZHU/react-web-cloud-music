@@ -5,6 +5,7 @@
 $logoPath: "../../assets/topbar.png";
 $lvBackground: "../../assets/mylevel.png";
 $bgPath: "../../assets/xuebi.png";
+$qrCodePath: "../../assets/qr_login_icon.png";
 
 header,
 ._header {
@@ -185,9 +186,25 @@ header,
 // 登录
 
 ._login {
-  align-items: inherit;
+  align-items: center;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  position: relative;
+  padding: 0 50px;
+
+  .switchQrCode {
+    position: absolute;
+    right: -22px;
+    bottom: -24px;
+    width: 52px;
+    height: 52px;
+    background-image: url($qrCodePath);
+    background-size: contain;
+    cursor: pointer;
+  }
+  .loginTypeBtn {
+    margin-top: 20px;
+  }
   .pattern {
     width: 100%;
   }
@@ -206,9 +223,9 @@ header,
     align-items: center;
     cursor: pointer;
     margin-top: 12px;
-    &:hover {
-      color: #ca4841;
-    }
+    // &:hover {
+    //   color: #ca4841;
+    // }
   }
 }
 

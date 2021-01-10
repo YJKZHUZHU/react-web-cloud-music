@@ -1,6 +1,6 @@
 /** @format */
 
-import React from "react"
+import React, {useRef, useState} from "react"
 import {
   CaretDownOutlined,
   DownOutlined,
@@ -10,7 +10,7 @@ import {
 } from "@ant-design/icons"
 import {Avatar, Popover, message, Modal, Space} from "antd"
 import {Link, history, useSelector, useDispatch, PlayModelState} from "umi"
-import Draggable from "react-draggable"
+import Draggable, {DraggableData, DraggableEvent} from "react-draggable"
 import {useBoolean, useRequest} from "ahooks"
 import API from "@/api"
 import classnames from "classnames"
@@ -22,13 +22,15 @@ import styles from "./index.scss"
 
 const Header = () => {
   const dispatch = useDispatch()
-  const {userModel,playmodel} = useSelector((state: IState) => state)
+  const {userModel, playmodel} = useSelector((state: IState) => state)
   const {loginStatus, userInfo} = userModel
   const {showPlayer} = playmodel
   const [visible, {setFalse: setVisibleFalse, toggle: visibleToggle}] = useBoolean(false)
   const [signIn, {setTrue: setSignInTrue}] = useBoolean(false)
   const [loginVisible, {toggle: loginToggle}] = useBoolean(false)
   const [disabled, {setTrue, setFalse}] = useBoolean(false)
+  const [bounds, setBounds] = useState({left: 0, top: 0, bottom: 0, right: 0})
+  const draggleRef = useRef<HTMLDivElement>(null)
   const onRoute = (path: string) => {
     setVisibleFalse()
     history.push(path)
@@ -53,6 +55,25 @@ const Header = () => {
       return message.success("签到成功")
     }
   })
+
+  const onOver = () => {
+    if (disabled) {
+      setFalse()
+    }
+  }
+
+  const onStart = (uiData: DraggableData) => {
+    const {clientWidth, clientHeight} = window?.document?.documentElement
+    const targetRect = draggleRef?.current?.getBoundingClientRect()
+    if (targetRect) {
+      setBounds({
+        left: -targetRect?.left + uiData?.x,
+        right: clientWidth - (targetRect?.right - uiData?.x),
+        top: -targetRect?.top + uiData?.y,
+        bottom: clientHeight - (targetRect?.bottom - uiData?.y)
+      })
+    }
+  }
 
   return (
     <header className={styles._header}>
@@ -110,21 +131,28 @@ const Header = () => {
       )}
       <Modal
         visible={loginVisible}
-        width={350}
+        zIndex={99999}
+        width={500}
         title={
           <div
             style={{
               width: "100%",
               cursor: "move"
             }}
-            onMouseOver={setFalse}
+            onMouseOver={onOver}
             onMouseOut={setTrue}>
-            账号登录
+            登录
           </div>
         }
         maskClosable={false}
         onCancel={() => loginToggle(false)}
-        modalRender={(modal) => <Draggable disabled={disabled}>{modal}</Draggable>}
+        modalRender={(modal) => {
+          return (
+            <Draggable disabled={disabled} bounds={bounds} onStart={(_, uiData) => onStart(uiData)}>
+              <div ref={draggleRef}>{modal}</div>
+            </Draggable>
+          )
+        }}
         footer={null}>
         <Login callback={(loginVisible) => loginToggle(loginVisible)} />
       </Modal>

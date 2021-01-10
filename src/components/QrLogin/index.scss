@@ -1,0 +1,51 @@
+/** @format */
+
+$guidePath: "../../assets/qr_guide.png";
+$successPath: "../../assets/scan_success@2x.png";
+
+.qrLogin {
+  justify-content: space-around;
+  // padding: 0 50px;
+  width: 100%;
+  .code {
+    align-items: center;
+    .container {
+      width: 130;
+      height: 130;
+      position: relative;
+      .failure {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.9);
+        z-index: 1;
+        top: 0;
+        left: 0;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        .reload {
+          margin-top: 20px;
+        }
+      }
+    }
+  }
+  .phone {
+    width: 125px;
+    height: 220px;
+    background: url($guidePath);
+    background-size: contain;
+  }
+}
+
+.loginSuccess {
+  align-items: center;
+  width: 100%;
+  .successIcon {
+    width: 140px;
+    height: 140px;
+    background: url($successPath);
+    background-size: contain;
+  }
+}

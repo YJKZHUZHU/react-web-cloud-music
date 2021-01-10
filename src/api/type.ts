@@ -332,7 +332,7 @@ export enum FetchUrl {
   /**
    * 获取视频标签/分类下的视频
    */
-  VedioGroup ='/video/group',
+  VedioGroup = '/video/group',
   /**
    * 全部MV
    */
@@ -356,7 +356,19 @@ export enum FetchUrl {
   /**
    * 新评论
    */
-  newComment = '/comment/new'
+  newComment = '/comment/new',
+  /**
+   * 二维码key生成接口
+   */
+  QrKey = '/login/qr/key',
+  /**
+   * 二维码生成接口
+   */
+  QrCreate = '/login/qr/create',
+  /**
+   * 二维码检测扫码状态接口
+   */
+  QrCheck = '/login/qr/check'
 }
 
 enum Banner {
@@ -381,9 +393,9 @@ export interface ILoginByPhone {
 
 export interface IBanner {
   type: Banner.pc | Banner.android | Banner.ipad | Banner.iphone
-  loading?:boolean
+  loading?: boolean
 }
 
 export interface IUser {
-  uid:string
+  uid: string
 }

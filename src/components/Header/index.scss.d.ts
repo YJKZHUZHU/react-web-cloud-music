@@ -28,6 +28,7 @@ interface CssExports {
   'level': string;
   'link': string;
   'linkColor': string;
+  'loginTypeBtn': string;
   'logo': string;
   'middle': string;
   'mv': string;
@@ -45,6 +46,7 @@ interface CssExports {
   'skin': string;
   'song': string;
   'split': string;
+  'switchQrCode': string;
   'tag': string;
   'theme': string;
   'themePop': string;

@@ -183,6 +183,12 @@ export class API {
   static getHotComment = (params: any) => request(FetchUrl.hotComment, { params })
   // 新版评论接口
   static getNewComment = (params: any) => request(FetchUrl.newComment, { params })
+  // 二维码key生成接口
+  static getQrKey = () => request(FetchUrl.QrKey)
+  // 二维码生成接口
+  static CreateQr = (params: any) => request(FetchUrl.QrCreate, { params })
+  // 二维码检测扫码状态接口
+  static CheckQr = (params: any) => request(FetchUrl.QrCheck, { params })
 }
 
 
