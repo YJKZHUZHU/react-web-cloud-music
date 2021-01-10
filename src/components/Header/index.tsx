@@ -130,6 +130,7 @@ const Header = () => {
         </div>
       )}
       <Modal
+        destroyOnClose
         visible={loginVisible}
         zIndex={99999}
         width={500}
