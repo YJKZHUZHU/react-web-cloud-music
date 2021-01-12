@@ -5,7 +5,6 @@ interface CssExports {
   'carousel': string;
   'chromeframe': string;
   'common': string;
-  'item': string;
   'left': string;
   'right': string;
 }

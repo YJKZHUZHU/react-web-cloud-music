@@ -1,10 +1,11 @@
 /** @format */
 
-import React, {useRef} from "react"
+import React, {useRef, useMemo} from "react"
 import {LeftCircleOutlined, RightCircleOutlined} from "@ant-design/icons"
-import {Carousel} from "antd"
+import {Carousel, message} from "antd"
 import {useRequest} from "ahooks"
 import {useDispatch} from "umi"
+import classnames from "classnames"
 import API from "@/api"
 import styles from "./index.scss"
 
@@ -42,6 +43,7 @@ interface IData<T = []> {
 }
 
 const CarouselImg = () => {
+  console.log(1)
   const dispatch = useDispatch()
   const slider = useRef<any>(null)
   const {data} = useRequest<IData<IBanner[]>, any[], IBanner[]>(() => API.banner({type: 0}), {
@@ -50,11 +52,19 @@ const CarouselImg = () => {
       return response.banners
     }
   })
+
+  const onPlay = (id: number | string) => {
+    if (id) {
+      return dispatch({type: "songInfoModel/getSongInfo", payload: {id}})
+    }
+    return message.info('该类型无法播放哦')
+  }
+
   return (
     <div className={styles.carousel}>
       <Carousel
         dots
-        autoplay={false}
+        autoplay
         centerMode
         infinite
         focusOnSelect
@@ -62,21 +72,24 @@ const CarouselImg = () => {
         centerPadding="60px"
         slidesToShow={3}
         ref={slider}>
-        {data?.map((item) => {
-          return (
-            <div
-              className={styles.item}
-              key={item.targetId}
-              onDoubleClick={() =>
-                dispatch({type: "songInfoModel/getSongInfo", payload: {id: item.targetId}})
-              }>
-              <img src={item.imageUrl} />
-              <span className={styles.bg} style={{background: item.titleColor}}>
-                {item.typeTitle}
-              </span>
-            </div>
-          )
-        })}
+        {useMemo(() => {
+          return data?.map((item) => {
+            return (
+              <>
+                <img
+                  key={item.imageUrl}
+                  src={item.imageUrl}
+                  onDoubleClick={() => onPlay(item.targetId)}
+                />
+                <span
+                  className={classnames(styles.bg, "_carousel_bg")}
+                  style={{background: item.titleColor}}>
+                  {item.typeTitle}
+                </span>
+              </>
+            )
+          })
+        }, [JSON.stringify(data)])}
       </Carousel>
       <LeftCircleOutlined onClick={() => slider?.current?.prev()} className={styles.left} />
       <RightCircleOutlined onClick={() => slider?.current?.next()} className={styles.right} />
