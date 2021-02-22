@@ -5,7 +5,8 @@ declare module '*.png'
 declare module '*.scss'
 declare module '*.json'
 declare module 'Ripple'
-// declare module 'video-react'
+declare module 'video-react'
+declare module 'Ripple'
 
 
 export interface IState {

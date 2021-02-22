@@ -68,6 +68,15 @@ export default defineConfig({
   chunks: ['react', 'antd', 'utils', 'vendors', 'umi'],
   // chunks: ['react', 'vendors', 'umi'],
   chainWebpack(config, { webpack }) {
+    // config.module
+    //   .rule('jsx-px2rem-loader')
+    //   .test(/\.(tsx | tsx | js | ts)$/)
+    //   .exclude
+    //   .add([path.resolve('./src/pages/.umi'), path.resolve('./src/.umi'),path.resolve('node_modules')])
+    //   .end()
+    //   .use('./loader/jsx-px2rem-loader')
+    //   .loader(path.join(__dirname, './loader/jsx-px2rem-loader'));
+
     config.merge({
       optimization: {
         splitChunks: {
@@ -114,6 +123,14 @@ export default defineConfig({
           }
         }
       }
-    })
+    }).module
+      .rule('jsx-px2rem-loader')
+      .test(/\.tsx$/)
+      // .test(/\.js$/)
+      .exclude
+      .add([path.resolve('./loader'), path.resolve('./src/pages/.umi'), path.resolve('./src/.umi')])
+      .end()
+      .use('./loader/jsx-px2rem-loader')
+      .loader(path.join(__dirname, './loader/jsx-px2rem-loader'));
   }
 })

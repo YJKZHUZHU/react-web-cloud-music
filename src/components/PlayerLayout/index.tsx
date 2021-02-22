@@ -54,7 +54,6 @@ const PlayerLayout = () => {
   const [scroller, setScroller] = useState<any>(null)
   const [rd, setRd] = useState<any>(null)
   const imgContainerRef: any = useRef<any>(null)
-  const [time, setTime] = useState(0)
 
   // 相似歌曲
   const {run: runSimiSong, data: simiSong, loading: simiLoading} = useRequest(

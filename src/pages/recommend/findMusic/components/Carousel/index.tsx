@@ -57,14 +57,14 @@ const CarouselImg = () => {
     if (id) {
       return dispatch({type: "songInfoModel/getSongInfo", payload: {id}})
     }
-    return message.info('该类型无法播放哦')
+    return message.info("该类型无法播放哦")
   }
 
   return (
-    <div className={styles.carousel}>
+    <div className={styles.carousel} style={{fontSize:'10px'}}>
       <Carousel
         dots
-        autoplay
+        autoplay={false}
         centerMode
         infinite
         focusOnSelect

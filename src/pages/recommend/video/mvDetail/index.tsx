@@ -22,7 +22,6 @@ import {
   ShareAltOutlined,
   CheckCircleOutlined
 } from "@ant-design/icons"
-
 import {message, Select, Avatar, Button, Tag, Space} from "antd"
 import {useRequest} from "ahooks"
 import classnames from "classnames"

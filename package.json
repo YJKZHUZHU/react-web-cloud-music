@@ -6,19 +6,19 @@
     "test": "umi test"
   },
   "dependencies": {
-    "@ant-design/icons": "^4.2.1",
-    "@better-scroll/core": "^2.0.0-beta.6",
-    "@better-scroll/mouse-wheel": "^2.0.0-beta.6",
-    "@better-scroll/scroll-bar": "^2.0.0-beta.6",
-    "ahooks": "^2.5.0",
-    "antd": "^4.10.0",
-    "better-scroll": "^1.15.2",
+    "@ant-design/icons": "^4.5.0",
+    "@better-scroll/core": "^2.2.0",
+    "@better-scroll/mouse-wheel": "^2.2.0",
+    "@better-scroll/scroll-bar": "^2.2.0",
+    "ahooks": "^2.9.6",
+    "antd": "^4.12.3",
+    "better-scroll": "^2.2.0",
     "nprogress": "^0.2.0",
     "qrcode.react": "^1.0.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-draggable": "^4.4.3",
-    "react-player": "^2.7.2",
+    "react-player": "^2.9.0",
     "video-react": "^0.14.1"
   },
   "devDependencies": {

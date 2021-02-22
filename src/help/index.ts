@@ -117,7 +117,7 @@ class Utils {
   }
 
   static formatPlayerTime(result: number) {
-    if (!result) return ''
+    if (!result) return '00:00'
     let interval = Math.floor(result)
     let minute = (Math.floor(interval / 60)).toString().padStart(2, '0')
     let second = (interval % 60).toString().padStart(2, '0')
