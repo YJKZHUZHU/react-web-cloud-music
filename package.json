@@ -58,7 +58,8 @@
     "sass-loader": "^8.0.2",
     "tslint": "^6.1.2",
     "typescript": "^3.9.3",
-    "umi": "^3.3.0"
+    "umi": "^3.4.0",
+    "webpack-sources": "^2.2.0"
   },
   "engines": {
     "node": ">=10.13.0"

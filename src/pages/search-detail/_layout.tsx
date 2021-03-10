@@ -4,7 +4,7 @@ import React, {useState, useEffect} from "react"
 import {Tabs} from "antd"
 import {useLocation, useHistory} from "umi"
 import {useUpdate} from 'ahooks'
-import Map from "@/help/map"
+import  {MAP_TAB} from "@/help/map"
 import {Album, Video, User, SongList, Singer, Single} from "./components"
 import store from "@/help/localStorage"
 import styles from "./index.scss"
@@ -70,7 +70,7 @@ const SearchDetail = () => {
         <span>搜索</span>
         <span className={styles.keywords}>"{keywords}"</span>
         <span>
-          找到{countInfo[type] || INIT_COUNT[type]}相关{Map.MAP_TAB[type]}
+          找到{countInfo[type] || INIT_COUNT[type]}相关{MAP_TAB[type]}
         </span>
       </p>
       <div className={styles.tab}>

@@ -199,14 +199,14 @@ class Utils {
   //歌手序列化['华晨宇'，'张杰] -> 华晨宇/张杰
 
   static formatName(name: ArInterface[], link = '/', target = 'name') {
-    return name.map(item => {
+    return name?.map(item => {
       return item[target]
     }).join(link)
   }
   //播放列表
 
   static formatPlayRecord(data: PlayRecordItem[]) {
-    return data.map((item) => {
+    return data?.map((item) => {
       return {
         title: item.name,
         singer: Utils.formatName(item.ar as object[]),
@@ -273,11 +273,6 @@ export function generateNumber(length: number) {
   const arr = [...new Array(length).keys()]
   return parseInt(String(Math.random() * arr.length - 1), 10)
 }
-
-
-
-
-
 
 export default Utils
 

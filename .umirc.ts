@@ -30,6 +30,7 @@ export default defineConfig({
   dynamicImport: {
     loading: '@/components/Loading/index'
   },
+
   title: '豆芽音乐',
   esbuild: {},
   autoprefixer: {},

@@ -2,7 +2,7 @@
 
 import React, {useRef, useEffect} from "react"
 import {useRequest} from "ahooks"
-import {MvArea, MvSort, MvType} from "@/help/map"
+import {MV_AREA, MV_SORT, MV_TYPE} from "@/help/map"
 import SelectTag from "../findMusic/components/SelectTag"
 import {Row, Col, Space, Pagination, Spin} from "antd"
 import {history} from "umi"
@@ -75,21 +75,21 @@ const Mv = () => {
       <SelectTag
         style={{width: 60}}
         initChecked="全部"
-        data={MvArea}
+        data={MV_AREA}
         getSelectTag={(val) => onTag("area", val)}
         label="地区"
       />
       <SelectTag
         style={{width: 60}}
         initChecked="全部"
-        data={MvType}
+        data={MV_TYPE}
         getSelectTag={(val) => onTag("type", val)}
         label="类型"
       />
       <SelectTag
         style={{width: 60}}
         initChecked="上升最快"
-        data={MvSort}
+        data={MV_SORT}
         getSelectTag={(val) => onTag("order", val)}
         label="排序"
       />

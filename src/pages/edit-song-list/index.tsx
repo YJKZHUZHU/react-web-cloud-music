@@ -7,11 +7,10 @@ import styles from "./index.scss"
 import {history, useSelector} from "umi"
 import {FormInstance} from "antd/lib/form"
 import API from "@/api"
-import Map from "@/help/map"
+import {EDIT_SONG_LIST} from "@/help/map"
 import {IState} from "typings"
 
 const {CheckableTag} = Tag
-const MapList = new Map()
 
 type Props = {
   $app?: any
@@ -49,7 +48,7 @@ const AddLabel: FC<Props> = (props, ref) => {
         <p className={styles.description}>
           选择合适的标签，最多可选<i className={styles.number}>3</i>个
         </p>
-        {MapList.getEditSongList().map((t) => {
+        {EDIT_SONG_LIST.map((t) => {
           return (
             <div className={styles.item} key={t.id}>
               <p className={styles.left}>{t.name}</p>

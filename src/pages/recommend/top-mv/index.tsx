@@ -14,12 +14,12 @@ import {useRequest} from "ahooks"
 import moment from "moment"
 import {PlayIcon, Artists} from "@/components"
 import API from "@/api"
-import {MvArea} from "@/help/map"
+import {MV_AREA} from "@/help/map"
 import styles from "./index.scss"
 
 const {CheckableTag} = Tag
 
-const areaData = MvArea.filter((item) => item.id !== "全部")
+const areaData = MV_AREA.filter((item) => item.id !== "全部")
 
 interface IData {
   id: number

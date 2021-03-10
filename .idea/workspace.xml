@@ -20,11 +20,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3ac4d602-c92c-4419-bff4-268fa41f4872" name="默认的" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/type.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/type.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/recommend/friend/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/recommend/friend/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/help/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/help/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/help/map.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/help/map.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/edit-song-list/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/edit-song-list/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/recommend/mv/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/recommend/mv/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/recommend/top-mv/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/recommend/top-mv/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/search-detail/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/search-detail/_layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/theme/_reset.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/theme/_reset.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,6 +123,7 @@
       <workItem from="1589700006036" duration="8430000" />
       <workItem from="1603810178907" duration="15000" />
       <workItem from="1608967824903" duration="2141000" />
+      <workItem from="1615385671389" duration="321000" />
     </task>
     <servers />
   </component>
@@ -138,18 +143,18 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="634" y="311" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1605618291539">
+    <state x="380" y="172" width="1401" height="728" key="SettingsEditor" timestamp="1615385710107">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
-    <state x="634" y="311" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1792.1120@0.0.1792.1120" timestamp="1605618291539" />
-    <state x="405" y="196" key="SettingsEditor" timestamp="1608968068127">
-      <screen x="0" y="0" width="1792" height="1120" />
-    </state>
-    <state x="405" y="196" key="SettingsEditor/0.0.1792.1120@0.0.1792.1120" timestamp="1608968068127" />
+    <state x="380" y="172" width="1401" height="728" key="SettingsEditor/0.0.1792.1120@0.0.1792.1120" timestamp="1615385710107" />
     <state x="596" y="317" width="599" height="486" key="find.popup" timestamp="1608968388874">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
     <state x="596" y="317" width="599" height="486" key="find.popup/0.0.1792.1120@0.0.1792.1120" timestamp="1608968388874" />
+    <state x="626" y="401" key="vcs.readOnlyHandler.ReadOnlyStatusDialog" timestamp="1615385988277">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state x="626" y="401" key="vcs.readOnlyHandler.ReadOnlyStatusDialog/0.0.1792.1120@0.0.1792.1120" timestamp="1615385988277" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
