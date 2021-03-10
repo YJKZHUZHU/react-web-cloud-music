@@ -11,7 +11,7 @@
     "@better-scroll/mouse-wheel": "^2.2.0",
     "@better-scroll/scroll-bar": "^2.2.0",
     "ahooks": "^2.9.6",
-    "antd": "^4.12.3",
+    "antd": "^4.13.1",
     "better-scroll": "^2.2.0",
     "nprogress": "^0.2.0",
     "qrcode.react": "^1.0.1",
