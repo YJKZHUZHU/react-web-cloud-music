@@ -8,7 +8,9 @@ import API from "@/api"
 import {QrLogin} from "@/components"
 
 const Test = () => {
-  return <QrLogin/>
+  return (
+    <div>iiu</div>
+  )
 }
 
 export default Test

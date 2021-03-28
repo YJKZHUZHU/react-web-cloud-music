@@ -21,6 +21,7 @@ const {TabPane} = Tabs
 const {Search} = Input
 
 const PlayList = () => {
+  console.log(history)
   const {listId: id} = history.location.query
   const {
     isSearch,

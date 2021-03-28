@@ -6,18 +6,15 @@ interface CssExports {
   'caret': string;
   'chromeframe': string;
   'common': string;
-  'containerWrapper': string;
   'content': string;
   'drawer': string;
   'footer': string;
   'footerContainer': string;
   'full': string;
   'home': string;
-  'iconAdd': string;
   'img': string;
   'info': string;
   'mask': string;
-  'menu': string;
   'move': string;
   'name': string;
   'now': string;

@@ -1,0 +1,19 @@
+/** @format */
+@import "utils";
+.desItem {
+  display: flex;
+  .tag {
+    margin: 0;
+    padding: 0;
+    width: 40px;
+    text-align: center;
+  }
+}
+.select {
+  display: flex;
+  flex-wrap: wrap;
+
+  .item {
+    cursor: pointer;
+  }
+}

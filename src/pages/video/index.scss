@@ -1,0 +1,229 @@
+/** @format */
+@import "utils";
+._mvDetail {
+  display: flex;
+  .title {
+    height: 30px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    .name {
+      padding-left: 8px;
+    }
+  }
+  .left {
+    width: 60%;
+    .avatar {
+      margin-top: 15px;
+      margin-bottom: 20px;
+      .singer {
+        margin-left: 8px;
+      }
+    }
+    .songDesc {
+      .title {
+        .songName {
+          font-size: 20px;
+          font-weight: 700;
+          color: #333333;
+          padding-right: 8px;
+        }
+      }
+      .publish {
+        :first-child {
+          padding-right: 15px;
+        }
+        margin: 15px 0;
+        color: #c2c2c2;
+        font-size: 12px;
+      }
+      .desc {
+        line-height: 22px;
+        margin-bottom: 15px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+      }
+    }
+    .mvBtn {
+      display: flex;
+      justify-content: space-between;
+      width: 60%;
+      margin-bottom: 15px;
+    }
+    .mvTag {
+      margin-bottom: 15px;
+    }
+    .commentList {
+      font-size: 12px;
+      .content {
+        .nickname {
+          cursor: pointer;
+          color: #4f7daf;
+          &:hover {
+            color: #0d58b0;
+          }
+        }
+      }
+      .otherContent {
+        padding: 5px;
+        background-color: #f4f4f5;
+        margin-bottom: 8px;
+      }
+      .more {
+        text-align: center;
+        color: #000000;
+      }
+
+      .footer {
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+  }
+
+  .right {
+    width: 30%;
+    margin-left: 30px;
+
+    .simiItem {
+      display: flex;
+      margin-top: 15px;
+      cursor: pointer;
+
+      .left {
+        width: 40%;
+        position: relative;
+        color: white;
+        img {
+          width: 100%;
+          border-radius: 5%;
+        }
+        .playCount {
+          position: absolute;
+          top: 7px;
+          right: 9px;
+          display: flex;
+          width: 100%;
+          justify-content: flex-end;
+        }
+        .time {
+          position: absolute;
+          bottom: 8px;
+          right: 9px;
+          display: flex;
+          width: 100%;
+          justify-content: flex-end;
+        }
+      }
+      .right {
+        flex: 1;
+      }
+    }
+    .simiItem:first-of-type {
+      margin-top: 0 !important;
+    }
+  }
+  .select {
+    color: white;
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+  }
+  .btn {
+    color: $fontColor;
+    border-color: snow;
+  }
+}
+
+.vedioGroupListPopover {
+  width: 500px;
+  .list {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    height: 200px;
+    overflow-y: scroll;
+    .item {
+      display: flex;
+      align-items: center;
+      width: 100px;
+      justify-content: space-between;
+      .chooseTag {
+        @include ellipsis();
+      }
+      .divider {
+        margin: 0 4px;
+      }
+    }
+  }
+}
+
+.rightContent {
+  .list {
+    display: flex;
+  }
+}
+.vedioGroupList {
+  .loadMore {
+    text-align: center;
+  }
+  .top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .chooseBtn {
+      width: 150px;
+    }
+  }
+}
+
+.vedioList {
+  margin-top: 20px;
+  min-height: 200px;
+  .item {
+    margin-bottom: 20px;
+    cursor: pointer;
+    &:hover {
+      .icon {
+        opacity: 1;
+      }
+    }
+  }
+  .title {
+    margin: 10px 0;
+    @include ellipsis();
+  }
+  .img {
+    width: 100%;
+    position: relative;
+    min-height: 160px;
+    .icon {
+      opacity: 0;
+    }
+    .durationms {
+      position: absolute;
+      right: 10px;
+      bottom: 4px;
+    }
+    .playTime {
+      position: absolute;
+      right: 10px;
+      top: 5px;
+    }
+    img {
+      width: 100%;
+      border-radius: 10px;
+    }
+  }
+}
+
+.liked {
+  color: #d33931;
+}
+.space {
+  width: 100%;
+}

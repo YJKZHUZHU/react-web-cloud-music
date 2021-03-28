@@ -1,0 +1,65 @@
+/** @format */
+
+@import "utils";
+.carousel {
+  min-height: 150px;
+  margin: auto;
+  position: relative;
+  font-size:10px;
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+  img {
+    width: 95%;
+    border-radius: 5px;
+    margin: 2%;
+    position: relative;
+    cursor: pointer;
+  }
+  .bg {
+    width: 50px;
+    display: block;
+    font-size: 12px;
+    position: absolute;
+    bottom: 7px;
+    right: 12px;
+    text-align: center;
+    color: #ffffff;
+    border-radius: 5px 0;
+    i {
+      display: inline-block;
+      width: 15px;
+      height: 15px;
+    }
+  }
+
+  .common {
+    position: absolute;
+    top: 39%;
+    color: var(--font-color);
+  }
+
+  .left {
+    @extend .common;
+    left: 5px;
+  }
+
+  .right {
+    @extend .common;
+    right: 5px;
+  }
+}
+
+:global {
+  .slick-current,
+  .slick-slide {
+    position: relative;
+  }
+  .slick-current {
+    ._carousel_bg {
+      bottom: 1px;
+      right: -4px;
+    }
+  }
+}

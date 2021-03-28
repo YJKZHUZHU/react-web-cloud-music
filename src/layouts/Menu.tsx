@@ -8,10 +8,14 @@ import {
   PlusOutlined,
   TeamOutlined,
   WifiOutlined,
-  StarOutlined
+  StarOutlined,
+  UserOutlined
 } from "@ant-design/icons"
+import type {ProSettings} from "@ant-design/pro-layout"
+import ProLayout, {PageContainer, SettingDrawer} from "@ant-design/pro-layout"
+import routers from './Router'
 import {useBoolean, useRequest} from "ahooks"
-import {message, Popover, Input, Switch, Button, Space} from "antd"
+import {message, Popover, Input, Switch, Button, Space, Avatar} from "antd"
 import {useSelector, useDispatch} from "umi"
 import {MenuItem} from "@/components"
 import API from "@/api"
@@ -126,7 +130,28 @@ const MenuList = () => {
   return (
     <aside>
       <div className={styles.menu}>
-        <MenuItem.TopMenu list={recommendMenu.filter((item) => item.login)}>推荐</MenuItem.TopMenu>
+        <ProLayout
+          {...routers}
+          waterMarkProps={{
+            content: "Pro Layout"
+          }}
+          onMenuHeaderClick={(e) => console.log(e)}
+          menuItemRender={(item, dom) => (
+            <a
+              onClick={() => {
+                console.log(111)
+                // setPathname(item.path || "/welcome")
+              }}>
+              {dom}
+            </a>
+          )}
+          rightContentRender={() => (
+            <div>
+              <Avatar shape="square" size="small" icon={<UserOutlined />} />
+            </div>
+          )}
+          fixSiderbar></ProLayout>
+        {/* <MenuItem.TopMenu list={recommendMenu.filter((item) => item.login)}>推荐</MenuItem.TopMenu>
         {loginStatus && (
           <>
             <MenuItem.TopMenu list={myMenu}>我的音乐</MenuItem.TopMenu>
@@ -145,7 +170,7 @@ const MenuList = () => {
             </MenuItem.SongListmenu>
             <MenuItem.SongListmenu list={favorite} text="收藏的歌单" type={1} />
           </>
-        )}
+        )} */}
       </div>
     </aside>
   )

@@ -6,11 +6,11 @@ import 'nprogress/nprogress.css'
 export function onRouteChange({ location, matchedRoutes }: any) {
   Nprogress.start()
   setTimeout(() => Nprogress.done(), 500)
-  if (location.pathname === '/') {
-    history.push({
-      pathname: '/recommend/findMusic/personal-recommendation'
-    })
-  }
+  // if (location.pathname === '/') {
+  //   history.push({
+  //     pathname: '/recommend/findMusic/personal-recommendation'
+  //   })
+  // }
   if (matchedRoutes.length) {
     document.title = matchedRoutes[matchedRoutes.length - 1].route.title || '';
   }

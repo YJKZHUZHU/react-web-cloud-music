@@ -77,24 +77,6 @@ const Header = () => {
 
   return (
     <header className={styles._header}>
-      <Link to="/" className={styles.logo}>
-        <img src={require("../../assets/home.png")}></img>
-      </Link>
-      <div className={styles.routerBtn}>
-        {showPlayer ? (
-          <DownOutlined
-            onClick={() =>
-              dispatch({type: "playmodel/setShowPlayer", payload: {showPlayer: false}})
-            }
-            className={styles.down}
-          />
-        ) : (
-          <Space size={20}>
-            <LeftOutlined onClick={() => history.goBack()} />
-            <RightOutlined onClick={() => history.go(1)} />
-          </Space>
-        )}
-      </div>
       <div className={classnames(styles.search, "_search")}>
         <Search />
       </div>

@@ -1,0 +1,42 @@
+/** @format */
+
+.singer {
+  .singerContainer {
+    height: calc(100vh - 300px);
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+  .card {
+    margin-bottom: 15px;
+    .name {
+      width: 95%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .singerName {
+        cursor: pointer;
+        &:hover {
+          color: #070707;
+        }
+      }
+      .icon {
+        cursor: pointer;
+        color: var(--font-color);
+        // &:hover {
+        //   color: #e24439;
+        // }
+      }
+    }
+    .singerCover {
+      height: 160px;
+      img {
+        height: 100%;
+        border-radius: 5px;
+      }
+    }
+  }
+  .loadMore {
+    display: flex;
+    justify-content: center;
+  }
+}

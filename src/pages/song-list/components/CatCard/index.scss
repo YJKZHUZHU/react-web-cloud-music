@@ -1,0 +1,47 @@
+/** @format */
+
+@import "utils";
+.catCard {
+  position: relative;
+  cursor: pointer;
+  font-size: 12px;
+  .item {
+    position: relative;
+    img {
+      width: 100%;
+    }
+  }
+  &:hover {
+    .playIcon {
+      opacity: 1;
+    }
+  }
+  .com {
+    color: white;
+    position: absolute;
+    margin-bottom: 0;
+  }
+  .name {
+    @include ellipsis-multi(2);
+  }
+  .playCount {
+    @extend .com;
+    top: 5px;
+    right: 10px;
+  }
+  .nickname {
+    width: 60%;
+    @extend .com;
+    left: 5px;
+    bottom: 5px;
+    .name {
+      @include ellipsis-multi(1);
+    }
+  }
+  .playIcon {
+    top: auto;
+    bottom: 5px;
+    left: auto;
+    right: 5px;
+  }
+}

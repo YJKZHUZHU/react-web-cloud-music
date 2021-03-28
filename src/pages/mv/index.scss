@@ -1,0 +1,43 @@
+/** @format */
+@import '@/theme/utils';
+._mv {
+  .mvList {
+    margin-top: 20px;
+    min-height: 200px;
+    .item {
+      margin-bottom: 20px;
+      cursor: pointer;
+      &:hover {
+        .icon {
+          opacity: 1;
+        }
+      }
+    }
+    .title {
+      margin: 10px 0;
+      @include ellipsis();
+    }
+    .img {
+      width: 100%;
+      position: relative;
+      min-height: 160px;
+      .icon {
+        opacity: 0;
+      }
+      .durationms {
+        position: absolute;
+        right: 10px;
+        bottom: 4px;
+      }
+      .playTime {
+        position: absolute;
+        right: 10px;
+        top: 5px;
+      }
+      img {
+        width: 100%;
+        border-radius: 10px;
+      }
+    }
+  }
+}

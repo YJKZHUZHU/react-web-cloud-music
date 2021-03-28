@@ -1,0 +1,127 @@
+/** @format */
+
+@import "utils";
+
+$mvBg: "../../../assets/mask.png";
+
+._collect {
+  width: 100%;
+  .radioGroup {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+  }
+
+  .albumItem {
+    padding: 8px 20px;
+    @include zebra-lists(#333333, #fafafa, #333333, #f5f5f7);
+    cursor: pointer;
+    .name {
+      color: #333333;
+      font-weight: normal;
+      &:hover {
+        color: #000000;
+      }
+    }
+    .artists {
+      font-size: 12px;
+    }
+
+    &:hover {
+      background-color: #f2f2f3;
+    }
+
+    .albumDescription {
+      font-weight: normal;
+      margin-top: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .name {
+        color: #333333;
+        &:hover {
+          color: #000000;
+        }
+      }
+      .album,
+      .mvSize {
+        font-size: 12px;
+        color: #969696;
+      }
+    }
+  }
+
+  .mvItem {
+    position: relative;
+    cursor: pointer;
+    p {
+      margin-bottom: 0;
+    }
+
+    .img {
+      position: relative;
+      height: 200px;
+      img {
+        height: 100%;
+        width: 100%;
+        border-radius: 5px;
+      }
+    }
+
+    .player {
+      border-radius: 0 5px;
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding-right: 5px;
+      height: 20px;
+      line-height: 20px;
+      text-align: right;
+      color: #fff;
+      box-sizing: border-box;
+      text-shadow: -2px 1px rgba(0, 0, 0, 0.4);
+      width: 30%;
+      // background: url($mvBg) 1px 2px;
+
+      span {
+        padding-right: 5px;
+      }
+    }
+
+    .time {
+      border-radius: 0 0 0 5px;
+      margin-bottom: 0;
+      position: absolute;
+      bottom: 2px;
+      left: 0;
+      padding-left: 5px;
+      height: 20px;
+      line-height: 20px;
+      color: #fff;
+      text-shadow: -2px 1px rgba(0, 0, 0, 0.4);
+      width: 40%;
+      // background: url($mvBg) no-repeat 0 -25px;
+    }
+    .title {
+      @include ellipsis();
+      margin-top: 10px;
+      .tag {
+        border-radius: 2px;
+        padding: 0 2px;
+        font-size: 11px;
+        margin-right: 3px;
+        color: #e03f40;
+        border: 1px solid #e03f40;
+      }
+    }
+
+    .singer {
+      font-size: 12px;
+      color: #bfbfbf;
+      &:hover {
+        color: #8c8c8c;
+      }
+    }
+  }
+}

@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.5.0",
+    "@ant-design/pro-layout": "^6.15.4",
     "@better-scroll/core": "^2.2.0",
     "@better-scroll/mouse-wheel": "^2.2.0",
     "@better-scroll/scroll-bar": "^2.2.0",
@@ -57,7 +58,7 @@
     "react-test-renderer": "^16.7.0",
     "sass-loader": "^8.0.2",
     "tslint": "^6.1.2",
-    "typescript": "^3.9.3",
+    "typescript": "^4.2.3",
     "umi": "^3.4.7",
     "webpack-sources": "^2.2.0"
   },
