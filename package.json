@@ -10,8 +10,8 @@
     "@better-scroll/core": "^2.2.0",
     "@better-scroll/mouse-wheel": "^2.2.0",
     "@better-scroll/scroll-bar": "^2.2.0",
-    "ahooks": "^2.9.6",
-    "antd": "^4.13.1",
+    "ahooks": "^2.10.0",
+    "antd": "^4.14.1",
     "better-scroll": "^2.2.0",
     "nprogress": "^0.2.0",
     "qrcode.react": "^1.0.1",
@@ -58,7 +58,7 @@
     "sass-loader": "^8.0.2",
     "tslint": "^6.1.2",
     "typescript": "^3.9.3",
-    "umi": "^3.4.0",
+    "umi": "^3.4.7",
     "webpack-sources": "^2.2.0"
   },
   "engines": {

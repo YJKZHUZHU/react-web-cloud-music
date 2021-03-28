@@ -20,15 +20,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3ac4d602-c92c-4419-bff4-268fa41f4872" name="默认的" comment="">
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/help/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/help/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/help/map.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/help/map.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/edit-song-list/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/edit-song-list/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/recommend/mv/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/recommend/mv/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/recommend/top-mv/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/recommend/top-mv/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/search-detail/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/search-detail/_layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/theme/_reset.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/theme/_reset.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,7 +115,7 @@
       <workItem from="1589700006036" duration="8430000" />
       <workItem from="1603810178907" duration="15000" />
       <workItem from="1608967824903" duration="2141000" />
-      <workItem from="1615385671389" duration="321000" />
+      <workItem from="1615385671389" duration="907000" />
     </task>
     <servers />
   </component>
