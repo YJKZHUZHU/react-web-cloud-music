@@ -82,14 +82,51 @@ const routes:IRoute[] = [
         title: '最新音乐',
       },
       {
-        path: '/playList/:id',
+        path: '/playList',
         component: 'playList',
         title: '歌单详情',
       },
       {
-        path: '/find-music/top',
-        component: 'top'
+        path: '/mv-detail',
+        component: 'mv-detail'
       },
+      {
+        path: '/search-detail',
+        component: 'search-detail',
+        routes: [
+          {
+            path: '/search-detail/single',
+            component: 'search-detail/single',
+            title: '单曲'
+          },
+          {
+            path: '/search-detail/singer',
+            component: 'search-detail/singer',
+            title: '歌手',
+          },
+          {
+            path: '/search-detail/album',
+            component: 'search-detail/album',
+            title: '专辑',
+          },
+          {
+            path: '/search-detail/video',
+            component: 'search-detail/video',
+            title: '视频',
+          },
+          {
+            path: '/search-detail/song-list',
+            component: 'search-detail/song-list',
+            title: '歌单',
+          },
+          {
+            path: '/search-detail/user',
+            component: 'search-detail/user',
+            title: '用户',
+          },
+        ]
+      },
+
     ]
   }
 ]

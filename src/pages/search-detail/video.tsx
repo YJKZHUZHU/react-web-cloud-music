@@ -1,18 +1,18 @@
 /** @format */
 
-import React, {FC, useEffect} from "react"
+import React, {useEffect, useContext} from "react"
 import {Spin, Row, Col, Space} from "antd"
 import {VideoCameraOutlined} from "@ant-design/icons"
 import {useHistory} from "umi"
 import {useSearchDetail} from "@/hooks"
 import {Artists} from "@/components"
 import Utils from "@/help"
-import {IComProps} from "../_layout"
-import styles from "../index.scss"
+import {CountContext} from "./index"
+import styles from "./index.scss"
 
-const Video: FC<IComProps> = ({getCount}) => {
+const Video = () => {
   const history = useHistory()
-
+  const {getCount} = useContext(CountContext)
   const {request, containerRef} = useSearchDetail({
     countKey: "videoCount",
     listKey: "videos",
@@ -46,9 +46,7 @@ const Video: FC<IComProps> = ({getCount}) => {
                       <div
                         className={styles.img}
                         onClick={() =>
-                          history.push(
-                            `/recommend/video/mvdetail?mvid=${item.vid}&type=${item.type}`
-                          )
+                          history.push(`/mv-detail?mvid=${item.vid}&type=${item.type}`)
                         }>
                         <img src={item.coverUrl} />
                       </div>
@@ -64,9 +62,7 @@ const Video: FC<IComProps> = ({getCount}) => {
                       <p
                         className={styles.content}
                         onClick={() =>
-                          history.push(
-                            `/recommend/video/mvdetail?mvid=${item.vid}&type=${item.type}`
-                          )
+                          history.push(`/mv-detail?mvid=${item.vid}&type=${item.type}`)
                         }>
                         {+item.type === 0 ? <span className={styles.mv}>MV</span> : null}
                         <span className={styles.right}>{item.title}</span>
@@ -88,6 +84,5 @@ const Video: FC<IComProps> = ({getCount}) => {
     </div>
   )
 }
-Video.title = "视频"
 
 export default Video

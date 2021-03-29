@@ -1,6 +1,6 @@
 /** @format */
 
-import React, {FC} from "react"
+import React, {useContext} from "react"
 import {Table, Space} from "antd"
 import {useDispatch, useHistory, useLocation} from "umi"
 import {HeartOutlined} from "@ant-design/icons"
@@ -8,12 +8,13 @@ import {useRequest} from "ahooks"
 import API from "@/api"
 import Utils from "@/help"
 import {Artists, VideoIcon} from "@/components"
-import {IComProps} from "../_layout"
+import {CountContext} from "./index"
 import styles from "../index.scss"
 
-const Single: FC<IComProps> = ({getCount}) => {
+const Single = () => {
   const history = useHistory()
   const dispatch = useDispatch()
+  const {getCount} = useContext(CountContext)
   const location: any = useLocation()
   const {keywords} = location.query
 
@@ -31,7 +32,7 @@ const Single: FC<IComProps> = ({getCount}) => {
         }
       },
       onSuccess: (data) => {
-        getCount(1,data.total)
+        getCount(1, data.total)
       }
     }
   )

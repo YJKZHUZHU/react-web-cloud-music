@@ -25,10 +25,10 @@ const ExclusiveBroadcast: FC<IExclusiveBroadcast> = ({data}) => {
   const onLink = (item: IExclusiveBroadcastItem) => {
     let result = ""
     if (+item.type === 5) {
-      result = `/recommend/video/mvdetail?mvid=${item.id}&type=0`
+      result = `/mv-detail?mvid=${item.id}&type=0`
     }
     if (+item.type === 24) {
-      result = `/recommend/video/mvdetail?mvid=${item.videoId}&type=1`
+      result = `/mv-detail?mvid=${item.videoId}&type=1`
     }
     return result
   }

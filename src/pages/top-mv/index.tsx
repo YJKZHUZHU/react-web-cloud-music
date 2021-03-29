@@ -102,9 +102,7 @@ const TopMv = () => {
                   </div>
                   <div
                     className={styles.img}
-                    onClick={() =>
-                      history.push(`/recommend/video/mvdetail?mvid=${item.id}&type=0`)
-                    }>
+                    onClick={() => history.push(`/mv-detail?mvid=${item.id}&type=0`)}>
                     <img src={item?.cover} alt={item.name} />
                     <Space className={styles.score}>
                       <span>热度</span>
@@ -115,9 +113,7 @@ const TopMv = () => {
                   <div className={styles.content}>
                     <p
                       className={styles.name}
-                      onClick={() =>
-                        history.push(`/recommend/video/mvdetail?mvid=${item.id}&type=0`)
-                      }>
+                      onClick={() => history.push(`/mv-detail?mvid=${item.id}&type=0`)}>
                       {item.name}
                     </p>
                     <p>

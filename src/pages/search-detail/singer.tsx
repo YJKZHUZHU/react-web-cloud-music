@@ -1,17 +1,17 @@
 /** @format */
 
-import React, {FC, useEffect} from "react"
+import React, {useEffect, useContext} from "react"
 import {Spin, Avatar, Space} from "antd"
 import {useHistory} from "umi"
 import {UserOutlined} from "@ant-design/icons"
 import Utils from "@/help"
 import {useSearchDetail} from "@/hooks"
-import {IComProps} from '../_layout'
-import styles from "../index.scss"
+import {CountContext} from "./index"
+import styles from "./index.scss"
 
-const Singer: FC<IComProps> = ({getCount}) => {
+const Singer = () => {
   const history = useHistory()
-
+  const {getCount} = useContext(CountContext)
   const {request, containerRef} = useSearchDetail({
     countKey: "artistCount",
     listKey: "artists",
@@ -19,10 +19,9 @@ const Singer: FC<IComProps> = ({getCount}) => {
     limit: 10
   })
 
-
-   useEffect(() => {
-     getCount(1014, request?.data?.total)
-   }, [request])
+  useEffect(() => {
+    getCount(100, request?.data?.total)
+  }, [request])
 
   return (
     <div className={styles.singer} ref={containerRef}>
@@ -63,6 +62,5 @@ const Singer: FC<IComProps> = ({getCount}) => {
     </div>
   )
 }
-Singer.title = "歌手"
 
 export default Singer

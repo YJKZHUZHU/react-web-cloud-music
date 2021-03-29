@@ -1,17 +1,17 @@
 /** @format */
 
-import React, {FC, useEffect} from "react"
+import React, {useEffect, useContext} from "react"
 import {Spin, Avatar, Space} from "antd"
 import {UserOutlined} from "@ant-design/icons"
 import {useHistory} from "umi"
 import Utils from "@/help"
 import {useSearchDetail} from "@/hooks"
-import {IComProps} from "../_layout"
-import styles from "../index.scss"
+import {CountContext} from "./index"
+import styles from "./index.scss"
 
-const SongList: FC<IComProps> = ({getCount}) => {
+const SongList = () => {
   const history = useHistory()
-
+  const {getCount} = useContext(CountContext)
   const {request, containerRef} = useSearchDetail({
     countKey: "playlistCount",
     listKey: "playlists",
@@ -62,6 +62,5 @@ const SongList: FC<IComProps> = ({getCount}) => {
     </div>
   )
 }
-SongList.title = "歌单"
 
 export default SongList

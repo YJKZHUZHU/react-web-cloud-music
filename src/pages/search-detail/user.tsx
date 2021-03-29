@@ -1,16 +1,17 @@
 /** @format */
 
-import React, {FC, useEffect} from "react"
+import React, {useEffect, useContext} from "react"
 import {Spin, Avatar} from "antd"
 import {UserOutlined, ManOutlined, WomanOutlined} from "@ant-design/icons"
 import {useHistory} from "umi"
 import {useSearchDetail} from "@/hooks"
 import Utils from "@/help"
-import {IComProps} from "../_layout"
-import styles from "../index.scss"
+import {CountContext} from "./index"
+import styles from "./index.scss"
 
-const User: FC<IComProps> = ({getCount}) => {
+const User = () => {
   const history = useHistory()
+  const {getCount} = useContext(CountContext)
   const {request, containerRef} = useSearchDetail({
     countKey: "userprofileCount",
     listKey: "userprofiles",
@@ -19,7 +20,6 @@ const User: FC<IComProps> = ({getCount}) => {
   })
 
   useEffect(() => {
-    console.log(request?.data?.total)
     getCount(1002, request?.data?.total)
   }, [request])
 
@@ -66,6 +66,5 @@ const User: FC<IComProps> = ({getCount}) => {
     </div>
   )
 }
-User.title = "用户"
 
 export default User

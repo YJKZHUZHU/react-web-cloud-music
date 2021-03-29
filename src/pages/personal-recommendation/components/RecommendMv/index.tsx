@@ -35,7 +35,7 @@ interface IRecommendMv {
 
 const RecommendMv: FC<IRecommendMv> = ({data}) => {
   return (
-    <Link to={`/recommend/video/mvdetail?mvid=${data.id}&type=${+data.type - 5}`}>
+    <Link to={`/mv-detail?mvid=${data.id}&type=${+data.type - 5}`}>
       <div className={styles._list}>
         <div className={styles.imgWrap}>
           <img src={data.picUrl} />
@@ -46,7 +46,7 @@ const RecommendMv: FC<IRecommendMv> = ({data}) => {
           <div className={styles.descWrap}>
             <span className={styles.desc}>{data.copywriter}</span>
           </div>
-          <PlayIcon iconClassName={styles.playIcon}/>
+          <PlayIcon iconClassName={styles.playIcon} />
         </div>
         <p className={styles.name}>{data.name}</p>
         <Artists data={data.artists} />

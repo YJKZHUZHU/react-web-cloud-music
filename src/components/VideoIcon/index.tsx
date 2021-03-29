@@ -13,7 +13,7 @@ const VideoIcon: FC<IVideoIconProps> = ({id, type}) => {
   if (!id) return null
   return (
     <PlaySquareOutlined
-      onClick={() => history.push(`/recommend/video/mvDetail?mvid=${id}&type=${type}`)}
+      onClick={() => history.push(`/mv-detail?mvid=${id}&type=${type}`)}
     />
   )
 }

@@ -40,9 +40,9 @@ const SimiDetail = () => {
   const {query} = location
   const mvBool = +query.type === 0
 
-  const onMv = (mvid: number) => {
+  const onMv = (mvid: any) => {
     history.push({
-      pathname: "/recommend/video/mvDetail",
+      pathname: "/mv-detail",
       query: {mvid, type: query.type}
     })
   }

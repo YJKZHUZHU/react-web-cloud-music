@@ -6,7 +6,7 @@ import {CaretRightOutlined} from "@ant-design/icons"
 import {history, useLocation} from "umi"
 import {useRequest} from "ahooks"
 import API from "@/api"
-import styles from "../index.scss"
+import styles from "./index.scss"
 
 export interface ISimiInterface {
   id: number
@@ -42,7 +42,7 @@ const SimiDetail = () => {
 
   const onMv = (mvid: any) => {
     history.push({
-      pathname: "/mv-detail",
+      pathname: "mv-detail",
       query: {mvid, type: query.type}
     })
   }

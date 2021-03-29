@@ -40,7 +40,7 @@ const NewMusic: FC<INewMusic> = ({data, index}) => {
       <span className={styles.number}>{index < 10 ? `0${index}` : index}</span>
       <div className={styles.img}>
         <img src={data.picUrl} />
-        <PlayIcon iconClassName={styles.playIcon}/>
+        <PlayIcon iconClassName={styles.playIcon} />
       </div>
       <div className={styles.content}>
         <p>{data.name}</p>
@@ -52,9 +52,7 @@ const NewMusic: FC<INewMusic> = ({data, index}) => {
             <PlaySquareOutlined
               className={styles.icon}
               onClick={() =>
-                history.push(
-                  `/recommend/video/mvdetail?mvid=${data.song.mvid}&typs=${data.song.type}`
-                )
+                history.push(`/mv-detail?mvid=${data.song.mvid}&typs=${data.song.type}`)
               }
             />
           ) : null}

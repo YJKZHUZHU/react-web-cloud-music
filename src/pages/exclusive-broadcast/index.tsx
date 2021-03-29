@@ -42,10 +42,10 @@ const ExclusiveBroadcast = () => {
 
   const onLink = (item: IList) => {
     if (+item.type === 5) {
-      return history.push(`/recommend/video/mvdetail?mvid=${item.id}&type=0`)
+      return history.push(`/mv-detail?mvid=${item.id}&type=0`)
     }
     if (+item.type === 24) {
-      return history.push(`/recommend/video/mvdetail?mvid=${item.videoId}&type=1`)
+      return history.push(`/mv-detail?mvid=${item.videoId}&type=1`)
     }
     return message.info("该视频暂时无法播放哦")
   }

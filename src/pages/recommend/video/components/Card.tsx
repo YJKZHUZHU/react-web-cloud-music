@@ -28,9 +28,7 @@ const Card: FC<ICardProps> = ({data, loading}) => {
             <Col
               span={6}
               className={styles.item}
-              onClick={() =>
-                history.push(`/recommend/video/mvdetail?mvid=${item?.data?.vid}&type=${item?.type}`)
-              }>
+              onClick={() => history.push(`/mv-detail?mvid=${item?.data?.vid}&type=${item?.type}`)}>
               <div className={styles.img}>
                 <img src={item?.data?.coverUrl} />
                 <span className={styles.durationms}>

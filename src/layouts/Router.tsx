@@ -34,6 +34,13 @@ const defaultRoutes: MenuDataItem[] = [
     icon: <PlayCircleOutlined />
   },
   {
+    path: "/mv-detail",
+    name: "MV详情",
+    icon: <PlayCircleOutlined />,
+    hideInMenu:true,
+    parentKeys:['/mv']
+  },
+  {
     path: "/top-mv",
     name: "MV排行榜",
     icon: <SmileOutlined />
@@ -116,18 +123,18 @@ const renderRouter = (creator: any[], favorite: any[]): Route => {
   }
   const mapCreator = creator.map((item) => {
     return {
-      path: `/playList/${item.id}?listId=${item.id}`,
+      path: `/playList?listId=${item.id}`,
       name: item.name,
-      key: `/playList/${item.id}?listId=${item.id}`,
+      key: item.id,
       icon: <SmileOutlined />
     }
   })
   const mapFavorite = favorite?.map((item) => {
     return {
-      path: `/playList/${item.id}?listId=${item.id}`,
-      // path: `/playList/${item.id}`,
+      // path: `/playList/${item.id}?listId=${item.id}`,
+      path: `/playList?listId=${item.id}`,
       name: item.name,
-      // key: item.id,
+      key: item.id,
       icon: <SmileOutlined />
     }
   })

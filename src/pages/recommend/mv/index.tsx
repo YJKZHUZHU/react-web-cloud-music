@@ -69,7 +69,7 @@ const Mv = () => {
   useEffect(() => {
     run({current: 1, pageSize: 30})
   }, [])
-  
+
   return (
     <div className={styles._mv}>
       <SelectTag
@@ -101,9 +101,7 @@ const Mv = () => {
                 key={item.id}
                 span={6}
                 className={styles.item}
-                onClick={() =>
-                  history.push(`/recommend/video/mvdetail?mvid=${item?.id}&type=${0}`)
-                }>
+                onClick={() => history.push(`/mv-detail?mvid=${item?.id}&type=${0}`)}>
                 <div className={styles.img}>
                   <img src={item?.cover} />
                   <span className={styles.durationms}>

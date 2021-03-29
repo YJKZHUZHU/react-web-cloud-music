@@ -159,7 +159,7 @@ const Footer = memo(() => {
   }
 
   // 视频播放隐藏
-  if (location.pathname === "/recommend/video/mvDetail") return null
+  if (location.pathname === "/mv-detail") return null
 
   return (
     <footer className={style._footer}>

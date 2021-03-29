@@ -72,7 +72,7 @@ const Mv: FC<IMvProps> = ({query, total}) => {
                 cover={
                   <div
                     className={styles.singerCover}
-                    onClick={() => history.push(`/recommend/video/mvDetail?mvid=${item.id}`)}>
+                    onClick={() => history.push(`/mv-detail?mvid=${item.id}`)}>
                     <img alt={item.name} src={item.imgurl} />
                     <span className={styles.time}>
                       {Utils.formatPlayerTime(item.duration / 1000)}
@@ -85,7 +85,7 @@ const Mv: FC<IMvProps> = ({query, total}) => {
                 }>
                 <p
                   className={styles.name}
-                  onClick={() => history.push(`/recommend/video/mvDetail?mvid=${item.id}`)}>
+                  onClick={() => history.push(`/mv-detail?mvid=${item.id}`)}>
                   <span className={styles.singerName}>{item.name}</span>
                 </p>
               </Card>

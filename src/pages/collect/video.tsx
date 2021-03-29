@@ -70,9 +70,7 @@ export default () => {
                   <div className={styles.mvItem}>
                     <div
                       className={styles.img}
-                      onClick={() =>
-                        history.push(`/recommend/video/mvdetail?mvid=${item.vid}&type=${item.type}`)
-                      }>
+                      onClick={() => history.push(`/mv-detail?mvid=${item.vid}&type=${item.type}`)}>
                       <img src={item.coverUrl} alt={item.coverUrl} />
                       <p className={styles.player}>
                         <VideoCameraOutlined />

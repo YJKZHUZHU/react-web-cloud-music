@@ -53,7 +53,7 @@ const HomeLayout: FC = ({children}) => {
       headerRender={() => <Header />}
       footerRender={() => <Footer />}>
       {children}
-      {pathname !== "/recommend/video/mvDetail" && <PlayerLayout />}
+      {pathname !== "/mv-detail" && <PlayerLayout />}
       <Drawer
         className={styles.drawer}
         placement="right"
