@@ -116,7 +116,7 @@ const List: FC<IList> = ({type}) => {
                     {item.name}
                   </span>
                 </Space>
-                <Space className={styles.right}>
+                <Space>
                   <span>热度</span>
                   <span>{item.score}</span>
                 </Space>

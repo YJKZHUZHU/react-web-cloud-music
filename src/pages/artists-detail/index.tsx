@@ -1,6 +1,6 @@
 /** @format */
 
-import React, {useState, useEffect} from "react"
+import React, {useState, useEffect, FC, createContext} from "react"
 import {history, useLocation} from "umi"
 import {Tabs, Radio, Button, Space, Spin, message} from "antd"
 import {
@@ -14,10 +14,14 @@ import {
 import {useRequest} from "ahooks"
 import API from "@/api"
 import Album, {IArtists, LayoutType} from "./album"
-import Mv from "./mv"
-import SingerDetail from "./singer-detail"
-import SimilarSinger from "./similar-singer"
 import styles from "./index.scss"
+
+interface IArtistsDetailContext {
+  total: number
+}
+export const ArtistsDetailContext = createContext<IArtistsDetailContext>({
+  total: 0
+})
 
 interface IQuery {
   id: number
@@ -30,10 +34,10 @@ export interface IProps {
 
 const {TabPane} = Tabs
 
-const ArtistsDetail = () => {
+const ArtistsDetail: FC = ({children}) => {
   const location: any = useLocation()
   const path = location.pathname.split("/").pop()
-  const [tabKey, setTabKey] = useState(path || "album")
+  const [tabKey, setTabKey] = useState(location?.query?.source || "album")
   const [collect, setCollect] = useState(false)
   const [extraType, setExtraType] = useState<LayoutType>("card")
   const {data, run, loading} = useRequest(
@@ -71,7 +75,10 @@ const ArtistsDetail = () => {
     setTabKey(activeKey)
     history.push({
       pathname: `/artists-detail/${activeKey}`,
-      query: {...location.query}
+      query: {
+        ...location.query,
+        source: activeKey
+      }
     })
   }
   const extra = (
@@ -91,8 +98,8 @@ const ArtistsDetail = () => {
     </Radio.Group>
   )
   useEffect(() => {
-    setTabKey(path)
-  }, [path])
+    setTabKey(location?.query?.source)
+  }, [location?.query?.source])
   useEffect(() => {
     run()
     runSub()
@@ -129,9 +136,6 @@ const ArtistsDetail = () => {
                   <span>
                     专辑数:<i className={styles.number}>{data?.albumSize}</i>
                   </span>
-                  {/* <span>
-                mv数:<i className={styles.number}>{419}</i>
-              </span> */}
                 </Space>
               </div>
             </Space>
@@ -145,7 +149,7 @@ const ArtistsDetail = () => {
         tabBarStyle={{color: "var(--font-color)"}}
         animated
         tabBarExtraContent={tabKey === "album" ? extra : null}>
-        <TabPane tab="专辑" key="album" className={styles.tabPane}>
+        <TabPane tab="专辑" key="album">
           <Album
             query={location.query}
             total={data?.albumSize as number}
@@ -154,14 +158,16 @@ const ArtistsDetail = () => {
             albumNumber={data?.albumSize as number}
           />
         </TabPane>
-        <TabPane tab="MV" key="mv" className={styles.tabPane}>
-          <Mv query={location.query} total={data?.musicSize as number} />
+        <TabPane tab="MV" key="mv">
+          <ArtistsDetailContext.Provider value={{total: data?.musicSize as number}}>
+            {children}
+          </ArtistsDetailContext.Provider>
         </TabPane>
-        <TabPane tab="歌手详情" key="singer-detail" className={styles.tabPane}>
-          <SingerDetail query={location.query} />
+        <TabPane tab="歌手详情" key="singer-detail">
+          {children}
         </TabPane>
-        <TabPane tab="相似歌手" key="similar-detail" className={styles.tabPane}>
-          <SimilarSinger query={location.query} />
+        <TabPane tab="相似歌手" key="similar-singer">
+          {children}
         </TabPane>
       </Tabs>
     </div>

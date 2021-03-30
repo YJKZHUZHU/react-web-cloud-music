@@ -1,13 +1,13 @@
 /** @format */
 
-import React, {useEffect, FC} from "react"
+import React, {useEffect, FC, useContext} from "react"
 import {Row, Col, Card, Spin, Space, Pagination} from "antd"
-import {useHistory} from "umi"
+import {useHistory, useLocation} from "umi"
 import {useRequest} from "ahooks"
 import {CaretRightOutlined} from "@ant-design/icons"
 import {Iparams} from "../album"
 import {IArtists} from "../similar-singer"
-import {IProps} from "../_layout"
+import {ArtistsDetailContext} from "../index"
 import API from "@/api"
 import Utils from "@/help"
 import styles from "./index.scss"
@@ -33,16 +33,14 @@ interface IResponse {
   total: number
 }
 
-interface IMvProps extends IProps {
-  total: number
-}
-
 const getData = ({id, pageSize, current}: Iparams): Promise<IResponse> =>
   API.getSingerMv({id, limit: pageSize, offset: current - 1})
 
-const Mv: FC<IMvProps> = ({query, total}) => {
-  const {id, name} = query
+const Mv = () => {
+  const location: any = useLocation()
   const history = useHistory()
+  const {id, name} = location?.query
+  const {total} = useContext(ArtistsDetailContext)
   const {data, run, loading, pagination} = useRequest(
     ({current, pageSize}) => getData({id, current, pageSize}),
     {
@@ -58,7 +56,7 @@ const Mv: FC<IMvProps> = ({query, total}) => {
   useEffect(() => {
     run({current: 1, pageSize: 12})
   }, [name])
-  if(!data?.list.length) return <div>没有相关mv</div>
+  if (!data?.list.length) return <div>没有相关mv</div>
   return (
     <Spin spinning={loading} tip="Loading...">
       <Space direction="vertical" size={20}>
@@ -97,7 +95,13 @@ const Mv: FC<IMvProps> = ({query, total}) => {
           size="small"
           showSizeChanger
           showQuickJumper
-          showTotal={(total) => `共 ${total} 首mv`}
+          showTotal={(total) => (
+            <Space>
+              <span>共</span>
+              <span>{total}</span>
+              <span>首mv</span>
+            </Space>
+          )}
         />
       </Space>
     </Spin>

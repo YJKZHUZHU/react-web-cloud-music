@@ -72,7 +72,7 @@ const Album: FC<IAlbumProps> = ({data, loading}) => {
         dataSource={data?.data}
         renderItem={(item) => (
           <List.Item
-            onClick={() => history.push(`/album?id=${item.id}`)}
+            onClick={() => history.push(`/album/song-list?id=${item.id}`)}
             className={styles.albumItem}>
             <List.Item.Meta
               avatar={<Avatar src={item.picUrl} />}

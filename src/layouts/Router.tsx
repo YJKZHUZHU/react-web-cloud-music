@@ -34,11 +34,18 @@ const defaultRoutes: MenuDataItem[] = [
     icon: <PlayCircleOutlined />
   },
   {
+    path: "/exclusive-broadcast",
+    name: "独家放送",
+    icon: <PlayCircleOutlined />,
+    hideInMenu: true,
+    parentKeys: ["/personal-recommendation"]
+  },
+  {
     path: "/mv-detail",
     name: "MV详情",
     icon: <PlayCircleOutlined />,
-    hideInMenu:true,
-    parentKeys:['/mv']
+    hideInMenu: true,
+    parentKeys: ["/mv"]
   },
   {
     path: "/top-mv",

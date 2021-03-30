@@ -2,11 +2,19 @@
 // Please do not change this file!
 interface CssExports {
   'album': string;
+  'chromeframe': string;
   'desc': string;
+  'detail': string;
   'extra': string;
+  'head': string;
   'img': string;
+  'list': string;
   'name': string;
+  'singer': string;
+  'space': string;
   'tag': string;
+  'time': string;
+  'title': string;
   'topName': string;
 }
 export const cssExports: CssExports;

@@ -115,39 +115,39 @@ const Collect: FC = ({ children }) => {
   }, [])
 
   return (
-      <Tabs className={styles._collect} activeKey={key} onChange={callback}>
-        <TabPane tab={`专辑 ${albumData?.count || 0}`} key="album">
-          <Spin spinning={loading} tip="Loadiing...">
-            <List
-              itemLayout="horizontal"
-              locale={{emptyText: "暂无收藏专辑"}}
-              dataSource={albumData?.data}
-              renderItem={(item) => (
-                <List.Item
-                  onClick={() => history.push(`/album?id=${item.id}`)}
-                  className={styles.albumItem}>
-                  <List.Item.Meta
-                    avatar={<Avatar src={item.picUrl} />}
-                    title={
-                      <Space>
-                        <span className={styles.name}>{item.name}</span>
-                        {item.alias.length !== 0 ? <span>({item.alias.join()})</span> : null}
-                      </Space>
-                    }
-                    description={albumDescription(item)}
-                  />
-                </List.Item>
-              )}
-            />
-          </Spin>
-        </TabPane>
-        <TabPane tab={`歌手 ${data?.artistCount}`} key="singer">
-          {children}
-        </TabPane>
-        <TabPane tab={`视频  ${data?.mvCount}`} key="video">
-          {children}
-        </TabPane>
-      </Tabs>
+    <Tabs className={styles._collect} activeKey={key} onChange={callback}>
+      <TabPane tab={`专辑 ${albumData?.count || 0}`} key="album">
+        <Spin spinning={loading} tip="Loadiing...">
+          <List
+            itemLayout="horizontal"
+            locale={{emptyText: "暂无收藏专辑"}}
+            dataSource={albumData?.data}
+            renderItem={(item) => (
+              <List.Item
+                onClick={() => history.push(`/album/song-list?id=${item.id}`)}
+                className={styles.albumItem}>
+                <List.Item.Meta
+                  avatar={<Avatar src={item.picUrl} />}
+                  title={
+                    <Space>
+                      <span className={styles.name}>{item.name}</span>
+                      {item.alias.length !== 0 ? <span>({item.alias.join()})</span> : null}
+                    </Space>
+                  }
+                  description={albumDescription(item)}
+                />
+              </List.Item>
+            )}
+          />
+        </Spin>
+      </TabPane>
+      <TabPane tab={`歌手 ${data?.artistCount}`} key="singer">
+        {children}
+      </TabPane>
+      <TabPane tab={`视频  ${data?.mvCount}`} key="video">
+        {children}
+      </TabPane>
+    </Tabs>
   )
 }
 

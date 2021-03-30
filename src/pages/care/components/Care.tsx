@@ -47,7 +47,7 @@ const Care: FC<ICare> = (props) => {
             <span>{item.followeds}</span>
           </p>
         </div>
-        <div className={styles.right}>
+        <div>
           {props.type ? (
             <Button disabled size="small">
               <WechatOutlined />

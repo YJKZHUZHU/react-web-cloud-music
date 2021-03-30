@@ -2,9 +2,8 @@
 
 import React, {useEffect, FC} from "react"
 import {Row, Col, Card, Spin} from "antd"
-import {useHistory} from "umi"
+import {useHistory, useLocation} from "umi"
 import {useRequest} from "ahooks"
-import {IProps} from "../_layout"
 import API from "@/api"
 import styles from "./index.scss"
 
@@ -26,12 +25,14 @@ export interface IArtists {
   alg: string
 }
 
-const SimilarSinger: FC<IProps> = ({query}) => {
-  const {id, name} = query
+const SimilarSinger = () => {
+  const location: any = useLocation()
+  const {id, name} = location?.query
   const {data, run, loading} = useRequest(() => API.getSimilarSinger({id}), {
     manual: true
   })
   const history = useHistory()
+  console.log('进来')
   useEffect(() => {
     run()
   }, [name])

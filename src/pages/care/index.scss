@@ -1,6 +1,7 @@
 @import "utils";
 
 ._follows {
+  width: 100%;
   .divider {
     margin: 5px 0;
   }
@@ -20,14 +21,12 @@
       justify-content: space-between;
     }
 
-    .right {
-
-    }
 
   }
 }
 
 ._dynamic {
+   width: 100%;
   .divider {
     margin: 5px 0;
   }
@@ -55,6 +54,7 @@
   }
 
   .infoDescription {
+   
     .content {
       color: var(--font-color);
       margin-bottom: 8px;

@@ -1,7 +1,7 @@
 /** @format */
 
 import React, {useEffect} from "react"
-import {Divider, Row, Col, Space} from "antd"
+import {Row, Col, Space} from "antd"
 import {RightOutlined} from "@ant-design/icons"
 import {Link} from "umi"
 import {useRequest} from "ahooks"
@@ -65,9 +65,10 @@ const PersonalRecommendation = () => {
     manual: true
   })
 
-  const {run: runExclusiveBroadcast, data: exclusiveBroadcastData} = useRequest<
-    IExclusiveBroadcastData
-  >(API.getExclusiveBroadcast, {
+  const {
+    run: runExclusiveBroadcast,
+    data: exclusiveBroadcastData
+  } = useRequest<IExclusiveBroadcastData>(API.getExclusiveBroadcast, {
     manual: true
   })
 
@@ -82,7 +83,7 @@ const PersonalRecommendation = () => {
     <div className={styles._personalRecommendation}>
       <CarouselImg />
       <div className={styles.recommend}>
-        {renderLink("推荐歌单", "/recommend/findmusic/song-list")}
+        {renderLink("推荐歌单", "/find-music/song-list")}
         <Row justify="start" gutter={24}>
           {personalizedData?.result.map((item) => {
             return (
@@ -106,13 +107,13 @@ const PersonalRecommendation = () => {
         </Row>
       </div>
       <div className={styles.recommend}>
-        {renderLink("最新音乐", "/recommend/findmusic/latest-music")}
+        {renderLink("最新音乐", "/find-music/latest-music")}
 
         <div className={styles.newMusic}>
           <Row>
             {newSongData?.result.map((item, index) => {
               return (
-                <Col span={12} key={item.id} className={styles.item}>
+                <Col span={12} key={item.id}>
                   <NewMusic data={item} index={index + 1} />
                 </Col>
               )
@@ -121,12 +122,12 @@ const PersonalRecommendation = () => {
         </div>
       </div>
       <div className={styles.recommend}>
-        {renderLink("推荐MV", "/recommend/findmusic/song-list")}
+        {renderLink("推荐MV", "/find-music/song-list")}
 
         <Row gutter={32}>
           {mvData?.result.map((item) => {
             return (
-              <Col span={6} key={item.id} className={styles.item}>
+              <Col span={6} key={item.id}>
                 <RecommendMv data={item} />
               </Col>
             )
@@ -136,7 +137,5 @@ const PersonalRecommendation = () => {
     </div>
   )
 }
-
-PersonalRecommendation.title = "个性推荐"
 
 export default PersonalRecommendation

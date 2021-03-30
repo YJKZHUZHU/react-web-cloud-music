@@ -15,7 +15,7 @@ import API from "@/api"
 import moment from "moment"
 import classnames from "classnames"
 import {PlayIcon} from "@/components"
-import {IProps} from "../_layout"
+import {IProps} from "../index"
 import Utils, {generateNumber} from "@/help"
 import styles from "./index.scss"
 
@@ -138,7 +138,6 @@ const Album: FC<IAlbum> = (props) => {
             setAlbumContentList(values)
           })
           .catch((e) => {
-            console.log(e)
             setAlbumLoading(false)
           })
       },
@@ -174,7 +173,7 @@ const Album: FC<IAlbum> = (props) => {
         <Space direction="vertical" size={15}>
           <div
             className={classnames(styles.img, {[styles.diff]: !!id})}
-            onClick={() => id && history.push(`/album?id=${id}`)}>
+            onClick={() => id && history.push(`/album/song-list?id=${id}`)}>
             <img src={imgUrl} alt="" />
           </div>
           {time ? <span>{moment(time).format("YYYY-MM-DD")}</span> : null}
@@ -248,7 +247,7 @@ const Album: FC<IAlbum> = (props) => {
         ) : (
           <>
             {data?.length === 10 ? (
-              <li className={classNames} onClick={() => history.push(`/album?id=${id}`)}>
+              <li className={classNames} onClick={() => history.push(`/album/song-list?id=${id}`)}>
                 <Space>
                   <span>查看全部</span>
                   <RightOutlined />
@@ -271,7 +270,7 @@ const Album: FC<IAlbum> = (props) => {
               span={4}
               className={styles.card}
               key={item.id}
-              onClick={() => history.push(`/album?id=${item.id}`)}>
+              onClick={() => history.push(`/album/song-list?id=${item.id}`)}>
               <Card
                 bordered={false}
                 style={{width: "100%"}}
@@ -311,12 +310,14 @@ const Album: FC<IAlbum> = (props) => {
           {data?.list.map((item) => {
             return (
               <li className={styles.tableItem} key={item.id}>
-                <div className={styles.img} onClick={() => history.push(`/album?id=${item.id}`)}>
+                <div
+                  className={styles.img}
+                  onClick={() => history.push(`/album/song-list?id=${item.id}`)}>
                   <img src={item.picUrl} alt={item.name} />
                 </div>
                 <span
                   className={styles.singerName}
-                  onClick={() => history.push(`/album?id=${item.id}`)}>
+                  onClick={() => history.push(`/album/song-list?id=${item.id}`)}>
                   {item.name}
                   {item.alias.length !== 0 ? (
                     <i className={styles.alias}>({item.alias.join("")})</i>
@@ -373,7 +374,7 @@ const Album: FC<IAlbum> = (props) => {
           size="small"
           showSizeChanger
           showQuickJumper
-          showTotal={(total) => `共 ${total} 张专辑`}
+          showTotal={() => `共 ${total} 张专辑`}
         />
       </Space>
     </Spin>

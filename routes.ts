@@ -126,7 +126,80 @@ const routes:IRoute[] = [
           },
         ]
       },
-
+      {
+        path: '/artists-detail',
+        component: 'artists-detail',
+        title:"专辑",
+        routes: [
+          {
+            path: '/artists-detail/mv',
+            component: 'artists-detail/mv',
+            title: 'MV'
+          },
+          {
+            path: '/artists-detail/singer-detail',
+            component: 'artists-detail/singer-detail',
+            title: '歌手详情'
+          },
+          {
+            path: '/artists-detail/similar-singer',
+            component: 'artists-detail/similar-singer',
+            title: '相似歌手'
+          }
+        ]
+      },
+      {
+        path: '/album',
+        component: 'album',
+        title:"专辑",
+        routes: [
+          {
+            path: '/album/song-list',
+            component: 'album/song-list',
+            title: '歌曲列表'
+          },
+          {
+            path: '/album/comment',
+            component: 'album/comment',
+            title: '专辑评论'
+          },
+          {
+            path: '/album/detail',
+            component: 'album/detail',
+            title: '专辑详情'
+          }
+        ]
+      },
+      {
+        path: '/care/dynamic',
+        component: 'care/dynamic',
+        title: "动态"
+      },
+      {
+        path: '/care/follows',
+        component: 'care/follows',
+        title: "关注"
+      },
+      {
+        path: '/care/fan',
+        component: 'care/fan',
+        title: "粉丝"
+      },
+      {
+        path: '/exclusive-broadcast',
+        component: 'exclusive-broadcast',
+        title: "独家放送"
+      },
+      {
+        path: '/homepage',
+        component: 'homepage',
+        title: "个人主页"
+      },
+      {
+        path: '/singer-list',
+        component: 'singer-list',
+        title: "歌手榜单"
+      }
     ]
   }
 ]

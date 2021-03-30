@@ -1,7 +1,7 @@
 import { defineConfig } from 'umi'
 
 export default defineConfig({
-  // devtool: false,
+  devtool: 'source-map',
   proxy: {
     '/api': {
       'target': 'http://localhost:3000/',

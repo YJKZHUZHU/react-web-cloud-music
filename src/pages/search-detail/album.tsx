@@ -31,7 +31,7 @@ const Album = () => {
           {request?.data?.list.map((item: any) => {
             return (
               <li
-                onClick={() => history.push(`/album?id=${item.id}`)}
+                onClick={() => history.push(`/album/song-list?id=${item.id}`)}
                 className={styles.item}
                 key={Utils.createRandomId()}>
                 <Space>

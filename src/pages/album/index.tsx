@@ -1,6 +1,6 @@
 /** @format */
 
-import React, {FC, useEffect, useState} from "react"
+import React, {FC, useEffect, useState, createContext} from "react"
 import {useRequest} from "ahooks"
 import {Space, Tag, Button, Tabs, message, Spin} from "antd"
 import {
@@ -11,28 +11,27 @@ import {
 } from "@ant-design/icons"
 import {useLocation, history} from "umi"
 import moment from "moment"
-import {NewComment,HotComment} from '@/components'
-import List from "./list"
-import Detail from "./detail"
 import API from "@/api"
 import styles from "./index.scss"
 
 const {TabPane} = Tabs
 
-const Album: FC = () => {
+interface IAlbumContext<T = any> {
+  data: T
+}
+
+export const AlbumContext = createContext<IAlbumContext>({data: null})
+
+const Album: FC = ({children}) => {
   const location: any = useLocation()
-  const path =
-    location.pathname.split("/").pop() === "album" ? "list" : location.pathname.split("/").pop()
-
-  const [tabKey, setTabKey] = useState(path || "list")
-
-  const {id} = location.query
+  const {source = "song-list"} = location.query
+  const [tabKey, setTabKey] = useState(source)
 
   const callback = (activeKey: string) => {
     setTabKey(activeKey)
     history.push({
       pathname: `/album/${activeKey}`,
-      query: {...location.query}
+      query: {...location.query, source: activeKey}
     })
   }
 
@@ -57,14 +56,13 @@ const Album: FC = () => {
   )
 
   useEffect(() => {
-    setTabKey(path)
-  }, [path])
+    setTabKey(source)
+  }, [source])
 
   useEffect(() => {
     run()
     runInfo()
   }, [])
-
 
   return (
     <div className={styles.album}>
@@ -106,7 +104,7 @@ const Album: FC = () => {
                     `/artists-detail/album?id=${data?.album?.artist?.id}&name=${data?.album?.artist?.name}`
                   )
                 }>
-                {data?.album.artist?.name}
+                {data?.album?.artist?.name}
               </span>
             </Space>
             <Space>
@@ -116,15 +114,16 @@ const Album: FC = () => {
           </Space>
         </div>
         <Tabs activeKey={tabKey} onChange={callback} tabBarStyle={{margin: 0}}>
-          <TabPane tab="歌曲列表" key="list">
-            <List list={data?.songs} />
+          <TabPane tab="歌曲列表" key="song-list">
+            <AlbumContext.Provider value={{data}}>{children}</AlbumContext.Provider>
           </TabPane>
           <TabPane tab={`评论(${albumInfo?.commentCount})`} key="comment">
-            <HotComment type={3} id={id} />
-            <NewComment type={3} id={id} />
+            {children}
           </TabPane>
           <TabPane tab="专辑详情" key="detail">
-            <Detail data={data?.album?.description} />
+            <AlbumContext.Provider value={{data}}>
+              {children}
+            </AlbumContext.Provider>
           </TabPane>
         </Tabs>
       </Spin>

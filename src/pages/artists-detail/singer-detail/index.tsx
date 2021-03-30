@@ -1,11 +1,10 @@
 /** @format */
 
-import React, {FC, useEffect} from "react"
+import React, {useEffect} from "react"
 import {Spin} from "antd"
 import {useLocation} from "umi"
 import {useRequest} from "ahooks"
 import API from "@/api"
-import {IProps} from "../_layout"
 import styles from "./index.scss"
 
 interface IOtherDesc {
@@ -13,8 +12,10 @@ interface IOtherDesc {
   txt: string
 }
 
-const SingerDetail: FC<IProps> = ({query}) => {
-  const {id, name} = query
+const SingerDetail = () => {
+  const location: any = useLocation()
+  console.log(location)
+  const {id, name} = location?.query
   const {data, run, loading} = useRequest(() => API.getArtistDesc({id}), {
     manual: true
   })
@@ -37,6 +38,5 @@ const SingerDetail: FC<IProps> = ({query}) => {
   )
 }
 
-SingerDetail.title = "歌手详情"
 
 export default SingerDetail

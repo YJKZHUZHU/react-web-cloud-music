@@ -9,7 +9,7 @@ const {TabPane} = Tabs
 const SingerList = () => {
   const [key, setKey] = useState("china")
   return (
-    <Tabs activeKey={key} onChange={(key) => setKey(key)}>
+    <Tabs activeKey={key} onChange={(key) => setKey(key)} style={{width:'100%'}}>
       <TabPane tab="中国" key="china">
         <List type={1} />
       </TabPane>

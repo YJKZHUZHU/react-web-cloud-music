@@ -1,10 +1,11 @@
 /** @format */
 
-import React, {FC} from "react"
+import React, {FC, useContext} from "react"
 import {Space} from "antd"
 import {HeartOutlined} from "@ant-design/icons"
 import Utils from "@/help"
 import {Artists} from "@/components"
+import {AlbumContext} from "./index"
 import styles from "./index.scss"
 
 interface IAr {
@@ -34,9 +35,10 @@ interface IList {
   list: ISongs[]
 }
 
-const List: FC<IList> = ({list}) => {
+const List = () => {
+  const {data} = useContext(AlbumContext)
   return (
-    <>
+    <div className={styles.list}>
       <div className={styles.head}>
         <div className={styles.space}></div>
         <div className={styles.title}>音乐标题</div>
@@ -45,9 +47,9 @@ const List: FC<IList> = ({list}) => {
         <div className={styles.time}>时长</div>
       </div>
       <ul className={styles.list}>
-        {list?.map((item, index) => {
+        {data?.songs?.map((item, index) => {
           return (
-            <li key={item.id}>
+            <li key={item?.id}>
               <div className={styles.space}>
                 <Space>
                   <span>{index < 9 ? `0${index + 1}` : index + 1}</span>
@@ -56,18 +58,18 @@ const List: FC<IList> = ({list}) => {
               </div>
               <div className={styles.title}>
                 {item.name}
-                {item.alia.length !== 0 ? `(${item.alia.join()})` : null}
+                {item.alia.length !== 0 ? `(${item?.alia?.join()})` : null}
               </div>
               <div className={styles.singer}>
-                <Artists data={item.ar} />
+                <Artists data={item?.ar} />
               </div>
-              <div className={styles.album}>{item.al.name}</div>
-              <div className={styles.time}>{Utils.formatPlayerTime(item.dt / 1000)}</div>
+              <div className={styles.album}>{item?.al?.name}</div>
+              <div className={styles.time}>{Utils.formatPlayerTime(item?.dt / 1000)}</div>
             </li>
           )
         })}
       </ul>
-    </>
+    </div>
   )
 }
 
