@@ -2,9 +2,11 @@
 // Please do not change this file!
 interface CssExports {
   '_footer': string;
+  '_homeDiff': string;
   'bottom': string;
   'caret': string;
   'chromeframe': string;
+  'collapsed': string;
   'common': string;
   'content': string;
   'drawer': string;

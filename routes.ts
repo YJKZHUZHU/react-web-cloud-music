@@ -199,6 +199,11 @@ const routes:IRoute[] = [
         path: '/singer-list',
         component: 'singer-list',
         title: "歌手榜单"
+      },
+      {
+        path: '/login',
+        component: 'login',
+        title: "登录"
       }
     ]
   }

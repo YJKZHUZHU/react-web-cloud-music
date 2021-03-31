@@ -13,7 +13,7 @@ module.exports = function (source) {
   if (regRules.pxReg.test(backUp)) {
     backUp = backUp.replace(regRules.pxReg, (px) => {
       let val = px.replace(regRules.numReg, (num) => {
-        return num / 100
+        return num / 256
       })
       val = val.replace(/px$/, "rem")
       return val
@@ -25,7 +25,7 @@ module.exports = function (source) {
     if (reg.test(backUp)) {
       backUp = backUp.replace(reg, (val) => {
         return val.replace(regRules.numReg, (num) => {
-          return `"${num / 100}rem"`
+          return `"${num / 256}rem"`
         })
       })
     }
@@ -39,7 +39,7 @@ module.exports = function (source) {
         val.replace(regRules.numReg, (num) => {
           console.log(num)
           if (typeof num === "number") {
-            style = `${num / 100}rem`
+            style = `${num / 256}rem`
           }
         })
         if (style) {

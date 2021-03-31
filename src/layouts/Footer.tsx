@@ -12,13 +12,11 @@ import {
   GithubOutlined,
   PauseOutlined
 } from "@ant-design/icons"
-import {useBoolean, useUpdateEffect} from "ahooks"
+import {useBoolean} from "ahooks"
 import {
   useDispatch,
   useLocation,
   useSelector,
-  SongInfoModelState,
-  PlayModelState,
   SingerInterface
 } from "umi"
 import classnames from "classnames"

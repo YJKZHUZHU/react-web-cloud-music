@@ -48,6 +48,13 @@ const defaultRoutes: MenuDataItem[] = [
     parentKeys: ["/mv"]
   },
   {
+    path: "/playList",
+    name: "歌单详情",
+    icon: <PlayCircleOutlined />,
+    hideInMenu: true,
+    parentKeys: ["/find-music/song-list"]
+  },
+  {
     path: "/top-mv",
     name: "MV排行榜",
     icon: <SmileOutlined />

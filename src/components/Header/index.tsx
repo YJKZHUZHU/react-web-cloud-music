@@ -1,6 +1,6 @@
 /** @format */
 
-import React, {useRef, useState} from "react"
+import React, {useRef, useState, FC} from "react"
 import {
   CaretDownOutlined,
   DownOutlined,
@@ -20,7 +20,7 @@ import Login from "./components/Login"
 import {IState} from "typings"
 import styles from "./index.scss"
 
-const Header = () => {
+const Header: FC = ({children}) => {
   const dispatch = useDispatch()
   const {userModel, playmodel} = useSelector((state: IState) => state)
   const {loginStatus, userInfo} = userModel
@@ -77,6 +77,7 @@ const Header = () => {
 
   return (
     <header className={styles._header}>
+      {children}
       <div className={classnames(styles.search, "_search")}>
         <Search />
       </div>

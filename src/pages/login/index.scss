@@ -1,0 +1,45 @@
+// 登录
+$qrCodePath: "../../assets/qr_login_icon.png";
+._login {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding: 0 50px;
+
+  .switchQrCode {
+    position: absolute;
+    right: -22px;
+    bottom: -24px;
+    width: 52px;
+    height: 52px;
+    background-image: url($qrCodePath);
+    background-size: contain;
+    cursor: pointer;
+  }
+  .loginTypeBtn {
+    margin-top: 20px;
+  }
+  .pattern {
+    width: 100%;
+  }
+
+  .img {
+    margin-bottom: 12px;
+    text-align: center;
+  }
+
+  .form {
+    width: 100%;
+  }
+  .other {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    cursor: pointer;
+    margin-top: 12px;
+    // &:hover {
+    //   color: #ca4841;
+    // }
+  }
+}
