@@ -1,6 +1,6 @@
 /** @format */
 
-import React, {useState, useRef, memo, useEffect} from "react"
+import React, {useState, useRef, memo} from "react"
 import {Slider, Radio, Tooltip, Row, Col, Space} from "antd"
 import {
   FullscreenOutlined,
@@ -13,12 +13,7 @@ import {
   PauseOutlined
 } from "@ant-design/icons"
 import {useBoolean} from "ahooks"
-import {
-  useDispatch,
-  useLocation,
-  useSelector,
-  SingerInterface
-} from "umi"
+import {useDispatch, useLocation, useSelector, SingerInterface} from "umi"
 import classnames from "classnames"
 import {usePlayRecord} from "@/hooks"
 import Utils from "@/help"
@@ -212,15 +207,13 @@ const Footer = memo(() => {
                     </span>
                   </div>
                   <div className={style.bottom}>
-                    <span className={style.playTime}>
+                    <span>
                       {playRef
                         ? Utils.formatPlayerTime(playRef.current?.getCurrentTime())
                         : "00:00"}
                     </span>
                     <i className={style.split}>/</i>
-                    <span className={style.time}>
-                      {playRef ? Utils.formatPlayerTime(songObj.songTime || 0) : "00:00"}
-                    </span>
+                    <span>{playRef ? Utils.formatPlayerTime(songObj.songTime || 0) : "00:00"}</span>
                   </div>
                 </div>
               </div>
@@ -228,7 +221,7 @@ const Footer = memo(() => {
           </Col>
           <Col span={3} push={3} className={style.playBtnGroup}>
             {/* 上一曲 */}
-            <div className={classnames(style.common, style.last)} onClick={() => onPlay(0)}>
+            <div className={classnames(style.common)} onClick={() => onPlay(0)}>
               <StepBackwardOutlined />
             </div>
             <div className={classnames(style.common, style.now)} onClick={onPlayBtn}>
@@ -239,7 +232,7 @@ const Footer = memo(() => {
               )}
             </div>
             {/* 下一曲 */}
-            <div className={classnames(style.common, style.next)} onClick={() => onPlay(1)}>
+            <div className={classnames(style.common)} onClick={() => onPlay(1)}>
               <StepForwardOutlined />
             </div>
           </Col>

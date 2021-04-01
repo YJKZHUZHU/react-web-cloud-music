@@ -16,7 +16,7 @@ export { default as NewComment } from './NewComment'
 
 export { default as VideoIcon } from './VideoIcon'
 
-export { default as QrLogin} from './QrLogin'
+export { default as QrLogin } from './QrLogin'
 
 
 interface IUser {

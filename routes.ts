@@ -1,28 +1,34 @@
-import {IRoute} from 'umi'
+import { IRoute } from 'umi'
 
-const routes:IRoute[] = [
+const routes: IRoute[] = [
   {
-    path:'/',
-    redirect:'/personal-recommendation'
+    path: '/',
+    redirect: '/personal-recommendation'
   },
   {
     path: '/',
     component: '@/layouts',
-    routes:[
+    routes: [
       {
-        path:'/personal-recommendation',
-        component:'personal-recommendation',
-        title:'个性化推荐'
+        path: '/personal-recommendation',
+        component: 'personal-recommendation',
+        title: '个性化推荐'
       },
       {
         path: '/video',
         component: 'video',
-        title: '视频'
+        title: '视频',
+        wrappers: [
+          '@/wrappers/auth',
+        ]
       },
       {
         path: '/mv',
         component: 'mv',
-        title: 'MV'
+        title: 'MV',
+        wrappers: [
+          '@/wrappers/auth',
+        ]
       },
       {
         path: '/top-mv',
@@ -32,32 +38,50 @@ const routes:IRoute[] = [
       {
         path: '/fm',
         component: 'fm',
-        title: '私人FM'
+        title: '私人FM',
+        wrappers: [
+          '@/wrappers/auth',
+        ]
       },
       {
         path: '/friend',
         component: 'friend',
-        title: '朋友'
+        title: '朋友',
+        wrappers: [
+          '@/wrappers/auth',
+        ]
       },
       {
         path: '/my-music/cloud',
         component: 'cloud',
-        title: '我的音乐云盘'
+        title: '我的音乐云盘',
+        wrappers: [
+          '@/wrappers/auth',
+        ]
       },
       {
         path: '/my-music/collect',
         component: 'collect',
         title: '收藏的专辑',
-        routes:[
+        wrappers: [
+          '@/wrappers/auth',
+        ],
+        routes: [
           {
             path: '/my-music/collect/singer',
             component: 'collect/singer',
             title: '收藏的歌手',
+            wrappers: [
+              '@/wrappers/auth',
+            ]
           },
           {
             path: '/my-music/collect/video',
             component: 'collect/video',
             title: '收藏的视频',
+            wrappers: [
+              '@/wrappers/auth',
+            ]
           }
         ]
       },
@@ -129,7 +153,7 @@ const routes:IRoute[] = [
       {
         path: '/artists-detail',
         component: 'artists-detail',
-        title:"专辑",
+        title: "专辑",
         routes: [
           {
             path: '/artists-detail/mv',
@@ -151,7 +175,7 @@ const routes:IRoute[] = [
       {
         path: '/album',
         component: 'album',
-        title:"专辑",
+        title: "专辑",
         routes: [
           {
             path: '/album/song-list',
@@ -173,17 +197,26 @@ const routes:IRoute[] = [
       {
         path: '/care/dynamic',
         component: 'care/dynamic',
-        title: "动态"
+        title: "动态",
+        wrappers: [
+          '@/wrappers/auth',
+        ]
       },
       {
         path: '/care/follows',
         component: 'care/follows',
-        title: "关注"
+        title: "关注",
+        wrappers: [
+          '@/wrappers/auth',
+        ]
       },
       {
         path: '/care/fan',
         component: 'care/fan',
-        title: "粉丝"
+        title: "粉丝",
+        wrappers: [
+          '@/wrappers/auth',
+        ]
       },
       {
         path: '/exclusive-broadcast',
@@ -193,7 +226,10 @@ const routes:IRoute[] = [
       {
         path: '/homepage',
         component: 'homepage',
-        title: "个人主页"
+        title: "个人主页",
+        wrappers: [
+          '@/wrappers/auth',
+        ]
       },
       {
         path: '/singer-list',

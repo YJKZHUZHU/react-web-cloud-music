@@ -1,6 +1,6 @@
 /** @format */
 
-import React, {useRef, useEffect} from "react"
+import React, {useRef, useEffect, FC} from "react"
 import {useRequest} from "ahooks"
 import {MV_AREA, MV_SORT, MV_TYPE} from "@/help/map"
 import SelectTag from "./components/SelectTag"
@@ -34,7 +34,7 @@ interface IData {
   artists: any[]
 }
 
-const Mv = () => {
+const Mv:FC = () => {
   const paramsRef = useRef<IParamsRef>({type: "全部", area: "全部", order: "上升最快"})
   const countRef = useRef(0)
 

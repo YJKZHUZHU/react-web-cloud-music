@@ -4,16 +4,14 @@ import React, {FC, useState, useEffect, useRef} from "react"
 import {LockOutlined, UserOutlined} from "@ant-design/icons"
 import {Button, Input, message, Form, Space, Row, Col, Modal} from "antd"
 import {RightOutlined} from "@ant-design/icons"
-import {useDispatch} from "umi"
+import {useDispatch, useSelector, Redirect, useHistory} from "umi"
 import {useBoolean} from "ahooks"
-import Draggable, {DraggableData, DraggableEvent} from "react-draggable"
+import Draggable, {DraggableData} from "react-draggable"
 import {QrLogin} from "@/components"
 import API from "@/api"
 import styles from "./index.scss"
+import {IState} from "typings"
 
-interface ILoginProps {
-  callback: (visible: boolean) => void
-}
 const LAYOUT = {
   labelCol: {
     span: 4
@@ -26,12 +24,14 @@ const INIT_FORM = {
   password: ""
 }
 
-const Login: FC<ILoginProps> = ({callback}) => {
+const Login: FC = () => {
   const [form] = Form.useForm()
+  const history = useHistory()
+  const {loginStatus} = useSelector((state: IState) => state.userModel)
   const [loading, {toggle}] = useBoolean(false)
   const [loginPattern, setLoginPattern] = useState(0)
   const [disabled, {setTrue, setFalse}] = useBoolean(false)
-  const [loginVisible, {toggle: loginToggle}] = useBoolean(true)
+  const [loginVisible, {toggle: loginToggle}] = useBoolean(false)
   const [time, setTime] = useState(60)
   const [bounds, setBounds] = useState({left: 0, top: 0, bottom: 0, right: 0})
   const [qrLogin, {toggle: qrToggle}] = useBoolean(true)
@@ -39,6 +39,10 @@ const Login: FC<ILoginProps> = ({callback}) => {
   const draggleRef = useRef<HTMLDivElement>(null)
 
   const dispatch = useDispatch()
+
+  const loginSuccessCallback = () => {
+    history.action === "POP" ? history.push("/personal-recommendation") : history.goBack()
+  }
 
   const onFinish = async (values: any) => {
     try {
@@ -73,16 +77,18 @@ const Login: FC<ILoginProps> = ({callback}) => {
       const UserRet: any = await dispatch({
         type: "userModel/getUserInfo"
       })
+      loginSuccessCallback()
       toggle(false)
 
       if (!UserRet[0]) message.error(UserRet[1])
       if (UserRet[0]) {
-        message.success("登录成功")
-        return callback(false)
+        return message.success("登录成功")
+        // return callback(false)
       }
     } catch (error) {
+      loginSuccessCallback()
       toggle(false)
-      throw Error(error)
+      throw error
     }
   }
 
@@ -126,16 +132,33 @@ const Login: FC<ILoginProps> = ({callback}) => {
     }
   }
 
+  const onCancel = () => {
+    loginSuccessCallback()
+    loginToggle(false)
+  }
+
   useEffect(() => {
     form.resetFields()
   }, [loginPattern])
+
+  useEffect(() => {
+    loginToggle(!loginStatus)
+  }, [])
+  console.log(loginStatus)
+
+  if (loginStatus) {
+    // 已登录
+    return <Redirect to="/personal-recommendation" />
+  }
+
+  console.log(history)
 
   return (
     <Modal
       destroyOnClose
       visible={loginVisible}
       zIndex={99999}
-      width={500}
+      width={qrLogin ? 500 : 400}
       title={
         <div
           style={{
@@ -148,7 +171,7 @@ const Login: FC<ILoginProps> = ({callback}) => {
         </div>
       }
       maskClosable={false}
-      onCancel={() => loginToggle(false)}
+      onCancel={onCancel}
       modalRender={(modal) => {
         return (
           <Draggable disabled={disabled} bounds={bounds} onStart={(_, uiData) => onStart(uiData)}>
@@ -159,7 +182,7 @@ const Login: FC<ILoginProps> = ({callback}) => {
       footer={null}>
       <div className={styles._login}>
         {qrLogin ? (
-          <QrLogin callback={callback} />
+          <QrLogin callback={loginToggle} />
         ) : (
           <>
             {loginPattern === 0 ? (
@@ -249,7 +272,7 @@ const Login: FC<ILoginProps> = ({callback}) => {
                   </Form.Item>
                 )}
                 <Button type="primary" htmlType="submit" block loading={loading}>
-                  登录
+                  {loading ? "登录中..." : "登录"}
                 </Button>
                 <span className={styles.other}>
                   <Space>

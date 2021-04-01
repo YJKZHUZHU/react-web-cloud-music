@@ -2,7 +2,7 @@ const path = require('path')
 const fs = require('fs')
 const lessToJs = require('less-vars-to-js')
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
-import {defineConfig} from 'umi'
+import { defineConfig } from 'umi'
 import px2rem from 'postcss-plugin-px2rem'
 import routes from './routes'
 const prodGzipList = ['js', 'css']
@@ -60,7 +60,7 @@ export default defineConfig({
     // 默认为 false，且必须 设置 false，否则 plugin-dva 会重复加载 model
     skipModelValidate: false
   },
-  nodeModulesTransform: {type: 'none'}, // 编译提速
+  nodeModulesTransform: { type: 'none' }, // 编译提速
   ignoreMomentLocale: true,
   externals: {
     Ripple: 'window.Ripple'
@@ -68,17 +68,8 @@ export default defineConfig({
   devServer: {
     compress: true
   },
-  chunks: ['react', 'antd', 'utils', 'vendors', 'umi'],
-  // chunks: ['react', 'vendors', 'umi'],
-  chainWebpack(config, {webpack}) {
-    // config.module
-    //   .rule('jsx-px2rem-loader')
-    //   .test(/\.(tsx | tsx | js | ts)$/)
-    //   .exclude
-    //   .add([path.resolve('./src/pages/.umi'), path.resolve('./src/.umi'),path.resolve('node_modules')])
-    //   .end()
-    //   .use('./loader/jsx-px2rem-loader')
-    //   .loader(path.join(__dirname, './loader/jsx-px2rem-loader'));
+  chunks: ['react', 'antd', 'utils', 'umiPlugin','vendors', 'umi'],
+  chainWebpack(config, { webpack }) {
 
     config.merge({
       optimization: {
@@ -105,6 +96,13 @@ export default defineConfig({
               priority: -11,
               enforce: true
             },
+            umiPlugin: {
+              name: 'umiPlugin',
+              chunks: 'async',
+              test: /[\\/]node_modules[\\/](@umijs)[\\/]/,
+              priority: -9,
+              enforce: true
+            },
             vendors: {
               name: 'vendors',
               chunks: 'all',
@@ -126,7 +124,8 @@ export default defineConfig({
           }
         }
       }
-    }).module
+    })
+    .module
       .rule('jsx-px2rem-loader')
       .test(/\.tsx$/)
       // .test(/\.js$/)
