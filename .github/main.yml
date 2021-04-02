@@ -1,0 +1,16 @@
+name: web-music-build #action名称
+on: [push] #在推送的时候运行此action
+
+jobs:
+  build_job:
+    runs-on: ubuntu-latest  #运行环境
+    name: build
+    steps:
+      # check out the repository
+      - name: Checkout    
+        uses: actions/checkout@v2    #这里使用了github官方提供的action,checkout项目到虚拟机上
+
+      - name: Install Dependencies
+        run: yarn
+      - name: Build
+        run: yarn build
