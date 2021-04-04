@@ -1,8 +1,85 @@
 import { Effect, ImmerReducer, Subscription } from 'umi'
 import API from '@/api'
-interface IPlayList {
-  creator: any[]
-  favorite: any[]
+
+export interface ICreator {
+  accountStatus: number
+  anchor: boolean
+  authStatus: number
+  authenticationTypes: number
+  authority: number
+  avatarDetail: any
+  avatarImgId: number
+  avatarImgIdStr: string
+  avatarImgId_str: string
+  avatarUrl: string
+  backgroundImgId: number
+  backgroundImgIdStr: string
+  backgroundUrl: string
+  birthday: number
+  city: number
+  defaultAvatar: boolean
+  description: string
+  detailDescription: string
+  djStatus: number
+  expertTags: any
+  experts: any
+  followed: boolean
+  gender: number
+  mutual: boolean
+  nickname: string
+  province: number
+  remarkName: any
+  signature: string
+  userId: number
+  userType: number
+  vipType: number
+  [props: string]: any
+}
+export interface IPlayListItem {
+  adType: number
+  anonimous: boolean
+  artists: any
+  backgroundCoverId: number
+  backgroundCoverUrl: any
+  cloudTrackCount: number
+  commentThreadId: string
+  coverImgId: number
+  coverImgId_str: string
+  coverImgUrl: string
+  createTime: number
+  creator: ICreator
+  description: string
+  englishTitle: any
+  highQuality: boolean
+  id: number
+  name: string
+  newImported: boolean
+  opRecommend: boolean
+  ordered: boolean
+  playCount: number
+  privacy: number
+  recommendInfo: any
+  specialType: number
+  status: number
+  subscribed: boolean
+  subscribedCount: number
+  subscribers: any[]
+  tags: any[]
+  titleImage: number
+  titleImageUrl: any
+  totalDuration: number
+  trackCount: number
+  trackNumberUpdateTime: number
+  trackUpdateTime: number
+  tracks: any
+  updateFrequency: any
+  updateTime: number
+  userId: number
+  [props: string]: any
+}
+export interface IPlayList {
+  creator: IPlayListItem[]
+  favorite: IPlayListItem[]
 }
 export interface AllPlayRecordInterface {
   playCount: string
@@ -62,7 +139,10 @@ const UserModel: UserModelType = {
           playList: playListRet.playlist
         }
       })
-      return [true, ""]
+      return {
+        creator: playListRet.playlist.filter((item: any) => !item.subscribed),
+        favorite: playListRet.playlist.filter((item: any) => item.subscribed)
+      }
     },
     *getPlayList({ payload }, { call, put, select }) {
       const { userId } = yield select((state: any): UserModelState => state.userModel)
