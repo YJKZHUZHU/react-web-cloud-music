@@ -7,8 +7,7 @@ import {useHistory, useSelector} from "umi"
 import {useBoolean, useRequest} from "ahooks"
 import API from "@/api"
 import classnames from "classnames"
-import UserContent from "./components/userContent"
-import Search from "./components/Search"
+import {UserContent,Search, AddSongList} from "./components"
 import {IState} from "typings"
 import styles from "./index.scss"
 
@@ -46,9 +45,8 @@ const Header: FC = ({children}) => {
   return (
     <header className={styles._header}>
       {children}
-      <div className={classnames(styles.search, "_search")}>
-        <Search />
-      </div>
+      <Search />
+      <AddSongList />
       {loginStatus ? (
         <Popover
           visible={visible}
@@ -62,21 +60,22 @@ const Header: FC = ({children}) => {
               onLink={onRoute}
             />
           }
-          overlayClassName={classnames(styles.userPop, "_userPop")}
-          getPopupContainer={(): any => document.getElementsByClassName("_userInfoPop")[0]}
+          overlayClassName={styles.userPop}
+          // getPopupContainer={(): any => document.getElementsByClassName("_userInfoPop")[0]}
           trigger="click">
-          <div className={classnames(styles.user, "_userInfoPop")}>
-            <Avatar src={userInfo.profile && userInfo.profile.avatarUrl} icon={<UserOutlined />} />
+          <div className={styles.user}>
+            <Avatar
+              src={userInfo?.profile && userInfo?.profile?.avatarUrl}
+              icon={<UserOutlined />}
+            />
             <i className={styles.name}>{userInfo.profile && userInfo.profile.nickname}</i>
             <CaretDownOutlined className={styles.icon} />
           </div>
         </Popover>
       ) : (
-        <div
-          className={classnames(styles.user, "_userInfoPop")}
-          onClick={() => history.push("/login")}>
+        <div className={styles.user} onClick={() => history.push("/login")}>
           <Avatar
-            src={Object.keys(userInfo).length && userInfo.profile.avatarUrl}
+            src={Object.keys(userInfo).length && userInfo?.profile.avatarUrl}
             icon={<UserOutlined />}
           />
           <i className={styles.name}>未登录</i>

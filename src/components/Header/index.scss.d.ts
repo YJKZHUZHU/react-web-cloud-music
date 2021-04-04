@@ -6,6 +6,8 @@ interface CssExports {
   '_main': string;
   '_searchContent': string;
   '_searchSuggest': string;
+  'addSongList': string;
+  'addSongListForm': string;
   'albums': string;
   'all': string;
   'attention': string;
@@ -38,7 +40,6 @@ interface CssExports {
   'pattern': string;
   'red': string;
   'routerBtn': string;
-  'search': string;
   'searchTitle': string;
   'shallow': string;
   'show': string;

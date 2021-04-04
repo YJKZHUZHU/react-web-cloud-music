@@ -1,6 +1,6 @@
 /** @format */
 
-import React, {useContext} from "react"
+import React, {useContext, FC} from "react"
 import {Table, Space} from "antd"
 import {useDispatch, useHistory, useLocation} from "umi"
 import {HeartOutlined} from "@ant-design/icons"
@@ -61,7 +61,7 @@ const Single = () => {
       ellipsis: true,
       render: (text: any, record: any) => {
         return (
-          <Space direction="vertical" className={styles.musicTitle}>
+          <Space direction="vertical">
             <Space>
               <span dangerouslySetInnerHTML={{__html: text && Utils.highLight(text)}} />
               <VideoIcon id={record.mvid} type={0} />
@@ -97,7 +97,6 @@ const Single = () => {
         return (
           <span
             onClick={() => history.push(`/album/song-list?id=${record.album.id}`)}
-            className={styles.albumText}
             dangerouslySetInnerHTML={{__html: text && Utils.highLight(text.name)}}
           />
         )

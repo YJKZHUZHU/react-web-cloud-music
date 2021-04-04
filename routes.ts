@@ -240,6 +240,11 @@ const routes: IRoute[] = [
         path: '/login',
         component: 'login',
         title: "登录"
+      },
+      {
+        path: '/song-list-management',
+        component: 'song-list-management',
+        title: "歌单管理"
       }
     ]
   }

@@ -3,7 +3,13 @@
 import React, {FC} from "react"
 import {NavLink, useHistory, useDispatch} from "umi"
 import {Space, Popconfirm, message} from "antd"
-import {DownOutlined, UpOutlined, DeleteOutlined, EyeInvisibleOutlined} from "@ant-design/icons"
+import {
+  DownOutlined,
+  UpOutlined,
+  DeleteOutlined,
+  EyeInvisibleOutlined,
+  HeartOutlined
+} from "@ant-design/icons"
 import {useBoolean, useRequest} from "ahooks"
 import API from "@/api"
 import styles from "./index.scss"
@@ -30,25 +36,115 @@ export const stopPropagation = (e: React.MouseEvent) => {
   e.stopPropagation()
 }
 
-export const TopMenu: FC<MenuItemProps> = (props) => {
-  const {list, children} = props
+interface ICreator {
+  accountStatus: number
+  anchor: boolean
+  authStatus: number
+  authenticationTypes: number
+  authority: number
+  avatarDetail: any
+  avatarImgId: number
+  avatarImgIdStr: string
+  avatarImgId_str: string
+  avatarUrl: string
+  backgroundImgId: number
+  backgroundImgIdStr: string
+  backgroundUrl: string
+  birthday: number
+  city: number
+  defaultAvatar: boolean
+  description: string
+  detailDescription: string
+  djStatus: number
+  expertTags: any
+  experts: any
+  followed: boolean
+  gender: number
+  mutual: boolean
+  nickname: string
+  province: number
+  remarkName: any
+  signature: string
+  userId: number
+  userType: number
+  vipType: number
+  [props: string]: any
+}
+
+interface IMenuData {
+  adType: number
+  anonimous: boolean
+  artists: any
+  backgroundCoverId: number
+  backgroundCoverUrl: any
+  cloudTrackCount: number
+  commentThreadId: string
+  coverImgId: number
+  coverImgId_str: string
+  coverImgUrl: string
+  createTime: number
+  creator: ICreator
+  description: string
+  englishTitle: any
+  highQuality: boolean
+  id: number
+  name: string
+  newImported: boolean
+  opRecommend: boolean
+  ordered: boolean
+  playCount: number
+  privacy: number
+  recommendInfo: any
+  specialType: number
+  status: number
+  subscribed: boolean
+  subscribedCount: number
+  subscribers: any[]
+  tags: any[]
+  titleImage: number
+  titleImageUrl: any
+  totalDuration: number
+  trackCount: number
+  trackNumberUpdateTime: number
+  trackUpdateTime: number
+  tracks: any
+  updateFrequency: any
+  updateTime: number
+  userId: number
+  [props: string]: any
+}
+interface IMenuItem {
+  menuData: IMenuData
+}
+
+const MenuItem: FC<IMenuItem> = ({menuData}) => {
+  console.log(menuData)
+  const history = useHistory()
+  const dispatch = useDispatch()
+  const {run: onConfirm} = useRequest(() => API.playlistDelete({id: menuData?.id}), {
+    manual: true,
+    onSuccess: (response) => {
+      if (response.code !== 200) return message.info("歌单删除失败")
+      message.success("歌单删除成功")
+      return dispatch({
+        type: "userModel/getPlayList"
+      })
+    }
+  })
   return (
-    <div className={styles.menu}>
-      <h2>{children}</h2>
-      <ul>
-        {list.map((item) => {
-          return (
-            <li key={item.url}>
-              <NavLink to={item.url} className={styles.item} activeClassName={styles.activeRouter}>
-                <Space>
-                  {item.icon}
-                  <span>{item.text}</span>
-                </Space>
-              </NavLink>
-            </li>
-          )
-        })}
-      </ul>
+    <div className={styles.songListItem}>
+      <HeartOutlined />
+      <span>{menuData.name}</span>
+      <Popconfirm title="确定删除该歌单吗?" onConfirm={onConfirm} okText="确定" cancelText="取消">
+        <DeleteOutlined
+          className={styles.icon}
+          onClick={(e) => {
+            stopPropagation(e)
+            e.preventDefault()
+            console.log("kkkk")
+          }}
+        />
+      </Popconfirm>
     </div>
   )
 }
@@ -101,9 +197,7 @@ export const SongListmenu: FC<SongListmenuProps> = (props) => {
                   <span className={styles.content}>{item.name}</span>
                   <div className={styles.operator}>
                     <span>{item.trackCount}首</span>
-                    {type === 0 && item.privacy === 10 && (
-                      <EyeInvisibleOutlined title="隐私歌单" />
-                    )}
+                    {type === 0 && item.privacy === 10 && <EyeInvisibleOutlined title="隐私歌单" />}
 
                     {index === 0 && type === 0 ? null : (
                       <Popconfirm
@@ -125,16 +219,4 @@ export const SongListmenu: FC<SongListmenuProps> = (props) => {
   )
 }
 
-TopMenu.defaultProps = {
-  list: []
-}
-SongListmenu.defaultProps = {
-  list: [],
-  text: "创建的歌单"
-}
-
-const MenuItem = {
-  TopMenu,
-  SongListmenu
-}
 export default MenuItem

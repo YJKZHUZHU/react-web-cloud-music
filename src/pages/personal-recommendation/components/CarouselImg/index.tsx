@@ -58,7 +58,6 @@ const CarouselImg = () => {
     }
     return message.info("该类型无法播放哦")
   }
-  console.log(data)
 
   return (
     <div className={styles.carousel}>
@@ -74,7 +73,6 @@ const CarouselImg = () => {
         ref={slider}>
         {useMemo(() => {
           return data?.map((item) => {
-            console.log(1)
             return (
               <>
                 <img

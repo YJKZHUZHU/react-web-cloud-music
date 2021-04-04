@@ -8,6 +8,7 @@ import {useDispatch, useSelector, Redirect, useHistory} from "umi"
 import {useBoolean} from "ahooks"
 import Draggable, {DraggableData} from "react-draggable"
 import {QrLogin} from "@/components"
+import {useDraggable} from "@/hooks"
 import API from "@/api"
 import styles from "./index.scss"
 import {IState} from "typings"
@@ -27,16 +28,14 @@ const INIT_FORM = {
 const Login: FC = () => {
   const [form] = Form.useForm()
   const history = useHistory()
+  const {onStart, onMouseOver, draggableed, bounds, draggleRef, onMouseOut} = useDraggable()
   const {loginStatus} = useSelector((state: IState) => state.userModel)
   const [loading, {toggle}] = useBoolean(false)
   const [loginPattern, setLoginPattern] = useState(0)
   const [disabled, {setTrue, setFalse}] = useBoolean(false)
   const [loginVisible, {toggle: loginToggle}] = useBoolean(false)
   const [time, setTime] = useState(60)
-  const [bounds, setBounds] = useState({left: 0, top: 0, bottom: 0, right: 0})
   const [qrLogin, {toggle: qrToggle}] = useBoolean(true)
-
-  const draggleRef = useRef<HTMLDivElement>(null)
 
   const dispatch = useDispatch()
 
@@ -113,25 +112,6 @@ const Login: FC = () => {
     }
   }
 
-  const onStart = (uiData: DraggableData) => {
-    const {clientWidth, clientHeight} = window?.document?.documentElement
-    const targetRect = draggleRef?.current?.getBoundingClientRect()
-    if (targetRect) {
-      setBounds({
-        left: -targetRect?.left + uiData?.x,
-        right: clientWidth - (targetRect?.right - uiData?.x),
-        top: -targetRect?.top + uiData?.y,
-        bottom: clientHeight - (targetRect?.bottom - uiData?.y)
-      })
-    }
-  }
-
-  const onOver = () => {
-    if (disabled) {
-      setFalse()
-    }
-  }
-
   const onCancel = () => {
     loginSuccessCallback()
     loginToggle(false)
@@ -144,14 +124,11 @@ const Login: FC = () => {
   useEffect(() => {
     loginToggle(!loginStatus)
   }, [])
-  console.log(loginStatus)
 
   if (loginStatus) {
     // 已登录
     return <Redirect to="/personal-recommendation" />
   }
-
-  console.log(history)
 
   return (
     <Modal
@@ -165,8 +142,8 @@ const Login: FC = () => {
             width: "100%",
             cursor: "move"
           }}
-          onMouseOver={onOver}
-          onMouseOut={setTrue}>
+          onMouseOver={onMouseOver}
+          onMouseOut={onMouseOut}>
           登录
         </div>
       }
@@ -174,7 +151,7 @@ const Login: FC = () => {
       onCancel={onCancel}
       modalRender={(modal) => {
         return (
-          <Draggable disabled={disabled} bounds={bounds} onStart={(_, uiData) => onStart(uiData)}>
+          <Draggable disabled={draggableed} bounds={bounds} onStart={onStart}>
             <div ref={draggleRef}>{modal}</div>
           </Draggable>
         )

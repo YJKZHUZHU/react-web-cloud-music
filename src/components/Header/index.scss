@@ -38,20 +38,23 @@ header,
     margin-right: 8px;
     font: inherit;
   }
-  .search {
+  .inputSearch {
+    width: 500px;
+    margin-right: 24px;
+  }
+  .addSongList {
     flex: 1;
-    .inputSearch {
-      width: 500px;
-    }
   }
   .user {
     cursor: pointer;
-    // margin-right: 36px;
+    text-align: right;
+    :global(.ant-popover-inner-content) {
+      padding: 0;
+    }
   }
 
   .down {
     color: var(--header-font-color);
-    // font-size: 20px;
     margin-top: 7px;
   }
 }
@@ -95,6 +98,9 @@ header,
 
 .userPop {
   width: 300px;
+  :global(.ant-popover-inner-content) {
+    padding: 0;
+  }
 
   ._main {
     font-size: 12px;
@@ -442,15 +448,17 @@ header,
   }
 }
 
-:global {
-  ._userPop {
-    .ant-popover-inner-content {
-      padding: 0;
-    }
+.addSongListForm {
+  .title {
+    width: 100%;
+    cursor: move;
   }
-  ._searchPop {
-    .ant-popover-inner-content {
-      padding: 0;
+  .content {
+    width: 100%;
+    :global(.ant-space-item) {
+      &:nth-child(3) {
+        text-align: center;
+      }
     }
   }
 }

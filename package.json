@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.5.0",
-    "@ant-design/pro-layout": "^6.15.4",
+    "@ant-design/pro-layout": "^6.16.0",
     "@better-scroll/core": "^2.2.0",
     "@better-scroll/mouse-wheel": "^2.2.0",
     "@better-scroll/scroll-bar": "^2.2.0",
