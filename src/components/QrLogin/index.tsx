@@ -1,10 +1,11 @@
 /** @format */
 
-import React, {FC, useEffect} from "react"
+import React, {FC, useEffect, useContext} from "react"
 import {message, Space, Button} from "antd"
 import {useRequest} from "ahooks"
 import {useDispatch} from "umi"
 import QrCode from "qrcode.react"
+import {GlobalContext} from "@/layouts"
 import API from "@/api"
 import styles from "./index.scss"
 
@@ -13,6 +14,7 @@ interface IQrLoginProps {
 }
 const QrLogin: FC<IQrLoginProps> = ({callback}) => {
   const dispatch = useDispatch()
+  const {reloadMenu} = useContext(GlobalContext)
   const {data: key} = useRequest(API.getQrKey, {
     formatResult: (response) => {
       if (response.code !== 200) {
@@ -40,11 +42,11 @@ const QrLogin: FC<IQrLoginProps> = ({callback}) => {
       if (response?.code !== 803) return
       callback(false)
       try {
-        const UserRet: any = await dispatch({
+        await dispatch({
           type: "userModel/getUserInfo"
         })
-        if (!UserRet[0]) message.error(UserRet[1])
-        if (UserRet[0]) message.success("登录成功")
+        reloadMenu && (await reloadMenu())
+        return message.success("登录成功")
       } catch (error) {
         callback(false)
         throw Error(error)
@@ -52,7 +54,6 @@ const QrLogin: FC<IQrLoginProps> = ({callback}) => {
     }
   })
   useEffect(() => {
-    // run()
     if (data?.code === 803) {
       cancel()
     }

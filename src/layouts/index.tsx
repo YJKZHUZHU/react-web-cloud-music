@@ -50,13 +50,10 @@ const BasicLayout: FC = ({children}) => {
   }
 
   const request = async (_: Record<string, any>, defaultMenuData: MenuDataItem[]) => {
-    console.log("进来吗")
-    console.log(userId)
     try {
       const Ret: IPlayList | any = await dispatch({
         type: userId ? "userModel/getPlayList" : "userModel/getUserInfo"
       })
-      console.log(Ret)
       return renderRouter(defaultMenuData, Ret.creator, Ret.favorite)
     } catch (error) {
       throw error

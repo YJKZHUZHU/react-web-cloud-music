@@ -1,6 +1,6 @@
 /** @format */
 
-import React, {useState, useEffect} from "react"
+import React, {useState, useEffect, useContext} from "react"
 import {LockOutlined, UserOutlined} from "@ant-design/icons"
 import {Button, Input, message, Form, Space, Row, Col, Modal} from "antd"
 import {RightOutlined} from "@ant-design/icons"
@@ -11,6 +11,7 @@ import Draggable from "react-draggable"
 import {QrLogin} from "@/components"
 import {useDraggable} from "@/hooks"
 import API from "@/api"
+import {GlobalContext} from "@/layouts"
 import styles from "./index.scss"
 
 const LAYOUT = {
@@ -28,6 +29,7 @@ const INIT_FORM = {
 const Login = () => {
   const [form] = Form.useForm()
   const history = useHistory()
+  const {reloadMenu} = useContext(GlobalContext)
   const {onStart, onMouseOver, draggableed, bounds, draggleRef, onMouseOut} = useDraggable()
   const [loading, {toggle}] = useBoolean(false)
   const [loginPattern, setLoginPattern] = useState(0)
@@ -72,17 +74,13 @@ const Login = () => {
         if (Ret.code !== 200) return message.info("密码错误")
       }
 
-      const UserRet: any = await dispatch({
+      dispatch({
         type: "userModel/getUserInfo"
       })
       loginSuccessCallback()
       toggle(false)
-
-      if (!UserRet[0]) message.error(UserRet[1])
-      if (UserRet[0]) {
-        return message.success("登录成功")
-        // return callback(false)
-      }
+      reloadMenu && reloadMenu()
+      return message.success("登录成功")
     } catch (error) {
       loginSuccessCallback()
       toggle(false)

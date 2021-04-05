@@ -48,7 +48,6 @@ const Header: FC = ({children}) => {
       {childrenArr[0]}
       <Search />
       {childrenArr[1]}
-      {/* <AddSongList /> */}
       {loginStatus ? (
         <Popover
           visible={visible}
