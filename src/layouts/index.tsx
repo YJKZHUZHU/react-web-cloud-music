@@ -1,8 +1,8 @@
 /** @format */
 
-import React, {FC, useEffect, useRef, useState} from "react"
+import React, {FC, useEffect, useRef, createContext} from "react"
 import zh_cn from "antd/lib/locale/zh_CN"
-import {Drawer, Avatar, ConfigProvider} from "antd"
+import {Drawer, Avatar, ConfigProvider, Button} from "antd"
 import {useDispatch, useSelector, useLocation, useHistory, request} from "umi"
 import {PlayRecord, PlayerLayout, Header, MenuItem} from "@/components"
 import classnames from "classnames"
@@ -11,6 +11,7 @@ import Footer from "./Footer"
 import ProLayout from "@ant-design/pro-layout"
 import {MenuDataItem} from "@ant-design/pro-layout/lib/typings"
 import renderRouter, {defaultRoutes} from "./Router"
+import {AddSongList} from "@/components/Header/components"
 import {IState} from "typings"
 import {useBoolean} from "ahooks"
 import {IPlayList} from "umi"
@@ -22,13 +23,22 @@ const CONFIG = {
   },
   locale: zh_cn
 }
+interface IGlobalContext {
+  reloadMenu?: () => void
+}
+export const GlobalContext = createContext<IGlobalContext>({
+  reloadMenu: undefined
+})
 const BasicLayout: FC = ({children}) => {
   const dispatch = useDispatch()
   const history = useHistory()
-  const {userInfo} = useSelector((state: IState) => state.userModel)
+  const {userInfo, userId} = useSelector((state: IState) => state.userModel)
   const {showPlayRecord} = useSelector((state: IState) => state.songInfoModel)
   const [collapsed, {toggle}] = useBoolean(false)
   const {pathname} = useLocation()
+  const actionRef = useRef<{
+    reload: () => void
+  }>()
 
   const onClose = () => {
     dispatch({
@@ -40,19 +50,29 @@ const BasicLayout: FC = ({children}) => {
   }
 
   const request = async (_: Record<string, any>, defaultMenuData: MenuDataItem[]) => {
+    console.log("进来吗")
+    console.log(userId)
     try {
       const Ret: IPlayList | any = await dispatch({
-        type: "userModel/getUserInfo"
+        type: userId ? "userModel/getPlayList" : "userModel/getUserInfo"
       })
+      console.log(Ret)
       return renderRouter(defaultMenuData, Ret.creator, Ret.favorite)
     } catch (error) {
       throw error
     }
   }
 
+  useEffect(() => {
+    dispatch({
+      type: "userModel/getUserInfo"
+    })
+  }, [])
+
   return (
     <ConfigProvider {...CONFIG}>
       <ProLayout
+        actionRef={actionRef}
         fixSiderbar
         collapsed={collapsed}
         collapsedButtonRender={false}
@@ -71,28 +91,35 @@ const BasicLayout: FC = ({children}) => {
           }
           return <img style={{height: 65}} src={require("../assets/home.png")}></img>
         }}
-        menuItemRender={(item, dom) => <MenuItem menuItem={item}>{dom}</MenuItem>}
+        menuItemRender={(item, dom) => (
+          <MenuItem reload={actionRef?.current?.reload} menuItem={item}>
+            {dom}
+          </MenuItem>
+        )}
         onMenuHeaderClick={() => history.push("/personal-recommendation")}
         headerRender={() => (
           <Header>
             <div onClick={() => toggle(!collapsed)} className={styles.collapsed}>
               {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
             </div>
+            <AddSongList reload={actionRef?.current?.reload} />
           </Header>
         )}
         footerRender={() => <Footer />}>
-        {children}
-        {pathname !== "/mv-detail" && <PlayerLayout />}
-        <Drawer
-          className={styles.drawer}
-          placement="right"
-          bodyStyle={{paddingTop: 18}}
-          visible={showPlayRecord}
-          width={640}
-          onClose={onClose}
-          getContainer={false}>
-          <PlayRecord />
-        </Drawer>
+        <GlobalContext.Provider value={{reloadMenu: actionRef.current?.reload}}>
+          {children}
+          {pathname !== "/mv-detail" && <PlayerLayout />}
+          <Drawer
+            className={styles.drawer}
+            placement="right"
+            bodyStyle={{paddingTop: 18}}
+            visible={showPlayRecord}
+            width={640}
+            onClose={onClose}
+            getContainer={false}>
+            <PlayRecord />
+          </Drawer>
+        </GlobalContext.Provider>
       </ProLayout>
     </ConfigProvider>
   )

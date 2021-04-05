@@ -2,9 +2,11 @@ import { useRef } from "react"
 import { message } from "antd"
 import { useSelector, useDispatch } from "umi"
 import { useRequest, useBoolean } from "ahooks"
+import { IPlayListItem } from 'umi'
 import Utils from "@/help"
 import API from "@/api"
 import { IState } from "typings"
+
 
 const usePlayList = (id: string) => {
   const dispatch = useDispatch()
@@ -74,7 +76,7 @@ const usePlayList = (id: string) => {
   return {
     isSearch,
     toggle,
-    data,
+    data: data as IPlayListItem,
     tableList,
     loading,
     onPlayAll,

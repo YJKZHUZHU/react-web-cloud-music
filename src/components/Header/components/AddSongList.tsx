@@ -1,16 +1,19 @@
 /** @format */
 
-import React, {useState, useRef} from "react"
+import React, {useState, FC} from "react"
 import {Modal, Space, Input, Checkbox, Button, message} from "antd"
 import {useBoolean, useRequest} from "ahooks"
 import Draggable from "react-draggable"
-import {useSelector, useDispatch} from "umi"
+import {useDispatch} from "umi"
 import {useDraggable} from "@/hooks"
 import API from "@/api"
 import styles from "../index.scss"
-import {run} from "jest"
 
-const AddSongList = () => {
+interface IAddSongList {
+  reload?: () => void
+}
+
+const AddSongList: FC<IAddSongList> = ({reload}) => {
   const dispatch = useDispatch()
   const {onStart, onMouseOver, draggableed, bounds, draggleRef, onMouseOut} = useDraggable()
   const [visible, {setFalse, setTrue}] = useBoolean(false)
@@ -27,9 +30,7 @@ const AddSongList = () => {
         setFalse()
         setValue("")
         toggle(false)
-        return dispatch({
-          type: "userModel/getPlayList"
-        })
+        reload && reload()
       }
     }
   )
@@ -38,6 +39,7 @@ const AddSongList = () => {
     <div className={styles.addSongList}>
       <a onClick={setTrue}>新建歌单</a>
       <Modal
+        width={300}
         footer={null}
         visible={visible}
         onCancel={setFalse}

@@ -154,6 +154,14 @@ const UserModel: UserModelType = {
             playList: Ret.playlist
           }
         })
+        return {
+          creator: Ret.playlist.filter((item: any) => !item.subscribed),
+          favorite: Ret.playlist.filter((item: any) => item.subscribed)
+        }
+      }
+      return {
+        creator: [],
+        favorite: []
       }
     }
   },

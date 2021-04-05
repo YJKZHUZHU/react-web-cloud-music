@@ -1,35 +1,35 @@
 /** @format */
 
-import React, {FC, useEffect, useState, forwardRef} from "react"
+import React, {FC, useEffect, useState, useContext} from "react"
 import {InfoCircleOutlined} from "@ant-design/icons"
-import {Divider, Input, Popover, Button, Tag, message, Form} from "antd"
+import {Input, Popover, Button, Tag, message, Form, Row, Col, Space} from "antd"
 import styles from "./index.scss"
-import {history, useSelector} from "umi"
+import {useSelector, useLocation, useHistory} from "umi"
 import {FormInstance} from "antd/lib/form"
 import API from "@/api"
+import {GlobalContext} from "@/layouts"
 import {EDIT_SONG_LIST} from "@/help/map"
 import {IState} from "typings"
+import {useBoolean} from "ahooks"
 
 const {CheckableTag} = Tag
 
-type Props = {
-  $app?: any
-  location?: any
+interface ILabel {
   form: FormInstance
-  initTag?: any
 }
-type SelectedTags = string[]
 
-const AddLabel: FC<Props> = (props, ref) => {
-  const {setFieldsValue, getFieldValue} = props.form
+const mapToForm = (data: any[], id: number) => data?.filter((item) => +item.id === +id)[0]
 
-  const [visible, setVisible] = useState(false)
-  const [selectedTags, setSelectedTags] = useState<SelectedTags>(getFieldValue("tags"))
+const Label: FC<ILabel> = ({form}) => {
+  const {setFieldsValue, getFieldValue} = form
+
+  const [visible, {setFalse, toggle}] = useBoolean(false)
+  const [selectedTags, setSelectedTags] = useState<string[]>(getFieldValue("tags"))
 
   const onTag = (item: string, checked: boolean) => {
-    const nextSelectedTags: any = checked
+    const nextSelectedTags = checked
       ? [...selectedTags, item]
-      : selectedTags.filter((t: any) => t !== item)
+      : selectedTags.filter((t) => t !== item)
     if (nextSelectedTags.length > 3) {
       return false
     }
@@ -37,17 +37,14 @@ const AddLabel: FC<Props> = (props, ref) => {
     setFieldsValue({tags: nextSelectedTags})
   }
 
-  const onAddLabel = () => {
-    setVisible(false)
-    // setFieldsValue({tags: selectedTags})
-  }
-
   const content = (
     <div className={styles.labelList}>
       <div className={styles.top}>
-        <p className={styles.description}>
-          选择合适的标签，最多可选<i className={styles.number}>3</i>个
-        </p>
+        <Space size={4} className={styles.description}>
+          <i>选择合适的标签，最多可选</i>
+          <i className={styles.number}>3</i>
+          <i>个</i>
+        </Space>
         {EDIT_SONG_LIST.map((t) => {
           return (
             <div className={styles.item} key={t.id}>
@@ -60,7 +57,7 @@ const AddLabel: FC<Props> = (props, ref) => {
                       onChange={(checked) => onTag(item, checked)}
                       checked={selectedTags.indexOf(item) > -1}
                       key={item}>
-                      <i title={item}> {item}</i>
+                      <i title={item}>{item}</i>
                     </CheckableTag>
                   )
                 })}
@@ -71,12 +68,12 @@ const AddLabel: FC<Props> = (props, ref) => {
       </div>
       <div className={styles.footer}>
         {selectedTags.length >= 3 ? (
-          <p className={styles.tip}>
+          <Space className={styles.tip}>
             <InfoCircleOutlined />
             <span>最多可选三个标签</span>
-          </p>
+          </Space>
         ) : null}
-        <Button type="primary" onClick={onAddLabel}>
+        <Button type="primary" onClick={setFalse}>
           完成
         </Button>
       </div>
@@ -88,7 +85,7 @@ const AddLabel: FC<Props> = (props, ref) => {
   }, [getFieldValue("tags")])
 
   return (
-    <div className={styles.addLabel} ref={ref}>
+    <div className={styles.addLabel}>
       {selectedTags.map((item: any) => (
         <Tag key={item}>{item}</Tag>
       ))}
@@ -99,25 +96,24 @@ const AddLabel: FC<Props> = (props, ref) => {
         visible={visible}
         placement="bottomLeft"
         getPopupContainer={() => document.getElementById("_edit_song_list") || document.body}
-        onVisibleChange={(visible: boolean) => setVisible(visible)}>
-        <span className={styles.label}>添加标签</span>
+        onVisibleChange={toggle}>
+        <span className={styles.label} id="_edit_song_list">
+          添加标签
+        </span>
       </Popover>
     </div>
   )
 }
 
-// @ts-ignore
-const Label = forwardRef(AddLabel)
-
-const mapToForm = (data: any[], id: number) => {
-  return data.filter((item) => +item.id === +id)[0]
-}
-
-const EditSongList: FC<Props> = (props) => {
-  const {playList, userId} = useSelector((state: IState) => state.userModel)
+const EditSongList: FC = () => {
+  const {playList} = useSelector((state: IState) => state.userModel)
+  const {reloadMenu} = useContext(GlobalContext)
+  const location: any = useLocation()
+  const history = useHistory()
   const [form] = Form.useForm()
   const {setFieldsValue} = form
-  const creatorItem = mapToForm(playList.creator, history.location.query.id)
+  const {id} = location.query
+  const creatorItem = mapToForm(playList?.creator, id)
 
   setFieldsValue({
     name: creatorItem?.name || "",
@@ -126,61 +122,64 @@ const EditSongList: FC<Props> = (props) => {
   })
 
   const onSubmit = async (values: any) => {
-    const Ret: any = await API.playlistUpdate({
-      ...values,
-      tags: values.tags.join(";"),
-      id: history.location.query.id
-    })
-    const PlayListRet: any = await API.userPlaylist({uid: userId})
-    if (Ret.code !== 200 || PlayListRet.code !== 200) {
-      return message.info("稍后再试哦")
-    }
-    message.success("歌单描述更新成功")
-    history.push({
-      pathname: "/playList",
-      query: {
-        listId: history.location.query.id
+    try {
+      const Ret: any = await API.playlistUpdate({
+        ...values,
+        tags: values.tags.join(";"),
+        id
+      })
+      if (Ret.code !== 200) {
+        return message.info("稍后再试哦")
       }
-    })
+      reloadMenu && (await reloadMenu())
+      message.success("歌单编辑成功")
+      return history.push(`/playList?listId=${id}`)
+    } catch (error) {
+      throw error
+    }
   }
   return (
-    <div className={styles._edit_song_list} id="_edit_song_list">
-      <p className={styles.title}>编辑歌单信息</p>
-      <Divider className={styles.divider} />
-      <div className={styles.content}>
-        <div className={styles.form}>
-          <Form onFinish={onSubmit} form={form} labelCol={{span: 2}} wrapperCol={{span: 20}}>
-            <Form.Item label="歌单名" name="name">
-              <Input placeholder="歌单名" allowClear />
-            </Form.Item>
-            <Form.Item label="标签" name="tags">
-              <Label {...props} form={form} />
-            </Form.Item>
-            <Form.Item label="简介" name="desc">
-              <Input.TextArea
-                placeholder="歌单描述"
-                rows={4}
-                maxLength={1000}
-                style={{wordBreak: "break-all"}}
-              />
-            </Form.Item>
-            <Form.Item>
-              <div className={styles.footBtn}>
-                <Button type="primary" htmlType="submit">
-                  保存
-                </Button>
-                <Button onClick={() => history.push(`/playList?listId=${creatorItem.id}`)}>
-                  取消
-                </Button>
-              </div>
-            </Form.Item>
-          </Form>
-        </div>
+    <Row gutter={32} className={styles.editSongList}>
+      <Col span={18}>
+        <Form onFinish={onSubmit} form={form} labelCol={{span: 2}} wrapperCol={{span: 20}}>
+          <Form.Item
+            required={false}
+            label="歌单名"
+            name="name"
+            rules={[{required: true, message: "歌单名不能为空"}]}>
+            <Input placeholder="歌单名" allowClear />
+          </Form.Item>
+          <Form.Item label="标签" name="tags">
+            <Label form={form} />
+          </Form.Item>
+          <Form.Item label="简介" name="desc">
+            <Input.TextArea
+              showCount
+              allowClear
+              placeholder="歌单描述"
+              rows={4}
+              maxLength={996}
+              style={{wordBreak: "break-all"}}
+            />
+          </Form.Item>
+          <Form.Item>
+            <Space className={styles.submitFooter}>
+              <Button type="primary" htmlType="submit">
+                保存
+              </Button>
+              <Button onClick={() => history.push(`/playList?listId=${creatorItem?.id}`)}>
+                取消
+              </Button>
+            </Space>
+          </Form.Item>
+        </Form>
+      </Col>
+      <Col span={6}>
         <div className={styles.img}>
-          <img src={`${creatorItem.coverImgUrl}?param=250y250`} alt={creatorItem.coverImgUrl} />
+          <img src={`${creatorItem?.coverImgUrl}?param=250y250`} alt={creatorItem?.coverImgUrl} />
         </div>
-      </div>
-    </div>
+      </Col>
+    </Row>
   )
 }
 

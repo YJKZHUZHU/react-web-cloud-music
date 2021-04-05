@@ -6,10 +6,11 @@ import {
   PlayCircleOutlined,
   PlusOutlined,
   ShareAltOutlined,
-  CheckOutlined
+  CheckOutlined,
+  EditOutlined
 } from "@ant-design/icons"
 import {Divider, Button, Tabs, Input, Space} from "antd"
-import {Link, history} from "umi"
+import {Link, useHistory, useLocation} from "umi"
 import moment from "moment"
 import {HotComment, NewComment} from "@/components"
 import {ListTable, Collection} from "./components"
@@ -21,8 +22,10 @@ const {TabPane} = Tabs
 const {Search} = Input
 
 const PlayList = () => {
-  console.log(history)
-  const {listId: id} = history.location.query
+  const history = useHistory()
+  // const {listId: id} = history.location.query
+  const location: any = useLocation()
+  const {listId: id} = location.query
   const {
     isSearch,
     toggle,
@@ -46,6 +49,9 @@ const PlayList = () => {
             <div className={styles.markTitle}>
               <span className={styles.colorLabel}>歌单</span>
               <h2 className={styles.markTitle}>{data?.name}</h2>
+              {!data?.subscribed ? (
+                <EditOutlined onClick={() => history.push(`/edit-song-list?id=${data?.id}`)} />
+              ) : null}
             </div>
             <div className={styles.songIntroduction}>
               <p>

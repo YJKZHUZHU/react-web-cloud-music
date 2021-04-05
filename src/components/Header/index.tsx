@@ -1,13 +1,12 @@
 /** @format */
 
-import React, {FC} from "react"
+import React, {FC, useMemo} from "react"
 import {CaretDownOutlined, UserOutlined} from "@ant-design/icons"
 import {Avatar, Popover, message} from "antd"
 import {useHistory, useSelector} from "umi"
 import {useBoolean, useRequest} from "ahooks"
 import API from "@/api"
-import classnames from "classnames"
-import {UserContent,Search, AddSongList} from "./components"
+import {UserContent, Search} from "./components"
 import {IState} from "typings"
 import styles from "./index.scss"
 
@@ -42,11 +41,14 @@ const Header: FC = ({children}) => {
     }
   })
 
+  const childrenArr = useMemo(() => React.Children.toArray(children), [])
+
   return (
     <header className={styles._header}>
-      {children}
+      {childrenArr[0]}
       <Search />
-      <AddSongList />
+      {childrenArr[1]}
+      {/* <AddSongList /> */}
       {loginStatus ? (
         <Popover
           visible={visible}

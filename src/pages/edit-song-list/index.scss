@@ -1,43 +1,22 @@
+/** @format */
+
 @import "utils";
 
-._edit_song_list {
-  .title {
-    margin-top: 20px;
-    font-weight: 800;
+.editSongList {
+  width: 100%;
+  .submitFooter {
+    width: 100%;
+    justify-content: center;
   }
 
-  .divider {
-    margin: 10px 0;
+  .img {
+    width: 100%;
   }
 
-  .content {
-    display: flex;
-    justify-content: space-between;
-
-    .img {
-      width: 400px;
-    }
-
-    .form {
-      flex: 1;
-
-      .addLabel {
-        .label {
-          text-decoration: underline;
-          cursor: pointer;
-
-        }
-
-
-      }
-
-      .footBtn {
-        text-align: center;
-
-        button:nth-child(1) {
-          margin-right: 20px;
-        }
-      }
+  .addLabel {
+    .label {
+      text-decoration: underline;
+      cursor: pointer;
     }
   }
 
@@ -54,7 +33,7 @@
         margin-bottom: 15px;
 
         .number {
-          color: #BB3030;
+          color: #bb3030;
         }
       }
 
@@ -74,13 +53,11 @@
             margin-bottom: 8px;
             cursor: pointer;
             width: 60px;
-            text-align: center;
             @include ellipsis();
           }
         }
       }
     }
-
   }
 
   .footer {
@@ -90,14 +67,10 @@
 
     .tip {
       font-size: 12px;
-      color: #BD3738;
+      color: #bd3738;
       position: absolute;
       left: 0;
       top: 7px;
-
-      i {
-        padding-right: 8px;
-      }
     }
   }
 }

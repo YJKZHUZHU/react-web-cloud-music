@@ -242,9 +242,9 @@ const routes: IRoute[] = [
         title: "登录"
       },
       {
-        path: '/song-list-management',
-        component: 'song-list-management',
-        title: "歌单管理"
+        path: '/edit-song-list',
+        component: 'edit-song-list',
+        title: "编辑歌单"
       }
     ]
   }
