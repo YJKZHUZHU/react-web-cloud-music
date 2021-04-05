@@ -96,7 +96,6 @@ const MenuItem: FC<IMenuItem> = (props) => {
             {menuItem?.isDelete ? (
               <Space size={4} className={styles.editAndDelete}>
                 {menuItem?.type === "creator" && <EditOutlined onClick={onEdit} />}
-
                 <Popconfirm
                   title="确定删除该歌单吗?"
                   onConfirm={(e: any) => onDlete(e)}

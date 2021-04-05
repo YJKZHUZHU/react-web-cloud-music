@@ -4,9 +4,8 @@ import React, {useState} from "react"
 import {SearchOutlined} from "@ant-design/icons"
 import {Input, Popover, Modal} from "antd"
 import {useRequest} from "ahooks"
-import {history, useDispatch} from "umi"
-import SearchList from "./SearchList"
-import History from "./History"
+import {useDispatch, useHistory} from "umi"
+import {SearchList, History} from "./index"
 import API from "@/api"
 import {useToSearchDetail} from "@/hooks"
 import store from "@/help/localStorage"
@@ -15,6 +14,7 @@ import styles from "../index.scss"
 const {confirm} = Modal
 
 const Search = () => {
+  const history = useHistory()
   const [modalVisible, setModalVisible] = useState(false)
   const [inputValue, setInputValue] = useState("")
   const dispatch = useDispatch()
@@ -56,13 +56,7 @@ const Search = () => {
 
   const onHistory = (keywords: string) => {
     setInputValue(keywords)
-    history.push({
-      pathname: "/search-detail/single",
-      query: {
-        keywords,
-        type: 1
-      }
-    })
+    history.push(`/search-detail/single?keywords=${keywords}&type=1`)
   }
 
   const onInput = (e: any) => {
@@ -79,6 +73,7 @@ const Search = () => {
   }
 
   const showHistory = inputValue && data && Object.keys(data).length
+  console.log(showHistory)
 
   return (
     <Popover
@@ -92,8 +87,7 @@ const Search = () => {
       title={null}
       trigger="click"
       placement="bottomLeft"
-      overlayClassName={"_searchPop"}
-      getPopupContainer={(): any => document.getElementsByClassName("_search")[0]}>
+      overlayClassName={"_searchPop"}>
       <Input
         type="search"
         suffix={<SearchOutlined onClick={() => toDetail(1, inputValue)} />}
