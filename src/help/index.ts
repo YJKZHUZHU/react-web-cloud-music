@@ -48,7 +48,8 @@ class Utils {
     if (!num) return 0
     const numStr = num.toString()
     const length = numStr.length
-    const decimal = numStr.substring(numStr.length - 8, numStr.length - 8 + point)
+    const decimal = numStr.substring(numStr.length - 8, numStr.length - 8 + point) || 0
+    console.log(decimal)
     // 十万以内直接返回
     if (length < 6) {
       return numStr

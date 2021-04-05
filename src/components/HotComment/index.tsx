@@ -13,7 +13,7 @@ import styles from "./index.scss"
 const HotComments: FC<ICommentsProps> = (props) => {
   const {type, id} = props
 
-  const {data} = useRequest<any, any[], IComments[], IComments[]>(
+  const {data, loading} = useRequest<any, any[], IComments[], IComments[]>(
     () => API.getHotComment({id, type, limit: 10}),
     {
       formatResult: (response) => response?.hotComments || [],
@@ -25,6 +25,7 @@ const HotComments: FC<ICommentsProps> = (props) => {
 
   return (
     <List
+      loading={loading}
       locale={{emptyText: "暂无评论"}}
       header={<span className={styles.title}>精彩评论</span>}
       dataSource={data}

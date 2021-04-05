@@ -1,5 +1,9 @@
 // 登录
 $qrCodePath: "../../assets/qr_login_icon.png";
+.draggable {
+  width: 100%;
+  cursor: move;
+}
 ._login {
   align-items: center;
   display: flex;

@@ -38,10 +38,14 @@ const NewComment: FC<ICommentsProps> = (props) => {
     <List
       loading={loading}
       locale={{emptyText: "暂无评论"}}
-      header={<span className={styles.title}>最新评论({pagination?.total})</span>}
+      header={
+        data?.list.length !== 0 ? (
+          <span className={styles.title}>最新评论({pagination?.total})</span>
+        ) : null
+      }
       dataSource={data?.list}
       className={styles.newComment}
-      pagination={{...(pagination as any), size: "small"}}
+      pagination={data?.list.length !== 0 ? {...(pagination as any), size: "small"} : null}
       renderItem={(item: IComments) => (
         <List.Item key={item.commentId}>
           <List.Item.Meta

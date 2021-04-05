@@ -52,6 +52,7 @@ export const request: RequestConfig = {
       Nprogress.done()
       if (response.status === 301) {
         message.info('登录可以体验更多功能哦！')
+        history.push('/login')
       }
       if (response.status === 302) {
         return new Promise(() => { })

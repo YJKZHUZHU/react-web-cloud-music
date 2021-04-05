@@ -1,17 +1,17 @@
 /** @format */
 
-import React, {FC, useState, useEffect, useRef} from "react"
+import React, {useState, useEffect} from "react"
 import {LockOutlined, UserOutlined} from "@ant-design/icons"
 import {Button, Input, message, Form, Space, Row, Col, Modal} from "antd"
 import {RightOutlined} from "@ant-design/icons"
-import {useDispatch, useSelector, Redirect, useHistory} from "umi"
+import {useDispatch, useHistory, Redirect} from "umi"
 import {useBoolean} from "ahooks"
-import Draggable, {DraggableData} from "react-draggable"
+import Cookie from "js-cookie"
+import Draggable from "react-draggable"
 import {QrLogin} from "@/components"
 import {useDraggable} from "@/hooks"
 import API from "@/api"
 import styles from "./index.scss"
-import {IState} from "typings"
 
 const LAYOUT = {
   labelCol: {
@@ -25,15 +25,14 @@ const INIT_FORM = {
   password: ""
 }
 
-const Login: FC = () => {
+const Login = () => {
   const [form] = Form.useForm()
   const history = useHistory()
   const {onStart, onMouseOver, draggableed, bounds, draggleRef, onMouseOut} = useDraggable()
-  const {loginStatus} = useSelector((state: IState) => state.userModel)
   const [loading, {toggle}] = useBoolean(false)
   const [loginPattern, setLoginPattern] = useState(0)
   const [disabled, {setTrue, setFalse}] = useBoolean(false)
-  const [loginVisible, {toggle: loginToggle}] = useBoolean(false)
+  const [loginVisible, {toggle: loginToggle}] = useBoolean(!!!Cookie.get("MUSIC_U"))
   const [time, setTime] = useState(60)
   const [qrLogin, {toggle: qrToggle}] = useBoolean(true)
 
@@ -121,11 +120,7 @@ const Login: FC = () => {
     form.resetFields()
   }, [loginPattern])
 
-  useEffect(() => {
-    loginToggle(!loginStatus)
-  }, [])
-
-  if (loginStatus) {
+  if (Cookie.get("MUSIC_U")) {
     // 已登录
     return <Redirect to="/personal-recommendation" />
   }
@@ -137,13 +132,7 @@ const Login: FC = () => {
       zIndex={99999}
       width={qrLogin ? 500 : 400}
       title={
-        <div
-          style={{
-            width: "100%",
-            cursor: "move"
-          }}
-          onMouseOver={onMouseOver}
-          onMouseOut={onMouseOut}>
+        <div className={styles.draggable} onMouseOver={onMouseOver} onMouseOut={onMouseOut}>
           登录
         </div>
       }

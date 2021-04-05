@@ -7,9 +7,10 @@ import {
   PlusOutlined,
   ShareAltOutlined,
   CheckOutlined,
-  EditOutlined
+  EditOutlined,
+  CustomerServiceOutlined
 } from "@ant-design/icons"
-import {Divider, Button, Tabs, Input, Space} from "antd"
+import {Divider, Button, Tabs, Input, Space, Avatar} from "antd"
 import {Link, useHistory, useLocation} from "umi"
 import moment from "moment"
 import {HotComment, NewComment} from "@/components"
@@ -23,7 +24,6 @@ const {Search} = Input
 
 const PlayList = () => {
   const history = useHistory()
-  // const {listId: id} = history.location.query
   const location: any = useLocation()
   const {listId: id} = location.query
   const {
@@ -37,45 +37,44 @@ const PlayList = () => {
     commentTabContent
   } = usePlayList(id)
   const [searchValue, setSearchValue] = useState("")
+  console.log(data)
 
   return (
-    <div className={styles._playList}>
-      <div className={styles.top}>
-        <div className={styles.left}>
-          <img src={data?.creator.backgroundUrl} alt={data?.creator.backgroundUrl} />
-        </div>
-        <div className={styles.right}>
-          <div className={styles.title}>
-            <div className={styles.markTitle}>
-              <span className={styles.colorLabel}>歌单</span>
-              <h2 className={styles.markTitle}>{data?.name}</h2>
-              {!data?.subscribed ? (
-                <EditOutlined onClick={() => history.push(`/edit-song-list?id=${data?.id}`)} />
-              ) : null}
-            </div>
-            <div className={styles.songIntroduction}>
-              <p>
-                <span>歌曲数</span>
-                <span className={styles.number}>{data?.trackCount}</span>
-              </p>
-              <Divider type="vertical" className={styles.divider} />
-              <p>
-                <span>播放数</span>
-                <span className={styles.number}>{Utils.tranNumber(+data?.playCount, 0)}</span>
-              </p>
-            </div>
-          </div>
-          <div className={styles.creator}>
-            <div className={styles.link}>
-              <img src={data?.creator.avatarUrl} alt={data?.creator.avatarUrl} />
-            </div>
-            <span className={styles.name}>{data?.creator.nickname}</span>
-            <span className={styles.time}>
-              {moment(data?.createTime).format("YYYY-MM-DD")}
-              <i style={{paddingLeft: 5}}>创建</i>
-            </span>
-          </div>
-          <Space className={styles.btnGroup}>
+    <Space direction="vertical" className={styles._playList} size={0}>
+      <Space className={styles.top} size={16}>
+        <Avatar
+          icon={<CustomerServiceOutlined />}
+          size={200}
+          shape="square"
+          alt="资源加载异常"
+          src={`${data?.creator.backgroundUrl}?param=200y200`}
+        />
+
+        <Space direction="vertical" size={12}>
+          <Space className={styles.name}>
+            <span className={styles.colorLabel}>歌单</span>
+            <span className={styles.markTitle}>{data?.name}</span>
+            {!data?.subscribed ? (
+              <EditOutlined onClick={() => history.push(`/edit-song-list?id=${data?.id}`)} />
+            ) : null}
+          </Space>
+          <Space className={styles.name}>
+            <Avatar
+              icon={<CustomerServiceOutlined />}
+              size={40}
+              shape="square"
+              alt="资源加载异常"
+              src={`${data?.creator.avatarUrl}?param=40y40`}
+            />
+            <a onClick={() => history.push(`/homepage?uid=${data?.userId}`)}>
+              {data?.creator.nickname}
+            </a>
+            <Space>
+              <span>{moment(data?.createTime).format("YYYY-MM-DD")}</span>
+              <i>创建</i>
+            </Space>
+          </Space>
+          <Space>
             <Button onClick={onPlayAll} type="primary">
               <PlayCircleOutlined />
               播放全部
@@ -91,28 +90,29 @@ const PlayList = () => {
             </Button>
           </Space>
           {label && (
-            <div className={styles.label}>
-              <p>标签：</p>
-              <div>
+            <Space>
+              <span>标签:</span>
+              <Space split="/">
                 {label.map((item: any, index: number) => {
                   return (
-                    <span key={item}>
-                      <Link to="/" className={styles.link}>
-                        {item}
-                        {index + 1 === label.length ? null : "/"}
-                      </Link>
-                    </span>
+                    <a onClick={() => history.push(`/find-music/song-list?tag=${item}`)} key={item}>
+                      {item}
+                    </a>
                   )
                 })}
-              </div>
-            </div>
+              </Space>
+            </Space>
           )}
-          <p className={styles.introduction}>
-            <b>简介：</b>
-            {data?.description}
-          </p>
-        </div>
-      </div>
+          <Space>
+            <span>歌曲数：{data?.trackCount || 0}</span>
+            <span>播放数：{Utils.tranNumber(+data?.playCount, 0) || 0}</span>
+          </Space>
+          <Space className={styles.introduction}>
+            <span>简介</span>
+            <span className={styles.des}>{data?.description}</span>
+          </Space>
+        </Space>
+      </Space>
 
       <Tabs
         defaultActiveKey="1"
@@ -135,7 +135,7 @@ const PlayList = () => {
           <Collection subscribedCount={data?.subscribedCount} />
         </TabPane>
       </Tabs>
-    </div>
+    </Space>
   )
 }
 

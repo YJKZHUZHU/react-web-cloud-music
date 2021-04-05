@@ -3,6 +3,7 @@
 import React, {useEffect, useState, FC} from "react"
 import {Button, Row, Col, message, Tag, Divider, Popover, Descriptions} from "antd"
 import {RightOutlined} from "@ant-design/icons"
+import {useLocation} from "umi"
 import BoutiqueSongListDesc from "./BoutiqueSongListDesc"
 import API from "@/api"
 import {formatCatList, CatListItemInterface, CatListInterface} from "@/help"
@@ -55,8 +56,10 @@ const INNIT_TAG_DATA: ITagData = {
 }
 
 const SongListChoose: FC<SongListChooseProps> = ({getTag}) => {
+  const location: any = useLocation()
+  const {tag = "全部歌单"} = location.query
   const [{data, all, hotData}, setTagData] = useState<ITagData>(INNIT_TAG_DATA)
-  const [selectTag, setSelectTag] = useState("")
+  const [selectTag, setSelectTag] = useState(tag)
   const [visible, setVisible] = useState(false)
 
   const getData = async () => {
@@ -69,7 +72,6 @@ const SongListChoose: FC<SongListChooseProps> = ({getTag}) => {
         all: Ret.all,
         hotData: HotRet.tags
       })
-      setSelectTag(Ret.all.name)
       return getTag(Ret.all.name, Ret.all.hot)
     } catch (error) {
       throw Error(error)
@@ -83,6 +85,7 @@ const SongListChoose: FC<SongListChooseProps> = ({getTag}) => {
       getTag(name, hot)
     }
   }
+  console.log(selectTag)
   const content = (
     <Descriptions column={1}>
       {data.map((items) => (

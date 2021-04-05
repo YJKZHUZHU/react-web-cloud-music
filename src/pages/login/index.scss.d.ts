@@ -2,6 +2,7 @@
 // Please do not change this file!
 interface CssExports {
   '_login': string;
+  'draggable': string;
   'form': string;
   'img': string;
   'loginTypeBtn': string;

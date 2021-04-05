@@ -26,9 +26,9 @@ const routes: IRoute[] = [
         path: '/mv',
         component: 'mv',
         title: 'MV',
-        wrappers: [
-          '@/wrappers/auth',
-        ]
+        // wrappers: [
+        //   '@/wrappers/auth',
+        // ]
       },
       {
         path: '/top-mv',
