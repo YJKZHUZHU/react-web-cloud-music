@@ -44,24 +44,19 @@ class Utils {
    * @param {需要转化的数} num
    * @param {需要保留的小数位数} point
    */
-  static tranNumber(num: number | undefined, point: number) {
-    if (!num) return 0
-    const numStr = num.toString()
-    const length = numStr.length
-    const decimal = numStr.substring(numStr.length - 8, numStr.length - 8 + point) || 0
-    console.log(decimal)
-    // 十万以内直接返回
-    if (length < 6) {
+  static tranNumber(num: number | undefined, point: number = 2) {
+    if (!num) return num
+    // 将数字转换为字符串,然后通过split方法用.分隔,取到第0个
+    const numStr = num?.toString().split('.')[0]
+    if (numStr?.length < 6) { // 判断数字有多长,如果小于6,,表示10万以内的数字,让其直接显示
       return numStr
-    }
-
-    //大于8位数是亿
-    else if (numStr.length > 8) {
-      return (num / 100000000).toFixed(0) + '.' + decimal + '亿'
-    }
-    //大于6位数是十万 (以10W分割 10W以下全部显示)
-    else if (numStr.length > 5) {
-      return (num / 10000).toFixed(0) + '万'
+    } else if (numStr.length >= 6 && numStr.length <= 8) { // 如果数字大于6位,小于8位,让其数字后面加单位万
+      const decimal = numStr.substring(numStr.length - 4, numStr.length - 4 + point)
+      // 由千位,百位组成的一个数字
+      return parseFloat(parseInt((String(num / 10000)), 10) + '.' + decimal) + '万'
+    } else if (numStr.length > 8) { // 如果数字大于8位,让其数字后面加单位亿
+      const decimal = numStr.substring(numStr.length - 8, numStr.length - 8 + point)
+      return parseFloat(parseInt((String(num / 100000000)), 10) + '.' + decimal) + '亿'
     }
   }
 
