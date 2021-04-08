@@ -37,7 +37,6 @@ module.exports = function (source) {
       backUp = backUp.replace(reg, (val) => {
         let style = null
         val.replace(regRules.numReg, (num) => {
-          console.log(num)
           if (typeof num === "number") {
             style = `${num / 256}rem`
           }

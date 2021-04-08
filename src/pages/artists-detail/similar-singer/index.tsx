@@ -32,7 +32,6 @@ const SimilarSinger = () => {
     manual: true
   })
   const history = useHistory()
-  console.log('进来')
   useEffect(() => {
     run()
   }, [name])

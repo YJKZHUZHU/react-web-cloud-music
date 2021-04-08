@@ -13,7 +13,6 @@ const useAlbumContent = (albumIdList: number[]) => {
   const [data, setData] = useState([])
   const getData = () => {
     Promise.all(mapData(albumIdList)).then((values: any) => {
-      console.log(values)
       setData(values)
     })
   }

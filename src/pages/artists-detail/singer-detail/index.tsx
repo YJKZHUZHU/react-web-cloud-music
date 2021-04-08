@@ -14,7 +14,6 @@ interface IOtherDesc {
 
 const SingerDetail = () => {
   const location: any = useLocation()
-  console.log(location)
   const {id, name} = location?.query
   const {data, run, loading} = useRequest(() => API.getArtistDesc({id}), {
     manual: true

@@ -27,7 +27,6 @@ const Video = () => {
     vedioListRequest
   } = useVedio()
 
-  console.log(vedioGroupListRequest, vedioCategoryListRequest)
   return (
     <div className={styles.vedioGroupList}>
       <div className={styles.top}>

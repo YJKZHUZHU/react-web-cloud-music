@@ -122,7 +122,6 @@ const HomePage = () => {
     manual: true
   })
 
-  console.log(data)
 
   useEffect(() => {
     run()

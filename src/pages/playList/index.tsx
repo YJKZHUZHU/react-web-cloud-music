@@ -37,7 +37,6 @@ const PlayList = () => {
     commentTabContent
   } = usePlayList(id)
   const [searchValue, setSearchValue] = useState("")
-  console.log(data)
 
   return (
     <Space direction="vertical" className={styles._playList} size={0}>

@@ -73,7 +73,6 @@ const Search = () => {
   }
 
   const showHistory = inputValue && data && Object.keys(data).length
-  console.log(showHistory)
 
   return (
     <Popover

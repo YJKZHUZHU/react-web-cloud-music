@@ -85,7 +85,6 @@ const SongListChoose: FC<SongListChooseProps> = ({getTag}) => {
       getTag(name, hot)
     }
   }
-  console.log(selectTag)
   const content = (
     <Descriptions column={1}>
       {data.map((items) => (

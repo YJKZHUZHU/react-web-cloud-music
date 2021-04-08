@@ -41,7 +41,7 @@ const Header: FC = ({children}) => {
     }
   })
 
-  const childrenArr = useMemo(() => React.Children.toArray(children), [])
+  const childrenArr = React.Children.toArray(children)
 
   return (
     <header className={styles._header}>

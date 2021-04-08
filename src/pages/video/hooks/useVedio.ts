@@ -89,7 +89,6 @@ const useVedio = () => {
     }
     return vedioGroupRequset.loadMore()
   }
-  console.log(vedioGroupRequset)
 
   useEffect(() => {
     allVedioListRequest.run({ offset: 0 })

@@ -45,7 +45,6 @@ const Singer = () => {
       loadMore: true,
       ref: containerRef,
       isNoMore: (d) => {
-        console.log(d ? d.list.length >= d.total : false)
         return !d?.more
       },
       formatResult: (response) => {

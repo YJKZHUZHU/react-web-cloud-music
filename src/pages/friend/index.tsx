@@ -15,13 +15,11 @@ const Friend: FC = (props) => {
 
   const {data, loading, reload, loadingMore} = useRequest(
     (params) => {
-      console.log(params)
       return API.getEvent({pageSize: 30, lasttime: params?.lasttime || -1})
     },
     {
       loadMore: true,
       isNoMore: (d: any) => {
-        console.log(d)
         return !d?.more
       },
       ref: dynamicRef,
