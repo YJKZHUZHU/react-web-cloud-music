@@ -1,7 +1,7 @@
 /** @format */
 
 import React, {FC, useEffect, useState, useRef} from "react"
-import {history} from "umi"
+import {history, useLocation} from "umi"
 import {
   Player,
   BigPlayButton,
@@ -25,6 +25,7 @@ import {
 import {message, Select, Avatar, Button, Tag, Space} from "antd"
 import {useRequest} from "ahooks"
 import classnames from "classnames"
+import moment from 'moment'
 import API from "@/api"
 import Utils from "@/help"
 import SimiItem from "./SimiItem"
@@ -61,6 +62,7 @@ interface MvDetailInterface {
   cover: string
   coverId: string
   playCount: number
+  praisedCount: number
   subCount: number
   shareCount: number
   likeCount: number
@@ -109,7 +111,8 @@ const BRS_MAP: {[propsName: string]: string} = {
 
 const MvDetail: FC = () => {
   const playRef = useRef<any>(null)
-  const {query} = history.location
+  const location:any = useLocation()
+  const {query} = location
   const [showDesc, setShowDesc] = useState(false)
   const [autoPlay, setAutoPlay] = useState(false)
   const {run: runMvurl, data: mvUrlData} = useRequest<{data: IMvUrl; code: number; urls: any[]}>(
@@ -216,7 +219,7 @@ const MvDetail: FC = () => {
           </ControlBar>
         </Player>
         <p className={styles.avatar}>
-          <Space direction="vertical">
+          <Space>
             <Avatar
               size={64}
               icon={<UserOutlined />}

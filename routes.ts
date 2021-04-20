@@ -245,6 +245,11 @@ const routes: IRoute[] = [
         path: '/edit-song-list',
         component: 'edit-song-list',
         title: "编辑歌单"
+      },
+      {
+        path: '/test',
+        component: 'test',
+        title: "测试页面"
       }
     ]
   }

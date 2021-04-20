@@ -36,7 +36,7 @@ const Card: FC<ICardProps> = ({data, loading}) => {
                 </span>
                 <Space size={4} className={styles.playTime}>
                   <CaretRightOutlined />
-                  <span>{Utils.tranNumber(item?.data?.playTime, 10)}</span>
+                  <span>{Utils.tranNumber(item?.data?.playTime)}</span>
                 </Space>
                 <PlayIcon iconClassName={styles.icon} />
               </div>

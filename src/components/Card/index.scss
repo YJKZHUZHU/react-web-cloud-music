@@ -1,0 +1,70 @@
+/** @format */
+
+@import "utils";
+
+._card {
+  :global(.ant-card-body) {
+    padding: 0;
+  }
+
+  :global(.ant-card-cover) {
+    position: relative;
+    overflow: hidden;
+    
+    &:hover {
+      .descWrap {
+        transform: translateY(0);
+        border-radius: 4px 4px 0 0;
+      }
+
+      .playIcon {
+        opacity: 1;
+      }
+    }
+  }
+  :global(.ant-card-meta-title) {
+    margin-top: 8px;
+    font-size: 14px;
+    margin-bottom: 0 !important;
+    // padding: 0 4px 0 10px;
+    // white-space: initial;
+    // overflow: auto;
+    font-weight: normal;
+    // text-overflow: initial;
+  }
+
+  .img {
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .number {
+    position: absolute;
+    border-radius: 0 0 4px 4px;
+    bottom: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    line-height: 24px;
+    padding: 0 10px;
+  }
+
+  .descWrap {
+    word-break: break-all;
+    border-radius: 4px 4px 0 0;
+    font-size: 12px;
+    position: absolute;
+    padding: 4px 4px 4px 10px;
+    line-height: 16px;
+    left: 0;
+    right: 0;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    transform: translateY(-100%);
+    transition: all 0.3s;
+  }
+
+  .name {
+    @include ellipsis();
+    font-size: 14px;
+  }
+}

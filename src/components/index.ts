@@ -18,6 +18,8 @@ export { default as VideoIcon } from './VideoIcon'
 
 export { default as QrLogin } from './QrLogin'
 
+export { default as Card } from './Card'
+
 
 
 interface IUser {
