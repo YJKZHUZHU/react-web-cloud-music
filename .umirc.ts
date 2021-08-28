@@ -33,6 +33,7 @@ export default defineConfig({
     loading: '@/components/Loading/index'
   },
   routes,
+  // mfsu:{},
   title: '豆芽音乐',
   esbuild: {},
   autoprefixer: {},

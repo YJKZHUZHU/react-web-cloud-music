@@ -59,11 +59,11 @@ const Login = () => {
         if (LoginRet.code !== 200) return message.info("密码错误")
       }
       // 验证码登录
-      // if (loginPattern === 2) {
-      //   const Ret = await API.checkCaptcha({phone: values.phone, captcha: values.captcha})
-      //   console.log(Ret)
-      //   if (Ret.code === 503) return message.info(Ret.message || "验证码错误")
-      // }
+      if (loginPattern === 2) {
+        const Ret = await API.checkCaptcha({phone: values.phone, captcha: values.captcha})
+        console.log(Ret)
+        if (Ret.code === 503) return message.info(Ret.message || "验证码错误")
+      }
       if (loginPattern === 3) {
         // 邮箱登录
         const Ret: any = await API.loginByEmail({

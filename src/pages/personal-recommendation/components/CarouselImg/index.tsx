@@ -58,6 +58,7 @@ const CarouselImg = () => {
     }
     return message.info("该类型无法播放哦")
   }
+  
 
   return (
     <div className={styles.carousel}>
@@ -88,7 +89,7 @@ const CarouselImg = () => {
               </>
             )
           })
-        }, [JSON.stringify(data || [])])}
+        }, [JSON.stringify(data)])}
       </Carousel>
       <LeftCircleOutlined onClick={() => slider?.current?.prev()} className={styles.left} />
       <RightCircleOutlined onClick={() => slider?.current?.next()} className={styles.right} />

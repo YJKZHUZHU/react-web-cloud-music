@@ -85,7 +85,7 @@ const PersonalRecommendation = () => {
       <div className={styles.recommend}>
         {renderLink("推荐歌单", "/find-music/song-list")}
         <Row justify="start" gutter={24}>
-          {personalizedData?.result.map((item) => {
+          {personalizedData?.result?.map((item) => {
             return (
               <Col span={4} key={item.id}>
                 <RecommendedSongList data={item} />
