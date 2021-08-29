@@ -61,8 +61,13 @@ const Login = () => {
       // 验证码登录
       if (loginPattern === 2) {
         const Ret = await API.checkCaptcha({phone: values.phone, captcha: values.captcha})
-        console.log(Ret)
         if (Ret.code === 503) return message.info(Ret.message || "验证码错误")
+        const LoginRet: any = await API.loginByPhone({
+          phone: values.phone,
+          captcha: values.captcha,
+          loading: true
+        })
+        if (LoginRet.code !== 200) return message.info("密码错误")
       }
       if (loginPattern === 3) {
         // 邮箱登录
@@ -157,6 +162,9 @@ const Login = () => {
                 <Button type="primary" block onClick={() => setLoginPattern(1)}>
                   手机号登录
                 </Button>
+                <Button block onClick={() => setLoginPattern(2)}>
+                  验证码登录
+                </Button>
                 <Button block onClick={() => setLoginPattern(3)}>
                   邮箱登录
                 </Button>
@@ -185,7 +193,7 @@ const Login = () => {
                   </Form.Item>
                 )}
                 {loginPattern === 2 && (
-                  <Form.Item label="验证码">
+                  <Form.Item>
                     <Row gutter={8}>
                       <Col span={14}>
                         <Form.Item
