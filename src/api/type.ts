@@ -385,9 +385,10 @@ export interface IShareResource {
 }
 export interface ILoginByPhone {
   phone: string
-  password: string
+  password?: string
   countrycode?: number
-  loading?: boolean
+  loading?: boolean,
+  captcha?: string | number,
 }
 
 
