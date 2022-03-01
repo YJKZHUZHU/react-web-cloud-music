@@ -20,10 +20,10 @@ jobs:
           ssh://git@github.com/
 
       - name: 安装依赖
-        run: yarn
+        run: npm i
 
       - name: 编译构建
-        run: yarn run build
+        run: npm run build
 
       - name: SSH 命令删除旧文件
         uses: appleboy/ssh-action@master

@@ -126,14 +126,14 @@ export default defineConfig({
         }
       }
     })
-    .module
-      .rule('jsx-px2rem-loader')
-      .test(/\.tsx$/)
-      // .test(/\.js$/)
-      .exclude
-      .add([path.resolve('./loader'), path.resolve('./src/pages/.umi'), path.resolve('./src/.umi')])
-      .end()
-      .use('./loader/jsx-px2rem-loader')
-      .loader(path.join(__dirname, './loader/jsx-px2rem-loader'))
+    // .module
+    //   .rule('jsx-px2rem-loader')
+    //   .test(/\.tsx$/)
+    //   // .test(/\.js$/)
+    //   .exclude
+    //   .add([path.resolve('./loader'), path.resolve('./src/pages/.umi'), path.resolve('./src/.umi')])
+    //   .end()
+    //   .use('./loader/jsx-px2rem-loader')
+    //   .loader(path.join(__dirname, './loader/jsx-px2rem-loader'))
   }
 })
