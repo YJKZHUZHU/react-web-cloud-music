@@ -19,7 +19,7 @@ const routes: IRoute[] = [
         component: 'video',
         title: '视频',
         wrappers: [
-          '@/wrappers/auth',
+          '@/wrappers/Auth',
         ]
       },
       {
@@ -27,7 +27,7 @@ const routes: IRoute[] = [
         component: 'mv',
         title: 'MV',
         // wrappers: [
-        //   '@/wrappers/auth',
+        //   '@/wrappers/Auth',
         // ]
       },
       {
@@ -40,7 +40,7 @@ const routes: IRoute[] = [
         component: 'fm',
         title: '私人FM',
         wrappers: [
-          '@/wrappers/auth',
+          '@/wrappers/Auth',
         ]
       },
       {
@@ -48,7 +48,7 @@ const routes: IRoute[] = [
         component: 'friend',
         title: '朋友',
         wrappers: [
-          '@/wrappers/auth',
+          '@/wrappers/Auth',
         ]
       },
       {
@@ -56,7 +56,7 @@ const routes: IRoute[] = [
         component: 'cloud',
         title: '我的音乐云盘',
         wrappers: [
-          '@/wrappers/auth',
+          '@/wrappers/Auth',
         ]
       },
       {
@@ -64,7 +64,7 @@ const routes: IRoute[] = [
         component: 'collect',
         title: '收藏的专辑',
         wrappers: [
-          '@/wrappers/auth',
+          '@/wrappers/Auth',
         ],
         routes: [
           {
@@ -72,7 +72,7 @@ const routes: IRoute[] = [
             component: 'collect/singer',
             title: '收藏的歌手',
             wrappers: [
-              '@/wrappers/auth',
+              '@/wrappers/Auth',
             ]
           },
           {
@@ -80,7 +80,7 @@ const routes: IRoute[] = [
             component: 'collect/video',
             title: '收藏的视频',
             wrappers: [
-              '@/wrappers/auth',
+              '@/wrappers/Auth',
             ]
           }
         ]
@@ -199,7 +199,7 @@ const routes: IRoute[] = [
         component: 'care/dynamic',
         title: "动态",
         wrappers: [
-          '@/wrappers/auth',
+          '@/wrappers/Auth',
         ]
       },
       {
@@ -207,7 +207,7 @@ const routes: IRoute[] = [
         component: 'care/follows',
         title: "关注",
         wrappers: [
-          '@/wrappers/auth',
+          '@/wrappers/Auth',
         ]
       },
       {
@@ -215,7 +215,7 @@ const routes: IRoute[] = [
         component: 'care/fan',
         title: "粉丝",
         wrappers: [
-          '@/wrappers/auth',
+          '@/wrappers/Auth',
         ]
       },
       {
@@ -228,7 +228,7 @@ const routes: IRoute[] = [
         component: 'homepage',
         title: "个人主页",
         wrappers: [
-          '@/wrappers/auth',
+          '@/wrappers/Auth',
         ]
       },
       {
@@ -241,7 +241,7 @@ const routes: IRoute[] = [
         component: 'login',
         title: "登录",
         wrappers:[
-          '@/wrappers/success'
+          '@/wrappers/Success'
         ]
       },
       {
