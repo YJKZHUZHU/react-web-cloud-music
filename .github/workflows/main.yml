@@ -13,10 +13,11 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '14.16.0'
+
       - name: Reconfigure git to use HTTP authentication
-       run: >
-        git config --global url."https://github.com/".insteadOf
-        ssh://git@github.com/
+        run: >
+          git config --global url."https://github.com/".insteadOf
+          ssh://git@github.com/
 
       - name: 安装依赖
         run: npm run init
