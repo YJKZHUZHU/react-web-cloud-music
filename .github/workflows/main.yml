@@ -1,14 +1,5 @@
 name: 自动部署 #action名称
-on:
-  push:
-    branches:
-      - feature/v2.0 # 当 master 分支发生提交时触发
-    # paths-ignore: # 避免这些文件改变时触发
-    #   - README.md
-    #   - LICENSE
-    paths: # 指定哪些文件改变时触发
-      - src/**
-      - package.json
+on: [push]
 
 jobs:
   deploy:
