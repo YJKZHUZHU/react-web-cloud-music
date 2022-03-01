@@ -1,8 +1,5 @@
 name: web-music-build #action名称
 on: [push] #在推送的时候运行此action
-push:
-    branches:
-      - feature/v2.0 #当feature/v2.0分支推送的时候,我们部署到生产服务器
 
 jobs:
   build_job:
