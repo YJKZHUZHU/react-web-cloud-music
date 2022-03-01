@@ -1,16 +1,46 @@
-name: web-music-build #action名称
-on: [push] #在推送的时候运行此action
+name: 自动部署 #action名称
+on:
+  push:
+    branches:
+      - feature/v2.0 # 当 master 分支发生提交时触发
+    # paths-ignore: # 避免这些文件改变时触发
+    #   - README.md
+    #   - LICENSE
+    paths: # 指定哪些文件改变时触发
+      - src/**
+      - package.json
 
 jobs:
-  build_job:
-    runs-on: ubuntu-latest  #运行环境
-    name: build
-    steps:
-      # check out the repository
-      - name: Checkout    
-        uses: actions/checkout@v2    #这里使用了github官方提供的action,checkout项目到虚拟机上
+  deploy:
+    runs-on: ubuntu-latest # 指定用什么版本服务器来执行
 
-      - name: Install Dependencies
-        run: yarn
-      - name: Build
-        run: yarn build
+    steps:
+      - name: 拉取代码
+        uses: actions/checkout@v2
+
+      - name: 安装依赖
+        run: npm i
+
+      - name: 编译构建
+        run: npm run build
+
+      - name: SSH 命令删除旧文件
+        uses: appleboy/ssh-action@master
+        with:
+          # 这里配置对应仓库设置的变量，就可以避免服务器配置暴露
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.DEPLOY_KEY }}
+
+          # 先用 SSH 命令删除旧文件
+          script: |
+            rm -rf /usr/local/nginx/html/*
+
+      - name: 部署到服务器
+        uses: wlixcc/SFTP-Deploy-Action@v1.0 # 这个是sftp插件
+        with:
+          server: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          ssh_private_key: ${{ secrets.DEPLOY_KEY }}
+          local_path: './dist/*'
+          remote_path: '/usr/local/nginx/html'
