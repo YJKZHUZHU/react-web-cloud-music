@@ -106,7 +106,7 @@ const routes: IRoute[] = [
         title: '最新音乐',
       },
       {
-        path: '/playList',
+        path: '/playList/:id',
         component: 'playList',
         title: '歌单详情',
       },
@@ -239,7 +239,10 @@ const routes: IRoute[] = [
       {
         path: '/login',
         component: 'login',
-        title: "登录"
+        title: "登录",
+        wrappers:[
+          '@/wrappers/success'
+        ]
       },
       {
         path: '/edit-song-list',

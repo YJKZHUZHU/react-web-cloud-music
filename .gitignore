@@ -19,3 +19,6 @@
 .umi
 .umi-production
 .umirc.local.ts
+
+# history
+.history

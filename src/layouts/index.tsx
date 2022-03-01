@@ -32,10 +32,12 @@ export const GlobalContext = createContext<IGlobalContext>({
 const BasicLayout: FC = ({children}) => {
   const dispatch = useDispatch()
   const history = useHistory()
-  const {userInfo, userId} = useSelector((state: IState) => state.userModel)
-  const {showPlayRecord} = useSelector((state: IState) => state.songInfoModel)
+  const {userModel, songInfoModel, loading} = useSelector<IState, IState>((state) => state)
+  const {userInfo, userId} = userModel
+  const {showPlayRecord} = songInfoModel
   const [collapsed, {toggle}] = useBoolean(false)
   const {pathname} = useLocation()
+
   const actionRef = useRef<{
     reload: () => void
   }>()
@@ -77,7 +79,7 @@ const BasicLayout: FC = ({children}) => {
         onCollapse={toggle}
         headerTheme="light"
         route={defaultRoutes}
-        menu={{request, loading: false}}
+        menu={{request, loading: loading.effects["userModel/getUserInfo"]}}
         siderWidth={300}
         headerHeight={65}
         className={classnames(styles.home, {[styles._homeDiff]: pathname === "/mv-detail"})}

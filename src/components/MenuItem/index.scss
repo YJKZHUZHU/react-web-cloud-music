@@ -39,6 +39,9 @@
       @include ellipsis();
       display: block;
     }
+    .active {
+      color: #00a799;
+    }
 
     .operator {
       display: flex;

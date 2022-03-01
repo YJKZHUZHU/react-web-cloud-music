@@ -4,7 +4,7 @@ import React, {useState, useEffect, useContext} from "react"
 import {LockOutlined, UserOutlined} from "@ant-design/icons"
 import {Button, Input, message, Form, Space, Row, Col, Modal} from "antd"
 import {RightOutlined} from "@ant-design/icons"
-import {useDispatch, useHistory, Redirect} from "umi"
+import {useDispatch, useHistory, Redirect,useSelector, UserModelState} from "umi"
 import {useBoolean} from "ahooks"
 import Cookie from "js-cookie"
 import Draggable from "react-draggable"
@@ -13,6 +13,7 @@ import {useDraggable} from "@/hooks"
 import API from "@/api"
 import {GlobalContext} from "@/layouts"
 import styles from "./index.scss"
+import { IState } from "typings"
 
 const LAYOUT = {
   labelCol: {
@@ -29,6 +30,7 @@ const INIT_FORM = {
 const Login = () => {
   const [form] = Form.useForm()
   const history = useHistory()
+  const {loginStatus} = useSelector<IState, UserModelState>((state) => state.userModel)
   const {reloadMenu} = useContext(GlobalContext)
   const {onStart, onMouseOver, draggableed, bounds, draggleRef, onMouseOut} = useDraggable()
   const [loading, {toggle}] = useBoolean(false)
@@ -118,10 +120,10 @@ const Login = () => {
     form.resetFields()
   }, [loginPattern])
 
-  if (Cookie.get("MUSIC_U")) {
-    // 已登录
-    return <Redirect to="/personal-recommendation" />
-  }
+  // if (loginStatus) {
+  //   // 已登录
+  //   return <Redirect to="/personal-recommendation" />
+  // }
 
   return (
     <Modal

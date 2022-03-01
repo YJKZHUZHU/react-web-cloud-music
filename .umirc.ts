@@ -14,15 +14,15 @@ const IS_PROD = ['production', 'prod'].includes(process.env.NODE_ENV)
 
 const prod = IS_PROD ? {
   extraBabelPlugins: [IS_PROD ? 'transform-remove-console' : ''],
-  plugins: ['@alitajs/hd'],
-  hd: {},
-  extraPostCSSPlugins: [
-    px2rem({
-      rootValue: 256,//开启hd后需要换算：rootValue=designWidth*100/750,此处设计稿为1920，所以1920*100/750=256
-      propBlackList: ['*'],//这些属性不需要转换
-      selectorBlackList: []//
-    })
-  ]
+  // plugins: ['@alitajs/hd'],
+  // hd: {},
+  // extraPostCSSPlugins: [
+  //   px2rem({
+  //     rootValue: 256,//开启hd后需要换算：rootValue=designWidth*100/750,此处设计稿为1920，所以1920*100/750=256
+  //     propBlackList: ['*'],//这些属性不需要转换
+  //     selectorBlackList: []//
+  //   })
+  // ]
 } : {}
 
 export default defineConfig({

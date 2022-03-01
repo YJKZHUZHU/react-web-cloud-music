@@ -14,6 +14,7 @@
       "@tmp/*": ["src/pages/.umi/*"],
       "@@/*": ["src/.umi/*"]
     },
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "typeRoots": ["@types/*.d.ts", "typings.d.ts"],
   }
 }

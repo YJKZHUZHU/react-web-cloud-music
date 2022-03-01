@@ -49,7 +49,7 @@ export const defaultRoutes: Route = {
       parentKeys: ["/mv"]
     },
     {
-      path: "/playList",
+      path: "/playList/:id",
       name: "歌单详情",
       icon: <PlayCircleOutlined />,
       hideInMenu: true,
@@ -137,7 +137,7 @@ const mapPlayList = (source: IPlayListItem[], type: "creator" | "favorite") => {
       type,
       menuItem: item,
       isDelete: !(type === "creator" && index === 0),
-      path: `/playList?listId=${item.id}`,
+      path: `/playList/${item.id}?listId=${item.id}`,
       name: item.name,
       key: item.id,
       icon: <SmileOutlined />
