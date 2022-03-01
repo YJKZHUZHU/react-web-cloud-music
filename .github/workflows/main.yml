@@ -20,7 +20,7 @@ jobs:
           ssh://git@github.com/
 
       - name: 安装依赖
-        run: npm run init
+        run: npm install
 
       - name: 编译构建
         run: npm run build --if-present
