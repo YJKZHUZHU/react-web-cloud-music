@@ -44,4 +44,4 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           ssh_private_key: ${{ secrets.DEPLOY_KEY }}
           local_path: './dist/'
-          remote_path: '/usr/local/nginx/html'
+          remote_path: '/usr/local/nginx/html/'
