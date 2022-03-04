@@ -35,13 +35,9 @@ jobs:
 
           # 先用 SSH 命令删除旧文件
           script: |
-            - echo "======= 开始删除 ========="
              rm -rf /usr/local/nginx/html/*
-            - echo "======= 删除成功 ========="
-            - echo "======= 新建文件 ========="
-            | mkdir  /usr/local/nginx/html/iconfont
-            | mkdir  /usr/local/nginx/html/static
-            - echo "======= 新建文件完成 ========="
+             mkdir  /usr/local/nginx/html/iconfont
+             mkdir  /usr/local/nginx/html/static
       
 
       - name: 打包文件推送到服务器--1
