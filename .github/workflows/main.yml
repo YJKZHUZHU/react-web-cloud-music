@@ -34,7 +34,7 @@ jobs:
           key: ${{ secrets.DEPLOY_KEY }}
 
           # 先用 SSH 命令删除旧文件
-          script:
+          script: |
             - echo "======= 开始删除 ========="
             - rm -rf /usr/local/nginx/html/*
             - echo "======= 删除成功 ========="
