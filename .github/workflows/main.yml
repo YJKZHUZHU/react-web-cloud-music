@@ -34,10 +34,17 @@ jobs:
           key: ${{ secrets.DEPLOY_KEY }}
 
           # 先用 SSH 命令删除旧文件
-          script: |
-            rm -rf /usr/local/nginx/html/*
+          script:
+            - echo "======= 开始删除 ========="
+            - rm -rf /usr/local/nginx/html/*
+            - echo "======= 删除成功 ========="
+            - echo "======= 新建文件 ========="
+            - mkdir  /usr/local/nginx/html/iconfont
+            - mkdir  /usr/local/nginx/html/static
+            - echo "======= 新建文件完成 ========="
+      
 
-      - name: 打包文件推送到服务器
+      - name: 打包文件推送到服务器--1
         uses: wlixcc/SFTP-Deploy-Action@v1.0 # 这个是sftp插件
         with:
           server: ${{ secrets.SSH_HOST }}
