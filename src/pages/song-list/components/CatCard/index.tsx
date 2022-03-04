@@ -15,7 +15,7 @@ interface CatProps {
 
 const onLink = (listId: number) => {
   history.push({
-    pathname: "/playList",
+    pathname: `/playList/${listId}`,
     query: {
       listId
     }

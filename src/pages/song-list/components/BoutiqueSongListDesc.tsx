@@ -53,7 +53,7 @@ const BoutiqueSongListDesc: FC<BoutiqueSongListDescProps> = ({cat}) => {
       ) : (
         <div
           className={styles.highQuality}
-          onClick={() => history.push(`/playList?listId=${data?.id}`)}>
+          onClick={() => history.push(`/playList/${data?.id}?listId=${data?.id}`)}>
           <div className={styles.content}>
             <div className={styles.img}>
               <img src={`${data?.coverImgUrl}?param=280y280`} alt={data?.name} />

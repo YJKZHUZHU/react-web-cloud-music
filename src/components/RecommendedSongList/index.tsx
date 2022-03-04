@@ -28,7 +28,7 @@ type Props = {
 
 const RecommendedSongList: FC<Props> = ({data}) => {
   return (
-    <Link to={`/playList?listId=${data.id}`}>
+    <Link to={`/playList/${data.id}?listId=${data.id}`}>
       <div className={styles._list}>
         <div className={styles.imgWrap}>
           <img src={data.picUrl} />

@@ -133,7 +133,7 @@ const EditSongList: FC = () => {
       }
       reloadMenu && (await reloadMenu())
       message.success("歌单编辑成功")
-      return history.push(`/playList?listId=${id}`)
+      return history.push(`/playList/${id}?listId=${id}`)
     } catch (error) {
       throw error
     }
@@ -167,7 +167,7 @@ const EditSongList: FC = () => {
               <Button type="primary" htmlType="submit">
                 保存
               </Button>
-              <Button onClick={() => history.push(`/playList?listId=${creatorItem?.id}`)}>
+              <Button onClick={() => history.push(`/playList/${creatorItem?.id}?listId=${creatorItem?.id}`)}>
                 取消
               </Button>
             </Space>

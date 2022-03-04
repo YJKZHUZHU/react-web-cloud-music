@@ -63,7 +63,7 @@ const AllTopList: FC<AllTopLIstInterface> = ({data}) => {
             <Col key={item.id} span={4}>
               <div
                 className={styles.item}
-                onClick={() => history.push(`/playList?listId=${item.id}`)}>
+                onClick={() => history.push(`/playList/${item.id}?listId=${item.id}`)}>
                 <img src={item.coverImgUrl} className={styles.img} />
                 <div className={styles.count}>{Utils.tranNumber(item.playCount, 2)}</div>
                 <div className={styles.playIcon}>

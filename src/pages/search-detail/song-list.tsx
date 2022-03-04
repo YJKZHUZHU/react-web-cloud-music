@@ -32,7 +32,7 @@ const SongList = () => {
               <li
                 className={styles.item}
                 key={Utils.createRandomId()}
-                onClick={() => history.push(`/playList?listId=${item.id}`)}>
+                onClick={() => history.push(`/playList/${item.id}?listId=${item.id}`)}>
                 <Space>
                   <div className={styles.img}>
                     <Avatar

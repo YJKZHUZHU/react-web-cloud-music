@@ -184,7 +184,7 @@ const OfficialLeaderBoard: FC<OfficialLeaderBoardInterface> = ({data, type}) => 
                 })}
               </ul>
               <p className={styles.link}>
-                <Link to={type === "officia" ? `/playList?listId=${item.id}` : "/singer-list"}>
+                <Link to={type === "officia" ? `/playList/${item.id}?listId=${item.id}` : "/singer-list"}>
                   查看全部
                   <RightOutlined />
                 </Link>

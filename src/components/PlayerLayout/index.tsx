@@ -25,7 +25,7 @@ const formatSimiSong = (data: any[] = []): Iformat[] => {
     return {
       title: item.name,
       cover: item.coverImgUrl,
-      path: `/playList?listId=${item.id}`,
+      path: `/playList/${item.id}?listId=${item.id}`,
       content: (
         <Space size={4}>
           <CaretRightOutlined />
