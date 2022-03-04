@@ -35,12 +35,15 @@ jobs:
 
           # 先用 SSH 命令删除旧文件
           script: |
+             echo "======= 开始删除 ========="
              rm -rf /usr/local/nginx/html/*
+             echo "======= 新建文件删除文件夹iconfont static ========="
              mkdir  /usr/local/nginx/html/iconfont
              mkdir  /usr/local/nginx/html/static
+             echo "======= 新建文件完成 ========="
       
 
-      - name: 打包文件推送到服务器--1
+      - name: 打包文件推送到服务器
         uses: wlixcc/SFTP-Deploy-Action@v1.0 # 这个是sftp插件
         with:
           server: ${{ secrets.SSH_HOST }}
