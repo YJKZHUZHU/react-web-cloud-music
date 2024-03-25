@@ -3,7 +3,7 @@
 import React, {FC, useEffect} from "react"
 import {useRequest} from "ahooks"
 import {Spin, Row, Col, Space} from "antd"
-import {useHistory} from "umi"
+import {history} from "umi"
 import API from "@/api"
 import styles from "../index.scss"
 
@@ -58,7 +58,6 @@ function formatRank(lastRank: number, index: number) {
   }
 }
 const List: FC<IList> = ({type}) => {
-  const history = useHistory()
   const {data, loading, run} = useRequest<IData>(() => API.getSingerTopList({type}), {
     manual: true
   })

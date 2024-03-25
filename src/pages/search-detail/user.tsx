@@ -3,14 +3,13 @@
 import React, {useEffect, useContext} from "react"
 import {Spin, Avatar} from "antd"
 import {UserOutlined, ManOutlined, WomanOutlined} from "@ant-design/icons"
-import {useHistory} from "umi"
+import {history} from "umi"
 import {useSearchDetail} from "@/hooks"
 import Utils from "@/help"
 import {CountContext} from "./index"
 import styles from "./index.scss"
 
 const User = () => {
-  const history = useHistory()
   const {getCount} = useContext(CountContext)
   const {request, containerRef} = useSearchDetail({
     countKey: "userprofileCount",

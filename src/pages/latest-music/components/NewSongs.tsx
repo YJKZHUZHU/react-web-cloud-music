@@ -1,7 +1,7 @@
 /** @format */
 
 import React, {useEffect, useState, FC} from "react"
-import {useDispatch, useHistory} from "umi"
+import {useDispatch, history} from "umi"
 import {Tabs, Spin, Space} from "antd"
 import {CaretRightOutlined, PlaySquareOutlined} from "@ant-design/icons"
 import {useRequest} from "ahooks"
@@ -134,7 +134,6 @@ interface IList {
 }
 
 const List: FC<IList> = ({active, tip}) => {
-  const history = useHistory()
   const dispatch = useDispatch()
 
   const {data, loading, run} = useRequest<IData>(() => API.getLatestMusic({type: active}), {

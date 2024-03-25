@@ -2,7 +2,7 @@
 
 import React, {useState, useEffect, FC} from "react"
 import {Tabs, Spin, List, Space, Avatar} from "antd"
-import { useHistory, useLocation } from "umi"
+import { history, useLocation } from "umi"
 import { useRequest } from "ahooks"
 import API from "@/api"
 import Utils from "@/help"
@@ -74,7 +74,6 @@ const INIT_DATA = {
 }
 
 const Collect: FC = ({ children }) => {
-  const history = useHistory()
   const location = useLocation()
   const path =
     location.pathname.split("/").pop() === "collect" ? "album" : location.pathname.split("/").pop()

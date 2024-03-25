@@ -1,7 +1,7 @@
 /** @format */
 
 import React, {FC} from "react"
-import {useHistory} from "umi"
+import {history} from "umi"
 import Utils from "@/help"
 import styles from "./index.scss"
 
@@ -30,7 +30,6 @@ interface IArtists {
 const Artists: FC<IArtists> = ({data, isJump}) => {
   if (!data || data.length === 0) return null
 
-  const history = useHistory()
 
   const onLink = (
     e: React.MouseEvent<HTMLElement, MouseEvent>,

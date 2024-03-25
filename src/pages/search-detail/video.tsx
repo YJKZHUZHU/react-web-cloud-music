@@ -3,7 +3,7 @@
 import React, {useEffect, useContext} from "react"
 import {Spin, Row, Col, Space} from "antd"
 import {VideoCameraOutlined} from "@ant-design/icons"
-import {useHistory} from "umi"
+import {history} from "umi"
 import {useSearchDetail} from "@/hooks"
 import {Artists} from "@/components"
 import Utils from "@/help"
@@ -11,7 +11,6 @@ import {CountContext} from "./index"
 import styles from "./index.scss"
 
 const Video = () => {
-  const history = useHistory()
   const {getCount} = useContext(CountContext)
   const {request, containerRef} = useSearchDetail({
     countKey: "videoCount",

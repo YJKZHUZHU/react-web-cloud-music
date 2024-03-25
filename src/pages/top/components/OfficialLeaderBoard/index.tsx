@@ -3,7 +3,7 @@
 import React, {FC} from "react"
 import {CaretRightOutlined, RightOutlined} from "@ant-design/icons"
 import {Col} from "antd"
-import {Link, useDispatch, useHistory} from "umi"
+import {Link, useDispatch, history} from "umi"
 import moment from "moment"
 import classnames from "classnames"
 import {Artists} from "@/components"
@@ -106,7 +106,6 @@ export interface ISingetTopList {
 
 const OfficialLeaderBoard: FC<OfficialLeaderBoardInterface> = ({data, type}) => {
   const dispatch = useDispatch()
-  const history = useHistory()
   const onPlay = (id: string) => {
     if (type === "officia") {
       return dispatch({

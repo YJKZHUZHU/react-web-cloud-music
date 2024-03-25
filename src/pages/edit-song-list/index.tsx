@@ -4,7 +4,7 @@ import React, {FC, useEffect, useState, useContext} from "react"
 import {InfoCircleOutlined} from "@ant-design/icons"
 import {Input, Popover, Button, Tag, message, Form, Row, Col, Space} from "antd"
 import styles from "./index.scss"
-import {useSelector, useLocation, useHistory} from "umi"
+import {useSelector, useLocation, history} from "umi"
 import {FormInstance} from "antd/lib/form"
 import API from "@/api"
 import {GlobalContext} from "@/layouts"
@@ -109,7 +109,6 @@ const EditSongList: FC = () => {
   const {playList} = useSelector((state: IState) => state.userModel)
   const {reloadMenu} = useContext(GlobalContext)
   const location: any = useLocation()
-  const history = useHistory()
   const [form] = Form.useForm()
   const {setFieldsValue} = form
   const {id} = location.query

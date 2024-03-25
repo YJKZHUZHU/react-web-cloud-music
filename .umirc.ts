@@ -10,7 +10,7 @@ const prodGzipList = ['js', 'css']
 
 
 //判断只有在生产模式才开启
-const IS_PROD = ['production', 'prod'].includes(process.env.NODE_ENV)
+const IS_PROD = ['production', 'prod'].includes(process.env.NODE_ENV!)
 
 const prod = IS_PROD ? {
   extraBabelPlugins: [IS_PROD ? 'transform-remove-console' : ''],
@@ -26,50 +26,55 @@ const prod = IS_PROD ? {
 } : {}
 
 export default defineConfig({
-  ...prod,
+  request:{},
+  // ...prod,
   exportStatic: false,
   antd: {},
-  dynamicImport: {
-    loading: '@/components/Loading/index'
-  },
+  // dynamicImport: {
+  //   loading: '@/components/Loading/index'
+  // },
   routes,
   // mfsu:{},
   title: '豆芽音乐',
-  esbuild: {},
+  // esbuild: {},
   autoprefixer: {},
-  targets: {
-    chrome: 79,
-    firefox: false,
-    safari: false,
-    edge: false,
-    ios: false,
-    ie: 11
-  },
+  // targets: {
+  //   chrome: 79,
+  //   firefox: false,
+  //   safari: false,
+  //   edge: false,
+  //   ios: false,
+  //   ie: 11
+  // },
   hash: true,
-  theme: lessToJs(fs.readFileSync(path.join('./src/theme/default.less'), 'utf8')),
-  sass: {
-    implementation: require('node-sass'),
-    sassOptions: {
-      includePaths: ['./src/theme/']
-    }
-  },
-  cssModulesTypescriptLoader: {},
-  fastRefresh: {},
-  dva: {
-    immer: true,
-    hmr: false,
-    // 默认为 false，且必须 设置 false，否则 plugin-dva 会重复加载 model
-    skipModelValidate: false
-  },
-  nodeModulesTransform: { type: 'none' }, // 编译提速
-  ignoreMomentLocale: true,
+  // theme: lessToJs(fs.readFileSync(path.join('./src/theme/default.less'), 'utf8')),
+  // sass: {
+  //   // implementation: require('node-sass'),
+  //   sassOptions: {
+  //     includePaths: ['./src/theme/']
+  //   }
+  // },
+  // cssModulesTypescriptLoader: {},
+  fastRefresh: true,
+  dva:{},
+  // dva: {
+  //   immer: true,
+  //   // hmr: false,
+  //   // 默认为 false，且必须 设置 false，否则 plugin-dva 会重复加载 model
+  //   // skipModelValidate: false
+  // },
+  // nodeModulesTransform: { type: 'none' }, // 编译提速
+  // ignoreMomentLocale: true,
   externals: {
     Ripple: 'window.Ripple'
   },
-  devServer: {
-    compress: true
+  // devServer: {
+  //   compress: true
+  // },
+  // chunks: ['react', 'antd', 'utils', 'umiPlugin','vendors', 'umi'],
+  codeSplitting: {
+    jsStrategy: 'granularChunks',
   },
-  chunks: ['react', 'antd', 'utils', 'umiPlugin','vendors', 'umi'],
   chainWebpack(config, { webpack }) {
 
     config.merge({

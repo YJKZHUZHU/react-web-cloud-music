@@ -4,8 +4,8 @@ export default defineConfig({
   // devtool: 'source-map',
   proxy: {
     '/api': {
-      'target': 'http://localhost:3000/',
-      'changeOrigin': false,
+      'target': 'https://api.douya-music.top/',
+      'changeOrigin': true,
       'pathRewrite': { '^/api': '' }
     }
   }

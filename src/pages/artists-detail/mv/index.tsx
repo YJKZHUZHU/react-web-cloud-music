@@ -2,7 +2,7 @@
 
 import React, {useEffect, FC, useContext} from "react"
 import {Row, Col, Card, Spin, Space, Pagination} from "antd"
-import {useHistory, useLocation} from "umi"
+import {history, useLocation} from "umi"
 import {useRequest} from "ahooks"
 import {CaretRightOutlined} from "@ant-design/icons"
 import {Iparams} from "../album"
@@ -38,7 +38,6 @@ const getData = ({id, pageSize, current}: Iparams): Promise<IResponse> =>
 
 const Mv = () => {
   const location: any = useLocation()
-  const history = useHistory()
   const {id, name} = location?.query
   const {total} = useContext(ArtistsDetailContext)
   const {data, run, loading, pagination} = useRequest(

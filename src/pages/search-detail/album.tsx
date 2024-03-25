@@ -2,7 +2,7 @@
 
 import React, {FC, useEffect, useContext} from "react"
 import {Spin, Avatar, Space} from "antd"
-import {useHistory} from "umi"
+import {history} from "umi"
 import {UserOutlined} from "@ant-design/icons"
 import {Artists} from "@/components"
 import {useSearchDetail} from "@/hooks"
@@ -11,7 +11,6 @@ import Utils from "@/help"
 import styles from "./index.scss"
 
 const Album = () => {
-  const history = useHistory()
   const {getCount} = useContext(CountContext)
   const {request, containerRef} = useSearchDetail({
     countKey: "albumCount",

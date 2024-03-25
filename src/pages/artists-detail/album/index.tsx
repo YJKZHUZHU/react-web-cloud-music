@@ -10,7 +10,7 @@ import {
   PlaySquareOutlined,
   RightOutlined
 } from "@ant-design/icons"
-import {useHistory, useDispatch} from "umi"
+import {history, useDispatch} from "umi"
 import API from "@/api"
 import moment from "moment"
 import classnames from "classnames"
@@ -117,7 +117,6 @@ interface IAlbumContentList {
 const Album: FC<IAlbum> = (props) => {
   const {query, total, type, topImgUrl} = props
   const {id, name} = query
-  const history = useHistory()
   const dispatch = useDispatch()
   const [showAll, {toggle}] = useBoolean(false)
   const [albumLoading, setAlbumLoading] = useState(false)

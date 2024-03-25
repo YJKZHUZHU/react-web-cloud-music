@@ -11,7 +11,7 @@ import {
   CustomerServiceOutlined
 } from "@ant-design/icons"
 import {Divider, Button, Tabs, Input, Space, Avatar} from "antd"
-import {Link, useHistory, useLocation} from "umi"
+import {Link, history, useLocation} from "umi"
 import moment from "moment"
 import {HotComment, NewComment} from "@/components"
 import {ListTable, Collection} from "./components"
@@ -23,7 +23,6 @@ const {TabPane} = Tabs
 const {Search} = Input
 
 const PlayList = () => {
-  const history = useHistory()
   const location: any = useLocation()
   const {listId: id} = location.query
   const {

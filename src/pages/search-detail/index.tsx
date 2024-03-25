@@ -2,7 +2,7 @@
 
 import React, {useState, useEffect, FC, createContext, memo} from "react"
 import {Tabs, Space} from "antd"
-import {useLocation, useHistory} from "umi"
+import {useLocation, history} from "umi"
 import {MAP_TAB} from "@/help/map"
 import store from "@/help/localStorage"
 import styles from "./index.scss"
@@ -38,7 +38,6 @@ const SOURCE: Record<string, string> = {
 }
 
 const SearchDetail: FC = ({children}) => {
-  const history = useHistory()
   const location: any = useLocation()
   const {keywords, type} = location.query
   const [activeKey, setActiveKey] = useState(SOURCE[type])

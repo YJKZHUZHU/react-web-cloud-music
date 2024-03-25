@@ -2,7 +2,7 @@
 
 import React, {useContext, FC} from "react"
 import {Table, Space} from "antd"
-import {useDispatch, useHistory, useLocation} from "umi"
+import {useDispatch, history, useLocation} from "umi"
 import {HeartOutlined} from "@ant-design/icons"
 import {useRequest} from "ahooks"
 import API from "@/api"
@@ -12,7 +12,6 @@ import {CountContext} from "./index"
 import styles from "../index.scss"
 
 const Single = () => {
-  const history = useHistory()
   const dispatch = useDispatch()
   const {getCount} = useContext(CountContext)
   const location: any = useLocation()

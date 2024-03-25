@@ -2,7 +2,7 @@
 
 import React, {FC, useState, useRef} from "react"
 import {Tabs, Tag, Row, Col} from "antd"
-import {useHistory} from "umi"
+import {history} from "umi"
 import {useRequest, useUpdateEffect} from "ahooks"
 import {LoadingOutlined} from "@ant-design/icons"
 import moment, {Moment} from "moment"
@@ -84,7 +84,6 @@ const tagsData = [
 
 const List: FC<IList> = (props) => {
   const {tip, area, type} = props
-  const history = useHistory()
   const containerRef = useRef<HTMLDivElement>(null)
   const dateRef = useRef<Moment>(moment())
   const {data, reload, noMore} = useRequest(

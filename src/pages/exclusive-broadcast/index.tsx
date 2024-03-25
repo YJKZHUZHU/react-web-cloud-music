@@ -2,7 +2,7 @@
 
 import React, {useRef} from "react"
 import {Row, Col, Spin, message} from "antd"
-import {useHistory} from "umi"
+import {history} from "umi"
 import {useRequest} from "ahooks"
 import {PlayIcon} from "@/components"
 import API from "@/api"
@@ -22,7 +22,6 @@ interface IList {
 
 const ExclusiveBroadcast = () => {
   const containerRef = useRef<HTMLDivElement>(null)
-  const history = useHistory()
 
   const {data, loadingMore} = useRequest(
     (d) => API.getExclusiveBroadcastList({offset: d?.list?.length || 0, limit: 60}),

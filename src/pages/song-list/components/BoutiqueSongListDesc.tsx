@@ -2,7 +2,7 @@
 
 import React, {FC} from "react"
 import {useRequest} from "ahooks"
-import {useHistory} from "umi"
+import {history} from "umi"
 import {Skeleton, Button} from "antd"
 import {GlobalOutlined} from "@ant-design/icons"
 import API from "@/api"
@@ -31,7 +31,6 @@ interface BoutiqueSongListDescProps {
 }
 
 const BoutiqueSongListDesc: FC<BoutiqueSongListDescProps> = ({cat}) => {
-  const history = useHistory()
   const {data, loading} = useRequest<IResponse, any[], IData, IData>(
     () => API.getHighQuality({limit: 1, cat}),
     {

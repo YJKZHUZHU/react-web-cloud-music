@@ -1,7 +1,7 @@
 /** @format */
 
 import React, {FC, useMemo} from "react"
-import {useHistory, useDispatch, useSelector, useLocation} from "umi"
+import {history, useDispatch, useSelector} from "umi"
 import {Space, Popconfirm, message} from "antd"
 import {
   DownOutlined,
@@ -58,7 +58,6 @@ const renderIcon = (menuItem: MenuDataItem) => {
 
 const MenuItem: FC<IMenuItem> = (props) => {
   const {menuItem, children, reload} = props
-  const history = useHistory()
 
   const {run} = useRequest(() => API.playlistDelete({id: menuItem?.key}), {
     manual: true,

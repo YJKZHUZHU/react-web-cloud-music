@@ -2,7 +2,7 @@
 
 import React, {useEffect, FC} from "react"
 import {Row, Col, Card, Spin} from "antd"
-import {useHistory, useLocation} from "umi"
+import {history, useLocation} from "umi"
 import {useRequest} from "ahooks"
 import API from "@/api"
 import styles from "./index.scss"
@@ -31,7 +31,6 @@ const SimilarSinger = () => {
   const {data, run, loading} = useRequest(() => API.getSimilarSinger({id}), {
     manual: true
   })
-  const history = useHistory()
   useEffect(() => {
     run()
   }, [name])

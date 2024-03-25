@@ -8,7 +8,7 @@ import {
   ArrowDownOutlined,
   MinusOutlined
 } from "@ant-design/icons"
-import {useHistory} from "umi"
+import {history} from "umi"
 import {useRequest} from "ahooks"
 
 import moment from "moment"
@@ -50,7 +50,6 @@ const Icon: FC<IIconProps> = ({rank}) => {
 }
 
 const TopMv = () => {
-  const history = useHistory()
   const [selectTag, setSelectTag] = useState(["内地"])
   const areaRef = useRef("内地")
   const onChecked = (id: string, checked: boolean) => {

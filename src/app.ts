@@ -1,19 +1,23 @@
-import { history, RequestConfig } from 'umi'
+import { history, RequestConfig,useMatch } from 'umi'
 import { message } from 'antd'
 import Nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
 
 export function onRouteChange({ location, matchedRoutes }: any) {
   Nprogress.start()
+  // const match = useMatch({ path: 'list/search/:type' })
   setTimeout(() => Nprogress.done(), 500)
   // if (location.pathname === '/') {
   //   history.push({
   //     pathname: '/recommend/findMusic/personal-recommendation'
   //   })
   // }
-  if (matchedRoutes.length) {
-    document.title = matchedRoutes[matchedRoutes.length - 1].route.title || '';
-  }
+  // if (match.length) {
+  //   document.title = match[match.length - 1].route.title || '';
+  // }
+  // if (matchedRoutes.length) {
+  //   document.title = matchedRoutes[matchedRoutes.length - 1].route.title || '';
+  // }
 }
 
 

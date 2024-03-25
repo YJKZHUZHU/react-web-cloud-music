@@ -4,7 +4,7 @@ import React, {FC} from "react"
 import {List, Space, Avatar} from "antd"
 import {ShareAltOutlined, LikeOutlined, MessageOutlined} from "@ant-design/icons"
 import moment from "moment"
-import {useHistory, useDispatch} from "umi"
+import {history, useDispatch} from "umi"
 import {Artists, PlayIcon} from "@/components"
 import styles from "../index.scss"
 
@@ -21,7 +21,6 @@ interface IDynamicProps {
 }
 
 const Dynamic: FC<IDynamicProps> = ({data, loading}) => {
-  const history = useHistory()
   const dispatch = useDispatch()
   const content = (info: any, {pics, rcmdInfo}: {pics: any[]; rcmdInfo: any}) => {
     return (

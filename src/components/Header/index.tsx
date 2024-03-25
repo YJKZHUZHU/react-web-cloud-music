@@ -3,7 +3,7 @@
 import React, {FC, useMemo} from "react"
 import {CaretDownOutlined, UserOutlined} from "@ant-design/icons"
 import {Avatar, Popover, message} from "antd"
-import {useHistory, useSelector} from "umi"
+import {history, useSelector} from "umi"
 import {useBoolean, useRequest} from "ahooks"
 import API from "@/api"
 import {UserContent, Search} from "./components"
@@ -11,7 +11,6 @@ import {IState} from "typings"
 import styles from "./index.scss"
 
 const Header: FC = ({children}) => {
-  const history = useHistory()
   const {userModel} = useSelector((state: IState) => state)
   const {loginStatus, userInfo} = userModel
   const [visible, {setFalse: setVisibleFalse, toggle: visibleToggle}] = useBoolean(false)

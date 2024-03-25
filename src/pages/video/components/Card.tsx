@@ -3,7 +3,7 @@
 import React, {FC} from "react"
 import {Row, Col, Space, Spin} from "antd"
 import {CaretRightOutlined, PlayCircleFilled, PlayCircleTwoTone} from "@ant-design/icons"
-import {useHistory} from "umi"
+import {history} from "umi"
 import {PlayIcon} from "@/components"
 import Utils from "@/help"
 import styles from "../index.scss"
@@ -14,7 +14,6 @@ interface ICardProps {
 }
 
 const Card: FC<ICardProps> = ({data, loading}) => {
-  const history = useHistory()
   const onLink = (e: React.MouseEvent<HTMLElement>, id: string) => {
     e.stopPropagation()
     history.push(`/homePage?id=${id}`)

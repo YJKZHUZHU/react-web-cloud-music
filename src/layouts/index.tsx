@@ -3,7 +3,7 @@
 import React, {FC, useEffect, useRef, createContext} from "react"
 import zh_cn from "antd/lib/locale/zh_CN"
 import {Drawer, Avatar, ConfigProvider, Button} from "antd"
-import {useDispatch, useSelector, useLocation, useHistory, request} from "umi"
+import {useDispatch, useSelector, useLocation, useHistory, request,history} from "umi"
 import {PlayRecord, PlayerLayout, Header, MenuItem} from "@/components"
 import classnames from "classnames"
 import {MenuUnfoldOutlined, MenuFoldOutlined} from "@ant-design/icons"
@@ -15,6 +15,7 @@ import {AddSongList} from "@/components/Header/components"
 import {IState} from "typings"
 import {useBoolean} from "ahooks"
 import {IPlayList} from "umi"
+import { Outlet } from 'umi'
 import styles from "./index.scss"
 
 const CONFIG = {
@@ -29,9 +30,8 @@ interface IGlobalContext {
 export const GlobalContext = createContext<IGlobalContext>({
   reloadMenu: undefined
 })
-const BasicLayout: FC = ({children}) => {
+const BasicLayout: FC = () => {
   const dispatch = useDispatch()
-  const history = useHistory()
   const {userModel, songInfoModel, loading} = useSelector<IState, IState>((state) => state)
   const {userInfo, userId} = userModel
   const {showPlayRecord} = songInfoModel
@@ -106,7 +106,7 @@ const BasicLayout: FC = ({children}) => {
         )}
         footerRender={() => <Footer />}>
         <GlobalContext.Provider value={{reloadMenu: actionRef.current?.reload}}>
-          {children}
+          <Outlet/>
           {pathname !== "/mv-detail" && <PlayerLayout />}
           <Drawer
             className={styles.drawer}

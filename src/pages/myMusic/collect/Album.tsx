@@ -2,7 +2,7 @@
 
 import React, {FC} from "react"
 import {List, Spin, Avatar, Space} from "antd"
-import {useHistory} from "umi"
+import {history} from "umi"
 import moment from "moment"
 import Utils from "@/help"
 import styles from "./index.scss"
@@ -49,7 +49,6 @@ interface IAlbumProps {
   loading: boolean
 }
 const Album: FC<IAlbumProps> = ({data, loading}) => {
-  const history = useHistory()
   const albumDescription = (item: IAlbum) => {
     return (
       <div className={styles.albumDescription}>

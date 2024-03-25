@@ -3,14 +3,13 @@
 import React, {useEffect, useContext} from "react"
 import {Spin, Avatar, Space} from "antd"
 import {UserOutlined} from "@ant-design/icons"
-import {useHistory} from "umi"
+import {history} from "umi"
 import Utils from "@/help"
 import {useSearchDetail} from "@/hooks"
 import {CountContext} from "./index"
 import styles from "./index.scss"
 
 const SongList = () => {
-  const history = useHistory()
   const {getCount} = useContext(CountContext)
   const {request, containerRef} = useSearchDetail({
     countKey: "playlistCount",

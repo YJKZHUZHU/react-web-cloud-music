@@ -5,7 +5,7 @@ import {Tabs} from "antd"
 import Album, {IAlbumData} from "./Album"
 import Mv from "./Mv"
 import Singer from "./Singer"
-import {useHistory, useLocation} from "umi"
+import {history, useLocation} from "umi"
 import {useRequest} from "ahooks"
 import API from "@/api"
 import styles from "./index.scss"
@@ -37,7 +37,6 @@ const INIT_DATA = {
 }
 
 const Collect = () => {
-  const history = useHistory()
   const location = useLocation()
   const path =
     location.pathname.split("/").pop() === "collect" ? "album" : location.pathname.split("/").pop()

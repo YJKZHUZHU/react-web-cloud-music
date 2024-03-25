@@ -2,7 +2,7 @@
 
 import React, {FC} from "react"
 import {Space, Spin} from "antd"
-import {useHistory, useDispatch} from "umi"
+import {history, useDispatch} from "umi"
 import {PlayIcon} from "@/components"
 import styles from "./index.scss"
 
@@ -24,7 +24,6 @@ interface SimiItemProps {
 
 const SimiItem: FC<SimiItemProps> = (props) => {
   const {showPlayIcon, data, hidePlayer, loading} = props
-  const history = useHistory()
   const dispatch = useDispatch()
   const onLink = (item: any) => {
     if (hidePlayer) {

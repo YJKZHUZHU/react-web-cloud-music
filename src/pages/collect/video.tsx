@@ -4,7 +4,7 @@ import React, {useEffect} from "react"
 import {Spin, Tabs, Row, Col} from "antd"
 import {VideoCameraOutlined} from "@ant-design/icons"
 import {useRequest} from "ahooks"
-import {useHistory} from "umi"
+import {history} from "umi"
 import {Artists} from "@/components"
 import Utils from "@/help"
 import API from "@/api"
@@ -38,7 +38,6 @@ interface IData {
 }
 
 export default () => {
-  const history = useHistory()
   const {data, run, loading} = useRequest<IData>(API.mvSublist, {
     manual: true
   })

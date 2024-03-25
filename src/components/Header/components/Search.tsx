@@ -4,7 +4,7 @@ import React, {useState} from "react"
 import {SearchOutlined} from "@ant-design/icons"
 import {Input, Popover, Modal} from "antd"
 import {useRequest} from "ahooks"
-import {useDispatch, useHistory} from "umi"
+import {useDispatch, history} from "umi"
 import {SearchList, History} from "./index"
 import API from "@/api"
 import {useToSearchDetail} from "@/hooks"
@@ -14,7 +14,6 @@ import styles from "../index.scss"
 const {confirm} = Modal
 
 const Search = () => {
-  const history = useHistory()
   const [modalVisible, setModalVisible] = useState(false)
   const [inputValue, setInputValue] = useState("")
   const dispatch = useDispatch()

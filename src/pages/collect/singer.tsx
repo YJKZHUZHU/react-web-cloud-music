@@ -3,7 +3,7 @@
 import React, {useEffect} from "react"
 import {List, Spin, Avatar, Space} from "antd"
 import {useRequest} from "ahooks"
-import {useHistory} from "umi"
+import {history} from "umi"
 import API from "@/api"
 import styles from "./index.scss"
 
@@ -28,7 +28,6 @@ interface IData {
 }
 
 const Singer = () => {
-  const history = useHistory()
   const {data, run, loading} = useRequest<IData>(API.artistSublist, {
     manual: true
   })

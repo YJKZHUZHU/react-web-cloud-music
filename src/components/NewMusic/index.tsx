@@ -3,7 +3,7 @@
 import React, {FC} from "react"
 import {CaretRightOutlined, PlaySquareOutlined} from "@ant-design/icons"
 import {Artists, PlayIcon} from "@/components"
-import {useDispatch, useHistory} from "umi"
+import {useDispatch, history} from "umi"
 import styles from "./index.scss"
 
 export interface INewSongItem {
@@ -25,7 +25,6 @@ interface INewMusic {
 
 const NewMusic: FC<INewMusic> = ({data, index}) => {
   const dispatch = useDispatch()
-  const history = useHistory()
   return (
     <div
       className={styles._newMusic}
