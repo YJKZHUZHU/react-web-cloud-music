@@ -27,9 +27,9 @@ const prod = IS_PROD ? {
 
 export default defineConfig({
   model: {},
-  apiRoute: {
-    platform: 'vercel',
-  },
+  // apiRoute: {
+  //   platform: 'vercel',
+  // },
   // layout:false,
   // layout: {
   //   // https://umijs.org/docs/max/layout-menu#构建时配置
@@ -69,6 +69,7 @@ export default defineConfig({
   //   ie: 11
   // },
   hash: true,
+  esbuildMinifyIIFE:true,
   // theme: lessToJs(fs.readFileSync(path.join('./src/theme/default.less'), 'utf8')),
   // sass: {
   //   // implementation: require('node-sass'),
