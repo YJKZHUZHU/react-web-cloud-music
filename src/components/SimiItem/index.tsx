@@ -2,7 +2,7 @@
 
 import React, {FC} from "react"
 import {Space, Spin} from "antd"
-import {history, useDispatch} from "umi"
+import {history, useDispatch} from "@umijs/max"
 import {PlayIcon} from "@/components"
 import styles from "./index.scss"
 

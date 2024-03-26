@@ -3,7 +3,7 @@
 import React, {useEffect} from "react"
 import {List, Spin, Avatar, Space} from "antd"
 import {useRequest} from "ahooks"
-import {history} from "umi"
+import {history} from "@umijs/max"
 import API from "@/api"
 import styles from "./index.scss"
 
@@ -59,7 +59,7 @@ const Singer = () => {
         renderItem={(item) => (
           <List.Item
             onClick={() => history.push(`/singer?id=${item.id}`)}
-            className={styles.albumItem}>
+            className={styles.albItem}>
             <List.Item.Meta avatar={<Avatar src={item.picUrl} />} title={artistDescription(item)} />
           </List.Item>
         )}

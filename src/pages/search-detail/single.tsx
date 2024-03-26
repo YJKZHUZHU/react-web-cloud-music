@@ -2,7 +2,7 @@
 
 import React, {useContext, FC} from "react"
 import {Table, Space} from "antd"
-import {useDispatch, history, useLocation} from "umi"
+import {useDispatch, history, useLocation} from "@umijs/max"
 import {HeartOutlined} from "@ant-design/icons"
 import {useRequest} from "ahooks"
 import API from "@/api"

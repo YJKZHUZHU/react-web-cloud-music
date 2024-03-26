@@ -3,7 +3,7 @@
 import React, {useEffect, useContext} from "react"
 import {Spin, Avatar} from "antd"
 import {UserOutlined, ManOutlined, WomanOutlined} from "@ant-design/icons"
-import {history} from "umi"
+import {history} from "@umijs/max"
 import {useSearchDetail} from "@/hooks"
 import Utils from "@/help"
 import {CountContext} from "./index"

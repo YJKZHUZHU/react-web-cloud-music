@@ -1,4 +1,4 @@
-import { useDispatch, history } from 'umi'
+import { useDispatch, history } from '@umijs/max'
 import { message } from 'antd'
 
 const useToSearchDetail = () => {

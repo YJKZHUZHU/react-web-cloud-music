@@ -3,7 +3,7 @@
 import React, {useEffect, useState, FC} from "react"
 import {Button, Row, Col, message, Tag, Divider, Popover, Descriptions} from "antd"
 import {RightOutlined} from "@ant-design/icons"
-import {useLocation} from "umi"
+import {useLocation} from "@umijs/max"
 import BoutiqueSongListDesc from "./BoutiqueSongListDesc"
 import API from "@/api"
 import {formatCatList, CatListItemInterface, CatListInterface} from "@/help"

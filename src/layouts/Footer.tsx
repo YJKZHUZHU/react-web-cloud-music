@@ -13,7 +13,7 @@ import {
   PauseOutlined
 } from "@ant-design/icons"
 import {useBoolean} from "ahooks"
-import {useDispatch, useLocation, useSelector, SingerInterface} from "umi"
+import {useDispatch, useLocation, useSelector, SingerInterface} from "@umijs/max"
 import classnames from "classnames"
 import {usePlayRecord} from "@/hooks"
 import Utils from "@/help"

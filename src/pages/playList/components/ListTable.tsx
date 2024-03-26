@@ -3,7 +3,7 @@
 import React, {FC} from "react"
 import {HeartOutlined} from "@ant-design/icons"
 import {Table, Space} from "antd"
-import {useDispatch} from "umi"
+import {useDispatch} from "@umijs/max"
 import {Artists, VideoIcon} from "@/components"
 import Utils from "@/help"
 import styles from "../index.scss"

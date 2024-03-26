@@ -1,7 +1,7 @@
 /** @format */
 
 import React, {useState, useEffect, FC, createContext} from "react"
-import {history, useLocation} from "umi"
+import {history, useLocation} from "@umijs/max"
 import {Tabs, Radio, Button, Space, Spin, message} from "antd"
 import {
   BorderInnerOutlined,

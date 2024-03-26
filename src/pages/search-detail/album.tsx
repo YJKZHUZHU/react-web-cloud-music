@@ -2,7 +2,7 @@
 
 import React, {FC, useEffect, useContext} from "react"
 import {Spin, Avatar, Space} from "antd"
-import {history} from "umi"
+import {history} from "@umijs/max"
 import {UserOutlined} from "@ant-design/icons"
 import {Artists} from "@/components"
 import {useSearchDetail} from "@/hooks"

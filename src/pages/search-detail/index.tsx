@@ -2,7 +2,7 @@
 
 import React, {useState, useEffect, FC, createContext, memo} from "react"
 import {Tabs, Space} from "antd"
-import {useLocation, history} from "umi"
+import {useLocation, history} from "@umijs/max"
 import {MAP_TAB} from "@/help/map"
 import store from "@/help/localStorage"
 import styles from "./index.scss"

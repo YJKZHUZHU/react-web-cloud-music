@@ -13,7 +13,7 @@
     "@better-scroll/mouse-wheel": "^2.2.0",
     "@better-scroll/scroll-bar": "^2.2.0",
     "ahooks": "^2.10.0",
-    "antd": "^4.14.1",
+    "antd": "^4.24.16",
     "better-scroll": "^2.2.0",
     "js-cookie": "^2.2.1",
     "moment": "^2.30.1",

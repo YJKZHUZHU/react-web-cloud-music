@@ -10,7 +10,7 @@ import {
   PlaySquareOutlined,
   RightOutlined
 } from "@ant-design/icons"
-import {history, useDispatch} from "umi"
+import {history, useDispatch} from "@umijs/max"
 import API from "@/api"
 import moment from "moment"
 import classnames from "classnames"

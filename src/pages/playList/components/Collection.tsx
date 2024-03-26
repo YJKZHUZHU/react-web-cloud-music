@@ -3,7 +3,7 @@
 import React, {FC, useEffect, useState} from "react"
 import {UserOutlined} from "@ant-design/icons"
 import {Col, Row, Avatar, Pagination, message, Spin} from "antd"
-import {history} from "umi"
+import {history} from "@umijs/max"
 import API from "@/api"
 import styles from "../index.scss"
 

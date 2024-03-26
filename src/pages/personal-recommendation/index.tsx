@@ -3,7 +3,7 @@
 import React, {useEffect} from "react"
 import {Row, Col, Space} from "antd"
 import {RightOutlined} from "@ant-design/icons"
-import {Link} from "umi"
+import {Link} from "@umijs/max"
 import {useRequest} from "ahooks"
 import {CarouselImg, RecommendMv, ExclusiveBroadcast} from "./components"
 import {RecommendedSongList, NewMusic} from "@/components"

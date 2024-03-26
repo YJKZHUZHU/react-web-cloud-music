@@ -2,8 +2,8 @@
 
 import React, {FC, useEffect, useRef, createContext} from "react"
 import zh_cn from "antd/lib/locale/zh_CN"
-import {Drawer, Avatar, ConfigProvider, Button} from "antd"
-import {useDispatch, useSelector, useLocation, useHistory, request,history} from "umi"
+import {Drawer, Avatar, ConfigProvider, Button,ConfigProviderProps} from "antd"
+import {useDispatch, useSelector, useLocation, request,history,Outlet} from "@umijs/max"
 import {PlayRecord, PlayerLayout, Header, MenuItem} from "@/components"
 import classnames from "classnames"
 import {MenuUnfoldOutlined, MenuFoldOutlined} from "@ant-design/icons"
@@ -14,15 +14,31 @@ import renderRouter, {defaultRoutes} from "./Router"
 import {AddSongList} from "@/components/Header/components"
 import {IState} from "typings"
 import {useBoolean} from "ahooks"
-import {IPlayList} from "umi"
-import { Outlet } from 'umi'
+import {IPlayList} from "@umijs/max"
 import styles from "./index.scss"
 
-const CONFIG = {
+const CONFIG:ConfigProviderProps = {
   input: {
     autoComplete: "off"
   },
-  locale: zh_cn
+  locale: zh_cn,
+  // theme:{
+  //   token:{
+  //     colorPrimary: '#00a799', // 全局主色
+  //     colorLink: '#00a799', // 链接色
+  //     colorSuccess: '#52c41a', // 成功色
+  //     colorWarning: '#faad14', // 警告色
+  //     colorError: '#f5222d', // 错误色
+  //     fontSize: 14, // 主字号
+  //     colorTextHeading: '#00A799', // 标题色
+  //     colorText: '#00A799', // 主文本色
+  //     colorTextSecondary: 'rgba(0, 0, 0, 0.45)', // 次文本色
+  //     colorTextDisabled: '#00A799', // 失效色
+  //     borderRadius: 4, // 组件/浮层圆角
+  //     colorBorder: '#d9d9d9', // 边框色
+  //     boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)', // 浮层阴影
+  //   }
+  // }
 }
 interface IGlobalContext {
   reloadMenu?: () => void
@@ -30,7 +46,7 @@ interface IGlobalContext {
 export const GlobalContext = createContext<IGlobalContext>({
   reloadMenu: undefined
 })
-const BasicLayout: FC = () => {
+const BasicLayout: FC = ({children}) => {
   const dispatch = useDispatch()
   const {userModel, songInfoModel, loading} = useSelector<IState, IState>((state) => state)
   const {userInfo, userId} = userModel
@@ -107,6 +123,7 @@ const BasicLayout: FC = () => {
         footerRender={() => <Footer />}>
         <GlobalContext.Provider value={{reloadMenu: actionRef.current?.reload}}>
           <Outlet/>
+          {/* {children} */}
           {pathname !== "/mv-detail" && <PlayerLayout />}
           <Drawer
             className={styles.drawer}

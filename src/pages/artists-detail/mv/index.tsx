@@ -2,7 +2,7 @@
 
 import React, {useEffect, FC, useContext} from "react"
 import {Row, Col, Card, Spin, Space, Pagination} from "antd"
-import {history, useLocation} from "umi"
+import {history, useLocation} from "@umijs/max"
 import {useRequest} from "ahooks"
 import {CaretRightOutlined} from "@ant-design/icons"
 import {Iparams} from "../album"

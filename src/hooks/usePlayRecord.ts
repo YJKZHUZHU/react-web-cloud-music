@@ -1,7 +1,7 @@
 /** @format */
 
 import { useState, useEffect } from "react"
-import { useSelector } from "umi"
+import { useSelector } from "@umijs/max"
 import { IState } from 'typings'
 
 const usePlayRecord = () => {

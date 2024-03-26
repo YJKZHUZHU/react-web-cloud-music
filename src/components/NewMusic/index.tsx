@@ -3,7 +3,7 @@
 import React, {FC} from "react"
 import {CaretRightOutlined, PlaySquareOutlined} from "@ant-design/icons"
 import {Artists, PlayIcon} from "@/components"
-import {useDispatch, history} from "umi"
+import {useDispatch, history} from "@umijs/max"
 import styles from "./index.scss"
 
 export interface INewSongItem {

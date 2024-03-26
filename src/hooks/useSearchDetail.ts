@@ -1,7 +1,7 @@
 /** @format */
 
 import { useRef } from "react"
-import { useLocation } from "umi"
+import { useLocation } from "@umijs/max"
 import { useRequest } from "ahooks"
 import API from "@/api"
 

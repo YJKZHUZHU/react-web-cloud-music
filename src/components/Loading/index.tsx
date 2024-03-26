@@ -2,7 +2,7 @@
 
 import React, {useEffect, useState} from "react"
 import {Skeleton, Space, Spin} from "antd"
-import {useLocation} from "umi"
+import {useLocation} from "@umijs/max"
 import styles from "./index.scss"
 
 const INIT_ROWS = Math.floor((document.body.clientHeight - 130) / 36)

@@ -4,7 +4,7 @@ interface CssExports {
   '_collect': string;
   'album': string;
   'albumDescription': string;
-  'albumItem': string;
+  'alb@umijs/maxtem': string;
   'artists': string;
   'chromeframe': string;
   'img': string;

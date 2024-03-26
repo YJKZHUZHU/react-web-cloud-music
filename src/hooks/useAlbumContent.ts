@@ -9,10 +9,10 @@ const mapData = (idList: number[]) => {
   })
 }
 
-const useAlbumContent = (albumIdList: number[]) => {
+const useAlbumContent = (albList: number[]) => {
   const [data, setData] = useState([])
   const getData = () => {
-    Promise.all(mapData(albumIdList)).then((values: any) => {
+    Promise.all(mapData(albList)).then((values: any) => {
       setData(values)
     })
   }

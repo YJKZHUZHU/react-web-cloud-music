@@ -2,7 +2,7 @@
 
 import React, {FC} from "react"
 import {useRequest} from "ahooks"
-import {history} from "umi"
+import {history} from "@umijs/max"
 import {Skeleton, Button} from "antd"
 import {GlobalOutlined} from "@ant-design/icons"
 import API from "@/api"

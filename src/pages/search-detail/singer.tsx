@@ -2,7 +2,7 @@
 
 import React, {useEffect, useContext} from "react"
 import {Spin, Avatar, Space} from "antd"
-import {history} from "umi"
+import {history} from "@umijs/max"
 import {UserOutlined} from "@ant-design/icons"
 import Utils from "@/help"
 import {useSearchDetail} from "@/hooks"

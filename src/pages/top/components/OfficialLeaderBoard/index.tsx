@@ -3,7 +3,7 @@
 import React, {FC} from "react"
 import {CaretRightOutlined, RightOutlined} from "@ant-design/icons"
 import {Col} from "antd"
-import {Link, useDispatch, history} from "umi"
+import {Link, useDispatch, history} from "@umijs/max"
 import moment from "moment"
 import classnames from "classnames"
 import {Artists} from "@/components"

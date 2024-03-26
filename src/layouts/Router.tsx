@@ -14,7 +14,7 @@ import {
   CloudOutlined
 } from "@ant-design/icons"
 import {Route, MenuDataItem} from "@ant-design/pro-layout/lib/typings"
-import {IPlayListItem} from "umi"
+import {IPlayListItem} from "@umijs/max"
 
 export const defaultRoutes: Route = {
   path: "/",

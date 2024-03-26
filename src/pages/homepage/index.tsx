@@ -2,7 +2,7 @@
 
 import React, {useEffect} from "react"
 import {useRequest} from "ahooks"
-import {useLocation} from "umi"
+import {useLocation} from "@umijs/max"
 import API from "@/api"
 import {Space, Avatar} from "antd"
 import {CustomerServiceOutlined, ManOutlined, WomanOutlined} from "@ant-design/icons"

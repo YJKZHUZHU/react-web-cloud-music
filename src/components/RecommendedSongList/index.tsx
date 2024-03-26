@@ -2,7 +2,7 @@
 
 import React, {FC} from "react"
 import {CustomerServiceOutlined} from "@ant-design/icons"
-import {Link} from "umi"
+import {Link} from "@umijs/max"
 import {PlayIcon} from "@/components"
 import Utils from "@/help/index"
 import styles from "./index.scss"

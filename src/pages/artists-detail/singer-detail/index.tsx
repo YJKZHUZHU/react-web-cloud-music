@@ -2,7 +2,7 @@
 
 import React, {useEffect} from "react"
 import {Spin} from "antd"
-import {useLocation} from "umi"
+import {useLocation} from "@umijs/max"
 import {useRequest} from "ahooks"
 import API from "@/api"
 import styles from "./index.scss"

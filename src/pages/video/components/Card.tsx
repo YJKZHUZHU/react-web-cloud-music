@@ -3,7 +3,7 @@
 import React, {FC} from "react"
 import {Row, Col, Space, Spin} from "antd"
 import {CaretRightOutlined, PlayCircleFilled, PlayCircleTwoTone} from "@ant-design/icons"
-import {history} from "umi"
+import {history} from "@umijs/max"
 import {PlayIcon} from "@/components"
 import Utils from "@/help"
 import styles from "../index.scss"

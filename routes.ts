@@ -8,11 +8,12 @@ const routes: IRoute[] = [
   {
     path: '/',
     component: '@/layouts',
+    layout: false,// 关闭 layout
     routes: [
       {
         path: '/personal-recommendation',
-        component: 'personal-recommendation',
-        title: '个性化推荐'
+        component: '@/pages/personal-recommendation',
+        title: '个性化推荐',
       },
       {
         path: '/video',

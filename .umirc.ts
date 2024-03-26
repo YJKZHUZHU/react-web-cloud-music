@@ -2,8 +2,8 @@ const path = require('path')
 const fs = require('fs')
 const lessToJs = require('less-vars-to-js')
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
-import { defineConfig } from 'umi'
-import px2rem from 'postcss-plugin-px2rem'
+import { defineConfig } from '@umijs/max'
+// import px2rem from 'postcss-plugin-px2rem'
 import routes from './routes'
 const prodGzipList = ['js', 'css']
 
@@ -26,14 +26,33 @@ const prod = IS_PROD ? {
 } : {}
 
 export default defineConfig({
-  request:{},
+  model: {},
+  // layout:false,
+  // layout: {
+  //   // https://umijs.org/docs/max/layout-menu#构建时配置
+  //   title: 'UmiJS',
+  //   locale: true,
+  // },
+  initialState: {},
+  request: {},
+  locale: {
+    // default zh-CN
+    default: 'zh-CN',
+    antd: true,
+    // default true, when it is true, will use `navigator.language` overwrite default
+    baseNavigator: true,
+  },
   // ...prod,
   exportStatic: false,
-  antd: {},
+  antd: {
+    // import: true,
+   
+  },
   // dynamicImport: {
   //   loading: '@/components/Loading/index'
   // },
   routes,
+  scripts: [`/ripple.js?version=${Date.now()}`],
   // mfsu:{},
   title: '豆芽音乐',
   // esbuild: {},
@@ -56,7 +75,7 @@ export default defineConfig({
   // },
   // cssModulesTypescriptLoader: {},
   fastRefresh: true,
-  dva:{},
+  dva: {},
   // dva: {
   //   immer: true,
   //   // hmr: false,
@@ -65,9 +84,9 @@ export default defineConfig({
   // },
   // nodeModulesTransform: { type: 'none' }, // 编译提速
   // ignoreMomentLocale: true,
-  externals: {
-    Ripple: 'window.Ripple'
-  },
+  // externals: {
+  //   Ripple: 'window.Ripple'
+  // },
   // devServer: {
   //   compress: true
   // },
@@ -140,5 +159,6 @@ export default defineConfig({
     //   .end()
     //   .use('./loader/jsx-px2rem-loader')
     //   .loader(path.join(__dirname, './loader/jsx-px2rem-loader'))
-  }
+  },
+  npmClient: 'pnpm',
 })

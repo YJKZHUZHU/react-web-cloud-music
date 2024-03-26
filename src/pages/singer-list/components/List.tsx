@@ -3,7 +3,7 @@
 import React, {FC, useEffect} from "react"
 import {useRequest} from "ahooks"
 import {Spin, Row, Col, Space} from "antd"
-import {history} from "umi"
+import {history} from "@umijs/max"
 import API from "@/api"
 import styles from "../index.scss"
 

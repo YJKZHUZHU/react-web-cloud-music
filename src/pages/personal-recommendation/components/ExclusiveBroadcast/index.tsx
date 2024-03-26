@@ -2,7 +2,7 @@
 
 import React, {FC} from "react"
 import {PlayCircleOutlined} from "@ant-design/icons"
-import {Link} from "umi"
+import {Link} from "@umijs/max"
 import styles from "./index.scss"
 
 export interface IExclusiveBroadcastItem {

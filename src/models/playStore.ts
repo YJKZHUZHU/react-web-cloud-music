@@ -1,4 +1,4 @@
-import { ImmerReducer } from 'umi'
+import { ImmerReducer } from '@umijs/max'
 import store from '@/help/localStorage'
 export interface PlayerInterface {
   loaded: number

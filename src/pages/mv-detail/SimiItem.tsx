@@ -3,7 +3,7 @@
 import React, {useEffect} from "react"
 import Utils from "@/help"
 import {CaretRightOutlined} from "@ant-design/icons"
-import {history, useLocation} from "umi"
+import {history, useLocation} from "@umijs/max"
 import {useRequest} from "ahooks"
 import API from "@/api"
 import styles from "./index.scss"

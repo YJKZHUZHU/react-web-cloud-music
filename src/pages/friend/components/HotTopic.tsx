@@ -4,7 +4,7 @@ import React from "react"
 import {Space, List, Avatar} from "antd"
 import {RightOutlined} from "@ant-design/icons"
 import {useRequest} from "ahooks"
-import {history, Link} from "umi"
+import {history, Link} from "@umijs/max"
 import API from "@/api"
 import styles from "../index.scss"
 

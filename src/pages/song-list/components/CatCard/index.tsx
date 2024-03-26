@@ -3,7 +3,7 @@
 import React, {FC} from "react"
 import {Card, Space} from "antd"
 import {PlayCircleOutlined, UserOutlined} from "@ant-design/icons"
-import {history} from "umi"
+import {history} from "@umijs/max"
 import {PlayIcon} from "@/components"
 import Utils from "@/help"
 import styles from "./index.scss"

@@ -2,7 +2,7 @@
 
 import React, {useEffect, FC} from "react"
 import {Row, Col, Card, Spin} from "antd"
-import {history, useLocation} from "umi"
+import {history, useLocation} from "@umijs/max"
 import {useRequest} from "ahooks"
 import API from "@/api"
 import styles from "./index.scss"

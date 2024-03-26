@@ -1,4 +1,4 @@
-import { Effect, ImmerReducer, Subscription } from 'umi'
+import { Effect, ImmerReducer, Subscription } from '@umijs/max'
 import API from '@/api'
 
 export interface ICreator {

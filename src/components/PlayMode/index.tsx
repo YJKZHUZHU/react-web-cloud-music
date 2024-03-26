@@ -3,7 +3,7 @@
 import React from "react"
 import {Tooltip} from "antd"
 import classnames from "classnames"
-import {useSelector, useDispatch} from "umi"
+import {useSelector, useDispatch} from "@umijs/max"
 import { IState } from 'typings'
 
 

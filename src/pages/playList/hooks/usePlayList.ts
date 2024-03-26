@@ -1,8 +1,8 @@
 import { useRef } from "react"
 import { message } from "antd"
-import { useSelector, useDispatch } from "umi"
+import { useSelector, useDispatch } from "@umijs/max"
 import { useRequest, useBoolean } from "ahooks"
-import { IPlayListItem } from 'umi'
+import { IPlayListItem } from '@umijs/max'
 import Utils from "@/help"
 import API from "@/api"
 import { IState } from "typings"

@@ -1,4 +1,4 @@
-import { Effect, ImmerReducer } from 'umi'
+import { Effect, ImmerReducer } from '@umijs/max'
 import API from '@/api'
 import store from '@/help/localStorage'
 import Utils from '@/help'

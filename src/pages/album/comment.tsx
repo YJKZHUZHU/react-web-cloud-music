@@ -1,7 +1,7 @@
 /** @format */
 
 import React from "react"
-import {useLocation} from "umi"
+import {useLocation} from "@umijs/max"
 import {NewComment, HotComment} from "@/components"
 
 const Comment = () => {

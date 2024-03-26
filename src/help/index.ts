@@ -1,5 +1,5 @@
 import store from './localStorage'
-import { AllPlayRecordInterface } from 'umi'
+import { AllPlayRecordInterface } from '@umijs/max'
 import moment from 'moment'
 
 export interface ArInterface {

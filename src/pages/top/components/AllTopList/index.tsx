@@ -5,7 +5,7 @@ import {CaretRightOutlined} from "@ant-design/icons"
 import {Row, Col, Spin} from "antd"
 import styles from "./index.scss"
 import Utils from "@/help"
-import {history} from "umi"
+import {history} from "@umijs/max"
 
 export interface IAllTopListItem {
   ToplistType: string

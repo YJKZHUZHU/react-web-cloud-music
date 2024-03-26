@@ -1,7 +1,7 @@
 /** @format */
 
 import React, {useEffect, useState, FC} from "react"
-import {useDispatch, history} from "umi"
+import {useDispatch, history} from "@umijs/max"
 import {Tabs, Spin, Space} from "antd"
 import {CaretRightOutlined, PlaySquareOutlined} from "@ant-design/icons"
 import {useRequest} from "ahooks"

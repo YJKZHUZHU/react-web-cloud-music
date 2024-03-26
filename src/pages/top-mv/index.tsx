@@ -8,7 +8,7 @@ import {
   ArrowDownOutlined,
   MinusOutlined
 } from "@ant-design/icons"
-import {history} from "umi"
+import {history} from "@umijs/max"
 import {useRequest} from "ahooks"
 
 import moment from "moment"

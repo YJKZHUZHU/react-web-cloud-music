@@ -3,7 +3,7 @@
 import React from "react"
 import {DeleteOutlined, FileAddOutlined} from "@ant-design/icons"
 import {Tabs, Divider, Table} from "antd"
-import {useSelector, useDispatch} from "umi"
+import {useSelector, useDispatch} from "@umijs/max"
 import styles from "./index.scss"
 import Utils from "@/help/index"
 import classnames from "classnames"

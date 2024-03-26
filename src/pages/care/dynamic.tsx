@@ -3,7 +3,7 @@
 import React, {FC, useEffect, useState, useCallback} from "react"
 import {DeleteOutlined, LikeOutlined, UserOutlined} from "@ant-design/icons"
 import {List, Avatar, Divider, message} from "antd"
-import {Link, useSelector, UserModelState} from "umi"
+import {Link, useSelector, UserModelState} from "@umijs/max"
 import classnames from "classnames"
 import Utils from "@/help/index"
 import API from "@/api"

@@ -3,7 +3,7 @@
 import React, {FC, useEffect, useContext} from "react"
 import {message, Space, Button} from "antd"
 import {useRequest} from "ahooks"
-import {useDispatch} from "umi"
+import {useDispatch} from "@umijs/max"
 import QrCode from "qrcode.react"
 import {GlobalContext} from "@/layouts"
 import API from "@/api"

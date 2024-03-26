@@ -1,7 +1,7 @@
 /** @format */
 
 import React, {FC, useMemo} from "react"
-import {history, useDispatch, useSelector} from "umi"
+import {history, useDispatch, useSelector} from "@umijs/max"
 import {Space, Popconfirm, message} from "antd"
 import {
   DownOutlined,

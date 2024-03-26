@@ -2,7 +2,7 @@
 
 import React, {FC} from "react"
 import {List, Spin, Avatar, Space} from "antd"
-import {history} from "umi"
+import {history} from "@umijs/max"
 import moment from "moment"
 import Utils from "@/help"
 import styles from "./index.scss"
@@ -72,7 +72,7 @@ const Album: FC<IAlbumProps> = ({data, loading}) => {
         renderItem={(item) => (
           <List.Item
             onClick={() => history.push(`/album/song-list?id=${item.id}`)}
-            className={styles.albumItem}>
+            className={styles.alb@umijs/maxtem}>
             <List.Item.Meta
               avatar={<Avatar src={item.picUrl} />}
               title={

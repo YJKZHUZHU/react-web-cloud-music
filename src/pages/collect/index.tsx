@@ -2,7 +2,7 @@
 
 import React, {useState, useEffect, FC} from "react"
 import {Tabs, Spin, List, Space, Avatar} from "antd"
-import { history, useLocation } from "umi"
+import { history, useLocation } from "@umijs/max"
 import { useRequest } from "ahooks"
 import API from "@/api"
 import Utils from "@/help"
@@ -124,7 +124,7 @@ const Collect: FC = ({ children }) => {
             renderItem={(item) => (
               <List.Item
                 onClick={() => history.push(`/album/song-list?id=${item.id}`)}
-                className={styles.albumItem}>
+                className={styles.albItem}>
                 <List.Item.Meta
                   avatar={<Avatar src={item.picUrl} />}
                   title={

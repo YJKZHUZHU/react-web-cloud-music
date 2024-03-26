@@ -2,7 +2,7 @@
 
 import React, {FC} from "react"
 import {PlaySquareOutlined} from "@ant-design/icons"
-import {history} from "umi"
+import {history} from "@umijs/max"
 
 interface IVideoIconProps {
   id: string | number

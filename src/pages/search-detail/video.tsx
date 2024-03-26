@@ -3,7 +3,7 @@
 import React, {useEffect, useContext} from "react"
 import {Spin, Row, Col, Space} from "antd"
 import {VideoCameraOutlined} from "@ant-design/icons"
-import {history} from "umi"
+import {history} from "@umijs/max"
 import {useSearchDetail} from "@/hooks"
 import {Artists} from "@/components"
 import Utils from "@/help"

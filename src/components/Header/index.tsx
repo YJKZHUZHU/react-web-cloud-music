@@ -3,7 +3,7 @@
 import React, {FC, useMemo} from "react"
 import {CaretDownOutlined, UserOutlined} from "@ant-design/icons"
 import {Avatar, Popover, message} from "antd"
-import {history, useSelector} from "umi"
+import {history, useSelector} from "@umijs/max"
 import {useBoolean, useRequest} from "ahooks"
 import API from "@/api"
 import {UserContent, Search} from "./components"

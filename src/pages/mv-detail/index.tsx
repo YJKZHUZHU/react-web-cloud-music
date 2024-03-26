@@ -1,7 +1,7 @@
 /** @format */
 
 import React, {FC, useEffect, useState, useRef} from "react"
-import {history, useLocation} from "umi"
+import {history, useLocation} from "@umijs/max"
 import {
   Player,
   BigPlayButton,

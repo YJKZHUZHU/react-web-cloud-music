@@ -1,7 +1,7 @@
 /** @format */
 
 import React, {FC} from "react"
-import {history} from "umi"
+import {history} from "@umijs/max"
 import Utils from "@/help"
 import styles from "./index.scss"
 

@@ -2,13 +2,13 @@
 
 import React, {useEffect, useState, useRef} from "react"
 import classnames from "classnames"
-import {useSelector} from "umi"
+import {useSelector} from "@umijs/max"
 import {Space} from "antd"
 import {CaretRightOutlined} from "@ant-design/icons"
 import BScroll from "@better-scroll/core"
 import ScrollBar from "@better-scroll/scroll-bar"
 import MouseWheel from "@better-scroll/mouse-wheel"
-import Ripple from "Ripple"
+// import Ripple from "Ripple"
 import {useRequest} from "ahooks"
 import API from "@/api"
 import {Artists, HotComment, NewComment, SimiItem} from "@/components"
@@ -122,7 +122,7 @@ const PlayerLayout = () => {
       pointRadius: 4
     }
     const timers = setTimeout(() => {
-      const rdx = new Ripple(
+      const rdx = new window.Ripple(
         "#ripple",
         Object.assign(
           {cover: songObj.backgroundImg},

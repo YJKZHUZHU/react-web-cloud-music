@@ -9,7 +9,7 @@ import {
   ShareAltOutlined,
   CheckOutlined
 } from "@ant-design/icons"
-import {useLocation, history} from "umi"
+import {useLocation, history} from "@umijs/max"
 import moment from "moment"
 import API from "@/api"
 import styles from "./index.scss"
@@ -38,19 +38,19 @@ const Album: FC = ({children}) => {
   const {data, loading, run} = useRequest(() => API.getAlbumContent({...location.query}), {
     manual: true
   })
-  const {data: albumInfo, run: runInfo} = useRequest(
+  const {data: albInfo, run: runInfo} = useRequest(
     () => API.getAlbumDetailDynamic({...location.query}),
     {
       manual: true
     }
   )
   const {run: runSetAlbumSub} = useRequest(
-    () => API.setAlbumSub({...location.query, t: albumInfo?.isSub ? -1 : 1}),
+    () => API.setAlbumSub({...location.query, t: albInfo?.isSub ? -1 : 1}),
     {
       manual: true,
       onSuccess: async () => {
         await runInfo()
-        albumInfo?.isSub ? message.success("取消收藏") : message.success("收藏成功")
+        albInfo?.isSub ? message.success("取消收藏") : message.success("收藏成功")
       }
     }
   )
@@ -87,12 +87,12 @@ const Album: FC = ({children}) => {
                 播放全部
               </Button>
               <Button shape="round" onClick={runSetAlbumSub}>
-                {albumInfo?.isSub ? <CheckOutlined /> : <PlusSquareOutlined />}
-                {albumInfo?.isSub ? "已收藏" : "收藏"}({albumInfo?.subCount})
+                {albInfo?.isSub ? <CheckOutlined /> : <PlusSquareOutlined />}
+                {albInfo?.isSub ? "已收藏" : "收藏"}({albInfo?.subCount})
               </Button>
               <Button shape="round">
                 <ShareAltOutlined />
-                分享({albumInfo?.shareCount})
+                分享({albInfo?.shareCount})
               </Button>
             </Space>
             <Space>
@@ -117,7 +117,7 @@ const Album: FC = ({children}) => {
           <TabPane tab="歌曲列表" key="song-list">
             <AlbumContext.Provider value={{data}}>{children}</AlbumContext.Provider>
           </TabPane>
-          <TabPane tab={`评论(${albumInfo?.commentCount})`} key="comment">
+          <TabPane tab={`评论(${albInfo?.commentCount})`} key="comment">
             {children}
           </TabPane>
           <TabPane tab="专辑详情" key="detail">

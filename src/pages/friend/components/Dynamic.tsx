@@ -4,7 +4,7 @@ import React, {FC} from "react"
 import {List, Space, Avatar} from "antd"
 import {ShareAltOutlined, LikeOutlined, MessageOutlined} from "@ant-design/icons"
 import moment from "moment"
-import {history, useDispatch} from "umi"
+import {history, useDispatch} from "@umijs/max"
 import {Artists, PlayIcon} from "@/components"
 import styles from "../index.scss"
 

@@ -2,7 +2,7 @@
 
 import React, {useRef} from "react"
 import {Row, Col, Spin, message} from "antd"
-import {history} from "umi"
+import {history} from "@umijs/max"
 import {useRequest} from "ahooks"
 import {PlayIcon} from "@/components"
 import API from "@/api"

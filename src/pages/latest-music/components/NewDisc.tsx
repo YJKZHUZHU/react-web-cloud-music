@@ -2,7 +2,7 @@
 
 import React, {FC, useState, useRef} from "react"
 import {Tabs, Tag, Row, Col} from "antd"
-import {history} from "umi"
+import {history} from "@umijs/max"
 import {useRequest, useUpdateEffect} from "ahooks"
 import {LoadingOutlined} from "@ant-design/icons"
 import moment, {Moment} from "moment"

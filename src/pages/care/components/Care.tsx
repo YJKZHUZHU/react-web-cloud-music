@@ -3,7 +3,7 @@
 import React, {FC, useEffect, useState} from "react"
 import {WechatOutlined, CheckOutlined, PlusOutlined} from "@ant-design/icons"
 import {List, Avatar, Divider, Button, message} from "antd"
-import {Link, useSelector} from "umi"
+import {Link, useSelector} from "@umijs/max"
 import API from "@/api"
 import styles from "../index.scss"
 import {IState} from "typings"
