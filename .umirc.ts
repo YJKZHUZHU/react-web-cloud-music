@@ -27,6 +27,9 @@ const prod = IS_PROD ? {
 
 export default defineConfig({
   model: {},
+  apiRoute: {
+    platform: 'vercel',
+  },
   // layout:false,
   // layout: {
   //   // https://umijs.org/docs/max/layout-menu#构建时配置

@@ -1,0 +1,13 @@
+{
+  "build": {
+    "env": {
+      "ENABLE_FILE_SYSTEM_API": "1"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "https://api.douya-music.top/"
+    }
+  ]
+}
