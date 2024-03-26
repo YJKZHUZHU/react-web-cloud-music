@@ -7,7 +7,7 @@
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "https://api.douya-music.top/"
+      "destination": "/api/proxy"
     }
   ]
 }
