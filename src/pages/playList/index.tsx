@@ -1,6 +1,6 @@
 /** @format */
 
-import React, {useState} from "react"
+import React, { useState } from "react"
 import {
   FolderAddOutlined,
   PlayCircleOutlined,
@@ -10,21 +10,22 @@ import {
   EditOutlined,
   CustomerServiceOutlined
 } from "@ant-design/icons"
-import {Divider, Button, Tabs, Input, Space, Avatar} from "antd"
-import {Link, history, useLocation} from "@umijs/max"
+import { Divider, Button, Tabs, Input, Space, Avatar } from "antd"
+import { Link, history, useLocation, useParams } from "@umijs/max"
 import moment from "moment"
-import {HotComment, NewComment} from "@/components"
-import {ListTable, Collection} from "./components"
+import { HotComment, NewComment } from "@/components"
+import { ListTable, Collection } from "./components"
 import usePlayList from "./hooks/usePlayList"
 import Utils from "@/help"
 import styles from "./index.scss"
 
-const {TabPane} = Tabs
-const {Search} = Input
+const { TabPane } = Tabs
+const { Search } = Input
 
 const PlayList = () => {
-  const location: any = useLocation()
-  const {listId: id} = location.query
+  const params: any = useParams()
+
+  const { id } = params
   const {
     isSearch,
     toggle,
@@ -120,7 +121,7 @@ const PlayList = () => {
           )
         }
         className={styles.tabs}
-        tabBarStyle={{margin: 0}}
+        tabBarStyle={{ margin: 0 }}
         onChange={(key) => toggle(+key === 1)}>
         <TabPane tab="歌曲列表" key="1">
           <ListTable data={tableList} loading={loading} searchValue={searchValue} />

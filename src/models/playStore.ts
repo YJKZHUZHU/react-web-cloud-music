@@ -1,4 +1,4 @@
-import { ImmerReducer } from '@umijs/max'
+import { Reducer } from '@umijs/max'
 import store from '@/help/localStorage'
 export interface PlayerInterface {
   loaded: number
@@ -13,14 +13,22 @@ export interface PlayModelState {
   playerRate: number
 }
 
+// interface IReducers<T> {
+//   [props:T]:
+// }
+
+type ReducersType<S> = (state: S, action: { payload: any }) => void
+
+
+
 export interface PlayModelType {
   namespace: 'playmodel'
   state: PlayModelState
   reducers: {
-    setShowPlayer: ImmerReducer<PlayModelState>
-    setPlayerObj: ImmerReducer<PlayModelState>
-    setPlayMode: ImmerReducer<PlayModelState>
-    setPlayRate: ImmerReducer<PlayModelState>
+    setShowPlayer: Reducer<PlayModelState>
+    setPlayerObj: Reducer<PlayModelState>
+    setPlayMode: Reducer<PlayModelState>
+    setPlayRate: Reducer<PlayModelState>
   }
 }
 

@@ -1,17 +1,17 @@
 /** @format */
 
-import React, {useState} from "react"
-import {SearchOutlined} from "@ant-design/icons"
-import {Input, Popover, Modal} from "antd"
-import {useRequest} from "ahooks"
-import {useDispatch, history} from "@umijs/max"
-import {SearchList, History} from "./index"
+import React, { useState } from "react"
+import { SearchOutlined } from "@ant-design/icons"
+import { Input, Popover, Modal } from "antd"
+import { useRequest } from "ahooks"
+import { useDispatch, history } from "@umijs/max"
+import { SearchList, History } from "./index"
 import API from "@/api"
-import {useToSearchDetail} from "@/hooks"
+import { useToSearchDetail } from "@/hooks"
 import store from "@/help/localStorage"
 import styles from "../index.scss"
 
-const {confirm} = Modal
+const { confirm } = Modal
 
 const Search = () => {
   const [modalVisible, setModalVisible] = useState(false)
@@ -19,7 +19,7 @@ const Search = () => {
   const dispatch = useDispatch()
   const toDetail = useToSearchDetail()
 
-  const {run, data} = useRequest((keywords) => API.getSearchSuggest({keywords}), {
+  const { run, data } = useRequest((keywords) => API.getSearchSuggest({ keywords }), {
     manual: true,
     debounceInterval: 500,
     formatResult: (response) => {
@@ -54,6 +54,7 @@ const Search = () => {
   }
 
   const onHistory = (keywords: string) => {
+    
     setInputValue(keywords)
     history.push(`/search-detail/single?keywords=${keywords}&type=1`)
   }

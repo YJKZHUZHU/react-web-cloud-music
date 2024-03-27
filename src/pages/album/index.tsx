@@ -1,51 +1,56 @@
 /** @format */
 
-import React, {FC, useEffect, useState, createContext} from "react"
-import {useRequest} from "ahooks"
-import {Space, Tag, Button, Tabs, message, Spin} from "antd"
+import React, { FC, useEffect, useState, createContext } from "react"
+import { useRequest } from "ahooks"
+import { Space, Tag, Button, Tabs, message, Spin } from "antd"
 import {
   PlayCircleOutlined,
   PlusSquareOutlined,
   ShareAltOutlined,
   CheckOutlined
 } from "@ant-design/icons"
-import {useLocation, history} from "@umijs/max"
+import { useQuery } from '@/hooks'
+import { history } from "@umijs/max"
 import moment from "moment"
 import API from "@/api"
 import styles from "./index.scss"
+import qs from "qs"
 
-const {TabPane} = Tabs
+const { TabPane } = Tabs
 
 interface IAlbumContext<T = any> {
   data: T
 }
 
-export const AlbumContext = createContext<IAlbumContext>({data: null})
+export const AlbumContext = createContext<IAlbumContext>({ data: null })
 
-const Album: FC = ({children}) => {
-  const location: any = useLocation()
-  const {source = "song-list"} = location.query
+const Album: FC = ({ children }) => {
+  const query = useQuery()
+  const { source = "song-list" } = query
   const [tabKey, setTabKey] = useState(source)
 
+
+
   const callback = (activeKey: string) => {
+    const target = qs.stringify({ ...query, source: activeKey })
     setTabKey(activeKey)
     history.push({
-      pathname: `/album/${activeKey}`,
-      query: {...location.query, source: activeKey}
+      pathname: `/album/${activeKey}?${target}`,
+
     })
   }
 
-  const {data, loading, run} = useRequest(() => API.getAlbumContent({...location.query}), {
+  const { data, loading, run } = useRequest(() => API.getAlbumContent({ ...query }), {
     manual: true
   })
-  const {data: albInfo, run: runInfo} = useRequest(
-    () => API.getAlbumDetailDynamic({...location.query}),
+  const { data: albInfo, run: runInfo } = useRequest(
+    () => API.getAlbumDetailDynamic({ ...query }),
     {
       manual: true
     }
   )
-  const {run: runSetAlbumSub} = useRequest(
-    () => API.setAlbumSub({...location.query, t: albInfo?.isSub ? -1 : 1}),
+  const { run: runSetAlbumSub } = useRequest(
+    () => API.setAlbumSub({ ...query, t: albInfo?.isSub ? -1 : 1 }),
     {
       manual: true,
       onSuccess: async () => {
@@ -113,15 +118,15 @@ const Album: FC = ({children}) => {
             </Space>
           </Space>
         </div>
-        <Tabs activeKey={tabKey} onChange={callback} tabBarStyle={{margin: 0}}>
+        <Tabs activeKey={tabKey} onChange={callback} tabBarStyle={{ margin: 0 }}>
           <TabPane tab="歌曲列表" key="song-list">
-            <AlbumContext.Provider value={{data}}>{children}</AlbumContext.Provider>
+            <AlbumContext.Provider value={{ data }}>{children}</AlbumContext.Provider>
           </TabPane>
           <TabPane tab={`评论(${albInfo?.commentCount})`} key="comment">
             {children}
           </TabPane>
           <TabPane tab="专辑详情" key="detail">
-            <AlbumContext.Provider value={{data}}>
+            <AlbumContext.Provider value={{ data }}>
               {children}
             </AlbumContext.Provider>
           </TabPane>

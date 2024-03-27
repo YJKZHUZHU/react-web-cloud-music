@@ -52,11 +52,11 @@ const useVedio = () => {
     loadMore: true,
     cacheKey: 'jijununu',
     formatResult: (response) => {
-      if (response.code !== 200) {
-        return {
-
-        }
-      }
+      // if (response.code !== 200) {
+      //   return {
+          
+      //   }
+      // }
       if (response.hasmore) {
         offsetRef.current += 8
       }
@@ -74,13 +74,13 @@ const useVedio = () => {
     toggle(false)
     setSelectTag(name)
     currentIdRef.current = id
-    return vedioGroupRequset.run({ id, offset: 0 })
+    return vedioGroupRequset.run({ id, offset: 0 } as any)
   }
   const onAllVedio = () => {
     offsetRef.current = 0
     setSelectTag("全部视频")
     toggle(false)
-    return allVedioListRequest.run({ offset: 0 })
+    return allVedioListRequest.run({ offset: 0 } as any)
   }
 
   const loadMore = () => {
@@ -91,7 +91,7 @@ const useVedio = () => {
   }
 
   useEffect(() => {
-    allVedioListRequest.run({ offset: 0 })
+    allVedioListRequest.run({ offset: 0 } as any)
   }, [])
 
   return {

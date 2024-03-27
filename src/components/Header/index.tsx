@@ -1,26 +1,26 @@
 /** @format */
 
-import React, {FC, useMemo} from "react"
-import {CaretDownOutlined, UserOutlined} from "@ant-design/icons"
-import {Avatar, Popover, message} from "antd"
-import {history, useSelector} from "@umijs/max"
-import {useBoolean, useRequest} from "ahooks"
+import React, { FC, useMemo } from "react"
+import { CaretDownOutlined, UserOutlined } from "@ant-design/icons"
+import { Avatar, Popover, message } from "antd"
+import { history, useSelector } from "@umijs/max"
+import { useBoolean, useRequest } from "ahooks"
 import API from "@/api"
-import {UserContent, Search} from "./components"
-import {IState} from "typings"
+import { UserContent, Search } from "./components"
+import { IState } from "typings"
 import styles from "./index.scss"
 
-const Header: FC = ({children}) => {
-  const {userModel} = useSelector((state: IState) => state)
-  const {loginStatus, userInfo} = userModel
-  const [visible, {setFalse: setVisibleFalse, toggle: visibleToggle}] = useBoolean(false)
-  const [signIn, {setTrue: setSignInTrue}] = useBoolean(false)
+const Header: FC = ({ children }) => {
+  const { userModel } = useSelector((state: IState) => state)
+  const { loginStatus, userInfo } = userModel
+  const [visible, { setFalse: setVisibleFalse, toggle: visibleToggle }] = useBoolean(false)
+  const [signIn, { setTrue: setSignInTrue }] = useBoolean(false)
   const onRoute = (path: string) => {
     setVisibleFalse()
     history.push(path)
   }
 
-  const {run: runLogout} = useRequest(() => API.logout({loading: true}), {
+  const { run: runLogout } = useRequest(() => API.logout({ loading: true }), {
     manual: true,
     onSuccess: (response: any) => {
       if (response.code !== 200) return message.info("服务器开小差了哦。。")
@@ -30,7 +30,7 @@ const Header: FC = ({children}) => {
     }
   })
 
-  const {run: runSignin} = useRequest(() => API.dailySignIn({type: 1}), {
+  const { run: runSignin } = useRequest(() => API.dailySignIn({ type: 1 }), {
     manual: true,
     onSuccess: (response) => {
       if (response.code !== 200) return message.info("已经签到过了哦")
@@ -49,8 +49,8 @@ const Header: FC = ({children}) => {
       {childrenArr[1]}
       {loginStatus ? (
         <Popover
-        open={visible}
-          onVisibleChange={visibleToggle}
+          open={visible}
+          onOpenChange={visibleToggle}
           content={
             <UserContent
               userInfo={userInfo}

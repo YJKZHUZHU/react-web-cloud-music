@@ -1,8 +1,8 @@
 /** @format */
 
 import { useRef } from "react"
-import { useLocation } from "@umijs/max"
 import { useRequest } from "ahooks"
+import { useQuery } from '@/hooks'
 import API from "@/api"
 
 interface IConfig {
@@ -16,10 +16,9 @@ interface IConfig {
 //type: 搜索类型；默认为 1 即单曲 , 取值意义 : 1: 单曲, 10: 专辑, 100: 歌手, 1000: 歌单, 1002: 用户, 1004: MV, 1006: 歌词, 1009: 电台, 1014: 视频, 1018:综合
 
 const useSearchDetail = (config: IConfig) => {
-  const location: any = useLocation()
   const { countKey, listKey, type, limit } = config
   const containerRef = useRef<HTMLDivElement>(null)
-  const { keywords } = location.query
+  const { keywords } = useQuery()
 
   const request = useRequest(
     (d) => {

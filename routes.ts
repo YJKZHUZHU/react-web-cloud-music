@@ -1,9 +1,19 @@
-import { IRoute } from 'umi'
+import { IRoute } from '@umijs/max'
 
-const routes: IRoute[] = [
+interface IRoue {
+  component?: (string | undefined);
+  layout?: (false | undefined);
+  path?: (string | undefined);
+  redirect?: (string | undefined);
+  routes?: IRoue[];
+  title?: string
+  wrappers?: (Array<string> | undefined);
+}
+
+const routes: IRoue[] = [
   {
     path: '/',
-    redirect: '/personal-recommendation'
+    redirect: '/personal-recommendation',
   },
   {
     path: '/',
@@ -48,41 +58,41 @@ const routes: IRoute[] = [
         path: '/friend',
         component: 'friend',
         title: '朋友',
-        wrappers: [
-          '@/wrappers/Auth',
-        ]
+        // wrappers: [
+        //   '@/wrappers/Auth',
+        // ]
       },
       {
         path: '/my-music/cloud',
         component: 'cloud',
         title: '我的音乐云盘',
-        wrappers: [
-          '@/wrappers/Auth',
-        ]
+        // wrappers: [
+        //   '@/wrappers/Auth',
+        // ]
       },
       {
         path: '/my-music/collect',
         component: 'collect',
         title: '收藏的专辑',
-        wrappers: [
-          '@/wrappers/Auth',
-        ],
+        // wrappers: [
+        //   '@/wrappers/Auth',
+        // ],
         routes: [
           {
             path: '/my-music/collect/singer',
             component: 'collect/singer',
             title: '收藏的歌手',
-            wrappers: [
-              '@/wrappers/Auth',
-            ]
+            // wrappers: [
+            //   '@/wrappers/Auth',
+            // ]
           },
           {
             path: '/my-music/collect/video',
             component: 'collect/video',
             title: '收藏的视频',
-            wrappers: [
-              '@/wrappers/Auth',
-            ]
+            // wrappers: [
+            //   '@/wrappers/Auth',
+            // ]
           }
         ]
       },
@@ -199,25 +209,25 @@ const routes: IRoute[] = [
         path: '/care/dynamic',
         component: 'care/dynamic',
         title: "动态",
-        wrappers: [
-          '@/wrappers/Auth',
-        ]
+        // wrappers: [
+        //   '@/wrappers/Auth',
+        // ]
       },
       {
         path: '/care/follows',
         component: 'care/follows',
         title: "关注",
-        wrappers: [
-          '@/wrappers/Auth',
-        ]
+        // wrappers: [
+        //   '@/wrappers/Auth',
+        // ]
       },
       {
         path: '/care/fan',
         component: 'care/fan',
         title: "粉丝",
-        wrappers: [
-          '@/wrappers/Auth',
-        ]
+        // wrappers: [
+        //   '@/wrappers/Auth',
+        // ]
       },
       {
         path: '/exclusive-broadcast',
@@ -228,9 +238,9 @@ const routes: IRoute[] = [
         path: '/homepage',
         component: 'homepage',
         title: "个人主页",
-        wrappers: [
-          '@/wrappers/Auth',
-        ]
+        // wrappers: [
+        //   '@/wrappers/Auth',
+        // ]
       },
       {
         path: '/singer-list',
@@ -241,9 +251,9 @@ const routes: IRoute[] = [
         path: '/login',
         component: 'login',
         title: "登录",
-        wrappers:[
-          '@/wrappers/Success'
-        ]
+        // wrappers: [
+        //   '@/wrappers/Success'
+        // ]
       },
       {
         path: '/edit-song-list',

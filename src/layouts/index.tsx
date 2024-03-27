@@ -1,30 +1,30 @@
 /** @format */
 
-import React, {FC, useEffect, useRef, createContext} from "react"
+import React, { FC, useEffect, useRef, createContext } from "react"
 import zh_cn from "antd/lib/locale/zh_CN"
-import {Drawer, Avatar, ConfigProvider, Button,ConfigProviderProps} from "antd"
-import {useDispatch, useSelector, useLocation, request,history,Outlet} from "@umijs/max"
-import {PlayRecord, PlayerLayout, Header, MenuItem} from "@/components"
+import { Drawer, Avatar, ConfigProvider, ConfigProviderProps } from "antd"
+import { useDispatch, useSelector, useLocation, history, Outlet } from "@umijs/max"
+import { PlayRecord, PlayerLayout, Header, MenuItem } from "@/components"
 import classnames from "classnames"
-import {MenuUnfoldOutlined, MenuFoldOutlined} from "@ant-design/icons"
+import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons"
 import Footer from "./Footer"
 import ProLayout, { MenuDataItem } from "@ant-design/pro-layout"
 // import {MenuDataItem} from "@ant-design/pro-layout/lib/typings"
-import renderRouter, {defaultRoutes} from "./Router"
-import {AddSongList} from "@/components/Header/components"
-import {IState} from "typings"
-import {useBoolean} from "ahooks"
+import renderRouter, { defaultRoutes } from "./Router"
+import { AddSongList } from "@/components/Header/components"
+import { IState } from "typings"
+import { useBoolean } from "ahooks"
 // import {IPlayList} from "@umijs/max"
 import styles from "./index.scss"
 import { IPlayList } from "@/models/userStore"
 
-const CONFIG:ConfigProviderProps = {
+const CONFIG: ConfigProviderProps = {
   input: {
     autoComplete: "off"
   },
   locale: zh_cn,
-  theme:{
-    token:{
+  theme: {
+    token: {
       colorPrimary: '#00a799', // 全局主色
       colorLink: '#00a799', // 链接色
       colorSuccess: '#52c41a', // 成功色
@@ -47,13 +47,13 @@ interface IGlobalContext {
 export const GlobalContext = createContext<IGlobalContext>({
   reloadMenu: undefined
 })
-const BasicLayout: FC = ({children}) => {
+const BasicLayout: FC = () => {
   const dispatch = useDispatch()
-  const {userModel, songInfoModel, loading} = useSelector<IState, IState>((state) => state)
-  const {userInfo, userId} = userModel
-  const {showPlayRecord} = songInfoModel
-  const [collapsed, {toggle}] = useBoolean(false)
-  const {pathname} = useLocation()
+  const { userModel, songInfoModel, loading } = useSelector<IState, IState>((state) => state)
+  const { userInfo, userId } = userModel
+  const { showPlayRecord } = songInfoModel
+  const [collapsed, { toggle }] = useBoolean(false)
+  const { pathname } = useLocation()
 
   const actionRef = useRef<{
     reload: () => void
@@ -86,8 +86,13 @@ const BasicLayout: FC = ({children}) => {
   }, [])
 
   return (
-    <ConfigProvider {...CONFIG}>
+    (<ConfigProvider {...CONFIG}>
       <ProLayout
+        token={{
+          header: {
+            heightLayoutHeader: 65
+          }
+        }}
         actionRef={actionRef}
         fixSiderbar
         collapsed={collapsed}
@@ -96,41 +101,47 @@ const BasicLayout: FC = ({children}) => {
         onCollapse={toggle}
         theme="light"
         route={defaultRoutes}
-        menu={{request, loading: loading.effects["userModel/getUserInfo"]}}
+        menu={{ request, loading: loading.effects["userModel/getUserInfo"] }}
         siderWidth={300}
         // headerHeight={65}
-        className={classnames(styles.home, {[styles._homeDiff]: pathname === "/mv-detail"})}
-        location={{pathname}}
+        className={classnames(styles.home, { [styles._homeDiff]: pathname === "/mv-detail" })}
+        location={{ pathname }}
         menuHeaderRender={() => {
           if (collapsed) {
             return <Avatar src={Object.keys(userInfo).length && userInfo.profile.avatarUrl} />
           }
-          return <img style={{height: 65}} src={require("../assets/home.png")}></img>
+          return <img style={{ height: 65 }} src={require("../assets/home.png")}></img>
         }}
         menuItemRender={(item, dom) => (
           <MenuItem reload={actionRef?.current?.reload} menuItem={item}>
             {dom}
           </MenuItem>
         )}
+        fixedHeader
         onMenuHeaderClick={() => history.push("/personal-recommendation")}
-        headerRender={() => (
-          <Header>
-            <div onClick={() => toggle(!collapsed)} className={styles.collapsed}>
-              {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+        headerRender={() => {
+          console.log('1111')
+          return (
+            <div style={{ height: 65 }}>
+              <Header>
+                <div onClick={() => toggle(!collapsed)} className={styles.collapsed}>
+                  {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+                </div>
+                <AddSongList reload={actionRef?.current?.reload} />
+              </Header>
             </div>
-            <AddSongList reload={actionRef?.current?.reload} />
-          </Header>
-        )}
+
+          )
+        }}
         footerRender={() => <Footer />}>
-        <GlobalContext.Provider value={{reloadMenu: actionRef.current?.reload}}>
-          <Outlet/>
-          {/* {children} */}
+        <GlobalContext.Provider value={{ reloadMenu: actionRef.current?.reload }}>
+          <Outlet />
           {pathname !== "/mv-detail" && <PlayerLayout />}
           <Drawer
-            className={styles.drawer}
+            rootClassName={styles.drawer}
             placement="right"
-            bodyStyle={{paddingTop: 18}}
-            visible={showPlayRecord}
+            style={{ paddingTop: 18 }}
+            open={showPlayRecord}
             width={640}
             onClose={onClose}
             getContainer={false}>
@@ -138,8 +149,8 @@ const BasicLayout: FC = ({children}) => {
           </Drawer>
         </GlobalContext.Provider>
       </ProLayout>
-    </ConfigProvider>
-  )
+    </ConfigProvider>)
+  );
 }
 
 export default BasicLayout

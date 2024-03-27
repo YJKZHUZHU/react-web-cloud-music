@@ -1,4 +1,4 @@
-import { Effect, ImmerReducer } from '@umijs/max'
+import { Effect, Reducer } from '@umijs/max'
 import API from '@/api'
 import store from '@/help/localStorage'
 import Utils from '@/help'
@@ -47,12 +47,12 @@ export interface SongInfoModeType {
     getSongInfo: Effect
   }
   reducers: {
-    initSongInfo: ImmerReducer<SongInfoModelState>
-    setIsPlay: ImmerReducer<SongInfoModelState>
-    setShowPlayRecord: ImmerReducer<SongInfoModelState>
-    setPlayRecordTip: ImmerReducer<SongInfoModelState>
-    setKeywords: ImmerReducer<SongInfoModelState>
-    setPlayRecord: ImmerReducer<SongInfoModelState>
+    initSongInfo: Reducer<SongInfoModelState>
+    setIsPlay: Reducer<SongInfoModelState>
+    setShowPlayRecord: Reducer<SongInfoModelState>
+    setPlayRecordTip: Reducer<SongInfoModelState>
+    setKeywords: Reducer<SongInfoModelState>
+    setPlayRecord: Reducer<SongInfoModelState>
   }
 }
 

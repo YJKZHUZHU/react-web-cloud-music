@@ -31,8 +31,8 @@ const Video = () => {
     <div className={styles.vedioGroupList}>
       <div className={styles.top}>
         <Popover
-          visible={visible}
-          onVisibleChange={toggle}
+          open={visible}
+          onOpenChange={toggle}
           overlayClassName={styles.vedioGroupListPopover}
           content={
             <PopoverContent

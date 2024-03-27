@@ -41,7 +41,7 @@ const History: FC<IHistoryProps> = (props) => {
   }, [store.getValue("searchHistory")?.length])
 
   return (
-    <div className={styles._searchContent}>
+    (<div className={styles._searchContent}>
       <div className={styles.history}>
         <div className={styles.top}>
           <Space>
@@ -56,17 +56,14 @@ const History: FC<IHistoryProps> = (props) => {
         </div>
         <div className={styles.tag}>
           {historyList?.map((item: any, index: number) => {
-            return (
-              <Tag
-                closable
-                key={item.id}
-                onClick={() => onHistory(item.keywords)}
-                onClose={() => onClose(item)}
-                className={styles.item}
-                visible={index < 9 ? true : visible}>
-                {item.keywords}
-              </Tag>
-            )
+            return (index < 9 ? true : visible) ? (<Tag
+              closable
+              key={item.id}
+              onClick={() => onHistory(item.keywords)}
+              onClose={() => onClose(item)}
+              className={styles.item}>
+              {item.keywords}
+            </Tag>) : null;
           })}
         </div>
       </div>
@@ -97,8 +94,8 @@ const History: FC<IHistoryProps> = (props) => {
           })}
         </ul>
       </div>
-    </div>
-  )
+    </div>)
+  );
 }
 
 export default History

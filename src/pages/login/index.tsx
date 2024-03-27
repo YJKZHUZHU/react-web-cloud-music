@@ -1,19 +1,20 @@
 /** @format */
 
-import React, {useState, useEffect, useContext} from "react"
-import {LockOutlined, UserOutlined} from "@ant-design/icons"
-import {Button, Input, message, Form, Space, Row, Col, Modal} from "antd"
-import {RightOutlined} from "@ant-design/icons"
-import {useDispatch, history, Redirect,useSelector, UserModelState} from "@umijs/max"
-import {useBoolean} from "ahooks"
+import React, { useState, useEffect, useContext } from "react"
+import { LockOutlined, UserOutlined } from "@ant-design/icons"
+import { Button, Input, message, Form, Space, Row, Col, Modal } from "antd"
+import { RightOutlined } from "@ant-design/icons"
+import { useDispatch, history, useSelector } from "@umijs/max"
+import { useBoolean } from "ahooks"
 import Cookie from "js-cookie"
 import Draggable from "react-draggable"
-import {QrLogin} from "@/components"
-import {useDraggable} from "@/hooks"
+import { QrLogin } from "@/components"
+import { useDraggable } from "@/hooks"
 import API from "@/api"
-import {GlobalContext} from "@/layouts"
+import { GlobalContext } from "@/layouts"
 import styles from "./index.scss"
 import { IState } from "typings"
+import { UserModelState } from "@/models/userStore"
 
 const LAYOUT = {
   labelCol: {
@@ -29,20 +30,20 @@ const INIT_FORM = {
 
 const Login = () => {
   const [form] = Form.useForm()
-  const {loginStatus} = useSelector<IState, UserModelState>((state) => state.userModel)
-  const {reloadMenu} = useContext(GlobalContext)
-  const {onStart, onMouseOver, draggableed, bounds, draggleRef, onMouseOut} = useDraggable()
-  const [loading, {toggle}] = useBoolean(false)
+  const { loginStatus } = useSelector<IState, UserModelState>((state) => state.userModel)
+  const { reloadMenu } = useContext(GlobalContext)
+  const { onStart, onMouseOver, draggableed, bounds, draggleRef, onMouseOut } = useDraggable()
+  const [loading, { toggle }] = useBoolean(false)
   const [loginPattern, setLoginPattern] = useState(0)
-  const [disabled, {setTrue, setFalse}] = useBoolean(false)
-  const [loginVisible, {toggle: loginToggle}] = useBoolean(!!!Cookie.get("MUSIC_U"))
+  const [disabled, { setTrue, setFalse }] = useBoolean(false)
+  const [loginVisible, { toggle: loginToggle }] = useBoolean(!!!Cookie.get("MUSIC_U"))
   const [time, setTime] = useState(60)
-  const [qrLogin, {toggle: qrToggle}] = useBoolean(true)
+  const [qrLogin, { toggle: qrToggle }] = useBoolean(true)
 
   const dispatch = useDispatch()
 
   const loginSuccessCallback = () => {
-    history.action === "POP" ? history.push("/personal-recommendation") : history.goBack()
+    history.action === "POP" ? history.push("/personal-recommendation") : history.go(-1)
   }
 
   const onFinish = async (values: any) => {
@@ -50,7 +51,7 @@ const Login = () => {
       toggle(true)
       if (loginPattern === 1) {
         // 手机号登录
-        const Ret: any = await API.check({phone: values.phone})
+        const Ret: any = await API.check({ phone: values.phone })
         if (+Ret.exist === -1) return message.error("先注册网易云账号再来体验哦")
         const LoginRet: any = await API.loginByPhone({
           phone: values.phone,
@@ -61,7 +62,7 @@ const Login = () => {
       }
       // 验证码登录
       if (loginPattern === 2) {
-        const Ret = await API.checkCaptcha({phone: values.phone, captcha: values.captcha})
+        const Ret = await API.checkCaptcha({ phone: values.phone, captcha: values.captcha })
         if (Ret.code === 503) return message.info(Ret.message || "验证码错误")
         const LoginRet: any = await API.loginByPhone({
           phone: values.phone,
@@ -98,7 +99,7 @@ const Login = () => {
     try {
       const ValidateInfo = await form.validateFields(["phone"])
       setTrue()
-      const Ret = await API.sentCaptcha({phone: ValidateInfo.phone})
+      const Ret = await API.sentCaptcha({ phone: ValidateInfo.phone })
       if (Ret.code !== 200) return message.error(Ret.message || "稍后再试")
       let timeStop = setInterval(() => {
         setTime((val) => {
@@ -111,7 +112,7 @@ const Login = () => {
         })
       }, 1000)
     } catch (error) {
-      throw Error(error)
+      throw error
     }
   }
 
@@ -124,15 +125,12 @@ const Login = () => {
     form.resetFields()
   }, [loginPattern])
 
-  // if (loginStatus) {
-  //   // 已登录
-  //   return <Redirect to="/personal-recommendation" />
-  // }
+
 
   return (
-    <Modal
+    (<Modal
       destroyOnClose
-      visible={loginVisible}
+      open={loginVisible}
       zIndex={99999}
       width={qrLogin ? 500 : 400}
       title={
@@ -183,12 +181,12 @@ const Login = () => {
                     // label={null}
                     required={false}
                     rules={[
-                      {required: true, message: "手机号不能为空"},
-                      {message: "手机号格式错误", pattern: /^1[3456789]\d{9}$/}
+                      { required: true, message: "手机号不能为空" },
+                      { message: "手机号格式错误", pattern: /^1[3456789]\d{9}$/ }
                     ]}>
                     <Input
                       autoComplete={"off"}
-                      prefix={<UserOutlined style={{color: "rgba(0,0,0,.25)"}} />}
+                      prefix={<UserOutlined style={{ color: "rgba(0,0,0,.25)" }} />}
                       placeholder="请输入手机号"
                     />
                   </Form.Item>
@@ -200,7 +198,7 @@ const Login = () => {
                         <Form.Item
                           name="captcha"
                           noStyle
-                          rules={[{required: true, message: "请输入验证码"}]}>
+                          rules={[{ required: true, message: "请输入验证码" }]}>
                           <Input placeholder="请输入验证码" />
                         </Form.Item>
                       </Col>
@@ -218,7 +216,7 @@ const Login = () => {
                     // label="邮箱"
                     required={false}
                     rules={[
-                      {required: true, message: "邮箱账号不能为空"},
+                      { required: true, message: "邮箱账号不能为空" },
                       {
                         message: "邮箱账号格式错误",
                         pattern: /^\w+((.\w+)|(-\w+))@[A-Za-z0-9]+((.|-)[A-Za-z0-9]+).[A-Za-z0-9]+$/
@@ -226,7 +224,7 @@ const Login = () => {
                     ]}>
                     <Input
                       autoComplete={"off"}
-                      prefix={<UserOutlined style={{color: "rgba(0,0,0,.25)"}} />}
+                      prefix={<UserOutlined style={{ color: "rgba(0,0,0,.25)" }} />}
                       placeholder="请输入网易云邮箱账号"
                     />
                   </Form.Item>
@@ -236,9 +234,9 @@ const Login = () => {
                     name="password"
                     // label="密码"
                     required={false}
-                    rules={[{required: true, message: "密码不能为空"}]}>
+                    rules={[{ required: true, message: "密码不能为空" }]}>
                     <Input
-                      prefix={<LockOutlined style={{color: "rgba(0,0,0,.25)"}} />}
+                      prefix={<LockOutlined style={{ color: "rgba(0,0,0,.25)" }} />}
                       type="password"
                       placeholder="请输入密码"
                     />
@@ -266,8 +264,8 @@ const Login = () => {
           <div onClick={() => qrToggle(true)} className={styles.switchQrCode}></div>
         )}
       </div>
-    </Modal>
-  )
+    </Modal>)
+  );
 }
 
 export default Login

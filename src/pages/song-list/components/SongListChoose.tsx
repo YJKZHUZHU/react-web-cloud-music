@@ -1,17 +1,18 @@
 /** @format */
 
-import React, {useEffect, useState, FC} from "react"
-import {Button, Row, Col, message, Tag, Divider, Popover, Descriptions} from "antd"
-import {RightOutlined} from "@ant-design/icons"
-import {useLocation} from "@umijs/max"
+import React, { useEffect, useState, FC } from "react"
+import { Button, Row, Col, message, Tag, Divider, Popover, Descriptions } from "antd"
+import { RightOutlined } from "@ant-design/icons"
+import { useLocation } from "@umijs/max"
+import { useQuery } from '@/hooks'
 import BoutiqueSongListDesc from "./BoutiqueSongListDesc"
 import API from "@/api"
-import {formatCatList, CatListItemInterface, CatListInterface} from "@/help"
+import { formatCatList, CatListItemInterface, CatListInterface } from "@/help"
 import styles from "../index.scss"
 
-const {Item} = Descriptions
+const { Item } = Descriptions
 
-const {CheckableTag} = Tag
+const { CheckableTag } = Tag
 
 interface PlaylistTagInterface {
   id: number
@@ -55,10 +56,9 @@ const INNIT_TAG_DATA: ITagData = {
   hotData: []
 }
 
-const SongListChoose: FC<SongListChooseProps> = ({getTag}) => {
-  const location: any = useLocation()
-  const {tag = "全部歌单"} = location.query
-  const [{data, all, hotData}, setTagData] = useState<ITagData>(INNIT_TAG_DATA)
+const SongListChoose: FC<SongListChooseProps> = ({ getTag }) => {
+  const { tag = "全部歌单" } = useQuery()
+  const [{ data, all, hotData }, setTagData] = useState<ITagData>(INNIT_TAG_DATA)
   const [selectTag, setSelectTag] = useState(tag)
   const [visible, setVisible] = useState(false)
 
@@ -74,7 +74,7 @@ const SongListChoose: FC<SongListChooseProps> = ({getTag}) => {
       })
       return getTag(Ret.all.name, Ret.all.hot)
     } catch (error) {
-      throw Error(error)
+      throw error
     }
   }
 
@@ -120,8 +120,8 @@ const SongListChoose: FC<SongListChooseProps> = ({getTag}) => {
       {!!data.length && (
         <Col span={3}>
           <Popover
-            visible={visible}
-            onVisibleChange={(visible) => setVisible(visible)}
+            open={visible}
+            onOpenChange={setVisible}
             getPopupContainer={(): any => document.getElementsByClassName(styles.listChoose)[0]}
             overlayClassName={styles.catPopover}
             content={content}
@@ -143,7 +143,7 @@ const SongListChoose: FC<SongListChooseProps> = ({getTag}) => {
         </Col>
       )}
 
-      <Col xxl={{span: 14, offset: 7}} xl={{span: 19, offset: 2}} className={styles.hotList}>
+      <Col xxl={{ span: 14, offset: 7 }} xl={{ span: 19, offset: 2 }} className={styles.hotList}>
         <ul className={styles.select}>
           {hotData.map((item, index) => (
             <li key={item.id} className={styles.item}>

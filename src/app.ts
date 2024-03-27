@@ -1,4 +1,4 @@
-import { history, RequestConfig, RuntimeAntdConfig } from '@umijs/max'
+import { history, RequestConfig, RuntimeAntdConfig, useMatch } from '@umijs/max'
 import { message } from 'antd'
 import Nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
@@ -6,18 +6,17 @@ import 'nprogress/nprogress.css'
 export function onRouteChange({ location, matchedRoutes }: any) {
   Nprogress.start()
   // const match = useMatch({ path: 'list/search/:type' })
+  console.log('match', matchedRoutes)
   setTimeout(() => Nprogress.done(), 500)
-  // if (location.pathname === '/') {
-  //   history.push({
-  //     pathname: '/recommend/findMusic/personal-recommendation'
-  //   })
-  // }
+  if (location.pathname === '/') {
+    history.push('/personal-recommendation')
+  }
   // if (match.length) {
   //   document.title = match[match.length - 1].route.title || '';
   // }
-  // if (matchedRoutes.length) {
-  //   document.title = matchedRoutes[matchedRoutes.length - 1].route.title || '';
-  // }
+  if (matchedRoutes?.length) {
+    document.title = matchedRoutes[matchedRoutes.length - 1].route.title || '';
+  }
 }
 
 

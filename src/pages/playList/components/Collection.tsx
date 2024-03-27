@@ -1,9 +1,9 @@
 /** @format */
 
-import React, {FC, useEffect, useState} from "react"
-import {UserOutlined} from "@ant-design/icons"
-import {Col, Row, Avatar, Pagination, message, Spin} from "antd"
-import {history} from "@umijs/max"
+import React, { FC, useEffect, useState } from "react"
+import { UserOutlined } from "@ant-design/icons"
+import { Col, Row, Avatar, Pagination, message, Spin } from "antd"
+import { useQuery } from '@/hooks'
 import API from "@/api"
 import styles from "../index.scss"
 
@@ -22,8 +22,8 @@ interface ParamInterface {
   limit?: number
   offset?: number
 }
-const Collection: FC<CollectionProps> = ({subscribedCount}) => {
-  const {listId} = history.location.query
+const Collection: FC<CollectionProps> = ({ subscribedCount }) => {
+  const { listId } = useQuery()
   const [loading, setLoading] = useState(false)
   const initParam = {
     id: listId,
@@ -69,7 +69,7 @@ const Collection: FC<CollectionProps> = ({subscribedCount}) => {
                 <div className={styles.content}>
                   <p className={styles.img}>
                     <Avatar
-                      style={{backgroundColor: "#D74D45"}}
+                      style={{ backgroundColor: "#D74D45" }}
                       icon={<UserOutlined />}
                       src={item.avatarUrl}
                     />

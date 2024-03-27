@@ -1,4 +1,4 @@
-import { Effect, ImmerReducer, Subscription } from '@umijs/max'
+import { Effect, Reducer, Subscription } from '@umijs/max'
 import API from '@/api'
 
 export interface ICreator {
@@ -103,8 +103,8 @@ export interface UserModelType {
     getPlayList: Effect
   }
   reducers: {
-    initUserInfo: ImmerReducer<UserModelState>
-    setPlayList: ImmerReducer<UserModelState>
+    initUserInfo: Reducer<UserModelState>
+    setPlayList: Reducer<UserModelState>
   },
   subscriptions?: { setup: Subscription };
 }

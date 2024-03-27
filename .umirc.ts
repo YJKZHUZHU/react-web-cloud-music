@@ -54,7 +54,7 @@ export default defineConfig({
   // dynamicImport: {
   //   loading: '@/components/Loading/index'
   // },
-  routes,
+  routes: routes,
   scripts: [`/ripple.js?version=${Date.now()}`],
   // mfsu:{},
   title: '豆芽音乐',
@@ -79,7 +79,9 @@ export default defineConfig({
   // },
   // cssModulesTypescriptLoader: {},
   fastRefresh: true,
-  dva: {},
+  dva: {
+    immer: {},
+  },
   // dva: {
   //   immer: true,
   //   // hmr: false,

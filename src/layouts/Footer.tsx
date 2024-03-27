@@ -1,7 +1,7 @@
 /** @format */
 
-import React, {useState, useRef, memo} from "react"
-import {Slider, Radio, Tooltip, Row, Col, Space} from "antd"
+import React, { useState, useRef, memo } from "react"
+import { Slider, Radio, Tooltip, Row, Col, Space } from "antd"
 import {
   FullscreenOutlined,
   FullscreenExitOutlined,
@@ -12,16 +12,17 @@ import {
   GithubOutlined,
   PauseOutlined
 } from "@ant-design/icons"
-import {useBoolean} from "ahooks"
-import {useDispatch, useLocation, useSelector, SingerInterface} from "@umijs/max"
+import { useBoolean } from "ahooks"
+import { useDispatch, useLocation, useSelector } from "@umijs/max"
 import classnames from "classnames"
-import {usePlayRecord} from "@/hooks"
+import { usePlayRecord } from "@/hooks"
 import Utils from "@/help"
 import ReactPlayer from "react-player"
 import store from "@/help/localStorage"
-import {PlayMode} from "@/components"
+import { PlayMode } from "@/components"
 import style from "./index.scss"
-import {IState} from "typings"
+import { IState } from "typings"
+import { SingerInterface } from "@/models/songInfoStore"
 
 interface PlayerInterface {
   loaded?: number
@@ -37,10 +38,10 @@ const Footer = memo(() => {
   const list = usePlayRecord()
   const volumnRef = useRef(0)
   const [volume, setVolme] = useState(Number(store.getStorage("volume")))
-  const [showValumeIcon, {toggle}] = useBoolean(Number(store.getStorage("volume")) === 0) // 是否静音
-  const {songInfoModel, playmodel} = useSelector((state: IState) => state)
-  const {isPlay, showPlayRecord, playRecordTip, songObj} = songInfoModel
-  const {showPlayer, playMode, playerRate} = playmodel
+  const [showValumeIcon, { toggle }] = useBoolean(Number(store.getStorage("volume")) === 0) // 是否静音
+  const { songInfoModel, playmodel } = useSelector((state: IState) => state)
+  const { isPlay, showPlayRecord, playRecordTip, songObj } = songInfoModel
+  const { showPlayer, playMode, playerRate } = playmodel
 
   const onVolume = (value: any) => {
     volumnRef.current = value / 100
@@ -77,7 +78,7 @@ const Footer = memo(() => {
   }
 
   const onEnded = () => {
-    const {getSecondsLoaded, getCurrentTime} = playRef.current
+    const { getSecondsLoaded, getCurrentTime } = playRef.current
     if (parseInt(getSecondsLoaded(), 10) === parseInt(getCurrentTime(), 10)) {
       // 单曲循环
       if (playMode === 1) {
@@ -155,7 +156,7 @@ const Footer = memo(() => {
   if (location.pathname === "/mv-detail") return null
 
   return (
-    <footer className={style._footer}>
+    (<footer className={style._footer}>
       <div className={style.footerContainer}>
         <Slider
           onChange={(val: number) => playRef.current.seekTo(val)}
@@ -169,7 +170,9 @@ const Footer = memo(() => {
           step={0.001}
           min={0}
           max={songObj?.songTime}
-          tipFormatter={null}
+          tooltip={{
+            formatter: null
+          }}
         />
         <Row className={style.footer}>
           <Col span={4}>
@@ -178,7 +181,7 @@ const Footer = memo(() => {
                 <div
                   className={style.img}
                   onClick={() =>
-                    dispatch({type: "playmodel/setShowPlayer", payload: {showPlayer: !showPlayer}})
+                    dispatch({ type: "playmodel/setShowPlayer", payload: { showPlayer: !showPlayer } })
                   }>
                   <div className={style.mask} />
                   <img src={songObj.backgroundImg} />
@@ -261,7 +264,7 @@ const Footer = memo(() => {
             <ShareAltOutlined />
             <PlayMode />
             {playRecordTip ? (
-              <Tooltip title={playRecordTip} visible={true}>
+              <Tooltip title={playRecordTip} open={true}>
                 <i className={classnames("iconfont", "icon-bofangliebiao")} onClick={onRecord} />
               </Tooltip>
             ) : (
@@ -296,7 +299,7 @@ const Footer = memo(() => {
           playsinline
           url={songObj.url}
           playing={isPlay}
-          style={{display: "none"}}
+          style={{ display: "none" }}
           volume={volume}
           playbackRate={playerRate}
           onProgress={onProgress}
@@ -306,8 +309,8 @@ const Footer = memo(() => {
           ref={playRef}
         />
       )}
-    </footer>
-  )
+    </footer>)
+  );
 })
 
 export default Footer

@@ -1,8 +1,8 @@
 /** @format */
 
-import React, {useState, useEffect, FC, createContext} from "react"
-import {history, useLocation} from "@umijs/max"
-import {Tabs, Radio, Button, Space, Spin, message} from "antd"
+import React, { useState, useEffect, FC, createContext } from "react"
+import { history } from "@umijs/max"
+import { Tabs, Radio, Button, Space, Spin, message } from "antd"
 import {
   BorderInnerOutlined,
   UnorderedListOutlined,
@@ -11,10 +11,12 @@ import {
   UserOutlined,
   CheckOutlined
 } from "@ant-design/icons"
-import {useRequest} from "ahooks"
+import { useRequest } from "ahooks"
 import API from "@/api"
-import Album, {IArtists, LayoutType} from "./album"
+import { useQuery } from '@/hooks'
+import Album, { IArtists, LayoutType } from "./album"
 import styles from "./index.scss"
+import qs from "qs"
 
 interface IArtistsDetailContext {
   total: number
@@ -32,23 +34,22 @@ export interface IProps {
   query: IQuery
 }
 
-const {TabPane} = Tabs
+const { TabPane } = Tabs
 
-const ArtistsDetail: FC = ({children}) => {
-  const location: any = useLocation()
-  const path = location.pathname.split("/").pop()
-  const [tabKey, setTabKey] = useState(location?.query?.source || "album")
+const ArtistsDetail: FC = ({ children }) => {
+  const query = useQuery<{ id: number, name: string, source: string }>()
+  const [tabKey, setTabKey] = useState(query?.source || "album")
   const [collect, setCollect] = useState(false)
   const [extraType, setExtraType] = useState<LayoutType>("card")
-  const {data, run, loading} = useRequest(
-    () => API.getSingerAlbum({id: location.query.id, limit: 0}),
+  const { data, run, loading } = useRequest(
+    () => API.getSingerAlbum({ id: query.id, limit: 0 }),
     {
       manual: true,
       formatResult: (response): IArtists => response.artist
     }
   )
-  const {run: runColect} = useRequest(
-    () => API.setArtistsSub({id: data?.id, t: collect ? -1 : 1}),
+  const { run: runColect } = useRequest(
+    () => API.setArtistsSub({ id: data?.id, t: collect ? -1 : 1 }),
     {
       manual: true,
       onSuccess: async () => {
@@ -61,10 +62,10 @@ const ArtistsDetail: FC = ({children}) => {
       }
     }
   )
-  const {run: runSub} = useRequest(API.artistSublist, {
+  const { run: runSub } = useRequest(API.artistSublist, {
     manual: true,
     onSuccess: (response) => {
-      if (response.data.findIndex((item: any) => +item.id === +location.query.id) !== -1) {
+      if (response.data.findIndex((item: any) => +item.id === +query.id) !== -1) {
         setCollect(true)
       } else {
         setCollect(false)
@@ -74,11 +75,8 @@ const ArtistsDetail: FC = ({children}) => {
   const onTab = (activeKey: any) => {
     setTabKey(activeKey)
     history.push({
-      pathname: `/artists-detail/${activeKey}`,
-      query: {
-        ...location.query,
-        source: activeKey
-      }
+      pathname: `/artists-detail/${activeKey}?${qs.stringify({ ...query, source: activeKey })}`,
+
     })
   }
   const extra = (
@@ -98,12 +96,12 @@ const ArtistsDetail: FC = ({children}) => {
     </Radio.Group>
   )
   useEffect(() => {
-    setTabKey(location?.query?.source)
-  }, [location?.query?.source])
+    setTabKey(query?.source)
+  }, [query?.source])
   useEffect(() => {
     run()
     runSub()
-  }, [location.query.name])
+  }, [query?.name])
   return (
     <div className={styles.attistsDetail}>
       <Spin spinning={loading} tip="歌手信息加载中...">
@@ -146,12 +144,12 @@ const ArtistsDetail: FC = ({children}) => {
       <Tabs
         onChange={onTab}
         activeKey={tabKey}
-        tabBarStyle={{color: "var(--font-color)"}}
+        tabBarStyle={{ color: "var(--font-color)" }}
         animated
         tabBarExtraContent={tabKey === "album" ? extra : null}>
         <TabPane tab="专辑" key="album">
           <Album
-            query={location.query}
+            query={query}
             total={data?.albumSize as number}
             type={extraType}
             topImgUrl={data?.picUrl as string}
@@ -159,7 +157,7 @@ const ArtistsDetail: FC = ({children}) => {
           />
         </TabPane>
         <TabPane tab="MV" key="mv">
-          <ArtistsDetailContext.Provider value={{total: data?.musicSize as number}}>
+          <ArtistsDetailContext.Provider value={{ total: data?.musicSize as number }}>
             {children}
           </ArtistsDetailContext.Provider>
         </TabPane>

@@ -1,25 +1,26 @@
 /** @format */
 
-import React, {useContext, FC} from "react"
-import {Table, Space} from "antd"
-import {useDispatch, history, useLocation} from "@umijs/max"
-import {HeartOutlined} from "@ant-design/icons"
-import {useRequest} from "ahooks"
+import React, { useContext, FC } from "react"
+import { Table, Space } from "antd"
+import { useDispatch, history, useLocation } from "@umijs/max"
+import { HeartOutlined } from "@ant-design/icons"
+import { useRequest } from "ahooks"
+import { useQuery } from '@/hooks'
 import API from "@/api"
 import Utils from "@/help"
-import {Artists, VideoIcon} from "@/components"
-import {CountContext} from "./index"
+import { Artists, VideoIcon } from "@/components"
+import { CountContext } from "./index"
 import styles from "../index.scss"
 
 const Single = () => {
   const dispatch = useDispatch()
-  const {getCount} = useContext(CountContext)
-  const location: any = useLocation()
-  const {keywords} = location.query
+  const { getCount } = useContext(CountContext)
 
-  const {data, pagination, loading} = useRequest(
-    ({current, pageSize}) =>
-      API.getSearchByType({keywords, type: 1, limit: pageSize, offset: (current - 1) * pageSize}),
+  const { keywords } = useQuery()
+
+  const { data, pagination, loading } = useRequest(
+    ({ current, pageSize }) =>
+      API.getSearchByType({ keywords, type: 1, limit: pageSize, offset: (current - 1) * pageSize }),
     {
       refreshDeps: [keywords],
       paginated: true,
@@ -62,7 +63,7 @@ const Single = () => {
         return (
           <Space direction="vertical">
             <Space>
-              <span dangerouslySetInnerHTML={{__html: text && Utils.highLight(text)}} />
+              <span dangerouslySetInnerHTML={{ __html: text && Utils.highLight(text) }} />
               <VideoIcon id={record.mvid} type={0} />
             </Space>
             {record.alias.length ? (
@@ -96,7 +97,7 @@ const Single = () => {
         return (
           <span
             onClick={() => history.push(`/album/song-list?id=${record.album.id}`)}
-            dangerouslySetInnerHTML={{__html: text && Utils.highLight(text.name)}}
+            dangerouslySetInnerHTML={{ __html: text && Utils.highLight(text.name) }}
           />
         )
       }
@@ -116,8 +117,8 @@ const Single = () => {
   return (
     <Table
       loading={loading}
-      locale={{emptyText: "暂无歌曲"}}
-      scroll={{scrollToFirstRowOnChange: true}}
+      locale={{ emptyText: "暂无歌曲" }}
+      scroll={{ scrollToFirstRowOnChange: true }}
       onRow={(record: any) => {
         return {
           onDoubleClick: () =>

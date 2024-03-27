@@ -1,11 +1,11 @@
 /** @format */
 
-import React, {useState, FC} from "react"
-import {Modal, Space, Input, Checkbox, Button, message} from "antd"
-import {useBoolean, useRequest} from "ahooks"
+import React, { useState, FC } from "react"
+import { Modal, Space, Input, Checkbox, Button, message } from "antd"
+import { useBoolean, useRequest } from "ahooks"
 import Draggable from "react-draggable"
-import {useDispatch} from "@umijs/max"
-import {useDraggable} from "@/hooks"
+import { useDispatch } from "@umijs/max"
+import { useDraggable } from "@/hooks"
 import API from "@/api"
 import styles from "../index.scss"
 
@@ -13,15 +13,15 @@ interface IAddSongList {
   reload?: () => void
 }
 
-const AddSongList: FC<IAddSongList> = ({reload}) => {
+const AddSongList: FC<IAddSongList> = ({ reload }) => {
   const dispatch = useDispatch()
-  const {onStart, onMouseOver, draggableed, bounds, draggleRef, onMouseOut} = useDraggable()
-  const [visible, {setFalse, setTrue}] = useBoolean(false)
+  const { onStart, onMouseOver, draggableed, bounds, draggleRef, onMouseOut } = useDraggable()
+  const [visible, { setFalse, setTrue }] = useBoolean(false)
   const [value, setValue] = useState("")
-  const [checked, {toggle}] = useBoolean(false)
+  const [checked, { toggle }] = useBoolean(false)
 
-  const {run, loading} = useRequest(
-    () => API.playlistCreate({name: value, privacy: checked ? 10 : 0}),
+  const { run, loading } = useRequest(
+    () => API.playlistCreate({ name: value, privacy: checked ? 10 : 0 }),
     {
       manual: true,
       onSuccess: (response) => {
@@ -36,12 +36,12 @@ const AddSongList: FC<IAddSongList> = ({reload}) => {
   )
 
   return (
-    <div className={styles.addSongList}>
+    (<div className={styles.addSongList}>
       <a onClick={setTrue}>新建歌单</a>
       <Modal
         width={300}
         footer={null}
-        visible={visible}
+        open={visible}
         onCancel={setFalse}
         maskClosable={false}
         title={
@@ -72,8 +72,8 @@ const AddSongList: FC<IAddSongList> = ({reload}) => {
           </Button>
         </Space>
       </Modal>
-    </div>
-  )
+    </div>)
+  );
 }
 
 export default AddSongList
