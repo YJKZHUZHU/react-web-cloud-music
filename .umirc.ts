@@ -49,7 +49,7 @@ export default defineConfig({
   exportStatic: false,
   antd: {
     // import: true,
-   
+    import: false,
   },
   // dynamicImport: {
   //   loading: '@/components/Loading/index'
@@ -69,7 +69,7 @@ export default defineConfig({
   //   ie: 11
   // },
   hash: true,
-  esbuildMinifyIIFE:true,
+  esbuildMinifyIIFE: true,
   // theme: lessToJs(fs.readFileSync(path.join('./src/theme/default.less'), 'utf8')),
   // sass: {
   //   // implementation: require('node-sass'),

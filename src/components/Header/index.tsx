@@ -49,7 +49,7 @@ const Header: FC = ({children}) => {
       {childrenArr[1]}
       {loginStatus ? (
         <Popover
-          visible={visible}
+        open={visible}
           onVisibleChange={visibleToggle}
           content={
             <UserContent

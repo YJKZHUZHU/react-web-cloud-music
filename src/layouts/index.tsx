@@ -8,37 +8,38 @@ import {PlayRecord, PlayerLayout, Header, MenuItem} from "@/components"
 import classnames from "classnames"
 import {MenuUnfoldOutlined, MenuFoldOutlined} from "@ant-design/icons"
 import Footer from "./Footer"
-import ProLayout from "@ant-design/pro-layout"
-import {MenuDataItem} from "@ant-design/pro-layout/lib/typings"
+import ProLayout, { MenuDataItem } from "@ant-design/pro-layout"
+// import {MenuDataItem} from "@ant-design/pro-layout/lib/typings"
 import renderRouter, {defaultRoutes} from "./Router"
 import {AddSongList} from "@/components/Header/components"
 import {IState} from "typings"
 import {useBoolean} from "ahooks"
-import {IPlayList} from "@umijs/max"
+// import {IPlayList} from "@umijs/max"
 import styles from "./index.scss"
+import { IPlayList } from "@/models/userStore"
 
 const CONFIG:ConfigProviderProps = {
   input: {
     autoComplete: "off"
   },
   locale: zh_cn,
-  // theme:{
-  //   token:{
-  //     colorPrimary: '#00a799', // 全局主色
-  //     colorLink: '#00a799', // 链接色
-  //     colorSuccess: '#52c41a', // 成功色
-  //     colorWarning: '#faad14', // 警告色
-  //     colorError: '#f5222d', // 错误色
-  //     fontSize: 14, // 主字号
-  //     colorTextHeading: '#00A799', // 标题色
-  //     colorText: '#00A799', // 主文本色
-  //     colorTextSecondary: 'rgba(0, 0, 0, 0.45)', // 次文本色
-  //     colorTextDisabled: '#00A799', // 失效色
-  //     borderRadius: 4, // 组件/浮层圆角
-  //     colorBorder: '#d9d9d9', // 边框色
-  //     boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)', // 浮层阴影
-  //   }
-  // }
+  theme:{
+    token:{
+      colorPrimary: '#00a799', // 全局主色
+      colorLink: '#00a799', // 链接色
+      colorSuccess: '#52c41a', // 成功色
+      colorWarning: '#faad14', // 警告色
+      colorError: '#f5222d', // 错误色
+      fontSize: 14, // 主字号
+      colorTextHeading: '#00A799', // 标题色
+      colorText: '#00A799', // 主文本色
+      colorTextSecondary: 'rgba(0, 0, 0, 0.45)', // 次文本色
+      colorTextDisabled: '#00A799', // 失效色
+      borderRadius: 4, // 组件/浮层圆角
+      colorBorder: '#d9d9d9', // 边框色
+      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)', // 浮层阴影
+    }
+  }
 }
 interface IGlobalContext {
   reloadMenu?: () => void
@@ -93,11 +94,11 @@ const BasicLayout: FC = ({children}) => {
         collapsedButtonRender={false}
         title={false}
         onCollapse={toggle}
-        headerTheme="light"
+        theme="light"
         route={defaultRoutes}
         menu={{request, loading: loading.effects["userModel/getUserInfo"]}}
         siderWidth={300}
-        headerHeight={65}
+        // headerHeight={65}
         className={classnames(styles.home, {[styles._homeDiff]: pathname === "/mv-detail"})}
         location={{pathname}}
         menuHeaderRender={() => {
