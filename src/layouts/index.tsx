@@ -86,70 +86,83 @@ const BasicLayout: FC = () => {
   }, [])
 
   return (
-    (<ConfigProvider {...CONFIG}>
-      <ProLayout
-        token={{
-          header: {
-            heightLayoutHeader: 65
-          }
-        }}
-        actionRef={actionRef}
-        fixSiderbar
-        collapsed={collapsed}
-        collapsedButtonRender={false}
-        title={false}
-        onCollapse={toggle}
-        theme="light"
-        route={defaultRoutes}
-        menu={{ request, loading: loading.effects["userModel/getUserInfo"] }}
-        siderWidth={300}
-        // headerHeight={65}
-        className={classnames(styles.home, { [styles._homeDiff]: pathname === "/mv-detail" })}
-        location={{ pathname }}
-        menuHeaderRender={() => {
-          if (collapsed) {
-            return <Avatar src={Object.keys(userInfo).length && userInfo.profile.avatarUrl} />
-          }
-          return <img style={{ height: 65 }} src={require("../assets/home.png")}></img>
-        }}
-        menuItemRender={(item, dom) => (
-          <MenuItem reload={actionRef?.current?.reload} menuItem={item}>
-            {dom}
-          </MenuItem>
-        )}
-        fixedHeader
-        onMenuHeaderClick={() => history.push("/personal-recommendation")}
-        headerRender={() => {
-          console.log('1111')
-          return (
-            <div style={{ height: 65 }}>
+    <div style={{
+      height: '100vh',
+      overflow: 'auto',
+    }}>
+      <ConfigProvider {...CONFIG}>
+        <ProLayout
+          token={{
+            header: {
+              heightLayoutHeader: 65
+            },
+            sider: {
+              // colorMenuItemDivider: '#ffffff'
+            }
+          }}
+          disableMobile
+          layout="mix"
+          actionRef={actionRef}
+          fixSiderbar={true}
+          collapsed={collapsed}
+          collapsedButtonRender={false}
+          title={false}
+          onCollapse={toggle}
+          theme="light"
+          breakpoint={false}
+          route={defaultRoutes}
+          menu={{ request, loading: loading.effects["userModel/getUserInfo"], autoClose: false }}
+          siderWidth={300}
+          className={classnames(styles.home, { [styles._homeDiff]: pathname === "/mv-detail" })}
+          location={{ pathname }}
+          menuHeaderRender={false}
+          menuItemRender={(item, dom) => (
+            <MenuItem reload={actionRef?.current?.reload} menuItem={item}>
+              {dom}
+            </MenuItem>
+          )}
+          contentStyle={{
+            // overflowY: 'scroll'
+          }}
+
+          // onMenuHeaderClick={() => history.push("/personal-recommendation")}
+          headerRender={() => {
+            return (
               <Header>
-                <div onClick={() => toggle(!collapsed)} className={styles.collapsed}>
+                {
+                  collapsed ? (<div className="w-[64px] flex items-center pl-[15px]">
+                    <Avatar onClick={() => history.push("/personal-recommendation")} src={Object.keys(userInfo).length && userInfo.profile.avatarUrl} />
+                  </div>) : (<div className="w-[300px] flex items-center pl-[15px]"><img onClick={() => history.push("/personal-recommendation")} style={{ height: 65 }} src={require("../assets/home.png")}></img></div>)
+                }
+
+
+                <div onClick={() => toggle(!collapsed)} className={classnames(styles.collapsed, 'mx-[5px]')}>
                   {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
                 </div>
                 <AddSongList reload={actionRef?.current?.reload} />
               </Header>
-            </div>
 
-          )
-        }}
-        footerRender={() => <Footer />}>
-        <GlobalContext.Provider value={{ reloadMenu: actionRef.current?.reload }}>
-          <Outlet />
-          {pathname !== "/mv-detail" && <PlayerLayout />}
-          <Drawer
-            rootClassName={styles.drawer}
-            placement="right"
-            style={{ paddingTop: 18 }}
-            open={showPlayRecord}
-            width={640}
-            onClose={onClose}
-            getContainer={false}>
-            <PlayRecord />
-          </Drawer>
-        </GlobalContext.Provider>
-      </ProLayout>
-    </ConfigProvider>)
+            )
+          }}
+          footerRender={() => <Footer />}>
+          <GlobalContext.Provider value={{ reloadMenu: actionRef.current?.reload }}>
+            <Outlet />
+            {pathname !== "/mv-detail" && <PlayerLayout />}
+            <Drawer
+              rootClassName={styles.drawer}
+              placement="right"
+              style={{ paddingTop: 18 }}
+              open={showPlayRecord}
+              width={640}
+              onClose={onClose}
+              getContainer={false}>
+              <PlayRecord />
+            </Drawer>
+          </GlobalContext.Provider>
+        </ProLayout>
+      </ConfigProvider>
+    </div>
+
   );
 }
 

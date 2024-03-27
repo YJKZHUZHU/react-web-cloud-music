@@ -13,8 +13,10 @@ import {
   StarOutlined,
   CloudOutlined
 } from "@ant-design/icons"
-import {Route, MenuDataItem} from "@ant-design/pro-layout/lib/typings"
-import {IPlayListItem} from "@umijs/max"
+import { MenuDataItem } from "@ant-design/pro-layout"
+import { Route } from "@ant-design/pro-layout/es/typing"
+import { IPlayListItem } from "@/models/userStore"
+// import {IPlayListItem} from "@umijs/max"
 
 export const defaultRoutes: Route = {
   path: "/",
@@ -161,9 +163,9 @@ const renderRouter = (
     {
       name: `收藏的歌单(${favorite?.length || 0})`,
       icon: <AntDesignOutlined />,
-      routes: mapPlayList(favorite,'favorite')
+      routes: mapPlayList(favorite, 'favorite')
     }
-  ])
+  ]) as any
 }
 
 export default renderRouter

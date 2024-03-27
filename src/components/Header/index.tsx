@@ -45,8 +45,10 @@ const Header: FC = ({ children }) => {
   return (
     <header className={styles._header}>
       {childrenArr[0]}
-      <Search />
       {childrenArr[1]}
+
+      <Search />
+      {childrenArr[2]}
       {loginStatus ? (
         <Popover
           open={visible}

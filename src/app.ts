@@ -6,7 +6,6 @@ import 'nprogress/nprogress.css'
 export function onRouteChange({ location, matchedRoutes }: any) {
   Nprogress.start()
   // const match = useMatch({ path: 'list/search/:type' })
-  console.log('match', matchedRoutes)
   setTimeout(() => Nprogress.done(), 500)
   if (location.pathname === '/') {
     history.push('/personal-recommendation')
@@ -49,7 +48,6 @@ export const request: RequestConfig = {
     //   return config;
     // },
     (url, options: any) => {
-      console.log('url--', url, options)
       Nprogress.start()
       // if (options.url.indexOf('/api') !== 0) {
       //   config.url = `/api/v1/${url}`;
