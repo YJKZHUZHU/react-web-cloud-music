@@ -2,6 +2,9 @@ import { message } from 'antd'
 import dayjs from 'dayjs'
 import store from '@/help/localStorage'
 import Utils from '@/help/index'
+import { inject } from '@vercel/analytics';
+
+inject();
 
 message.config({
   duration: 1,

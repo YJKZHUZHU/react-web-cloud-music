@@ -12,6 +12,7 @@
     "@better-scroll/core": "^2.2.0",
     "@better-scroll/mouse-wheel": "^2.2.0",
     "@better-scroll/scroll-bar": "^2.2.0",
+    "@vercel/analytics": "^1.2.2",
     "ahooks": "^2.10.0",
     "antd": "^5.15.4",
     "better-scroll": "^2.2.0",
