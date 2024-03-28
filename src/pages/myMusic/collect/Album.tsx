@@ -3,7 +3,7 @@
 import React, {FC} from "react"
 import {List, Spin, Avatar, Space} from "antd"
 import {history} from "@umijs/max"
-import moment from "moment"
+import dayjs from "dayjs"
 import Utils from "@/help"
 import styles from "./index.scss"
 
@@ -58,7 +58,7 @@ const Album: FC<IAlbumProps> = ({data, loading}) => {
         </Space>
         <Space className={styles.time}>
           <span>发布时间</span>
-          <span>{moment(item.subTime).format("YYYY-MM-DD HH:mm:ss")}</span>
+          <span>{dayjs(item.subTime).format("YYYY-MM-DD HH:mm:ss")}</span>
         </Space>
       </div>
     )
@@ -72,7 +72,7 @@ const Album: FC<IAlbumProps> = ({data, loading}) => {
         renderItem={(item) => (
           <List.Item
             onClick={() => history.push(`/album/song-list?id=${item.id}`)}
-            className={styles.alb@umijs/maxtem}>
+            className={styles.albItem}>
             <List.Item.Meta
               avatar={<Avatar src={item.picUrl} />}
               title={
@@ -90,5 +90,4 @@ const Album: FC<IAlbumProps> = ({data, loading}) => {
   )
 }
 
-Album.title = "收藏专辑"
 export default Album

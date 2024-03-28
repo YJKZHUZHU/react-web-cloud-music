@@ -10,8 +10,7 @@ import {
 } from "@ant-design/icons"
 import {history} from "@umijs/max"
 import {useRequest} from "ahooks"
-
-import moment from "moment"
+import dayjs from "dayjs"
 import {PlayIcon, Artists} from "@/components"
 import API from "@/api"
 import {MV_AREA} from "@/help/map"
@@ -70,7 +69,7 @@ const TopMv = () => {
             placement="topLeft"
             title="选取云音乐中三个月内发布的热度最高的50支mv，每天更新，热度有由mv播放，收藏，分享数量综合计算">
             <Space size={4}>
-              <span>{moment(data?.updateTime).format("YYYY-MM-DD HH:MM:ss")}</span>
+              <span>{dayjs(data?.updateTime).format("YYYY-MM-DD HH:MM:ss")}</span>
               <QuestionCircleOutlined />
             </Space>
           </Tooltip>

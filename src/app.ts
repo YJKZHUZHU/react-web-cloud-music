@@ -1,7 +1,8 @@
-import { history, RequestConfig, RuntimeAntdConfig, useMatch } from '@umijs/max'
+import { history, RequestConfig } from '@umijs/max'
 import { message } from 'antd'
 import Nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
+import qs from 'qs'
 
 export function onRouteChange({ location, matchedRoutes }: any) {
   Nprogress.start()
@@ -31,7 +32,6 @@ const errorHandler = (error: any) => {
 }
 
 export const request: RequestConfig = {
-  // prefix: '/api',
   timeout: 100000, // 部分接口响应偏慢
   errorConfig: {
     errorHandler,
@@ -41,22 +41,24 @@ export const request: RequestConfig = {
     'Content-Type': 'multipart/form-data',
   },
   requestInterceptors: [
-    // (config) => {
-    //   if (config.url.indexOf('/api') !== 0) {
-    //     config.url = `/api/v1/${url}`;
-    //   }
-    //   return config;
-    // },
-    (url, options: any) => {
+
+    (_, options: any) => {
       Nprogress.start()
-      // if (options.url.indexOf('/api') !== 0) {
-      //   config.url = `/api/v1/${url}`;
-      // }
-      // if (options.params.loading === true) {
-      //   delete options.params.loading
-      // }
+      const [url, queryString] = options.url?.split("?") || []
+      console.log('url', url, options)
+      let obj = Object.create(null)
+      obj.timestamp = Date.now()
+      if (queryString) {
+        obj = {
+          ...obj,
+          ...qs.parse(queryString),
+        }
+      }
+
+      const query = qs.stringify(obj)
+
       return {
-        url: `/api${url}`,
+        url: `/api/${url}?${query}`,
         options
       }
     }
@@ -76,36 +78,6 @@ export const request: RequestConfig = {
   ]
 }
 
-// export const antd: RuntimeAntdConfig = (memo: any) => {
-//   console.log('memo', memo)
-//   memo.theme ??= {
-//     token: {
-//       primaryColor: '#00a799', // 全局主色
-//       linkColor: '#00a799', // 链接色
-//       successColor: '#52c41a', // 成功色
-//       warningColor: '#faad14', // 警告色
-//       errorColor: '#f5222d', // 错误色
-//       fontSizeBase: '14px', // 主字号
-//       headingColor: '#00A799', // 标题色
-//       textColor: '#00A799', // 主文本色
-//       textColorSecondary: 'rgba(0, 0, 0, 0.45)', // 次文本色
-//       disabledColor: '#00A799', // 失效色
-//       borderRadiusBase: '4px', // 组件/浮层圆角
-//       borderColorBase: '#d9d9d9', // 边框色
-//       boxShadowBase: '0 2px 8px rgba(0, 0, 0, 0.15)', // 浮层阴影
-//     }
-//   };
-//   // memo.theme.algorithm = theme.darkAlgorithm; // 配置 antd5 的预设 dark 算法
-
-//   memo.appConfig = {
-//     message: {
-//       // 配置 message 最大显示数，超过限制时，最早的消息会被自动关闭
-//       maxCount: 1,
-//     }
-//   }
-
-//   return memo;
-// };
 
 
 

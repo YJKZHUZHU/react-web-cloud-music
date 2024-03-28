@@ -49,7 +49,7 @@ const QrLogin: FC<IQrLoginProps> = ({callback}) => {
         return message.success("登录成功")
       } catch (error) {
         callback(false)
-        throw Error(error)
+        throw error
       }
     }
   })

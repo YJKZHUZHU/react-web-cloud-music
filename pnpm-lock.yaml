@@ -25,16 +25,16 @@ dependencies:
     version: 2.10.14(react@18.2.0)
   antd:
     specifier: ^5.15.4
-    version: 5.15.4(moment@2.30.1)(react-dom@18.2.0)(react@18.2.0)
+    version: 5.15.4(react-dom@18.2.0)(react@18.2.0)
   better-scroll:
     specifier: ^2.2.0
     version: 2.5.1
+  dayjs:
+    specifier: ^1.11.10
+    version: 1.11.10
   js-cookie:
     specifier: ^2.2.1
     version: 2.2.1
-  moment:
-    specifier: ^2.30.1
-    version: 2.30.1
   nprogress:
     specifier: ^0.2.0
     version: 0.2.0
@@ -57,8 +57,8 @@ dependencies:
     specifier: ^2.9.0
     version: 2.15.1(react@18.2.0)
   video-react:
-    specifier: ^0.14.1
-    version: 0.14.1(react-dom@18.2.0)(react@18.2.0)
+    specifier: ^0.16.0
+    version: 0.16.0(react-dom@18.2.0)(react@18.2.0)
 
 devDependencies:
   '@alitajs/hd':
@@ -94,6 +94,9 @@ devDependencies:
   '@types/react-test-renderer':
     specifier: ^16.0.3
     version: 16.9.12
+  '@types/video-react':
+    specifier: ^0.15.6
+    version: 0.15.6
   '@typescript-eslint/eslint-plugin':
     specifier: ^3.0.2
     version: 3.10.1(@typescript-eslint/parser@3.10.1)(eslint@5.16.0)(typescript@5.4.3)
@@ -441,7 +444,7 @@ packages:
       '@babel/runtime': 7.24.1
       '@umijs/route-utils': 4.0.1
       '@umijs/use-params': 1.0.9(react@18.2.0)
-      antd: 5.15.4(moment@2.30.1)(react-dom@18.2.0)(react@18.2.0)
+      antd: 5.15.4(react-dom@18.2.0)(react@18.2.0)
       classnames: 2.5.1
       lodash.merge: 4.6.2
       omit.js: 2.0.2
@@ -506,7 +509,7 @@ packages:
       '@ant-design/cssinjs': 1.18.5(react-dom@18.2.0)(react@18.2.0)
       '@babel/runtime': 7.24.1
       '@ctrl/tinycolor': 3.6.1
-      antd: 5.15.4(moment@2.30.1)(react-dom@18.2.0)(react@18.2.0)
+      antd: 5.15.4(react-dom@18.2.0)(react@18.2.0)
       rc-util: 5.39.1(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
@@ -590,7 +593,7 @@ packages:
       '@ant-design/icons': 5.3.5(react-dom@18.2.0)(react@18.2.0)
       '@ant-design/pro-provider': 2.14.0(antd@5.15.4)(react-dom@18.2.0)(react@18.2.0)
       '@babel/runtime': 7.24.1
-      antd: 5.15.4(moment@2.30.1)(react-dom@18.2.0)(react@18.2.0)
+      antd: 5.15.4(react-dom@18.2.0)(react@18.2.0)
       classnames: 2.5.1
       dayjs: 1.11.10
       lodash.merge: 4.6.2
@@ -2634,6 +2637,12 @@ packages:
     resolution: {integrity: sha512-EwmlvuaxPNej9+T4v5AuBPJa2x2UOJVdjCtDHgcDqitUeOtjnJKJ+apYjVcAoBEMjKW1VVFGZLUb5+qqa09XFA==}
     dev: true
 
+  /@types/video-react@0.15.6:
+    resolution: {integrity: sha512-HuqO9ANrpKEz6EiTP8o9qaGy8QEcnM6vQ3DmmTOKsLDSr2YD6jrEyMS6XsWFEQpBOblfIuURpDQcuwC6HdwewQ==}
+    dependencies:
+      '@types/react': 16.14.59
+    dev: true
+
   /@types/yargs-parser@21.0.3:
     resolution: {integrity: sha512-I4q9QU9MQv4oEOz4tAHJtNz1cwuLxn2F3xcc2iV5WdqLPpUnj30aUuxt1mAxYTG+oe8CZMV/+6rU4S4gRDzqtQ==}
     dev: true
@@ -3773,7 +3782,7 @@ packages:
       scroll-into-view-if-needed: 2.2.31
     dev: true
 
-  /antd@5.15.4(moment@2.30.1)(react-dom@18.2.0)(react@18.2.0):
+  /antd@5.15.4(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-79eLOQW1DG92yzulx+ValfHFjvPnaaI41BffGquAnzx42Ws3eEcKofsa2jNRyJN5NWr9I5wqvABDq9rRRfGGsg==}
     peerDependencies:
       react: '>=16.9.0'
@@ -3808,7 +3817,7 @@ packages:
       rc-motion: 2.9.0(react-dom@18.2.0)(react@18.2.0)
       rc-notification: 5.3.0(react-dom@18.2.0)(react@18.2.0)
       rc-pagination: 4.0.4(react-dom@18.2.0)(react@18.2.0)
-      rc-picker: 4.3.0(dayjs@1.11.10)(moment@2.30.1)(react-dom@18.2.0)(react@18.2.0)
+      rc-picker: 4.3.0(dayjs@1.11.10)(react-dom@18.2.0)(react@18.2.0)
       rc-progress: 3.5.1(react-dom@18.2.0)(react@18.2.0)
       rc-rate: 2.12.0(react-dom@18.2.0)(react@18.2.0)
       rc-resize-observer: 1.4.0(react-dom@18.2.0)(react@18.2.0)
@@ -8690,6 +8699,7 @@ packages:
 
   /moment@2.30.1:
     resolution: {integrity: sha512-uEmtNhbDOrWPFS+hdjFCBfy9f2YoyzRpwcl+DqpC6taX21FzsTLQVbMV/W7PzNSX6x/bhC1zA3c2UQ5NzH6how==}
+    dev: true
 
   /ms@2.0.0:
     resolution: {integrity: sha512-Tpp60P6IUJDTuOq/5Z8cdskzJujfwqfOTkrwIwj7IRISpnkJnT6SyJ4PCPnGMoFjC9ddhal5KVIYtAt97ix05A==}
@@ -10599,7 +10609,7 @@ packages:
       shallowequal: 1.1.0
     dev: true
 
-  /rc-picker@4.3.0(dayjs@1.11.10)(moment@2.30.1)(react-dom@18.2.0)(react@18.2.0):
+  /rc-picker@4.3.0(dayjs@1.11.10)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-bQNB/+NdW55jlQ5lPnNqF5J90Tq4SihLbAF7tzPBvGDJyoYmDgwLm4FN0ZB3Ot9i1v6vJY/1mgqZZTT9jbYc5w==}
     engines: {node: '>=8.x'}
     peerDependencies:
@@ -10623,7 +10633,6 @@ packages:
       '@rc-component/trigger': 2.0.0(react-dom@18.2.0)(react@18.2.0)
       classnames: 2.5.1
       dayjs: 1.11.10
-      moment: 2.30.1
       rc-overflow: 1.3.2(react-dom@18.2.0)(react@18.2.0)
       rc-resize-observer: 1.4.0(react-dom@18.2.0)(react@18.2.0)
       rc-util: 5.39.1(react-dom@18.2.0)(react@18.2.0)
@@ -13199,11 +13208,11 @@ packages:
     engines: {node: '>= 0.8'}
     dev: true
 
-  /video-react@0.14.1(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-R5ClJo58iJcQLS+bGNmuAMc/fx9/xcJ6oLrAlbuu7MGI49Jh7b7o79aUdQMZvzuynT1NvhVmD4N/fTOEmWNDlg==}
+  /video-react@0.16.0(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-138NHPS8bmgqCYVCdbv2GVFhXntemNHWGw9AN8iJSzr3jizXMmWJd2LTBppr4hZJUbyW1A1tPZ3CQXZUaexMVA==}
     peerDependencies:
-      react: ^15.0.0 || ^16.0.0
-      react-dom: ^15.0.0 || ^16.0.0
+      react: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
     dependencies:
       '@babel/runtime': 7.24.1
       classnames: 2.5.1

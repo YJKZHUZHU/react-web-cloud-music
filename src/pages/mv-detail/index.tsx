@@ -1,7 +1,7 @@
 /** @format */
 
-import React, {FC, useEffect, useState, useRef} from "react"
-import {history, useLocation} from "@umijs/max"
+import React, { FC, useEffect, useState, useRef } from "react"
+import { history, useLocation } from "@umijs/max"
 import {
   Player,
   BigPlayButton,
@@ -22,18 +22,18 @@ import {
   ShareAltOutlined,
   CheckCircleOutlined
 } from "@ant-design/icons"
-import {message, Select, Avatar, Button, Tag, Space} from "antd"
-import {useRequest} from "ahooks"
+import { message, Select, Avatar, Button, Tag, Space } from "antd"
+import { useRequest } from "ahooks"
 import classnames from "classnames"
-import moment from 'moment'
+import dayjs from 'dayjs'
 import API from "@/api"
 import Utils from "@/help"
 import SimiItem from "./SimiItem"
-import {Artists, NewComment, HotComment} from "@/components"
-import {IItem} from "@/components/Artists"
+import { Artists, NewComment, HotComment } from "@/components"
+import { IItem } from "@/components/Artists"
 import styles from "./index.scss"
 
-const {Option} = Select
+const { Option } = Select
 
 interface IMvDetailInfo {
   likedCount: number
@@ -102,7 +102,7 @@ interface IMvUrl {
   url: string
 }
 
-const BRS_MAP: {[propsName: string]: string} = {
+const BRS_MAP: { [propsName: string]: string } = {
   "240": "标清",
   "480": "高清",
   "720": "超清",
@@ -111,13 +111,13 @@ const BRS_MAP: {[propsName: string]: string} = {
 
 const MvDetail: FC = () => {
   const playRef = useRef<any>(null)
-  const location:any = useLocation()
-  const {query} = location
+  const location: any = useLocation()
+  const { query } = location
   const [showDesc, setShowDesc] = useState(false)
   const [autoPlay, setAutoPlay] = useState(false)
-  const {run: runMvurl, data: mvUrlData} = useRequest<{data: IMvUrl; code: number; urls: any[]}>(
+  const { run: runMvurl, data: mvUrlData } = useRequest<{ data: IMvUrl; code: number; urls: any[] }>(
     (r?: any) =>
-      +query.type === 0 ? API.getMvUrl({id: query.mvid, r}) : API.getVedioUrl({id: query.mvid, r}),
+      +query.type === 0 ? API.getMvUrl({ id: query.mvid, r }) : API.getVedioUrl({ id: query.mvid, r }),
     {
       manual: true,
       onSuccess: () => {
@@ -126,33 +126,33 @@ const MvDetail: FC = () => {
       }
     }
   )
-  const {run: runMvDetailInfo, data: mvDetailInfo} = useRequest<IMvDetailInfo>(
+  const { run: runMvDetailInfo, data: mvDetailInfo } = useRequest<IMvDetailInfo>(
     () =>
       +query.type === 0
-        ? API.getMvDetailInfo({...query})
-        : API.getVedioDetailInfo({vid: query.mvid}),
+        ? API.getMvDetailInfo({ ...query })
+        : API.getVedioDetailInfo({ vid: query.mvid }),
     {
       manual: true
     }
   )
-  const {data, run} = useRequest<IData>(
+  const { data, run } = useRequest<IData>(
     () =>
       +query.type === 0
-        ? API.getMvDetail({...query, loading: true})
-        : API.getVedioDetail({id: query.mvid, loading: true}),
+        ? API.getMvDetail({ ...query, loading: true })
+        : API.getVedioDetail({ id: query.mvid, loading: true }),
     {
       manual: true
     }
   )
-  const {run: runSub} = useRequest(() => API.setMvSub({...query, t: data?.subed ? -1 : 1}), {
+  const { run: runSub } = useRequest(() => API.setMvSub({ ...query, t: data?.subed ? -1 : 1 }), {
     manual: true,
     onSuccess: (response) => {
       message.success(response.message)
       run()
     }
   })
-  const {run: runLike} = useRequest(
-    (t: number) => API.setResourceLike({type: 1, id: query.mvid, t}),
+  const { run: runLike } = useRequest(
+    (t: number) => API.setResourceLike({ type: 1, id: query.mvid, t }),
     {
       manual: true,
       onSuccess: () => {
@@ -173,14 +173,13 @@ const MvDetail: FC = () => {
   return (
     <div className={styles._mvDetail}>
       <div className={styles.left}>
-        <p className={styles.title} onClick={() => history.goBack()}>
+        <p className={styles.title} onClick={() => history.go(-1)}>
           <LeftOutlined />
           <span className={styles.name}>{+query.type === 0 ? "MV详情" : "视频详情"}</span>
         </p>
         <Player
           fluid={false}
           height={500}
-          width="100%"
           autoPlay={autoPlay}
           src={+query.type === 0 ? mvUrlData?.data?.url : mvUrlData?.urls[0]?.url}
           poster={data?.data?.cover}
@@ -190,31 +189,31 @@ const MvDetail: FC = () => {
           <ControlBar>
             <PlaybackRateMenuButton rates={[2, 1.5, 1.25, 1.0, 0.75, 0.5]} />
             <VolumeMenuButton vertical />
-            <ReplayControl econds={15} order={2.1} />
-            <ForwardControl econds={15} order={3.2} />
+            <ReplayControl seconds={10} />
+            <ForwardControl seconds={10} />
             <Select
               value={+query.type === 0 ? mvUrlData?.data?.r : mvUrlData?.urls[0]?.r}
               bordered={false}
-              style={{width: 80}}
+              style={{ width: 80 }}
               onChange={(value) => runMvurl(value)}
-              showArrow={false}
+              suffixIcon={null}
               className={styles.select}
               size="small">
               {+query.type === 0
                 ? data?.data?.brs.reverse().map((item) => {
-                    return (
-                      <Option value={item.br} key={item.br}>
-                        {BRS_MAP[item.br]}
-                      </Option>
-                    )
-                  })
+                  return (
+                    <Option value={item.br} key={item.br}>
+                      {BRS_MAP[item.br]}
+                    </Option>
+                  )
+                })
                 : data?.data?.resolutions.reverse().map((item) => {
-                    return (
-                      <Option value={item.resolution} key={item.resolution}>
-                        {BRS_MAP[item.resolution]}
-                      </Option>
-                    )
-                  })}
+                  return (
+                    <Option value={item.resolution} key={item.resolution}>
+                      {BRS_MAP[item.resolution]}
+                    </Option>
+                  )
+                })}
             </Select>
           </ControlBar>
         </Player>
@@ -264,7 +263,7 @@ const MvDetail: FC = () => {
         </Space>
         <div className={styles.mvBtn}>
           <Button shape="round" onClick={() => runLike(mvDetailInfo?.liked ? -1 : 1)}>
-            <LikeOutlined className={classnames({[styles.liked]: mvDetailInfo?.liked})} />
+            <LikeOutlined className={classnames({ [styles.liked]: mvDetailInfo?.liked })} />
             {mvDetailInfo?.liked ? "已赞" : "赞"}({mvDetailInfo?.likedCount})
           </Button>
 

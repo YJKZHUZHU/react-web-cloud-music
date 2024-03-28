@@ -5,7 +5,7 @@ import {List, Avatar, Divider} from "antd"
 import {ShareAltOutlined, CommentOutlined, LikeOutlined} from "@ant-design/icons"
 import {useRequest} from "ahooks"
 import classnames from "classnames"
-import moment from "moment"
+import dayjs from "dayjs"
 import API from "@/api"
 import {IComments, ICommentsProps} from "@/components"
 import styles from "./index.scss"
@@ -71,7 +71,7 @@ const NewComment: FC<ICommentsProps> = (props) => {
                   </>
                 )}
                 <div className={styles.footer}>
-                  <p className={styles.time}>{moment(item?.time).format("YYYY-MM-DD HH:mm:ss")}</p>
+                  <p className={styles.time}>{dayjs(item?.time).format("YYYY-MM-DD HH:mm:ss")}</p>
                   <div>
                     <LikeOutlined />({item?.likedCount})
                     <Divider type="vertical" />

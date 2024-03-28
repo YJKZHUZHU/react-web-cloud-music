@@ -12,7 +12,7 @@ $mvBg: "../../../assets/mask.png";
     margin-top: 20px;
   }
 
-  .alb@umijs/maxtem {
+  .albItem {
     padding: 8px 20px;
     @include zebra-lists(#333333, #fafafa, #333333, #f5f5f7);
     cursor: pointer;

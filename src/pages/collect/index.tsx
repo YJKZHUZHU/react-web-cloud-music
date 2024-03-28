@@ -6,7 +6,7 @@ import { history, useLocation } from "@umijs/max"
 import { useRequest } from "ahooks"
 import API from "@/api"
 import Utils from "@/help"
-import moment from "moment"
+import dayjs from "dayjs"
 import styles from "./index.scss"
 
 const { TabPane } = Tabs
@@ -102,7 +102,7 @@ const Collect: FC = ({ children }) => {
         </Space>
         <Space className={styles.time}>
           <span>发布时间</span>
-          <span>{moment(item.subTime).format("YYYY-MM-DD HH:mm:ss")}</span>
+          <span>{dayjs(item.subTime).format("YYYY-MM-DD HH:mm:ss")}</span>
         </Space>
       </div>
     )

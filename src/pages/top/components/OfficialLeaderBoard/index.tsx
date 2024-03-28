@@ -4,7 +4,7 @@ import React, {FC} from "react"
 import {CaretRightOutlined, RightOutlined} from "@ant-design/icons"
 import {Col} from "antd"
 import {Link, useDispatch, history} from "@umijs/max"
-import moment from "moment"
+import dayjs from "dayjs"
 import classnames from "classnames"
 import {Artists} from "@/components"
 import styles from "./index.scss"
@@ -133,7 +133,7 @@ const OfficialLeaderBoard: FC<OfficialLeaderBoardInterface> = ({data, type}) => 
                 </div>
                 <div className={styles.description}>
                   <span>{item.name}</span>
-                  <span>最近更新：{moment(item.updateTime).format("MM-DD")}日更新</span>
+                  <span>最近更新：{dayjs(item.updateTime).format("MM-DD")}日更新</span>
                 </div>
                 {type === "officia" ? (
                   <div className={styles.icon}>

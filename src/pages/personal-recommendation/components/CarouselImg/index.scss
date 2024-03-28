@@ -2,7 +2,7 @@
 
 @import "src/theme/utils";
 .carousel {
-  min-height: 150px;
+  height: 150px;
   margin: auto;
   position: relative;
   font-size:10px;
@@ -11,6 +11,7 @@
     height: 20px;
   }
   img {
+    height: 150px !important;
     width: 95%;
     border-radius: 5px;
     margin: 2%;

@@ -3,31 +3,41 @@
 @import "src/theme/utils";
 
 .home {
-  height: 100%;
-  overflow: hidden;
+  // height: 100%;
+  // overflow: hidden;
 
   :global(.ant-pro-sider-logo) {
     padding: 0;
   }
+
   :global(.ant-layout) {
     background-color: white;
   }
+
   :global(.ant-layout-sider) {
     padding-bottom: 90px;
   }
+
+  :global(.ant-pro-layout-container) {
+    overflow-x: scroll;
+  }
+
   .collapsed {
     cursor: pointer;
     font-size: 16px;
     width: 36px;
   }
+
   &._homeDiff {
     main {
       margin-bottom: 20px;
     }
+
     :global(.ant-layout-sider) {
       padding-bottom: 0;
     }
   }
+
   main {
     display: flex;
     width: 100%;
@@ -188,14 +198,14 @@
                 margin-left: 5px;
                 margin-top: 4px;
               }
+
               .pause {
                 margin-top: 4px;
               }
             }
           }
 
-          .last {
-          }
+          .last {}
         }
 
         .playRate {
@@ -241,6 +251,7 @@
     0% {
       transform: translate(-200px, -200px) rotate(45deg);
     }
+
     100% {
       transform: translate(200px, 200px) rotate(45deg);
     }
@@ -248,6 +259,7 @@
 }
 
 :global {
+
   //进场前的瞬间
   ._song_list_an-enter,
   ._song_list_an-appear {

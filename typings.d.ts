@@ -2,8 +2,6 @@ import '@umijs/max/typings';
 
 
 
-// import {PlayModelState, SongInfoModelState, UserModelState} from "umi"
-
 
 declare interface IState {
   playmodel: PlayModelState

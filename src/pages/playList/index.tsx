@@ -10,9 +10,9 @@ import {
   EditOutlined,
   CustomerServiceOutlined
 } from "@ant-design/icons"
-import { Divider, Button, Tabs, Input, Space, Avatar } from "antd"
-import { Link, history, useLocation, useParams } from "@umijs/max"
-import moment from "moment"
+import { Button, Tabs, Input, Space, Avatar } from "antd"
+import { history, useParams } from "@umijs/max"
+import dayjs from "dayjs"
 import { HotComment, NewComment } from "@/components"
 import { ListTable, Collection } from "./components"
 import usePlayList from "./hooks/usePlayList"
@@ -69,7 +69,7 @@ const PlayList = () => {
               {data?.creator.nickname}
             </a>
             <Space>
-              <span>{moment(data?.createTime).format("YYYY-MM-DD")}</span>
+              <span>{dayjs(data?.createTime).format("YYYY-MM-DD")}</span>
               <i>创建</i>
             </Space>
           </Space>

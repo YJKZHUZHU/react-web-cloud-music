@@ -1,6 +1,4 @@
-/** @format */
-
-import React, { FC, useEffect, useRef, createContext } from "react"
+import { useEffect, useRef, createContext, FC } from "react"
 import zh_cn from "antd/lib/locale/zh_CN"
 import { Drawer, Avatar, ConfigProvider, ConfigProviderProps } from "antd"
 import { useDispatch, useSelector, useLocation, history, Outlet } from "@umijs/max"
@@ -9,14 +7,12 @@ import classnames from "classnames"
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons"
 import Footer from "./Footer"
 import ProLayout, { MenuDataItem } from "@ant-design/pro-layout"
-// import {MenuDataItem} from "@ant-design/pro-layout/lib/typings"
 import renderRouter, { defaultRoutes } from "./Router"
 import { AddSongList } from "@/components/Header/components"
 import { IState } from "typings"
 import { useBoolean } from "ahooks"
-// import {IPlayList} from "@umijs/max"
-import styles from "./index.scss"
 import { IPlayList } from "@/models/userStore"
+import styles from "./index.scss"
 
 const CONFIG: ConfigProviderProps = {
   input: {
@@ -86,19 +82,17 @@ const BasicLayout: FC = () => {
   }, [])
 
   return (
-    <div style={{
-      height: '100vh',
-      overflow: 'auto',
-    }}>
+    <div className=" min-w-[1280px]">
       <ConfigProvider {...CONFIG}>
         <ProLayout
           token={{
             header: {
-              heightLayoutHeader: 65
+              heightLayoutHeader: 65,
+              colorBgHeader: '#ffffff'
             },
             sider: {
-              // colorMenuItemDivider: '#ffffff'
-            }
+              colorMenuBackground: '#ffffff'
+            },
           }}
           disableMobile
           layout="mix"
@@ -109,7 +103,6 @@ const BasicLayout: FC = () => {
           title={false}
           onCollapse={toggle}
           theme="light"
-          breakpoint={false}
           route={defaultRoutes}
           menu={{ request, loading: loading.effects["userModel/getUserInfo"], autoClose: false }}
           siderWidth={300}
@@ -122,10 +115,8 @@ const BasicLayout: FC = () => {
             </MenuItem>
           )}
           contentStyle={{
-            // overflowY: 'scroll'
+            minWidth: 900
           }}
-
-          // onMenuHeaderClick={() => history.push("/personal-recommendation")}
           headerRender={() => {
             return (
               <Header>

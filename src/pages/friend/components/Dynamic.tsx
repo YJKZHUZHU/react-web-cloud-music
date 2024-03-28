@@ -3,7 +3,7 @@
 import React, {FC} from "react"
 import {List, Space, Avatar} from "antd"
 import {ShareAltOutlined, LikeOutlined, MessageOutlined} from "@ant-design/icons"
-import moment from "moment"
+import dayjs from "dayjs"
 import {history, useDispatch} from "@umijs/max"
 import {Artists, PlayIcon} from "@/components"
 import styles from "../index.scss"
@@ -101,7 +101,7 @@ const Dynamic: FC<IDynamicProps> = ({data, loading}) => {
                   <span>{json?.song ? "分享单曲" : "发表动态"}</span>
                 </Space>
               }
-              description={moment(item?.eventTime).format("YYYY-MM-DD HH:mm")}
+              description={dayjs(item?.eventTime).format("YYYY-MM-DD HH:mm")}
             />
             {content(json, {pics: item?.pics, rcmdInfo: item?.rcmdInfo})}
           </List.Item>

@@ -1,5 +1,5 @@
 import { message } from 'antd'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import store from '@/help/localStorage'
 import Utils from '@/help/index'
 
@@ -8,7 +8,7 @@ message.config({
   maxCount: 1
 })
 
-moment.locale(window.navigator.language)
+dayjs.locale(window.navigator.language)
 
 
 // toFixed兼容方法

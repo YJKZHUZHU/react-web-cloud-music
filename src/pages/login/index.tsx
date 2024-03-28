@@ -128,7 +128,7 @@ const Login = () => {
 
 
   return (
-    (<Modal
+    <Modal
       destroyOnClose
       open={loginVisible}
       zIndex={99999}
@@ -264,7 +264,7 @@ const Login = () => {
           <div onClick={() => qrToggle(true)} className={styles.switchQrCode}></div>
         )}
       </div>
-    </Modal>)
+    </Modal>
   );
 }
 

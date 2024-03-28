@@ -12,7 +12,7 @@ import {
 } from "@ant-design/icons"
 import {history, useDispatch} from "@umijs/max"
 import API from "@/api"
-import moment from "moment"
+import dayjs from "dayjs"
 import classnames from "classnames"
 import {PlayIcon} from "@/components"
 import {IProps} from "../index"
@@ -175,7 +175,7 @@ const Album: FC<IAlbum> = (props) => {
             onClick={() => id && history.push(`/album/song-list?id=${id}`)}>
             <img src={imgUrl} alt="" />
           </div>
-          {time ? <span>{moment(time).format("YYYY-MM-DD")}</span> : null}
+          {time ? <span>{dayjs(time).format("YYYY-MM-DD")}</span> : null}
         </Space>
       </div>
     )
@@ -295,7 +295,7 @@ const Album: FC<IAlbum> = (props) => {
                   </span>
                 </p>
                 <span className={styles.publishTime}>
-                  {moment(item.publishTime).format("YYYY-MM-DD")}
+                  {dayjs(item.publishTime).format("YYYY-MM-DD")}
                 </span>
               </Card>
             </Col>

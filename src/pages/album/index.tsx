@@ -11,7 +11,7 @@ import {
 } from "@ant-design/icons"
 import { useQuery } from '@/hooks'
 import { history } from "@umijs/max"
-import moment from "moment"
+import dayjs from 'dayjs'
 import API from "@/api"
 import styles from "./index.scss"
 import qs from "qs"
@@ -114,7 +114,7 @@ const Album: FC = ({ children }) => {
             </Space>
             <Space>
               <span>时间:</span>
-              <span>{moment(data?.album.publishTime).format("YYYY-MM-Dd")}</span>
+              <span>{dayjs(data?.album.publishTime).format("YYYY-MM-Dd")}</span>
             </Space>
           </Space>
         </div>

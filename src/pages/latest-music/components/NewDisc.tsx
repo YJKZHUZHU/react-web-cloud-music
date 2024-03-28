@@ -5,7 +5,7 @@ import {Tabs, Tag, Row, Col} from "antd"
 import {history} from "@umijs/max"
 import {useRequest, useUpdateEffect} from "ahooks"
 import {LoadingOutlined} from "@ant-design/icons"
-import moment, {Moment} from "moment"
+import dayjs from "dayjs"
 import {PlayIcon, Artists} from "@/components"
 import {NEW_DISK_TAB_MAP} from "@/help/map"
 import API from "@/api"
@@ -85,7 +85,7 @@ const tagsData = [
 const List: FC<IList> = (props) => {
   const {tip, area, type} = props
   const containerRef = useRef<HTMLDivElement>(null)
-  const dateRef = useRef<Moment>(moment())
+  const dateRef = useRef<dayjs.Dayjs>(dayjs())
   const {data, reload, noMore} = useRequest(
     (result: {list: IData[]; more: any}) =>
       API.getTopAlbum({

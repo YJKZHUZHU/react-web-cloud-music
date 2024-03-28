@@ -1,6 +1,9 @@
+import { AllPlayRecordInterface } from '@/models/userStore'
 import store from './localStorage'
-import { AllPlayRecordInterface } from '@umijs/max'
-import moment from 'moment'
+import dayjs from 'dayjs'
+import calendar from 'dayjs/plugin/calendar'
+
+dayjs.extend(calendar)
 
 export interface ArInterface {
   alias?: any[]
@@ -183,7 +186,7 @@ class Utils {
 
   //评论时间格式化
   static commentFormatTime(time: any) {
-    return moment(time).calendar(moment(), {
+    return dayjs(time).calendar(dayjs(), {
       sameDay: '[今天] HH:MM:ss',
       nextDay: '[明天]',
       nextWeek: 'dddd',

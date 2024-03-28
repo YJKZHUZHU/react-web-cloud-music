@@ -16,7 +16,6 @@ import {
 import { MenuDataItem } from "@ant-design/pro-layout"
 import { Route } from "@ant-design/pro-layout/es/typing"
 import { IPlayListItem } from "@/models/userStore"
-// import {IPlayListItem} from "@umijs/max"
 
 export const defaultRoutes: Route = {
   path: "/",
