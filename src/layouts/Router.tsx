@@ -104,23 +104,23 @@ export const defaultRoutes: Route = {
       path: "my-music",
       routes: [
         {
-          path: "/my-music/cloud",
+          path: "/cloud",
           name: "音乐云盘",
           icon: <CloudOutlined />
         },
         {
-          path: "/my-music/collect/album",
+          path: "/collect",
           name: "我的收藏",
           icon: <StarOutlined />,
           hideChildrenInMenu: true,
           routes: [
             {
-              path: "/my-music/collect/singer",
+              path: "/collect/singer",
               name: "歌手",
               icon: <StarOutlined />
             },
             {
-              path: "/my-music/collect/video",
+              path: "/collect/video",
               name: "视频",
               icon: <StarOutlined />
             }
@@ -157,10 +157,12 @@ const renderRouter = (
     {
       name: `创建的歌单(${creator?.length || 0})`,
       icon: <AntDesignOutlined />,
+      path:'creatorPlayList',
       routes: mapPlayList(creator, 'creator')
     },
     {
       name: `收藏的歌单(${favorite?.length || 0})`,
+      path:'favoritePlayList',
       icon: <AntDesignOutlined />,
       routes: mapPlayList(favorite, 'favorite')
     }

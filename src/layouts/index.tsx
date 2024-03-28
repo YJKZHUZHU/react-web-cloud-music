@@ -66,6 +66,7 @@ const BasicLayout: FC = () => {
 
   const request = async (_: Record<string, any>, defaultMenuData: MenuDataItem[]) => {
     try {
+
       const Ret: IPlayList | any = await dispatch({
         type: userId ? "userModel/getPlayList" : "userModel/getUserInfo"
       })
@@ -91,8 +92,10 @@ const BasicLayout: FC = () => {
               colorBgHeader: '#ffffff'
             },
             sider: {
-              colorMenuBackground: '#ffffff'
+              colorMenuBackground: '#ffffff',
+              // menuHeight: 'auto',
             },
+
           }}
           disableMobile
           layout="mix"
@@ -109,11 +112,14 @@ const BasicLayout: FC = () => {
           className={classnames(styles.home, { [styles._homeDiff]: pathname === "/mv-detail" })}
           location={{ pathname }}
           menuHeaderRender={false}
-          menuItemRender={(item, dom) => (
-            <MenuItem reload={actionRef?.current?.reload} menuItem={item}>
-              {dom}
-            </MenuItem>
-          )}
+          menuItemRender={(item, dom) => {
+            console.log('item', item, dom)
+            return (
+              <MenuItem reload={actionRef?.current?.reload} menuItem={item}>
+                {dom}
+              </MenuItem>
+            )
+          }}
           contentStyle={{
             minWidth: 900
           }}

@@ -34,7 +34,7 @@ const routes: IRoue[] = [
       },
       {
         path: '/mv',
-        component: 'mv',
+        component: '@/pages/mv',
         title: 'MV',
         wrappers: [
           '@/wrappers/Auth',
@@ -42,12 +42,12 @@ const routes: IRoue[] = [
       },
       {
         path: '/top-mv',
-        component: 'top-mv',
+        component: '@/pages/top-mv',
         title: 'MV排行榜'
       },
       {
         path: '/fm',
-        component: 'fm',
+        component: '@/pages/fm',
         title: '私人FM',
         wrappers: [
           '@/wrappers/Auth',
@@ -55,22 +55,22 @@ const routes: IRoue[] = [
       },
       {
         path: '/friend',
-        component: 'friend',
+        component: '@/pages/friend',
         title: '朋友',
         wrappers: [
           '@/wrappers/Auth',
         ]
       },
       {
-        path: '/my-music/cloud',
-        component: 'cloud',
+        path: '/cloud',
+        component: '@/pages/cloud',
         title: '我的音乐云盘',
         wrappers: [
           '@/wrappers/Auth',
         ]
       },
       {
-        path: '/my-music/collect',
+        path: '/collect',
         component: 'collect',
         title: '收藏的专辑',
         wrappers: [
@@ -78,7 +78,7 @@ const routes: IRoue[] = [
         ],
         routes: [
           {
-            path: '/my-music/collect/singer',
+            path: '/collect/singer',
             component: 'collect/singer',
             title: '收藏的歌手',
             wrappers: [
@@ -86,7 +86,7 @@ const routes: IRoue[] = [
             ]
           },
           {
-            path: '/my-music/collect/video',
+            path: '/collect/video',
             component: 'collect/video',
             title: '收藏的视频',
             wrappers: [

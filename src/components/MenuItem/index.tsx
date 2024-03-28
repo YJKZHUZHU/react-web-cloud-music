@@ -16,8 +16,8 @@ import {
 import classNames from "classnames"
 import {useBoolean, useRequest} from "ahooks"
 import API from "@/api"
-import {MenuDataItem} from "@ant-design/pro-layout/lib/typings"
 import styles from "./index.scss"
+import { MenuDataItem } from "@ant-design/pro-layout"
 
 interface Item {
   url: string

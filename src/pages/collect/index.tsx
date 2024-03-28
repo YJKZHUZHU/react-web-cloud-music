@@ -1,8 +1,8 @@
 /** @format */
 
-import React, {useState, useEffect, FC} from "react"
-import {Tabs, Spin, List, Space, Avatar} from "antd"
-import { history, useLocation } from "@umijs/max"
+import React, { useState, useEffect, FC } from "react"
+import { Tabs, Spin, List, Space, Avatar } from "antd"
+import { history, useLocation, Outlet } from "@umijs/max"
 import { useRequest } from "ahooks"
 import API from "@/api"
 import Utils from "@/help"
@@ -90,7 +90,7 @@ const Collect: FC = ({ children }) => {
 
   const callback = (activeKey: string) => {
     setTabKey(activeKey)
-    history.push(`/my-music/collect/${activeKey}`)
+    history.push(`/collect/${activeKey}`)
   }
 
   const albumDescription = (item: IAlbum) => {
@@ -119,7 +119,7 @@ const Collect: FC = ({ children }) => {
         <Spin spinning={loading} tip="Loadiing...">
           <List
             itemLayout="horizontal"
-            locale={{emptyText: "暂无收藏专辑"}}
+            locale={{ emptyText: "暂无收藏专辑" }}
             dataSource={albumData?.data}
             renderItem={(item) => (
               <List.Item
@@ -141,10 +141,10 @@ const Collect: FC = ({ children }) => {
         </Spin>
       </TabPane>
       <TabPane tab={`歌手 ${data?.artistCount}`} key="singer">
-        {children}
+        <Outlet />
       </TabPane>
       <TabPane tab={`视频  ${data?.mvCount}`} key="video">
-        {children}
+        <Outlet />
       </TabPane>
     </Tabs>
   )
