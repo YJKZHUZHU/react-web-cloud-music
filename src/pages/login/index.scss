@@ -1,9 +1,11 @@
 // 登录
 $qrCodePath: "../../assets/qr_login_icon.png";
+
 .draggable {
   width: 100%;
   cursor: move;
 }
+
 ._login {
   align-items: center;
   display: flex;
@@ -14,16 +16,18 @@ $qrCodePath: "../../assets/qr_login_icon.png";
   .switchQrCode {
     position: absolute;
     right: -22px;
-    bottom: -24px;
+    bottom: -19px;
     width: 52px;
     height: 52px;
     background-image: url($qrCodePath);
     background-size: contain;
     cursor: pointer;
   }
+
   .loginTypeBtn {
     margin-top: 20px;
   }
+
   .pattern {
     width: 100%;
   }
@@ -36,6 +40,7 @@ $qrCodePath: "../../assets/qr_login_icon.png";
   .form {
     width: 100%;
   }
+
   .other {
     display: flex;
     justify-content: flex-end;
@@ -45,5 +50,38 @@ $qrCodePath: "../../assets/qr_login_icon.png";
     // &:hover {
     //   color: #ca4841;
     // }
+  }
+}
+
+.formLayout {
+  
+  display: flex;
+  flex: 1;
+  z-index: 99;
+  flex-direction: column;
+  max-width: 550px;
+  padding-inline: 0;
+  padding-block: 32px;
+  overflow: auto;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  height: max-content;
+  margin: auto;
+  background-repeat: no-repeat;
+  background-position: center 110px;
+  background-size: 100%;
+
+  .form {
+    background-color: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(4px);
+    border-radius: 6px;
+    background-size: 100%;
+    background-position: top;
+    backdrop-filter: blur(10px);
+    // background-color: rgba(20, 20, 20, 0.8);
+    background-image: radial-gradient(circle at 93% 1e+02%, rgba(22, 119, 255, 0.17) 0%, rgba(255, 255, 255, 0.05) 23%, rgba(255, 255, 255, 0.03) 87%, rgba(22, 119, 255, 0.12) 109%);
+    padding: 32px;
+    box-shadow: 0px 0px 24px 0px rgba(0, 0, 0, 0.1);
   }
 }

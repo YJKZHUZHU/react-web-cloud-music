@@ -23,10 +23,13 @@ export default defineConfig({
     // default true, when it is true, will use `navigator.language` overwrite default
     baseNavigator: true,
   },
-  // ...prod,
   exportStatic: false,
   antd: {
     import: false,
+    configProvider: {},
+    styleProvider: {
+      hashPriority: 'high' // https://ant.design/docs/react/compatible-style-cn#where-%E9%80%89%E6%8B%A9%E5%99%A8
+    }
   },
   // dynamicImport: {
   //   loading: '@/components/Loading/index'

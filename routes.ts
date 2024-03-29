@@ -15,6 +15,15 @@ const routes: IRoue[] = [
     redirect: '/personal-recommendation',
   },
   {
+    path: '/login',
+    component: 'login',
+    title: "登录",
+    layout: false,// 关闭 layout
+    // wrappers: [
+    //   '@/wrappers/Success'
+    // ]
+  },
+  {
     path: '/',
     component: '@/layouts',
     layout: false,// 关闭 layout
@@ -40,6 +49,15 @@ const routes: IRoue[] = [
           '@/wrappers/Auth',
         ]
       },
+      // {
+      //   path: '/login',
+      //   component: 'login',
+      //   title: "登录",
+      //   // layout: false,// 关闭 layout
+      //   // wrappers: [
+      //   //   '@/wrappers/Success'
+      //   // ]
+      // },
       {
         path: '/top-mv',
         component: '@/pages/top-mv',
@@ -246,14 +264,7 @@ const routes: IRoue[] = [
         component: 'singer-list',
         title: "歌手榜单"
       },
-      {
-        path: '/login',
-        component: 'login',
-        title: "登录",
-        // wrappers: [
-        //   '@/wrappers/Success'
-        // ]
-      },
+    
       {
         path: '/edit-song-list',
         component: 'edit-song-list',

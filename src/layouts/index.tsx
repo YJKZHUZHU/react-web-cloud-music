@@ -84,7 +84,7 @@ const BasicLayout: FC = () => {
 
   return (
     <div className=" min-w-[1280px]">
-      <ConfigProvider {...CONFIG}>
+      {/* <ConfigProvider {...CONFIG}> */}
         <ProLayout
           token={{
             header: {
@@ -157,7 +157,7 @@ const BasicLayout: FC = () => {
             </Drawer>
           </GlobalContext.Provider>
         </ProLayout>
-      </ConfigProvider>
+      {/* </ConfigProvider> */}
     </div>
 
   );

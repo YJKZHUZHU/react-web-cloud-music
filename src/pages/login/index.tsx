@@ -12,6 +12,7 @@ import { QrLogin } from "@/components"
 import { useDraggable } from "@/hooks"
 import API from "@/api"
 import { GlobalContext } from "@/layouts"
+import classNames from "classnames"
 import styles from "./index.scss"
 import { IState } from "typings"
 import { UserModelState } from "@/models/userStore"
@@ -128,144 +129,137 @@ const Login = () => {
 
 
   return (
-    <Modal
-      destroyOnClose
-      open={loginVisible}
-      zIndex={99999}
-      width={qrLogin ? 500 : 400}
-      title={
-        <div className={styles.draggable} onMouseOver={onMouseOver} onMouseOut={onMouseOut}>
-          登录
-        </div>
-      }
-      maskClosable={false}
-      onCancel={onCancel}
-      modalRender={(modal) => {
-        return (
-          <Draggable disabled={draggableed} bounds={bounds} onStart={onStart}>
-            <div ref={draggleRef}>{modal}</div>
-          </Draggable>
-        )
-      }}
-      footer={null}>
-      <div className={styles._login}>
-        {qrLogin ? (
-          <QrLogin callback={loginToggle} />
-        ) : (
-          <>
-            {loginPattern === 0 ? (
-              <Space direction="vertical" className={styles.pattern}>
-                <div className={styles.img}>
-                  <img src={require("../../assets/platform.png")} />
-                </div>
-                <Button type="primary" block onClick={() => setLoginPattern(1)}>
-                  手机号登录
-                </Button>
-                <Button block onClick={() => setLoginPattern(2)}>
-                  验证码登录
-                </Button>
-                <Button block onClick={() => setLoginPattern(3)}>
-                  邮箱登录
-                </Button>
-              </Space>
-            ) : (
-              <Form
-                onFinish={onFinish}
-                {...LAYOUT}
-                initialValues={INIT_FORM}
-                className={styles.form}
-                form={form}>
-                {(loginPattern === 1 || loginPattern === 2) && (
-                  <Form.Item
-                    name="phone"
-                    // label={null}
-                    required={false}
-                    rules={[
-                      { required: true, message: "手机号不能为空" },
-                      { message: "手机号格式错误", pattern: /^1[3456789]\d{9}$/ }
-                    ]}>
-                    <Input
-                      autoComplete={"off"}
-                      prefix={<UserOutlined style={{ color: "rgba(0,0,0,.25)" }} />}
-                      placeholder="请输入手机号"
-                    />
-                  </Form.Item>
-                )}
-                {loginPattern === 2 && (
-                  <Form.Item>
-                    <Row gutter={8}>
-                      <Col span={14}>
-                        <Form.Item
-                          name="captcha"
-                          noStyle
-                          rules={[{ required: true, message: "请输入验证码" }]}>
-                          <Input placeholder="请输入验证码" />
-                        </Form.Item>
-                      </Col>
-                      <Col span={10}>
-                        <Button block onClick={onCaptcha} disabled={disabled}>
-                          {disabled ? `${time}秒` : "获取验证码"}
-                        </Button>
-                      </Col>
-                    </Row>
-                  </Form.Item>
-                )}
-                {loginPattern === 3 && (
-                  <Form.Item
-                    name="email"
-                    // label="邮箱"
-                    required={false}
-                    rules={[
-                      { required: true, message: "邮箱账号不能为空" },
-                      {
-                        message: "邮箱账号格式错误",
-                        pattern: /^\w+((.\w+)|(-\w+))@[A-Za-z0-9]+((.|-)[A-Za-z0-9]+).[A-Za-z0-9]+$/
-                      }
-                    ]}>
-                    <Input
-                      autoComplete={"off"}
-                      prefix={<UserOutlined style={{ color: "rgba(0,0,0,.25)" }} />}
-                      placeholder="请输入网易云邮箱账号"
-                    />
-                  </Form.Item>
-                )}
-                {(loginPattern === 1 || loginPattern === 3) && (
-                  <Form.Item
-                    name="password"
-                    // label="密码"
-                    required={false}
-                    rules={[{ required: true, message: "密码不能为空" }]}>
-                    <Input
-                      prefix={<LockOutlined style={{ color: "rgba(0,0,0,.25)" }} />}
-                      type="password"
-                      placeholder="请输入密码"
-                    />
-                  </Form.Item>
-                )}
-                <Button type="primary" htmlType="submit" block loading={loading}>
-                  {loading ? "登录中..." : "登录"}
-                </Button>
-                <span className={styles.other}>
-                  <Space>
-                    <span onClick={() => setLoginPattern(0)}>其他登录方式</span>
-                    <RightOutlined />
-                  </Space>
-                </span>
-              </Form>
-            )}
-          </>
-        )}
-        {qrLogin && (
-          <Button shape="round" className={styles.loginTypeBtn} onClick={() => qrToggle(false)}>
-            选择其他登录方式
-          </Button>
-        )}
-        {!qrLogin && loginPattern === 0 && (
-          <div onClick={() => qrToggle(true)} className={styles.switchQrCode}></div>
-        )}
+    <div className="bg-[#ffffff] h-[100vh]">
+      <div className=" absolute top-0 left-0 w-[100%] h-[100%] overflow-hidden z-1">
+        <video className="w-[100%] h-[100%] object-cover" autoPlay playsInline loop crossOrigin="anonymous" src="/login/rain.mp4" />
       </div>
-    </Modal>
+      <div className="flex w-[100%] h-[100%]">
+        <div className="flex-1 flex items-end z-99"></div>
+        <div className={classNames(styles.formLayout)}>
+          <div className={styles.form}>
+            {qrLogin ? (
+              <QrLogin callback={loginToggle} />
+            ) : (
+              <>
+                {loginPattern === 0 ? (
+                  <Space direction="vertical" className={styles.pattern}>
+                    <div className={styles.img}>
+                      <img src={require("../../assets/platform.png")} />
+                    </div>
+                    <Button type="primary" block onClick={() => setLoginPattern(1)}>
+                      手机号登录
+                    </Button>
+                    <Button block onClick={() => setLoginPattern(2)}>
+                      验证码登录
+                    </Button>
+                    <Button block onClick={() => setLoginPattern(3)}>
+                      邮箱登录
+                    </Button>
+                  </Space>
+                ) : (
+                  <Form
+                    onFinish={onFinish}
+                    {...LAYOUT}
+                    initialValues={INIT_FORM}
+                    className={styles.form}
+                    form={form}>
+                    {(loginPattern === 1 || loginPattern === 2) && (
+                      <Form.Item
+                        name="phone"
+                        // label={null}
+                        required={false}
+                        rules={[
+                          { required: true, message: "手机号不能为空" },
+                          { message: "手机号格式错误", pattern: /^1[3456789]\d{9}$/ }
+                        ]}>
+                        <Input
+                          autoComplete={"off"}
+                          prefix={<UserOutlined style={{ color: "rgba(0,0,0,.25)" }} />}
+                          placeholder="请输入手机号"
+                        />
+                      </Form.Item>
+                    )}
+                    {loginPattern === 2 && (
+                      <Form.Item>
+                        <Row gutter={8}>
+                          <Col span={14}>
+                            <Form.Item
+                              name="captcha"
+                              noStyle
+                              rules={[{ required: true, message: "请输入验证码" }]}>
+                              <Input placeholder="请输入验证码" />
+                            </Form.Item>
+                          </Col>
+                          <Col span={10}>
+                            <Button block onClick={onCaptcha} disabled={disabled}>
+                              {disabled ? `${time}秒` : "获取验证码"}
+                            </Button>
+                          </Col>
+                        </Row>
+                      </Form.Item>
+                    )}
+                    {loginPattern === 3 && (
+                      <Form.Item
+                        name="email"
+                        // label="邮箱"
+                        required={false}
+                        rules={[
+                          { required: true, message: "邮箱账号不能为空" },
+                          {
+                            message: "邮箱账号格式错误",
+                            pattern: /^\w+((.\w+)|(-\w+))@[A-Za-z0-9]+((.|-)[A-Za-z0-9]+).[A-Za-z0-9]+$/
+                          }
+                        ]}>
+                        <Input
+                          autoComplete={"off"}
+                          prefix={<UserOutlined style={{ color: "rgba(0,0,0,.25)" }} />}
+                          placeholder="请输入网易云邮箱账号"
+                        />
+                      </Form.Item>
+                    )}
+                    {(loginPattern === 1 || loginPattern === 3) && (
+                      <Form.Item
+                        name="password"
+                        // label="密码"
+                        required={false}
+                        rules={[{ required: true, message: "密码不能为空" }]}>
+                        <Input
+                          prefix={<LockOutlined style={{ color: "rgba(0,0,0,.25)" }} />}
+                          type="password"
+                          placeholder="请输入密码"
+                        />
+                      </Form.Item>
+                    )}
+                    <Button type="primary" htmlType="submit" block loading={loading}>
+                      {loading ? "登录中..." : "登录"}
+                    </Button>
+                    <span className={styles.other}>
+                      <Space>
+                        <span onClick={() => setLoginPattern(0)}>其他登录方式</span>
+                        <RightOutlined />
+                      </Space>
+                    </span>
+                  </Form>
+                )}
+              </>
+            )}
+            {qrLogin && (
+              <Button shape="round" className={styles.loginTypeBtn} onClick={() => qrToggle(false)}>
+                选择其他登录方式
+              </Button>
+            )}
+            {!qrLogin && loginPattern === 0 && (
+              <div onClick={() => qrToggle(true)} className={styles.switchQrCode}></div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+
   );
 }
 
 export default Login
+
+
+

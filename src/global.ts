@@ -6,10 +6,10 @@ import { inject } from '@vercel/analytics';
 
 inject();
 
-message.config({
-  duration: 1,
-  maxCount: 1
-})
+// message.config({
+//   duration: 1,
+//   maxCount: 1
+// })
 
 dayjs.locale(window.navigator.language)
 
