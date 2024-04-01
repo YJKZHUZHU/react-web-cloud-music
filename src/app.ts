@@ -5,12 +5,19 @@ import 'nprogress/nprogress.css'
 import qs from 'qs'
 import zh_cn from "antd/lib/locale/zh_CN"
 import { theme } from 'antd';
+import { login } from './help/cache'
 
 Nprogress.configure({
   showSpinner: false
 })
 
 export function onRouteChange({ location, matchedRoutes }: any) {
+
+  console.log('location.pathname', location)
+  // 已经登录，重定向回首页
+  if (login() && location.pathname === '/login') {
+    history.replace('/personal-recommendation')
+  }
   Nprogress.start()
   // const match = useMatch({ path: 'list/search/:type' })
   setTimeout(() => Nprogress.done(), 500)
@@ -64,13 +71,14 @@ export const request: RequestConfig = {
       const query = qs.stringify(obj)
 
       return {
-        url: `/api/${url}?${query}`,
+        url: `/api${url}?${query}`,
         options
       }
     }
   ],
   responseInterceptors: [
-    (response) => {
+    (response: any) => {
+      console.log('response===', response.config.url, response)
       Nprogress.done()
       if (response.status === 301) {
         message.info('登录可以体验更多功能哦！')
@@ -78,6 +86,29 @@ export const request: RequestConfig = {
       }
       if (response.status === 302) {
         return new Promise(() => { })
+      }
+      if (response.config.headers?.format) {
+        const code = response.data.code || response.data?.data?.code
+        const data = response.data || response.data?.data
+        if (code === 200) {
+          return {
+            ...response,
+            data: {
+              code,
+              message: "",
+              success: true,
+              data: data.data || data,
+            }
+          } as any
+        }
+        return {
+          ...response,
+          data: {
+            ...(data.data || data),
+            code,
+            success: false,
+          }
+        }
       }
       return response
     }

@@ -204,22 +204,182 @@ export interface IVipInfo {
   userLevel: UserLevel // 用户等级信息
   levelCard: LevelCard // 等级卡片信息
 }
+
+export interface IUserItem {
+  // 用户的默认头像标志位，true表示使用默认头像
+  defaultAvatar: boolean;
+  // 用户所在的省份ID
+  province: number;
+  // 用户的认证状态，0表示未认证
+  authStatus: number;
+  // 是否已关注该用户
+  followed: boolean;
+  // 用户头像的URL
+  avatarUrl: string;
+  // 用户账号状态，0表示账号正常
+  accountStatus: number;
+  // 用户的性别，2表示女性
+  gender: number;
+  // 用户所在的城市ID
+  city: number;
+  // 用户的生日，0表示未设置
+  birthday: number;
+  // 用户的唯一ID
+  userId: number;
+  // 用户类型，0表示普通用户
+  userType: number;
+  // 用户的昵称
+  nickname: string;
+  // 用户的签名
+  signature: string;
+  // 用户的详细描述
+  description: string;
+  // 用户的详细描述详细信息
+  detailDescription: string;
+  // 头像图片ID
+  avatarImgId: number;
+  // 背景图片ID
+  backgroundImgId: number;
+  // 背景图片的URL
+  backgroundUrl: string;
+  // 用户的权限等级
+  authority: number;
+  // 是否互相关注
+  mutual: boolean;
+  // 专家标签，null表示没有
+  expertTags: string[] | null;
+  // 专家信息，null表示没有
+  experts: any[] | null; // 这里需要具体的结构，这里暂时用any代替
+  // DJ身份状态，0表示不是DJ
+  djStatus: number;
+  // VIP类型，11表示某种VIP身份
+  vipType: number;
+  // 用户的备注名
+  remarkName: string | null;
+  // 认证类型
+  authenticationTypes: number;
+  // 头像图片的详细信息，null表示没有
+  avatarDetail: any | null; // 这里需要具体的结构，这里暂时用any代替
+  // 头像图片ID的字符串形式
+  avatarImgIdStr: string;
+  // 是否为主播
+  anchor: boolean;
+  // 头像图片ID的字符串形式
+  avatarImgId_str: string;
+
+  // 其他字段...
+}
+
+export interface ISongListItem {
+  // 订阅者列表，空数组表示没有订阅者
+  subscribers: IUserItem[];
+  // 是否已订阅该歌单
+  subscribed: boolean;
+  // 歌单创建者的信息
+  creator: IUserItem;
+  // 艺术家列表，null表示没有
+  artists: any[] | null; // 这里需要具体的结构，这里暂时用any代替
+  // 音轨列表，null表示没有
+  tracks: any[] | null; // 这里需要具体的结构，这里暂时用any代替
+  // 是否置顶歌单
+  top: boolean;
+  // 更新频率，null表示未知
+  updateFrequency: string | null;
+  // 背景封面图片ID
+  backgroundCoverId: number;
+  // 背景封面图片的URL，null表示没有
+  backgroundCoverUrl: string | null;
+  // 歌单标题图片ID
+  titleImage: number;
+  // 歌单标题图片的URL，null表示没有
+  titleImageUrl: string | null;
+  // 歌单的英文标题，null表示没有
+  englishTitle: string | null;
+  // 是否官方推荐
+  opRecommend: boolean;
+  // 推荐信息，null表示没有
+  recommendInfo: any | null; // 这里需要具体的结构，这里暂时用any代替
+  // 订阅者数量
+  subscribedCount: number;
+  // 云同步音轨数量
+  cloudTrackCount: number;
+  // 歌单所属用户的唯一ID
+  userId: number;
+  // 所有音轨的总时长，单位为毫秒
+  totalDuration: number;
+  // 封面图片ID
+  coverImgId: number;
+  // 歌单的隐私设置，0表示公开
+  privacy: number;
+  // 音轨最后更新的时间戳
+  trackUpdateTime: number;
+  // 音轨数量
+  trackCount: number;
+  // 歌单最后更新的时间戳
+  updateTime: number;
+  // 评论线程ID
+  commentThreadId: string;
+  // 封面图片的URL
+  coverImgUrl: string;
+  // 歌单的特殊类型，5表示是用户的收藏夹
+  specialType: number;
+  // 是否匿名创建，false表示不是匿名
+  anonymous: boolean;
+  // 歌单创建的时间戳
+  createTime: number;
+  // 是否为高品质音频，false表示不是
+  highQuality: boolean;
+  // 是否为新导入的歌单，false表示不是
+  newImported: boolean;
+  // 音轨数量最后更新的时间戳
+  trackNumberUpdateTime: number;
+  // 播放次数
+  playCount: number;
+  // 广告类型，0表示没有广告
+  adType: number;
+  // 歌单描述
+  description: string;
+  // 歌单标签列表
+  tags: string[];
+  // 是否已排序，false表示未排序
+  ordered: boolean;
+  // 歌单状态，0表示正常
+  status: number;
+  // 歌单名称
+  name: string;
+  // 歌单的唯一ID
+  id: number;
+  // 封面图片ID的字符串形式
+  coverImgId_str: string;
+  // 共享用户列表，null表示没有
+  sharedUsers: any[] | null; // 这里需要具体的结构，这里暂时用any代替
+  // 共享状态，null表示未知
+  shareStatus: string | null;
+  // 是否被复制，false表示未被复制
+  copied: boolean;
+}
+
+
+
 interface Props {
   accountInfo: Partial<IAccountInfo> // 账号信息
   userInfo: Partial<IUserInfo> // 用户信息
   vipInfo: Partial<IVipInfo>
+  songList: ISongListItem[] // 用户歌单
 }
 
 interface Actions {
   setAccountInfo: (accountInfo: IAccountInfo) => void
   setUserInfo: (userInfo: IUserInfo) => void
   setVipInfo: (userInfo: IVipInfo) => void
+  setSongList: (songList: ISongListItem[]) => void
 }
 
 const initialState: Props = {
   accountInfo: {},
   userInfo: {},
   vipInfo: {},
+  songList: []
 }
 
 export const useUserStore = create<Props & Actions>()(
@@ -229,6 +389,7 @@ export const useUserStore = create<Props & Actions>()(
       setAccountInfo: (accountInfo) => set({ accountInfo }, false, "设置账户信息"),
       setUserInfo: (userInfo) => set({ userInfo }, false, "设置用户信息"),
       setVipInfo: (vipInfo) => set({ vipInfo }, false, "设置vip信息"),
+      setSongList: (songList) => set({ songList }, false, "设置用户歌单信息"),
     }),
     {
       name: "userStore",
@@ -248,3 +409,9 @@ export const useLevel = () => useUserStore((state) => state.userInfo?.level)
 export const useFollows = () => useUserStore((state) => state.userInfo.profile?.follows)
 
 export const useFolloweds = () => useUserStore((state) => state.userInfo.profile?.followeds)
+
+// 用户创建的歌单
+export const useCreatorSongList = () => useUserStore((state) => state.songList?.filter((item) => !item.subscribed))
+
+// 用户收藏的歌单
+export const useFavoriteSongList = () => useUserStore((state) => state.songList?.filter((item) => item.subscribed))

@@ -16,6 +16,7 @@ import {
 import { MenuDataItem } from "@ant-design/pro-layout"
 import { Route } from "@ant-design/pro-layout/es/typing"
 import { IPlayListItem } from "@/models/userStore"
+import { ISongListItem } from "@/store/user"
 
 export const defaultRoutes: Route = {
   path: "/",
@@ -131,7 +132,8 @@ export const defaultRoutes: Route = {
   ]
 }
 
-const mapPlayList = (source: IPlayListItem[], type: "creator" | "favorite") => {
+
+export const mapPlayList = (source: ISongListItem[], type: "creator" | "favorite") => {
   return source.map((item, index) => {
     return {
       index,
@@ -148,8 +150,8 @@ const mapPlayList = (source: IPlayListItem[], type: "creator" | "favorite") => {
 
 const renderRouter = (
   source: MenuDataItem[],
-  creator: IPlayListItem[],
-  favorite: IPlayListItem[]
+  creator: ISongListItem[],
+  favorite: ISongListItem[]
 ): Promise<MenuDataItem[]> => {
   if (creator?.length === 0 || favorite?.length === 0) return Promise.resolve(source)
   return Promise.resolve([

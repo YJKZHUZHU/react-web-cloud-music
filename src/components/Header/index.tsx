@@ -9,8 +9,13 @@ import API from "@/api"
 import { UserContent, Search } from "./components"
 import { IState } from "typings"
 import styles from "./index.scss"
+import { useNickName } from "@/store/login"
+import { useAvatarUrl } from "@/store/user"
+import { login } from "@/help/cache"
 
 const Header: FC = ({ children }) => {
+  const nickName = useNickName()
+  const avatarUrl = useAvatarUrl()
   const { userModel } = useSelector((state: IState) => state)
   const { loginStatus, userInfo } = userModel
   const [visible, { setFalse: setVisibleFalse, toggle: visibleToggle }] = useBoolean(false)
@@ -49,7 +54,7 @@ const Header: FC = ({ children }) => {
 
       <Search />
       {childrenArr[2]}
-      {loginStatus ? (
+      {login() ? (
         <Popover
           open={visible}
           onOpenChange={visibleToggle}
@@ -67,20 +72,20 @@ const Header: FC = ({ children }) => {
           trigger="click">
           <div className={styles.user}>
             <Avatar
-              src={userInfo?.profile && userInfo?.profile?.avatarUrl}
+              src={avatarUrl}
               icon={<UserOutlined />}
             />
-            <i className={styles.name}>{userInfo.profile && userInfo.profile.nickname}</i>
+            <i className={styles.name}>{nickName || '游客'}</i>
             <CaretDownOutlined className={styles.icon} />
           </div>
         </Popover>
       ) : (
         <div className={styles.user} onClick={() => history.push("/login")}>
           <Avatar
-            src={Object.keys(userInfo).length && userInfo?.profile.avatarUrl}
+            // src={Object.keys(userInfo).length && userInfo?.profile.avatarUrl}
             icon={<UserOutlined />}
           />
-          <i className={styles.name}>未登录</i>
+          <i className={styles.name}>游客</i>
         </div>
       )}
     </header>

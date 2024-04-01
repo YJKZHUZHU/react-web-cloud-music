@@ -389,6 +389,7 @@ export interface ILoginByPhone {
   countrycode?: number
   loading?: boolean,
   captcha?: string | number,
+  md5_password?: string
 }
 
 

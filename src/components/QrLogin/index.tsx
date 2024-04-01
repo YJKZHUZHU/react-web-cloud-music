@@ -60,7 +60,7 @@ const QrLogin: FC<IQrLoginProps> = ({callback}) => {
   }, [data?.code])
 
   return (
-    <>
+    <div className="w-[320px]">
       {data?.code === 802 ? (
         <Space direction="vertical" className={styles.loginSuccess}>
           <div className={styles.successIcon}></div>
@@ -92,7 +92,7 @@ const QrLogin: FC<IQrLoginProps> = ({callback}) => {
           </Space>
         </Space>
       )}
-    </>
+    </div>
   )
 }
 
