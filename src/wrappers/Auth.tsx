@@ -4,11 +4,12 @@ import { IState } from "typings"
 import { Navigate, Outlet } from '@umijs/max';
 import styles from "./index.scss"
 import { UserModelState } from "@/models/userStore";
+import { login } from "@/help/cache";
 
 const Auth: FC = () => {
-  const { loginStatus } = useSelector<IState, UserModelState>((state) => state.userModel)
+  // const { loginStatus } = useSelector<IState, UserModelState>((state) => state.userModel)
 
-  if (loginStatus) {
+  if (login()) {
     return <div className={styles.wrapContainer}><Outlet /></div>
   }
   return <Navigate to="/login" replace />

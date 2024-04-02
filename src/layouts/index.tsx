@@ -86,6 +86,7 @@ const BasicLayout: FC = () => {
         layout="mix"
         actionRef={actionRef}
         fixSiderbar={true}
+        fixedHeader={false}
         collapsed={collapsed}
         collapsedButtonRender={false}
         title={false}
@@ -128,18 +129,20 @@ const BasicLayout: FC = () => {
         <GlobalContext.Provider value={{ reloadMenu: actionRef.current?.reload }}>
           <Outlet />
           {pathname !== "/mv-detail" && <PlayerLayout />}
-          <Drawer
-            rootClassName={styles.drawer}
-            placement="right"
-            style={{ paddingTop: 18 }}
-            open={showPlayRecord}
-            width={640}
-            onClose={onClose}
-            getContainer={false}>
-            <PlayRecord />
-          </Drawer>
+
         </GlobalContext.Provider>
       </ProLayout>
+      <Drawer
+        zIndex={99999}
+        rootClassName={styles.drawer}
+        placement="right"
+        style={{ paddingTop: 18 }}
+        open={showPlayRecord}
+        width={640}
+        onClose={onClose}
+        getContainer={false}>
+        <PlayRecord />
+      </Drawer>
     </div>
 
   );
