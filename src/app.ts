@@ -125,20 +125,24 @@ export const antd: RuntimeAntdConfig = (memo) => {
 
   memo.theme ??= {
     token: {
-      colorPrimary: '#00a799', // 全局主色
-      colorLink: '#00a799', // 链接色
-      colorSuccess: '#52c41a', // 成功色
-      colorWarning: '#faad14', // 警告色
-      colorError: '#f5222d', // 错误色
-      fontSize: 14, // 主字号
-      colorTextHeading: '#00A799', // 标题色
-      colorText: '#00A799', // 主文本色
-      colorTextSecondary: 'rgba(0, 0, 0, 0.45)', // 次文本色
-      colorTextDisabled: '#00A799', // 失效色
-      borderRadius: 4, // 组件/浮层圆角
-      colorBorder: '#d9d9d9', // 边框色
-      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)', // 浮层阴影
-    }
+      "colorPrimary": "#169987",
+      "colorInfo": "#169987",
+      "wireframe": false
+      // colorPrimary: '#00a799', // 全局主色
+      // colorLink: '#00a799', // 链接色
+      // colorSuccess: '#52c41a', // 成功色
+      // colorWarning: '#faad14', // 警告色
+      // colorError: '#f5222d', // 错误色
+      // fontSize: 14, // 主字号
+      // colorTextHeading: '#00A799', // 标题色
+      // colorText: '#00A799', // 主文本色
+      // colorTextSecondary: 'rgba(0, 0, 0, 0.45)', // 次文本色
+      // colorTextDisabled: '#00A799', // 失效色
+      // borderRadius: 4, // 组件/浮层圆角
+      // colorBorder: '#d9d9d9', // 边框色
+      // boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)', // 浮层阴影
+    },
+    // "algorithm": "dark"
   };
   // memo.theme.algorithm = theme.darkAlgorithm; // 配置 antd5 的预设 dark 算法
 

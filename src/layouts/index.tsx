@@ -1,7 +1,7 @@
 import { useRef, createContext, FC, useMemo } from "react"
 import { Drawer, Avatar } from "antd"
 import { useDispatch, useSelector, useLocation, history, Outlet } from "@umijs/max"
-import { PlayRecord, PlayerLayout, Header, MenuItem } from "@/components"
+import { PlayRecord, PlayerLayout, MenuItem } from "@/components"
 import classnames from "classnames"
 import { MenuUnfoldOutlined, MenuFoldOutlined, AntDesignOutlined } from "@ant-design/icons"
 import Footer from "./Footer"
@@ -13,6 +13,7 @@ import { useApp } from '@/hooks'
 import { useBoolean } from "ahooks"
 import styles from "./index.scss"
 import { useCreatorSongList, useFavoriteSongList } from "@/store/user"
+import {Header} from './components'
 
 
 interface IGlobalContext {
@@ -70,79 +71,22 @@ const BasicLayout: FC = () => {
 
 
   return (
-    <div className="min-w-[1280px]">
-      <ProLayout
-        token={{
-          header: {
-            heightLayoutHeader: 65,
-            colorBgHeader: '#ffffff'
-          },
-          sider: {
-            colorMenuBackground: '#ffffff',
-          },
+    <div className="flex flex-col h-[100vh] min-w-[1280px] overflow-y-hidden">
+      <Header/>
+      <div className="flex flex-1 pb-[88px] bg-[#F2F1F6]">
+        <aside className="w-[220px] min-h-[calc(100vh-160px)] max-h-[calc(100vh-84px)] overflow-scroll bg-[green]">
+          <div className="h-[10000px]">1</div>
+        </aside>
+        <div className="flex-1 min-h-[calc(100vh-160px)] max-h-[calc(100vh-84px)] min-w-[calc(100vw-220px)] overflow-scroll">
+          <div className="h-[200px] w-[13000px]">1</div>
+          <div className="h-[200px]">1</div>
+          <div className="h-[200px]">1</div>
+          <div className="h-[200px]">1</div>
+          <div className="h-[200px]">1</div>
+        </div>
+      </div>
+      <Footer />
 
-        }}
-        disableMobile
-        layout="mix"
-        actionRef={actionRef}
-        fixSiderbar={true}
-        fixedHeader={false}
-        collapsed={collapsed}
-        collapsedButtonRender={false}
-        title={false}
-        onCollapse={toggle}
-        theme="light"
-        route={route}
-        siderWidth={300}
-        className={classnames(styles.home, { [styles._homeDiff]: pathname === "/mv-detail" })}
-        location={{ pathname }}
-        menuHeaderRender={false}
-        menuItemRender={(item, dom) => {
-          return (
-            <MenuItem reload={actionRef?.current?.reload} menuItem={item}>
-              {dom}
-            </MenuItem>
-          )
-        }}
-        contentStyle={{
-          minWidth: 900
-        }}
-        headerRender={() => {
-          return (
-            <Header>
-              {
-                collapsed ? (<div className="w-[64px] flex items-center pl-[15px]">
-                  <Avatar onClick={() => history.push("/personal-recommendation")} src={Object.keys(userInfo).length && userInfo.profile.avatarUrl} />
-                </div>) : (<div className="w-[300px] flex items-center pl-[15px]"><img onClick={() => history.push("/personal-recommendation")} style={{ height: 65 }} src={require("../assets/home.png")}></img></div>)
-              }
-
-
-              <div onClick={() => toggle(!collapsed)} className={classnames(styles.collapsed, 'mx-[5px]')}>
-                {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-              </div>
-              <AddSongList reload={actionRef?.current?.reload} />
-            </Header>
-
-          )
-        }}
-        footerRender={() => <Footer />}>
-        <GlobalContext.Provider value={{ reloadMenu: actionRef.current?.reload }}>
-          <Outlet />
-          {pathname !== "/mv-detail" && <PlayerLayout />}
-
-        </GlobalContext.Provider>
-      </ProLayout>
-      <Drawer
-        zIndex={99999}
-        rootClassName={styles.drawer}
-        placement="right"
-        style={{ paddingTop: 18 }}
-        open={showPlayRecord}
-        width={640}
-        onClose={onClose}
-        getContainer={false}>
-        <PlayRecord />
-      </Drawer>
     </div>
 
   );

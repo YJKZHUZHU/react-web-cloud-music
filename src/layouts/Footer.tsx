@@ -156,7 +156,7 @@ const Footer = memo(() => {
   if (location.pathname === "/mv-detail") return null
 
   return (
-    (<footer className={style._footer}>
+    <footer className={style._footer}>
       <div className={style.footerContainer}>
         <Slider
           onChange={(val: number) => playRef.current.seekTo(val)}
@@ -309,7 +309,7 @@ const Footer = memo(() => {
           ref={playRef}
         />
       )}
-    </footer>)
+    </footer>
   );
 })
 
