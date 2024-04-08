@@ -25,7 +25,6 @@ import {
 import { message, Select, Avatar, Button, Tag, Space } from "antd"
 import { useRequest } from "ahooks"
 import classnames from "classnames"
-import dayjs from 'dayjs'
 import API from "@/api"
 import Utils from "@/help"
 import SimiItem from "./SimiItem"
@@ -179,7 +178,7 @@ const MvDetail: FC = () => {
           <span className={styles.name}>{+query.type === 0 ? "MV详情" : "视频详情"}</span>
         </p>
         <Player
-          fluid={false}
+          fluid={true}
           height={500}
           autoPlay={autoPlay}
           src={+query.type === 0 ? mvUrlData?.data?.url : mvUrlData?.urls[0]?.url}
@@ -194,7 +193,7 @@ const MvDetail: FC = () => {
             <ForwardControl seconds={10} />
             <Select
               value={+query.type === 0 ? mvUrlData?.data?.r : mvUrlData?.urls[0]?.r}
-              bordered={false}
+              variant="borderless"
               style={{ width: 80 }}
               onChange={(value) => runMvurl(value)}
               suffixIcon={null}

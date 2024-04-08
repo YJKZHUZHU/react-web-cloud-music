@@ -2,7 +2,7 @@
 
 import { Flex, Tag } from "antd"
 import { useEffect, useState } from "react"
-import { useLocation, history,useRouteProps } from "@umijs/max"
+import { useLocation, history, useRouteProps } from "@umijs/max"
 import { ITagItem, MAP_TAGS_VIEWS } from "@/constants/layout"
 
 const TagsView = () => {
@@ -18,10 +18,12 @@ const TagsView = () => {
     history.push(tag.path)
   }
   useEffect(() => {
-    console.log("useLocation",tagsData, location)
-    if (tagsData.length !== 0 && selectedTag.includes(location.pathname)) {
-      return
-    }
+    console.log("useLocation", tagsData, location)
+    // if (tagsData.length !== 0 && selectedTag.includes(location.pathname)) {
+    //   return
+    // }
+    // setTagsData(MAP_TAGS_VIEWS.get(routeProps.parentKey) || [])
+    // setSelectedTag(location.pathname)
     // if (MAP_TAGS_VIEWS.has(location.pathname)) {
     //   console.log('ssss', location.pathname)
     //   setTagsData(MAP_TAGS_VIEWS.get(location.pathname))
@@ -30,7 +32,7 @@ const TagsView = () => {
     //   setTagsData([])
     //   setSelectedTag('')
     // }
-  }, [location])
+  }, [])
   if (tagsData.length === 0) return <></>
   return (
     <div className="h-[60px] flex">
