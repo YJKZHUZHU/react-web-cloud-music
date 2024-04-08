@@ -13,7 +13,8 @@ import { useApp } from '@/hooks'
 import { useBoolean } from "ahooks"
 import styles from "./index.scss"
 import { useCreatorSongList, useFavoriteSongList } from "@/store/user"
-import {Header} from './components'
+import { Header, Aside } from './components'
+import radius from '@/assets/layout/radius@2x.png'
 
 
 interface IGlobalContext {
@@ -72,21 +73,28 @@ const BasicLayout: FC = () => {
 
   return (
     <div className="flex flex-col h-[100vh] min-w-[1280px] overflow-y-hidden">
-      <Header/>
+      <Header />
       <div className="flex flex-1 pb-[88px] bg-[#F2F1F6]">
-        <aside className="w-[220px] min-h-[calc(100vh-160px)] max-h-[calc(100vh-84px)] overflow-scroll bg-[green]">
-          <div className="h-[10000px]">1</div>
+        <aside className="w-[220px] bg-[#ffffff] overflow-scroll h-[calc(100vh-120px)] pb-[88px]">
+          <Aside />
         </aside>
-        <div className="flex-1 min-h-[calc(100vh-160px)] max-h-[calc(100vh-84px)] min-w-[calc(100vw-220px)] overflow-scroll">
-          <div className="h-[200px] w-[13000px]">1</div>
-          <div className="h-[200px]">1</div>
-          <div className="h-[200px]">1</div>
-          <div className="h-[200px]">1</div>
-          <div className="h-[200px]">1</div>
+
+        <div className="bg-[length:40px_40px] bg-no-repeat bg-[url('../../assets/layout/radius@2x.png')] relative flex-1 h-[calc(100vh-120px)] w-[calc(100vw-220px)] overflow-scroll pt-[30px] px-[40px] pb-[100px]">
+          <Outlet />
         </div>
       </div>
       <Footer />
-
+      {pathname !== "/mv-detail" && <PlayerLayout />}
+      <Drawer
+        zIndex={99999}
+        placement="right"
+        style={{ paddingTop: 18 }}
+        open={showPlayRecord}
+        width={640}
+        onClose={onClose}
+        getContainer={false}>
+        <PlayRecord />
+      </Drawer>
     </div>
 
   );

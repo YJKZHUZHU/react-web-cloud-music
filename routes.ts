@@ -1,4 +1,11 @@
 
+
+enum MenuKeyEnum {
+  FIND_MUSIC = "findMusic",
+  VIDEO = "video",
+  MY_MUSIC = "myMusic",
+  MY_SONG_LIST = "songList"
+}
 interface IRoue {
   component?: (string | undefined);
   layout?: (false | undefined);
@@ -7,18 +14,22 @@ interface IRoue {
   routes?: IRoue[];
   title?: string
   wrappers?: (Array<string> | undefined);
+  parentKey?: MenuKeyEnum
 }
+
 
 const routes: IRoue[] = [
   {
     path: '/',
     redirect: '/personal-recommendation',
+
   },
   {
     path: '/login',
     component: 'login',
     title: "登录",
     layout: false,// 关闭 layout
+
     // wrappers: [
     //   '@/wrappers/Success'
     // ]
@@ -32,6 +43,7 @@ const routes: IRoue[] = [
         path: '/personal-recommendation',
         component: '@/pages/personal-recommendation',
         title: '个性化推荐',
+        parentKey: MenuKeyEnum.FIND_MUSIC
       },
       {
         path: '/video',
@@ -61,7 +73,8 @@ const routes: IRoue[] = [
       {
         path: '/top-mv',
         component: '@/pages/top-mv',
-        title: 'MV排行榜'
+        title: 'MV排行榜',
+        parentKey: MenuKeyEnum.FIND_MUSIC
       },
       {
         path: '/fm',
@@ -91,6 +104,7 @@ const routes: IRoue[] = [
         path: '/collect',
         component: 'collect',
         title: '收藏的专辑',
+        parentKey:MenuKeyEnum.MY_MUSIC,
         wrappers: [
           '@/wrappers/Auth',
         ],
@@ -117,21 +131,25 @@ const routes: IRoue[] = [
         path: '/find-music/song-list',
         component: 'song-list',
         title: '歌单',
+        parentKey: MenuKeyEnum.FIND_MUSIC
       },
       {
         path: '/find-music/top',
         component: 'top',
         title: '排行榜',
+        parentKey: MenuKeyEnum.FIND_MUSIC
       },
       {
         path: '/find-music/singer',
         component: 'singer',
         title: '歌手',
+        parentKey: MenuKeyEnum.FIND_MUSIC
       },
       {
         path: '/find-music/latest-music',
         component: 'latest-music',
         title: '最新音乐',
+        parentKey: MenuKeyEnum.FIND_MUSIC
       },
       {
         path: '/playList/:id',
@@ -264,7 +282,7 @@ const routes: IRoue[] = [
         component: 'singer-list',
         title: "歌手榜单"
       },
-    
+
       {
         path: '/edit-song-list',
         component: 'edit-song-list',

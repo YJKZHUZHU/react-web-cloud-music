@@ -1,7 +1,7 @@
 /** @format */
 
-import React, { FC, useEffect, useState, useRef } from "react"
-import { history, useLocation } from "@umijs/max"
+import  { FC, useEffect, useState, useRef } from "react"
+import { history } from "@umijs/max"
 import {
   Player,
   BigPlayButton,
@@ -32,6 +32,7 @@ import SimiItem from "./SimiItem"
 import { Artists, NewComment, HotComment } from "@/components"
 import { IItem } from "@/components/Artists"
 import styles from "./index.scss"
+import { useQuery } from "@/hooks"
 
 const { Option } = Select
 
@@ -111,13 +112,13 @@ const BRS_MAP: { [propsName: string]: string } = {
 
 const MvDetail: FC = () => {
   const playRef = useRef<any>(null)
-  const location: any = useLocation()
-  const { query } = location
+  const query = useQuery()
+  const { type = '0', mvid } = query
   const [showDesc, setShowDesc] = useState(false)
   const [autoPlay, setAutoPlay] = useState(false)
   const { run: runMvurl, data: mvUrlData } = useRequest<{ data: IMvUrl; code: number; urls: any[] }>(
     (r?: any) =>
-      +query.type === 0 ? API.getMvUrl({ id: query.mvid, r }) : API.getVedioUrl({ id: query.mvid, r }),
+      Number(type) === 0 ? API.getMvUrl({ id: mvid, r }) : API.getVedioUrl({ id: mvid, r }),
     {
       manual: true,
       onSuccess: () => {
@@ -128,9 +129,9 @@ const MvDetail: FC = () => {
   )
   const { run: runMvDetailInfo, data: mvDetailInfo } = useRequest<IMvDetailInfo>(
     () =>
-      +query.type === 0
-        ? API.getMvDetailInfo({ ...query })
-        : API.getVedioDetailInfo({ vid: query.mvid }),
+      Number(type) === 0
+        ? API.getMvDetailInfo({ type, mvid })
+        : API.getVedioDetailInfo({ vid: mvid }),
     {
       manual: true
     }
@@ -168,7 +169,7 @@ const MvDetail: FC = () => {
     if (playRef) {
       playRef.current.load()
     }
-  }, [query])
+  }, [])
 
   return (
     <div className={styles._mvDetail}>

@@ -408,7 +408,14 @@ export const useLevel = () => useUserStore((state) => state.userInfo?.level)
 
 export const useFollows = () => useUserStore((state) => state.userInfo.profile?.follows)
 
+export const useEventCount= () => useUserStore((state) => state.userInfo.profile?.eventCount)
+
 export const useFolloweds = () => useUserStore((state) => state.userInfo.profile?.followeds)
+
+export const useFollowed = () => useUserStore((state) => state.userInfo.profile?.followed)
+
+// 是否签到
+export const useSign = () => useUserStore((state) => state.userInfo.pcSign)
 
 // 用户创建的歌单
 export const useCreatorSongList = () => useUserStore((state) => state.songList?.filter((item) => !item.subscribed))

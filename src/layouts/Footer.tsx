@@ -1,7 +1,7 @@
 /** @format */
 
 import React, { useState, useRef, memo } from "react"
-import { Slider, Radio, Tooltip, Row, Col, Space } from "antd"
+import { Slider, Radio, Tooltip, Row, Col, Space, Dropdown, MenuProps } from "antd"
 import {
   FullscreenOutlined,
   FullscreenExitOutlined,
@@ -152,148 +152,157 @@ const Footer = memo(() => {
     })
   }
 
+  const renderMusicInfo = (visible: boolean) => {
+    if (!visible) return <div className=" w-[300px]"></div>
+    return (
+      <div className={classnames(style.musicInfo, 'flex items-center w-[300px]')}>
+        <div
+          className={classnames(style.pictureInfo, 'relative w-[60px] h-[60px] cursor-pointer overflow-hidden bg-[#333333] rounded-[8px]')}
+          onClick={() =>
+            dispatch({ type: "playmodel/setShowPlayer", payload: { showPlayer: !showPlayer } })
+          }>
+          <div className={classnames(style.mask, 'absolute left-0 right-0 bottom-0 top-0 bg-[rgba(0, 0, 0, 0.2)] rounded-[8px] z-[2]')} />
+          <img width={60} height={60} className=" rounded-[8px]" src={songObj.backgroundImg} />
+          {showPlayer ? (
+            <FullscreenOutlined className={style.full} />
+          ) : (
+            <FullscreenExitOutlined />
+          )}
+        </div>
+        <div className={style.content}>
+          <div className={style.top}>
+            <span className={style.songName}>{songObj.name}</span>
+            <i className={style.split}>-</i>
+            <span className={style.name}>
+              {songObj.singerArr &&
+                songObj.singerArr.map((item: any, index: any) => {
+                  return (
+                    <span key={item.id}>
+                      {item.name}
+                      {(songObj.singerArr as SingerInterface[]).length === index + 1
+                        ? null
+                        : "/"}
+                    </span>
+                  )
+                })}
+            </span>
+          </div>
+          <div className={style.bottom}>
+            <span>
+              {playRef
+                ? Utils.formatPlayerTime(playRef.current?.getCurrentTime())
+                : "00:00"}
+            </span>
+            <i className={style.split}>/</i>
+            <span>{playRef ? Utils.formatPlayerTime(songObj.songTime || 0) : "00:00"}</span>
+          </div>
+        </div>
+      </div>
+    )
+
+  }
+
+  const items: MenuProps['items'] = [
+    {
+      key: 1,
+      label: '1.x',
+    },
+    {
+      key: 1.25,
+      label: '1.25x',
+    },
+    {
+      key: 1.5,
+      label: '1.5x',
+    },
+    {
+      key: 2,
+      label: '2.x',
+    }
+  ].map(d => {
+    return {
+      ...d,
+      onClick: () => dispatch({
+        type: "playmodel/setPlayRate",
+        payload: {
+          playerRate: d.key
+        }
+      })
+    }
+  })
+
+
+
   // 视频播放隐藏
   if (location.pathname === "/mv-detail") return null
 
   return (
-    <footer className={style._footer}>
-      <div className={style.footerContainer}>
-        <Slider
-          onChange={(val: number) => playRef.current.seekTo(val)}
-          style={{
-            padding: 0,
-            margin: 0,
-            visibility: Object.keys(songObj).length !== 0 ? "visible" : "hidden"
-          }}
-          value={playRef.current?.getCurrentTime()}
-          defaultValue={0}
-          step={0.001}
-          min={0}
-          max={songObj?.songTime}
-          tooltip={{
-            formatter: null
-          }}
-        />
-        <Row className={style.footer}>
-          <Col span={4}>
-            {Object.keys(songObj).length !== 0 ? (
-              <div className={style.info}>
-                <div
-                  className={style.img}
-                  onClick={() =>
-                    dispatch({ type: "playmodel/setShowPlayer", payload: { showPlayer: !showPlayer } })
-                  }>
-                  <div className={style.mask} />
-                  <img src={songObj.backgroundImg} />
-                  {showPlayer ? (
-                    <FullscreenOutlined className={style.full} />
-                  ) : (
-                    <FullscreenExitOutlined />
-                  )}
-                </div>
-                <div className={style.content}>
-                  <div className={style.top}>
-                    <span className={style.songName}>{songObj.name}</span>
-                    <i className={style.split}>-</i>
-                    <span className={style.name}>
-                      {songObj.singerArr &&
-                        songObj.singerArr.map((item: any, index: any) => {
-                          return (
-                            <span key={item.id}>
-                              {item.name}
-                              {(songObj.singerArr as SingerInterface[]).length === index + 1
-                                ? null
-                                : "/"}
-                            </span>
-                          )
-                        })}
-                    </span>
-                  </div>
-                  <div className={style.bottom}>
-                    <span>
-                      {playRef
-                        ? Utils.formatPlayerTime(playRef.current?.getCurrentTime())
-                        : "00:00"}
-                    </span>
-                    <i className={style.split}>/</i>
-                    <span>{playRef ? Utils.formatPlayerTime(songObj.songTime || 0) : "00:00"}</span>
-                  </div>
-                </div>
-              </div>
-            ) : null}
-          </Col>
-          <Col span={3} push={3} className={style.playBtnGroup}>
-            {/* 上一曲 */}
-            <div className={classnames(style.common)} onClick={() => onPlay(0)}>
-              <StepBackwardOutlined />
-            </div>
-            <div className={classnames(style.common, style.now)} onClick={onPlayBtn}>
-              {isPlay ? (
-                <PauseOutlined className={style.pause} />
-              ) : (
-                <CaretRightOutlined className={style.caret} />
-              )}
-            </div>
-            {/* 下一曲 */}
-            <div className={classnames(style.common)} onClick={() => onPlay(1)}>
-              <StepForwardOutlined />
-            </div>
-          </Col>
-          <Col span={5} push={2} className={style.playRate}>
-            <Space>
-              <p className={style.tip}>播放速度</p>
-              <Radio.Group
-                size="small"
-                value={playerRate}
-                onChange={(e) =>
-                  dispatch({
-                    type: "playmodel/setPlayRate",
-                    payload: {
-                      playerRate: +e.target.value
-                    }
-                  })
-                }>
-                <Radio.Button value={1}>1.x</Radio.Button>
-                <Radio.Button value={1.2}>1.2x</Radio.Button>
-                <Radio.Button value={1.5}>1.5x</Radio.Button>
-                <Radio.Button value={2}>2x</Radio.Button>
-              </Radio.Group>
-            </Space>
-          </Col>
-          <Col span={5} className={style.operating}>
-            <ShareAltOutlined />
-            <PlayMode />
-            {playRecordTip ? (
-              <Tooltip title={playRecordTip} open={true}>
-                <i className={classnames("iconfont", "icon-bofangliebiao")} onClick={onRecord} />
-              </Tooltip>
-            ) : (
-              <i className={classnames("iconfont", "icon-bofangliebiao")} onClick={onRecord} />
-            )}
+    <footer className={classnames(style._footer, 'flex  px-[20px] py-[14px] justify-between')}>
+      {renderMusicInfo(!!Object.keys(songObj).length)}
 
-            <div className={style.progress}>
-              <i
-                className={classnames(
-                  style.voice,
-                  "iconfont",
-                  showValumeIcon ? "icon-jingyin" : "icon-volume"
-                )}
-                onClick={onMute}
-              />
-              <Slider
-                onChange={onVolume}
-                min={0}
-                max={100}
-                value={volume * 100}
-                className={style.slider}
-              />
-            </div>
-            <a href="https://github.com/YJKZHUZHU/react-web-cloud-music" target="_blank">
-              <GithubOutlined />
-            </a>
-          </Col>
-        </Row>
+      <div className="flex-1 flex gap-[16px]">
+        <div className="flex flex-col w-[650px]">
+          <div className="flex items-center gap-[60px] self-center">
+            <StepBackwardOutlined className="text-[30px]" onClick={() => onPlay(0)} />
+
+            {isPlay ? (
+              <PauseOutlined className="text-[30px]" onClick={onPlayBtn} />
+            ) : (
+              <CaretRightOutlined className="text-[30px]" onClick={onPlayBtn} />
+            )}
+            <StepForwardOutlined className="text-[30px]" onClick={() => onPlay(1)} />
+          </div>
+          <Slider
+            disabled={!playRef.current}
+            onChange={(val: number) => playRef.current && playRef.current.seekTo(val)}
+            value={playRef.current?.getCurrentTime()}
+            defaultValue={0}
+            step={0.001}
+            min={0}
+            max={songObj?.songTime}
+            tooltip={{
+              formatter: null
+            }}
+          />
+        </div>
+
+        <div className="flex-1 flex items-center gap-[16px] justify-end">
+          {/* 音量 */}
+          <div className="flex items-center w-[200px] gap-[4px]">
+            <i
+              className={classnames(
+                "!text-[24px]",
+                "iconfont",
+                showValumeIcon ? "icon-jingyin" : "icon-volume"
+              )}
+              onClick={onMute}
+            />
+            <Slider
+              className="flex-1"
+              onChange={onVolume}
+              min={0}
+              max={100}
+              value={volume * 100}
+            />
+          </div>
+
+          <Dropdown overlayStyle={{ width: 80 }} menu={{ items }} placement="top" arrow>
+            <div className="cursor-pointer">{playerRate}x</div>
+          </Dropdown>
+
+          <PlayMode />
+
+          {playRecordTip ? (
+            <Tooltip title={playRecordTip} open={true}>
+              <i className={classnames("iconfont", "icon-bofangliebiao", "!text-[24px]", 'cursor-pointer')} onClick={onRecord} />
+            </Tooltip>
+          ) : (
+            <i className={classnames("iconfont", "icon-bofangliebiao", "!text-[24px]", 'cursor-pointer')} onClick={onRecord} />
+          )}
+
+        </div>
       </div>
+
       {Object.keys(songObj).length !== 0 && (
         <ReactPlayer
           playsinline

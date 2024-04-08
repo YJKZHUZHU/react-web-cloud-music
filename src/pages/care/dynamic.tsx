@@ -1,18 +1,19 @@
 /** @format */
 
-import React, {FC, useEffect, useState, useCallback} from "react"
-import {DeleteOutlined, LikeOutlined, UserOutlined} from "@ant-design/icons"
-import {List, Avatar, Divider, message} from "antd"
-import {Link, useSelector, UserModelState} from "@umijs/max"
+import React, { FC, useEffect, useState } from "react"
+import { DeleteOutlined, LikeOutlined, UserOutlined } from "@ant-design/icons"
+import { List, Avatar, Divider, message } from "antd"
+import { Link } from "@umijs/max"
 import classnames from "classnames"
 import Utils from "@/help/index"
 import API from "@/api"
 import styles from "@/pages/care/index.scss"
-import { IState } from 'typings'
+import { EnumLocalStorage, getItem } from "@/help/cache"
+import { useNickName } from "@/store/login"
 
 const Dynamic: FC = () => {
-  const {userInfo} = useSelector((state: IState) => state.userModel)
   const [dynamicArr, setDynamicArr] = useState([])
+  const nickName = useNickName()
 
   const commentLike = async (info: any, t: number) => {
     const Ret: any = await API.commentLike({
@@ -28,7 +29,7 @@ const Dynamic: FC = () => {
     message.success("好吧，现在点赞还有点问题，")
   }
   const onDel = async (evId: string) => {
-    const Ret: any = await API.del({evId})
+    const Ret: any = await API.del({ evId })
     if (Ret.code !== 200) {
       return message.info("删除失败，请稍后再试")
     }
@@ -36,17 +37,14 @@ const Dynamic: FC = () => {
     return getData()
   }
 
-  const getData = useCallback(() => {
-    if (userInfo.userPoint) {
-      const {userId} = userInfo.userPoint
-      API.event({loading: true, uid: userId}).then((res: any) => {
-        if (res.code !== 200) {
-          return message.info("暂无动态哦，，，")
-        }
-        setDynamicArr(res.events)
-      })
-    }
-  }, [userInfo.userPoint])
+  const getData = () => {
+    API.event({ loading: true, uid: getItem(EnumLocalStorage.userId) }).then((res: any) => {
+      if (res.code !== 200) {
+        return message.info("暂无动态哦，，，")
+      }
+      setDynamicArr(res.events)
+    })
+  }
 
   const description = (item: any) => {
     const info = JSON.parse(item.json)
@@ -103,14 +101,14 @@ const Dynamic: FC = () => {
 
   useEffect(() => {
     getData()
-  }, [getData, userInfo.userPoint])
+  }, [])
 
   return (
     <div className={styles._dynamic}>
-      <h2 className={styles.title}>{userInfo.profile && userInfo.profile.nickname + "的动态"}</h2>
+      <h2 className={styles.title}>{nickName + "的动态"}</h2>
       <Divider className={styles.divider} />
       <List
-        locale={{emptyText: "暂无动态"}}
+        locale={{ emptyText: "暂无动态" }}
         itemLayout="horizontal"
         dataSource={dynamicArr}
         renderItem={(item: any) => (

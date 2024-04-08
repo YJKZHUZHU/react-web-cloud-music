@@ -8,6 +8,7 @@ import { useDispatch, history } from "@umijs/max"
 import { SearchList, History } from "./index"
 import API from "@/api"
 import { useToSearchDetail } from "@/hooks"
+import classNames from "classnames"
 import store from "@/help/localStorage"
 import styles from "../index.scss"
 
@@ -75,11 +76,10 @@ const Search = () => {
   const showHistory = inputValue && data && Object.keys(data).length
 
   return <Select
-    className={styles.searchContainer}
+    className={classNames(styles.searchContainer,'w-[500px] !ml-[24px]')}
     suffixIcon={<SearchOutlined className="site-form-item-icon" />}
     placeholder="搜索音乐，视频，歌词，电台"
-    
-    dropdownRender={(menu) => (
+    dropdownRender={() => (
       <>
         {showHistory ? (
           <SearchList value={inputValue} list={data} />
@@ -90,30 +90,6 @@ const Search = () => {
     )}
   />
 
-  return (
-    <Popover
-      content={
-        showHistory ? (
-          <SearchList value={inputValue} list={data} />
-        ) : (
-          <History onDelete={onDelete} onHistory={onHistory} />
-        )
-      }
-      title={null}
-      trigger="click"
-      placement="bottomLeft"
-      overlayClassName={"_searchPop"}>
-      <Input
-        width={300}
-        prefix={<SearchOutlined className="site-form-item-icon" />}
-        // suffix={<SearchOutlined onClick={() => toDetail(1, inputValue)} />}
-        className={styles.inputSearch}
-        value={inputValue}
-        placeholder="搜索音乐，视频，歌词，电台"
-        onChange={onInput}
-        onPressEnter={(e: any) => toDetail(1, e.target.value)}
-      />
-    </Popover>
-  )
+
 }
 export default Search

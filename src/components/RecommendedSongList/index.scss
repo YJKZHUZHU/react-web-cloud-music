@@ -6,13 +6,17 @@
   position: relative;
   margin: 4px 4px 15px 4px;
   cursor: pointer;
+  box-shadow: 0px 4px 28px 0px rgba(35, 29, 106, 0.1);
+  background: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
 
   .imgWrap {
     position: relative;
     width: 100%;
     padding-top: 100%;
-    margin-bottom: 8px;
-    border-radius: 4px;
+    border-radius: 12px;
     overflow: hidden;
 
     .number {
@@ -22,10 +26,12 @@
       width: 100%;
       background-color: rgba(0, 0, 0, 0.4);
       line-height: 32px;
-
-      .listen {
-        padding-left: 15px;
-      }
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding-left: 15px;
+      transform: translateY(100%);
+      transition: all 0.3s;
     }
 
     img {
@@ -39,6 +45,7 @@
     }
 
     .descWrap {
+      height: 20px;
       word-break: break-all;
       font-size: 12px;
       position: absolute;
@@ -62,14 +69,18 @@
         transform: translateY(0);
       }
 
+      .number {
+        transform: translateY(0%);
+      }
+
       .playIcon {
         opacity: 1;
       }
     }
   }
 
-  .name {
-    @include ellipsis();
-    font-size: 14px;
-  }
+  // .name {
+  //   @include ellipsis();
+  //   font-size: 14px;
+  // }
 }

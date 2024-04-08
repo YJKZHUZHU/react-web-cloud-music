@@ -1,12 +1,12 @@
 /** @format */
 
-import React, {useEffect} from "react"
 import Utils from "@/help"
-import {CaretRightOutlined} from "@ant-design/icons"
-import {history, useLocation} from "@umijs/max"
-import {useRequest} from "ahooks"
+import { CaretRightOutlined } from "@ant-design/icons"
+import { history } from "@umijs/max"
+import { useRequest } from "ahooks"
 import API from "@/api"
 import styles from "./index.scss"
+import { useQuery } from "@/hooks"
 
 export interface ISimiInterface {
   id: number
@@ -35,19 +35,15 @@ export interface ISimiInterface {
 }
 
 const SimiDetail = () => {
-  const location: any = useLocation()
 
-  const {query} = location
+  const query = useQuery()
   const mvBool = +query.type === 0
 
   const onMv = (mvid: any) => {
-    history.push({
-      pathname: "mv-detail",
-      query: {mvid, type: query.type}
-    })
+    history.push(`mv-detail?mvid=${mvid}&type=${query.type}`)
   }
-  const {data} = useRequest(
-    () => (+query.type === 0 ? API.getSimi({...query}) : API.getRelateVedio({id: query.mvid})),
+  const { data } = useRequest(
+    () => (+query.type === 0 ? API.getSimi({ ...query }) : API.getRelateVedio({ id: query.mvid })),
     {
       formatResult: (response): ISimiInterface[] => {
         return mvBool ? response.mvs : response.data

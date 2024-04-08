@@ -115,14 +115,18 @@ em {
   background-color: var(--menu-bgcolor);
 }
 
-::-webkit-scrollbar {
-  width: 2px;
-  height: 2px;
-  background-color: #00A799;
-}
+// ::-webkit-scrollbar {
+//   width: 2px;
+//   height: 2px;
+//   background-color: #00A799;
+// }
 
 ::-webkit-scrollbar-thumb {
   background-color: #00A799;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }
 
 //antd
