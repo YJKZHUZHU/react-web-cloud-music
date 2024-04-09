@@ -1,11 +1,12 @@
 /** @format */
 
-import React, {useEffect, FC} from "react"
-import {Row, Col, Card, Spin} from "antd"
-import {history, useLocation} from "@umijs/max"
-import {useRequest} from "ahooks"
+import React, { useEffect, FC } from "react"
+import { Row, Col, Card, Spin } from "antd"
+import { history, useLocation } from "@umijs/max"
+import { useRequest } from "ahooks"
 import API from "@/api"
 import styles from "./index.scss"
+import { useQuery } from "@/hooks"
 
 export interface IArtists {
   img1v1Id: number
@@ -26,9 +27,10 @@ export interface IArtists {
 }
 
 const SimilarSinger = () => {
-  const location: any = useLocation()
-  const {id, name} = location?.query
-  const {data, run, loading} = useRequest(() => API.getSimilarSinger({id}), {
+  // const location: any = useLocation()
+  const query = useQuery()
+  const { id, name } = query
+  const { data, run, loading } = useRequest(() => API.getSimilarSinger({ id }), {
     manual: true
   })
   useEffect(() => {
@@ -46,7 +48,7 @@ const SimilarSinger = () => {
             onClick={() => history.push(`/artists-detail/album?id=${item.id}&name=${item.name}`)}>
             <Card
               bordered={false}
-              bodyStyle={{padding: 0}}
+              bodyStyle={{ padding: 0 }}
               loading={loading}
               cover={
                 <div className={styles.singerCover}>

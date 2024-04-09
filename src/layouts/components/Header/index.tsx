@@ -3,15 +3,14 @@
 import { FC } from "react"
 import { history } from "@umijs/max"
 import { UserContent, Search, AddSongList } from "./components"
-import { TagsView } from "../index"
 import styles from "./index.scss"
 import classNames from "classnames"
 
-const Header: FC = () => {
+const Header: FC = ({ children }) => {
 
   return (
-    <header className={classNames(styles._header, "flex bg-[#ffffff] h-full")}>
-      <div className="w-[220px] ml-[40px] self-baseline mt-[5px]">
+    <header className={classNames(styles._header, "flex bg-[#ffffff] h-[max-content]")}>
+      <div className="w-[220px] pl-[40px] self-baseline mt-[5px]">
         <img
           onClick={() => history.push("/personal-recommendation")}
           width={144}
@@ -23,7 +22,8 @@ const Header: FC = () => {
           <AddSongList />
           <UserContent />
         </div>
-        <TagsView />
+        {children}
+
       </div>
     </header>
   )

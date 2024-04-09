@@ -60,14 +60,14 @@ const Search = () => {
     history.push(`/search-detail/single?keywords=${keywords}&type=1`)
   }
 
-  const onInput = (e: any) => {
-    setInputValue(e.target.value)
-    if (e.target.value) {
-      run(e.target.value)
+  const onInput = (newValue: string) => {
+    setInputValue(newValue)
+    if (newValue) {
+      run(newValue)
       dispatch({
         type: "songInfoModel/setKeywords",
         payload: {
-          keywords: e.target.value
+          keywords: newValue
         }
       })
     }
@@ -76,7 +76,11 @@ const Search = () => {
   const showHistory = inputValue && data && Object.keys(data).length
 
   return <Select
-    className={classNames(styles.searchContainer,'w-[500px] !ml-[24px]')}
+    showSearch
+    searchValue={inputValue}
+    onSearch={onInput}
+    onChange={onInput}
+    className={classNames(styles.searchContainer, 'w-[500px] !ml-[24px]')}
     suffixIcon={<SearchOutlined className="site-form-item-icon" />}
     placeholder="搜索音乐，视频，歌词，电台"
     dropdownRender={() => (

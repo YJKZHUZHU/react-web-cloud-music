@@ -1,11 +1,12 @@
 /** @format */
 
-import React, {FC} from "react"
-import {PlayCircleOutlined} from "@ant-design/icons"
-import {Link} from "@umijs/max"
-import {Artists, PlayIcon} from "@/components"
+import React, { FC } from "react"
+import { PlayCircleOutlined } from "@ant-design/icons"
+import { Link } from "@umijs/max"
+import { Artists, PlayIcon } from "@/components"
 import Utils from "@/help/index"
 import styles from "./index.scss"
+import classNames from "classnames"
 
 interface IArtists {
   id: number
@@ -33,7 +34,7 @@ interface IRecommendMv {
   data: IRecommendItem
 }
 
-const RecommendMv: FC<IRecommendMv> = ({data}) => {
+const RecommendMv: FC<IRecommendMv> = ({ data }) => {
   return (
     <Link to={`/mv-detail?mvid=${data.id}&type=${+data.type - 5}`}>
       <div className={styles._list}>
@@ -48,8 +49,10 @@ const RecommendMv: FC<IRecommendMv> = ({data}) => {
           </div>
           <PlayIcon iconClassName={styles.playIcon} />
         </div>
-        <p className={styles.name}>{data.name}</p>
-        <Artists data={data.artists} />
+        <div className="flex flex-col gap-[4px]">
+          <p className="line-clamp-1">{data.name}</p>
+          <Artists data={data.artists} />
+        </div>
       </div>
     </Link>
   )

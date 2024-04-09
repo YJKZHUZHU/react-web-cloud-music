@@ -1,11 +1,12 @@
 /** @format */
 
-import React, {useEffect} from "react"
-import {Spin} from "antd"
-import {useLocation} from "@umijs/max"
-import {useRequest} from "ahooks"
+import React, { useEffect } from "react"
+import { Spin } from "antd"
+import { useLocation } from "@umijs/max"
+import { useRequest } from "ahooks"
 import API from "@/api"
 import styles from "./index.scss"
+import { useQuery } from "@/hooks"
 
 interface IOtherDesc {
   ti: string
@@ -13,9 +14,10 @@ interface IOtherDesc {
 }
 
 const SingerDetail = () => {
-  const location: any = useLocation()
-  const {id, name} = location?.query
-  const {data, run, loading} = useRequest(() => API.getArtistDesc({id}), {
+  // const location: any = useLocation()
+  const query = useQuery()
+  const { id, name } = query
+  const { data, run, loading } = useRequest(() => API.getArtistDesc({ id }), {
     manual: true
   })
   useEffect(() => {

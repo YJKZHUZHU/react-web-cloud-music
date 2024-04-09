@@ -1,9 +1,10 @@
 /** @format */
 
-import React, {FC} from "react"
-import {PlayCircleOutlined} from "@ant-design/icons"
-import {Link} from "@umijs/max"
+import React, { FC } from "react"
+import { PlayCircleOutlined } from "@ant-design/icons"
+import { history } from "@umijs/max"
 import styles from "./index.scss"
+import classNames from "classnames"
 
 export interface IExclusiveBroadcastItem {
   id: number
@@ -21,7 +22,7 @@ interface IExclusiveBroadcast {
   data: IExclusiveBroadcastItem
 }
 
-const ExclusiveBroadcast: FC<IExclusiveBroadcast> = ({data}) => {
+const ExclusiveBroadcast: FC<IExclusiveBroadcast> = ({ data }) => {
   const onLink = (item: IExclusiveBroadcastItem) => {
     let result = ""
     if (+item.type === 5) {
@@ -30,16 +31,16 @@ const ExclusiveBroadcast: FC<IExclusiveBroadcast> = ({data}) => {
     if (+item.type === 24) {
       result = `/mv-detail?mvid=${item.videoId}&type=1`
     }
-    return result
+    return history.push(result)
   }
   return (
-    <Link to={onLink(data)} className={styles.exclusiveBroadcastItem}>
+    <div onClick={() => onLink(data)} className={classNames(styles.exclusiveBroadcastItem, 'flex', 'gap-[16px]')}>
       <div className={styles.img}>
         <img src={data.picUrl} />
         <PlayCircleOutlined className={styles.icon} />
       </div>
-      <span className={styles.name}>{data.name}</span>
-    </Link>
+      <p className="flex-1 line-clamp-2 leading-[20px]">{data.name}</p>
+    </div>
   )
 }
 

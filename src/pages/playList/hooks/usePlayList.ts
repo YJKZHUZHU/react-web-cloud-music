@@ -34,7 +34,7 @@ const usePlayList = (id: string) => {
 
   const { data: tableList, loading } = useRequest(() => API.song({ ids: idsRef.current }), {
     refreshDeps: [idsRef.current],
-    ready: data?.trackIds.length,
+    ready: data?.trackIds?.length,
     formatResult: (response) => response.songs || [],
     onError: (err) => {
       throw err

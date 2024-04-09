@@ -1,9 +1,10 @@
 /** @format */
 
-import React, {FC} from "react"
-import {CaretRightOutlined, PlaySquareOutlined} from "@ant-design/icons"
-import {Artists, PlayIcon} from "@/components"
-import {useDispatch, history} from "@umijs/max"
+import React, { FC } from "react"
+import { CaretRightOutlined, PlaySquareOutlined } from "@ant-design/icons"
+import { Artists, PlayIcon } from "@/components"
+import { useDispatch, history } from "@umijs/max"
+import classNames from "classnames"
 import styles from "./index.scss"
 
 export interface INewSongItem {
@@ -23,8 +24,9 @@ interface INewMusic {
   index: number
 }
 
-const NewMusic: FC<INewMusic> = ({data, index}) => {
+const NewMusic: FC<INewMusic> = ({ data, index }) => {
   const dispatch = useDispatch()
+  console.log('data-=',data)
   return (
     <div
       className={styles._newMusic}
@@ -42,21 +44,19 @@ const NewMusic: FC<INewMusic> = ({data, index}) => {
         <PlayIcon iconClassName={styles.playIcon} />
       </div>
       <div className={styles.content}>
-        <p>{data.name}</p>
-        <p className={styles.name}>
-          <span>
-            <Artists data={data.song.artists} />
-          </span>
-          {!!data.song.mvid ? (
-            <PlaySquareOutlined
-              className={styles.icon}
-              onClick={() =>
-                history.push(`/mv-detail?mvid=${data.song.mvid}&typs=${data.song.type}`)
-              }
-            />
-          ) : null}
-        </p>
+        <p className="line-clamp-1 w-[190px]">{data.name}</p>
+        <span className={classNames('line-clamp-1', 'w-[190px]', 'text-[#BCBEC9]')}>
+          {data.song.artists.map((d: any) => d.name).join('/')}
+        </span>
       </div>
+      {!!data.song.mvid ? (
+        <PlaySquareOutlined
+          className={styles.icon}
+          onClick={() =>
+            history.push(`/mv-detail?mvid=${data.song.mvid}&type=${data.song.type}`)
+          }
+        />
+      ) : null}
     </div>
   )
 }

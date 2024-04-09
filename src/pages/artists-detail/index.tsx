@@ -1,7 +1,7 @@
 /** @format */
 
 import React, { useState, useEffect, FC, createContext } from "react"
-import { history } from "@umijs/max"
+import { history, Outlet } from "@umijs/max"
 import { Tabs, Radio, Button, Space, Spin, message } from "antd"
 import {
   BorderInnerOutlined,
@@ -36,7 +36,7 @@ export interface IProps {
 
 const { TabPane } = Tabs
 
-const ArtistsDetail: FC = ({ children }) => {
+const ArtistsDetail: FC = () => {
   const query = useQuery<{ id: number, name: string, source: string }>()
   const [tabKey, setTabKey] = useState(query?.source || "album")
   const [collect, setCollect] = useState(false)
@@ -149,7 +149,7 @@ const ArtistsDetail: FC = ({ children }) => {
         tabBarExtraContent={tabKey === "album" ? extra : null}>
         <TabPane tab="专辑" key="album">
           <Album
-            query={query}
+
             total={data?.albumSize as number}
             type={extraType}
             topImgUrl={data?.picUrl as string}
@@ -158,14 +158,15 @@ const ArtistsDetail: FC = ({ children }) => {
         </TabPane>
         <TabPane tab="MV" key="mv">
           <ArtistsDetailContext.Provider value={{ total: data?.musicSize as number }}>
-            {children}
+
+            <Outlet />
           </ArtistsDetailContext.Provider>
         </TabPane>
         <TabPane tab="歌手详情" key="singer-detail">
-          {children}
+          <Outlet />
         </TabPane>
         <TabPane tab="相似歌手" key="similar-singer">
-          {children}
+          <Outlet />
         </TabPane>
       </Tabs>
     </div>

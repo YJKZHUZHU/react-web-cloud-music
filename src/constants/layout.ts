@@ -1,4 +1,9 @@
+import { MenuProps } from "antd"
+
 /** @format */
+type MenuItem = Required<MenuProps>["items"][number]
+
+
 
 export enum MenuKeyEnum {
   FIND_MUSIC = "findMusic",
@@ -65,3 +70,26 @@ export const MY_MUSIC: ITagItem[] = [
 ]
 
 export const MAP_TAGS_VIEWS = new Map().set(MenuKeyEnum.FIND_MUSIC, FIND_MUSIC_TAGS).set(MenuKeyEnum.MY_MUSIC, MY_MUSIC)
+
+export const menuList: MenuItem[] = [
+  {
+    label: "发现音乐",
+    key: MenuKeyEnum.FIND_MUSIC
+    // icon:
+  },
+  {
+    label: "精彩视频",
+    key: MenuKeyEnum.VIDEO
+    // icon:
+  },
+  {
+    label: "我的音乐",
+    key: MenuKeyEnum.MY_MUSIC
+    // icon:
+  },
+  {
+    label: "我的歌单",
+    key: MenuKeyEnum.MY_SONG_LIST
+    // icon:
+  }
+]

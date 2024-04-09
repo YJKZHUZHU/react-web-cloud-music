@@ -1,21 +1,16 @@
 /** @format */
 
-import { useRef, createContext, FC, useMemo } from "react"
+import { useRef, createContext, FC, useMemo, useState } from "react"
 import { Drawer, Avatar } from "antd"
-import { useDispatch, useSelector, useLocation, history, Outlet } from "@umijs/max"
-import { PlayRecord, PlayerLayout, MenuItem } from "@/components"
+import { useDispatch, useSelector, useLocation, history, useRouteProps, Outlet } from "@umijs/max"
+import { PlayRecord, PlayerLayout } from "@/components"
 import classnames from "classnames"
-import { MenuUnfoldOutlined, MenuFoldOutlined, AntDesignOutlined } from "@ant-design/icons"
 import Footer from "./Footer"
-import ProLayout from "@ant-design/pro-layout"
-import { defaultRoutes, mapPlayList } from "./Router"
-import { AddSongList } from "@/components/Header/components"
 import { IState } from "typings"
 import { useApp } from "@/hooks"
-import { useBoolean } from "ahooks"
-import { useCreatorSongList, useFavoriteSongList } from "@/store/user"
-import { Header, Aside } from "./components"
+import { Header, Aside, TagsView } from "./components"
 import classNames from "classnames"
+import { MAP_MENU_PATH, MenuKeyEnum } from "@/constants/layout"
 
 interface IGlobalContext {
   reloadMenu?: () => void
@@ -25,14 +20,13 @@ export const GlobalContext = createContext<IGlobalContext>({
 })
 const BasicLayout: FC = () => {
   useApp()
-  const creatorSongList = useCreatorSongList()
-  const favoriteSongList = useFavoriteSongList()
   const dispatch = useDispatch()
-  const { userModel, songInfoModel, loading } = useSelector<IState, IState>((state) => state)
-  const { userInfo, userId } = userModel
+  const { songInfoModel } = useSelector<IState, IState>((state) => state)
   const { showPlayRecord } = songInfoModel
-  const [collapsed, { toggle }] = useBoolean(false)
   const { pathname } = useLocation()
+  const routeProps = useRouteProps()
+  const [selectKeys, setSelectKeys] = useState<MenuKeyEnum[]>([routeProps.parentKey || MenuKeyEnum.FIND_MUSIC])
+  const playerLayoutVisible = !["/mv-detail"].includes(pathname)
 
   const onClose = () => {
     dispatch({
@@ -43,13 +37,22 @@ const BasicLayout: FC = () => {
     })
   }
 
-  const playerLayoutVisible = !["/mv-detail"].includes(pathname)
+  const onMenuItem = ({ item, key, keyPath, domEvent }: any) => {
+    console.log("menuIte,", { item, key, keyPath, domEvent })
+    setSelectKeys([key])
+    const pathKey = key as unknown as MenuKeyEnum
+    MAP_MENU_PATH.has(pathKey) && history.push(MAP_MENU_PATH.get(pathKey)!)
+  }
+
+
 
   return (
     <div className="flex flex-col h-[100vh] min-w-[1280px] overflow-y-hidden">
-      <Header />
+      <Header >
+        <TagsView selectKeys={selectKeys} />
+      </Header>
       <div className="flex flex-1 bg-[#F2F1F6]">
-        <Aside visible={playerLayoutVisible} />
+        <Aside selectKeys={selectKeys} onMenuItem={onMenuItem} visible={playerLayoutVisible} />
         <div
           className={classNames(
             "bg-[length:40px_40px] bg-no-repeat bg-[url('../../assets/layout/radius@2x.png')] relative flex-1 h-[calc(100vh-120px)] w-[calc(100vw-220px)] overflow-scroll px-[40px] pt-[30px]",

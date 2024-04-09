@@ -96,33 +96,32 @@ const PersonalRecommendation = () => {
             })}
           </Row>
         </div>
-        <div className={styles.recommend}>
-          {renderLink("独家放送", "/exclusive-broadcast")}
-          <Row justify="start" gutter={24}>
-            {exclusiveBroadcastData?.result.map((item) => {
-              return (
-                <Col span={24 / exclusiveBroadcastData?.result.length} key={item.id}>
-                  <ExclusiveBroadcast data={item} />
-                </Col>
-              )
-            })}
-          </Row>
-        </div>
-        <div className={styles.recommend}>
-          {renderLink("最新音乐", "/find-music/latest-music")}
+        <div className="flex justify-between gap-[30px]">
+          <div className="w-[400px] rounded-[20px] bg-[#ffffff] p-[16px]">
+            {renderLink("最新音乐", "/find-music/latest-music")}
 
-          <div className={styles.newMusic}>
-            <Row>
-              {newSongData?.result.map((item, index) => {
+            <div className={styles.newMusic}>
+              {newSongData?.result.slice(0, 5).map((item, index) => {
                 return (
-                  <Col span={12} key={item.id}>
-                    <NewMusic data={item} index={index + 1} />
-                  </Col>
+                  <NewMusic data={item} key={item.id} index={index + 1} />
                 )
               })}
-            </Row>
+            </div>
+          </div>
+          <div className="flex-1 rounded-[20px] bg-[#ffffff] p-[16px] flex flex-col">
+            {renderLink("独家放送", "/exclusive-broadcast")}
+            <div className="flex flex-col gap-[26px] flex-1 justify-between">
+              {exclusiveBroadcastData?.result.map((item) => {
+                return (
+                  <ExclusiveBroadcast key={item.id} data={item} />
+                )
+              })}
+            </div>
+
           </div>
         </div>
+
+
         <div className={styles.recommend}>
           {renderLink("推荐MV", "/find-music/song-list")}
 

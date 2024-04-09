@@ -1,15 +1,17 @@
 /** @format */
 
 import { Flex, Tag } from "antd"
-import { useEffect, useState } from "react"
+import { FC, useEffect, useState } from "react"
 import { useLocation, history, useRouteProps } from "@umijs/max"
-import { ITagItem, MAP_TAGS_VIEWS } from "@/constants/layout"
+import { ITagItem, MAP_TAGS_VIEWS, MenuKeyEnum } from "@/constants/layout"
 
-const TagsView = () => {
+interface IProps {
+  selectKeys: MenuKeyEnum[]
+}
+const TagsView: FC<IProps> = ({ selectKeys }) => {
+  const selectKey = selectKeys[0] || ""
   const location = useLocation()
-  const routeProps = useRouteProps()
-  // routeProps.parentKey
-  const [tagsData, setTagsData] = useState<ITagItem[]>(MAP_TAGS_VIEWS.get(routeProps.parentKey) || [])
+  const [tagsData, setTagsData] = useState<ITagItem[]>([])
 
   const [selectedTag, setSelectedTag] = useState<string>(location.pathname)
   const handleChange = (tag: ITagItem) => {
@@ -18,24 +20,15 @@ const TagsView = () => {
     history.push(tag.path)
   }
   useEffect(() => {
-    console.log("useLocation", tagsData, location)
-    // if (tagsData.length !== 0 && selectedTag.includes(location.pathname)) {
-    //   return
-    // }
-    // setTagsData(MAP_TAGS_VIEWS.get(routeProps.parentKey) || [])
-    // setSelectedTag(location.pathname)
-    // if (MAP_TAGS_VIEWS.has(location.pathname)) {
-    //   console.log('ssss', location.pathname)
-    //   setTagsData(MAP_TAGS_VIEWS.get(location.pathname))
-    //   setSelectedTag(location.pathname)
-    // } else {
-    //   setTagsData([])
-    //   setSelectedTag('')
-    // }
-  }, [])
+    setTagsData(MAP_TAGS_VIEWS.get(selectKey) || [])
+
+  }, [selectKey])
+  useEffect(() => {
+    setSelectedTag(location.pathname)
+  }, [location.pathname])
   if (tagsData.length === 0) return <></>
   return (
-    <div className="h-[60px] flex">
+    <div className="h-[60px] flex ml-[24px]">
       <Flex gap={4} wrap="nowrap" align="center">
         {tagsData.map<React.ReactNode>((tag) => (
           <Tag.CheckableTag

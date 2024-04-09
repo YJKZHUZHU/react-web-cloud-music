@@ -49,6 +49,7 @@ const routes: IRoue[] = [
         path: '/video',
         component: '@/pages/video',
         title: '视频',
+        parentKey: MenuKeyEnum.VIDEO,
         wrappers: [
           '@/wrappers/Auth',
         ]
@@ -104,7 +105,7 @@ const routes: IRoue[] = [
         path: '/collect',
         component: 'collect',
         title: '收藏的专辑',
-        parentKey:MenuKeyEnum.MY_MUSIC,
+        parentKey: MenuKeyEnum.MY_MUSIC,
         wrappers: [
           '@/wrappers/Auth',
         ],
@@ -202,6 +203,11 @@ const routes: IRoue[] = [
         title: "专辑",
         routes: [
           {
+            path: '/artists-detail/album',
+            component: 'artists-detail/album',
+            title: 'Album'
+          },
+          {
             path: '/artists-detail/mv',
             component: 'artists-detail/mv',
             title: 'MV'
@@ -267,7 +273,8 @@ const routes: IRoue[] = [
       {
         path: '/exclusive-broadcast',
         component: 'exclusive-broadcast',
-        title: "独家放送"
+        title: "独家放送",
+        parentKey: MenuKeyEnum.FIND_MUSIC
       },
       {
         path: '/homepage',

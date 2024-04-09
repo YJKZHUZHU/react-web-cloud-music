@@ -5,19 +5,23 @@
 ._list {
   position: relative;
   width: 100%;
-  &:hover {
-    .playIcon {
-      opacity: 1;
-    }
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 
-  cursor: pointer;
 
   .imgWrap {
     position: relative;
     height: 80%;
     border-radius: 4px;
     overflow: hidden;
+    cursor: pointer;
+
+    &:hover {
+      .playIcon {
+        opacity: 1;
+      }
+    }
 
     .number {
       position: absolute;
@@ -60,9 +64,5 @@
     }
   }
 
-  .name {
-    @include ellipsis();
-    font-size: 14px;
-    margin: 0;
-  }
+
 }

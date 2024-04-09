@@ -6,6 +6,7 @@ import qs from 'qs'
 import zh_cn from "antd/lib/locale/zh_CN"
 import { theme } from 'antd';
 import { login } from './help/cache'
+import { useApp } from './hooks'
 
 Nprogress.configure({
   showSpinner: false
@@ -158,6 +159,10 @@ export const antd: RuntimeAntdConfig = (memo) => {
   return memo;
 };
 
+
+// export const render:RuntimeConfig['render'] = (oldRender) => {
+//   useApp()
+// }
 
 
 

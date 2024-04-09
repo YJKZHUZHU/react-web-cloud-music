@@ -43,7 +43,7 @@ const RecommendedSongList: FC<Props> = ({ data }) => {
 
         <PlayIcon iconClassName={styles.playIcon} />
       </div>
-      <p className=" text-[#7D829E] px-[8px] line-clamp-2 mt-[12px] mb-[12px] text-[14px] leading-[16px]">{data.name}</p>
+      <p className=" text-[#7D829E] px-[8px] line-clamp-2 mt-[12px] mb-[12px] text-[14px] leading-[16px] h-[32px]">{data.name}</p>
     </div>
   )
 }

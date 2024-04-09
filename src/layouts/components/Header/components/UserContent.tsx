@@ -15,6 +15,7 @@ import styles from "../index.scss"
 import { login } from "@/help/cache"
 import { history, useSelector } from "@umijs/max"
 import { useBoolean, useRequest } from "ahooks"
+import {useLogout} from '@/hooks'
 import { useNickName } from "@/store/login"
 import {
   useAvatarUrl,
@@ -44,15 +45,20 @@ const UserContent = () => {
   const level = useLevel()
   const vipLevel = useVipLevel()
 
-  const { run: runLogout } = useRequest(() => API.logout({ loading: true }), {
-    manual: true,
-    onSuccess: (response: any) => {
-      if (response.code !== 200) return message.info("服务器开小差了哦。。")
-      setVisibleFalse()
-      message.success("退出成功")
-      window.location.reload()
-    }
-  })
+  const runLogout = useLogout()
+
+
+
+  // const { run: runLogout } = useRequest(() => API.logout({ loading: true }), {
+  //   manual: true,
+  //   onSuccess: (response: any) => {
+  //     if (response.code !== 200) return message.info("服务器开小差了哦。。")
+  //     setVisibleFalse()
+  //     message.success("退出成功")
+  //     localStorage.clear()
+  //     window.location.reload()
+  //   }
+  // })
 
   const { run: runSignin } = useRequest(() => API.dailySignIn({ type: 1 }), {
     manual: true,

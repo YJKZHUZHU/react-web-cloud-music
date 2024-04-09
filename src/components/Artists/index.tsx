@@ -39,7 +39,7 @@ const Artists: FC<IArtists> = ({data, isJump}) => {
     if (!isJump) return false
     e.preventDefault()
     e.stopPropagation()
-    return history.push(`/artists-detail/album?id=${id}&name=${name}`)
+    return history.push(`/artists-detail?id=${id}&name=${name}`)
   }
 
   return (
