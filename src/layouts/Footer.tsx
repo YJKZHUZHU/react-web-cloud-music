@@ -18,7 +18,6 @@ import Utils from "@/help"
 import ReactPlayer from "react-player"
 import store from "@/help/localStorage"
 import {PlayMode} from "@/components"
-import {SingerInterface} from "@/models/songInfoStore"
 import {
   IPlayerObj,
   PlayerModeEnum,
@@ -162,7 +161,7 @@ const Footer = memo(() => {
                   return (
                     <span key={item.id}>
                       {item.name}
-                      {(songObj.singerArr as SingerInterface[]).length === index + 1 ? null : "/"}
+                      {(songObj.singerArr as any[]).length === index + 1 ? null : "/"}
                     </span>
                   )
                 })}
@@ -208,7 +207,11 @@ const Footer = memo(() => {
   if (location.pathname === "/mv-detail") return null
 
   return (
-    <footer className={classnames(style._footer, "flex  px-[20px] py-[14px] justify-between")}>
+    <footer
+      className={classnames(
+        style._footer,
+        "bg-[#ffffff] flex  px-[20px] py-[14px] justify-between"
+      )}>
       {renderMusicInfo(!!Object.keys(songObj).length)}
 
       <div className="flex-1 flex gap-[16px]">
