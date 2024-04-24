@@ -4,9 +4,10 @@ import React, {FC} from "react"
 import {List, Space, Avatar} from "antd"
 import {ShareAltOutlined, LikeOutlined, MessageOutlined} from "@ant-design/icons"
 import dayjs from "dayjs"
-import {history, useDispatch} from "@umijs/max"
+import {history} from "@umijs/max"
 import {Artists, PlayIcon} from "@/components"
 import styles from "../index.scss"
+import {useGetSongInfo} from "@/store/player"
 
 const IconText = ({icon, text}: any) => (
   <Space>
@@ -21,22 +22,13 @@ interface IDynamicProps {
 }
 
 const Dynamic: FC<IDynamicProps> = ({data, loading}) => {
-  const dispatch = useDispatch()
+  const getSongInfo = useGetSongInfo()
   const content = (info: any, {pics, rcmdInfo}: {pics: any[]; rcmdInfo: any}) => {
     return (
       <div className={styles.dinamicContent}>
         <span>{info?.msg}</span>
         {info?.song && (
-          <div
-            className={styles.song}
-            onDoubleClick={() =>
-              dispatch({
-                type: "songInfoModel/getSongInfo",
-                payload: {
-                  id: info?.song?.id
-                }
-              })
-            }>
+          <div className={styles.song} onDoubleClick={() => getSongInfo(info?.song?.id)}>
             <div className={styles.img}>
               <img src={info?.song?.album?.picUrl} alt={info.song.name} />
               <PlayIcon iconClassName={styles.playIcon} />

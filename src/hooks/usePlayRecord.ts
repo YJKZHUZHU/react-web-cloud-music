@@ -1,13 +1,14 @@
 /** @format */
 
 import { useState, useEffect } from "react"
-import { useSelector } from "@umijs/max"
-import { IState } from 'typings'
+import { usePlayRecord as usePlayRecordStore, usePlayHistory } from '@/store/player'
+import { useAllPlayRecord } from "@/store/user"
 
 const usePlayRecord = () => {
-  const { userModel, songInfoModel } = useSelector((state: IState) => state)
-  const { allPlayRecord } = userModel
-  const { playRecord, playHistory } = songInfoModel
+
+  const playRecord = usePlayRecordStore()
+  const playHistory = usePlayHistory()
+  const allPlayRecord = useAllPlayRecord()
 
   const [list, setList] = useState<any>([])
   useEffect(() => {

@@ -1,19 +1,19 @@
 /** @format */
 
-import React, { FC, useEffect, useState, useContext } from "react"
-import { InfoCircleOutlined } from "@ant-design/icons"
-import { Input, Popover, Button, Tag, message, Form, Row, Col, Space } from "antd"
+import {useEffect, useState, useContext, FC} from "react"
+import {InfoCircleOutlined} from "@ant-design/icons"
+import {Input, Popover, Button, Tag, message, Form, Row, Col, Space} from "antd"
 import styles from "./index.scss"
-import { useSelector, history } from "@umijs/max"
-import { FormInstance } from "antd/lib/form"
+import {history} from "@umijs/max"
+import {FormInstance} from "antd/lib/form"
 import API from "@/api"
-import { GlobalContext } from "@/layouts"
-import { EDIT_SONG_LIST } from "@/help/map"
-import { IState } from "typings"
-import { useBoolean } from "ahooks"
-import { useQuery } from '@/hooks'
+import {GlobalContext} from "@/layouts"
+import {EDIT_SONG_LIST} from "@/help/map"
+import {useBoolean} from "ahooks"
+import {useQuery} from "@/hooks"
+import {useCreatorSongList} from "@/store/user"
 
-const { CheckableTag } = Tag
+const {CheckableTag} = Tag
 
 interface ILabel {
   form: FormInstance
@@ -21,10 +21,10 @@ interface ILabel {
 
 const mapToForm = (data: any[], id: number) => data?.filter((item) => +item.id === +id)[0]
 
-const Label: FC<ILabel> = ({ form }) => {
-  const { setFieldsValue, getFieldValue } = form
+const Label: FC<ILabel> = ({form}) => {
+  const {setFieldsValue, getFieldValue} = form
 
-  const [visible, { setFalse, toggle }] = useBoolean(false)
+  const [visible, {setFalse, toggle}] = useBoolean(false)
   const [selectedTags, setSelectedTags] = useState<string[]>(getFieldValue("tags"))
 
   const onTag = (item: string, checked: boolean) => {
@@ -35,7 +35,7 @@ const Label: FC<ILabel> = ({ form }) => {
       return false
     }
     setSelectedTags(nextSelectedTags)
-    setFieldsValue({ tags: nextSelectedTags })
+    setFieldsValue({tags: nextSelectedTags})
   }
 
   const content = (
@@ -107,13 +107,13 @@ const Label: FC<ILabel> = ({ form }) => {
 }
 
 const EditSongList: FC = () => {
-  const { playList } = useSelector((state: IState) => state.userModel)
-  const { reloadMenu } = useContext(GlobalContext)
+  const creator = useCreatorSongList()
+  const {reloadMenu} = useContext(GlobalContext)
   const query = useQuery()
   const [form] = Form.useForm()
-  const { setFieldsValue } = form
-  const { id } = query
-  const creatorItem = mapToForm(playList?.creator, Number(id))
+  const {setFieldsValue} = form
+  const {id} = query
+  const creatorItem = mapToForm(creator, Number(id))
 
   setFieldsValue({
     name: creatorItem?.name || "",
@@ -141,12 +141,12 @@ const EditSongList: FC = () => {
   return (
     <Row gutter={32} className={styles.editSongList}>
       <Col span={18}>
-        <Form onFinish={onSubmit} form={form} labelCol={{ span: 2 }} wrapperCol={{ span: 20 }}>
+        <Form onFinish={onSubmit} form={form} labelCol={{span: 2}} wrapperCol={{span: 20}}>
           <Form.Item
             required={false}
             label="歌单名"
             name="name"
-            rules={[{ required: true, message: "歌单名不能为空" }]}>
+            rules={[{required: true, message: "歌单名不能为空"}]}>
             <Input placeholder="歌单名" allowClear />
           </Form.Item>
           <Form.Item label="标签" name="tags">
@@ -159,7 +159,7 @@ const EditSongList: FC = () => {
               placeholder="歌单描述"
               rows={4}
               maxLength={996}
-              style={{ wordBreak: "break-all" }}
+              style={{wordBreak: "break-all"}}
             />
           </Form.Item>
           <Form.Item>
@@ -167,7 +167,10 @@ const EditSongList: FC = () => {
               <Button type="primary" htmlType="submit">
                 保存
               </Button>
-              <Button onClick={() => history.push(`/playList/${creatorItem?.id}?listId=${creatorItem?.id}`)}>
+              <Button
+                onClick={() =>
+                  history.push(`/playList/${creatorItem?.id}?listId=${creatorItem?.id}`)
+                }>
                 取消
               </Button>
             </Space>

@@ -1,14 +1,15 @@
 /** @format */
 
-import React, {FC} from "react"
+import { FC } from "react"
 import {
   CustomerServiceOutlined,
   InstagramOutlined,
   PlaySquareOutlined,
   UserOutlined
 } from "@ant-design/icons"
-import {Space} from "antd"
-import {useToSearchDetail} from "@/hooks"
+import { Space } from "antd"
+import { useToSearchDetail } from "@/hooks"
+import { HighlightText } from '@/components'
 import SearchListItem from "./SearchListItem"
 import styles from "../index.scss"
 
@@ -23,37 +24,36 @@ interface ISearchListProps {
 }
 
 const SearchList: FC<ISearchListProps> = (props) => {
-  const {value, list} = props
+  const { value, list } = props
   const toDetail = useToSearchDetail()
+
 
   return (
     <div className={styles._searchSuggest}>
       <p className={styles.searchTitle}>
-        搜“
-        <span className={styles.linkColor}>{value}</span>
-        ”相关的结果
+        <HighlightText content={`搜“${value}”相关的结果`} pattern={new RegExp(value, 'g')} />
       </p>
-      <SearchListItem data={list?.artists} toDetail={(name) => toDetail(100, name)}>
+      <SearchListItem value={value} data={list?.artists} toDetail={(name) => toDetail(100, name)}>
         <Space>
           <UserOutlined />
           <span>歌手</span>
         </Space>
       </SearchListItem>
-      <SearchListItem data={list?.songs} toDetail={(name) => toDetail(1, name)}>
+      <SearchListItem value={value} data={list?.songs} toDetail={(name) => toDetail(1, name)}>
         <Space>
           <CustomerServiceOutlined />
           <span>单曲</span>
         </Space>
       </SearchListItem>
 
-      <SearchListItem data={list?.albums} toDetail={(name) => toDetail(10, name)}>
+      <SearchListItem value={value} data={list?.albums} toDetail={(name) => toDetail(10, name)}>
         <Space>
           <InstagramOutlined />
           <span>专辑</span>
         </Space>
       </SearchListItem>
 
-      <SearchListItem data={list?.mvs} toDetail={(name) => toDetail(1014, name)}>
+      <SearchListItem value={value} data={list?.mvs} toDetail={(name) => toDetail(1014, name)}>
         <Space>
           <PlaySquareOutlined />
           <span>视频</span>

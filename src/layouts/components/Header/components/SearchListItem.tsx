@@ -1,15 +1,17 @@
 /** @format */
 
-import React, {FC} from "react"
+import { FC } from "react"
+import { HighlightText } from '@/components'
 import styles from "../index.scss"
 
 interface ISearchListItemProps {
+  value: string
   data: any[]
   toDetail: (val: string) => void
 }
 
 const SearchListItem: FC<ISearchListItemProps> = (props) => {
-  const {data = [], children, toDetail} = props
+  const { data = [], children, toDetail, value } = props
   if (data?.length === 0) return null
   return (
     <div className={styles.singer}>
@@ -18,7 +20,7 @@ const SearchListItem: FC<ISearchListItemProps> = (props) => {
         {data.map((item) => {
           return (
             <li key={item.id} className={styles.name} onClick={() => toDetail(item.name)}>
-              <span className={styles.linkColor}>{item.name}</span>
+              <HighlightText className={styles.linkColor} content={item.name} pattern={new RegExp(value, 'g')} />
             </li>
           )
         })}

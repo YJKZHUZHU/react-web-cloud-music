@@ -1,47 +1,66 @@
 /** @format */
 
-import React, { useState, useRef, memo } from "react"
-import { Slider, Radio, Tooltip, Row, Col, Space, Dropdown, MenuProps } from "antd"
+import {useState, useRef, memo} from "react"
+import {Slider, Tooltip, Dropdown, MenuProps} from "antd"
 import {
   FullscreenOutlined,
   FullscreenExitOutlined,
   StepBackwardOutlined,
   StepForwardOutlined,
   CaretRightOutlined,
-  ShareAltOutlined,
-  GithubOutlined,
   PauseOutlined
 } from "@ant-design/icons"
-import { useBoolean } from "ahooks"
-import { useDispatch, useLocation, useSelector } from "@umijs/max"
+import {useBoolean} from "ahooks"
+import {useLocation} from "@umijs/max"
 import classnames from "classnames"
-import { usePlayRecord } from "@/hooks"
+import {usePlayRecord} from "@/hooks"
 import Utils from "@/help"
 import ReactPlayer from "react-player"
 import store from "@/help/localStorage"
-import { PlayMode } from "@/components"
+import {PlayMode} from "@/components"
+import {SingerInterface} from "@/models/songInfoStore"
+import {
+  IPlayerObj,
+  PlayerModeEnum,
+  useGetSongInfo,
+  useIsPlay,
+  usePlayRecordTip,
+  usePlayerMode,
+  usePlayerRate,
+  useSetIsPlay,
+  useSetPlayRate,
+  useSetPlayRecordTip,
+  useSetPlayerObj,
+  useSetShowPlayRecord,
+  useSetShowPlayer,
+  useShowPlayRecord,
+  useShowPlayer,
+  useSongObj
+} from "@/store/player"
 import style from "./index.scss"
-import { IState } from "typings"
-import { SingerInterface } from "@/models/songInfoStore"
-
-interface PlayerInterface {
-  loaded?: number
-  loadedSeconds?: number
-  played?: number
-  playedSeconds?: number
-}
 
 const Footer = memo(() => {
-  const dispatch = useDispatch()
   const location = useLocation()
   const playRef = useRef<any>(null)
   const list = usePlayRecord()
   const volumnRef = useRef(0)
   const [volume, setVolme] = useState(Number(store.getStorage("volume")))
-  const [showValumeIcon, { toggle }] = useBoolean(Number(store.getStorage("volume")) === 0) // 是否静音
-  const { songInfoModel, playmodel } = useSelector((state: IState) => state)
-  const { isPlay, showPlayRecord, playRecordTip, songObj } = songInfoModel
-  const { showPlayer, playMode, playerRate } = playmodel
+  const [showValumeIcon, {toggle}] = useBoolean(Number(store.getStorage("volume")) === 0) // 是否静音
+
+  const isPlay = useIsPlay()
+  const showPlayRecord = useShowPlayRecord()
+  const playRecordTip = usePlayRecordTip()
+  const songObj = useSongObj()
+  const showPlayer = useShowPlayer()
+  const playerMode = usePlayerMode()
+  const playerRate = usePlayerRate()
+  const setIsPlay = useSetIsPlay()
+  const getSongInfo = useGetSongInfo()
+  const setPlayerObj = useSetPlayerObj()
+  const setShowPlayRecord = useSetShowPlayRecord()
+  const setPlayRecordTip = useSetPlayRecordTip()
+  const setShowPlayer = useSetShowPlayer()
+  const setPlayRate = useSetPlayRate()
 
   const onVolume = (value: any) => {
     volumnRef.current = value / 100
@@ -61,113 +80,77 @@ const Footer = memo(() => {
   }
 
   const onPlayBtn = () => {
-    dispatch({
-      type: "songInfoModel/setIsPlay",
-      payload: {
-        isPlay: !isPlay
-      }
-    })
+    setIsPlay(!isPlay)
+
     if (!songObj.id && list.length !== 0) {
-      dispatch({
-        type: "songInfoModel/getSongInfo",
-        payload: {
-          id: list[0]["id"]
-        }
-      })
+      getSongInfo(list[0]["id"])
     }
   }
 
   const onEnded = () => {
-    const { getSecondsLoaded, getCurrentTime } = playRef.current
+    const {getSecondsLoaded, getCurrentTime} = playRef.current
     if (parseInt(getSecondsLoaded(), 10) === parseInt(getCurrentTime(), 10)) {
       // 单曲循环
-      if (playMode === 1) {
-        return dispatch({
-          type: "songInfoModel/getSongInfo",
-          payload: {
-            id: songObj.id
-          }
-        })
+      if (playerMode === PlayerModeEnum.cycle) {
+        return getSongInfo(songObj.id!)
       }
       // 顺序或者随机播放，触发下一首点击事件
       onPlay(1)
     }
   }
-  const onProgress = (state: PlayerInterface) => {
+  const onProgress = (state: IPlayerObj) => {
     console.log("onProgress", state)
-    dispatch({
-      type: "playmodel/setPlayerObj",
-      payload: {
-        playerObj: state
-      }
-    })
+    setPlayerObj(state)
   }
 
   const onRecord = () => {
-    dispatch({
-      type: "songInfoModel/setShowPlayRecord",
-      payload: {
-        showPlayRecord: !showPlayRecord
-      }
-    })
-    dispatch({
-      type: "songInfoModel/setPlayRecordTip",
-      payload: {
-        playRecordTip: ""
-      }
-    })
+    setShowPlayRecord(!showPlayRecord)
+    setPlayRecordTip("")
   }
 
   const onPlay = (type: number) => {
     // type: 0上一首 type:1 下一首
     let songId: any = ""
-    const index = Utils.findIndex(list, songObj.id as number, playMode)
+    const index = Utils.findIndex(list, songObj.id as number, playerMode)
     if (index === -1) {
       songId = list[0]["id"]
     } else {
-      if (+playMode === 0) {
+      if (+playerMode === PlayerModeEnum.order) {
         // 顺序播放以及循环播放
         if (type === 0) {
           songId = index === 0 ? list[list.length - 1]["id"] : list[index - 1]["id"]
         } else if (type === 1) {
           songId = index === list.length - 1 ? list[0]["id"] : list[index + 1]["id"]
         }
-        dispatch({
-          type: "songInfoModel/getSongInfo",
-          payload: {
-            id: songId
-          }
-        })
-        // Song.getSongUrl(songId)
-      } else if (+playMode === 2) {
+        getSongInfo(songId)
+      } else if (+playerMode === PlayerModeEnum.random) {
         // 随机播放
         songId = list[index]["id"]
       }
     }
-    dispatch({
-      type: "songInfoModel/getSongInfo",
-      payload: {
-        id: songId
-      }
-    })
+    getSongInfo(songId)
   }
 
   const renderMusicInfo = (visible: boolean) => {
     if (!visible) return <div className=" w-[300px]"></div>
     return (
-      <div className={classnames(style.musicInfo, 'flex items-center w-[300px]')}>
+      <div className={classnames(style.musicInfo, "flex items-center w-[300px]")}>
         <div
-          className={classnames(style.pictureInfo, 'relative w-[60px] h-[60px] cursor-pointer overflow-hidden bg-[#333333] rounded-[8px]')}
-          onClick={() =>
-            dispatch({ type: "playmodel/setShowPlayer", payload: { showPlayer: !showPlayer } })
-          }>
-          <div className={classnames(style.mask, 'absolute left-0 right-0 bottom-0 top-0 bg-[rgba(0, 0, 0, 0.2)] rounded-[8px] z-[2]')} />
-          <img width={60} height={60} className=" rounded-[8px]" src={songObj.backgroundImg} />
-          {showPlayer ? (
-            <FullscreenOutlined className={style.full} />
-          ) : (
-            <FullscreenExitOutlined />
+          className={classnames(
+            style.pictureInfo,
+            "relative w-[60px] h-[60px] cursor-pointer overflow-hidden bg-[#333333] rounded-[8px]"
           )}
+          onClick={() => {
+            setShowPlayer(!showPlayer)
+          }}>
+          <div
+            className={classnames(
+              style.mask,
+              "absolute left-0 right-0 bottom-0 top-0 bg-[rgba(0, 0, 0, 0.2)] rounded-[8px] z-[2]"
+            )}
+          />
+          <img width={60} height={60} className=" rounded-[8px]" src={songObj.backgroundImg} />
+          {showPlayer ? <FullscreenOutlined className={style.full} /> : <FullscreenExitOutlined />}
         </div>
         <div className={style.content}>
           <div className={style.top}>
@@ -179,9 +162,7 @@ const Footer = memo(() => {
                   return (
                     <span key={item.id}>
                       {item.name}
-                      {(songObj.singerArr as SingerInterface[]).length === index + 1
-                        ? null
-                        : "/"}
+                      {(songObj.singerArr as SingerInterface[]).length === index + 1 ? null : "/"}
                     </span>
                   )
                 })}
@@ -189,9 +170,7 @@ const Footer = memo(() => {
           </div>
           <div className={style.bottom}>
             <span>
-              {playRef
-                ? Utils.formatPlayerTime(playRef.current?.getCurrentTime())
-                : "00:00"}
+              {playRef ? Utils.formatPlayerTime(playRef.current?.getCurrentTime()) : "00:00"}
             </span>
             <i className={style.split}>/</i>
             <span>{playRef ? Utils.formatPlayerTime(songObj.songTime || 0) : "00:00"}</span>
@@ -199,45 +178,37 @@ const Footer = memo(() => {
         </div>
       </div>
     )
-
   }
 
-  const items: MenuProps['items'] = [
+  const items: MenuProps["items"] = [
     {
       key: 1,
-      label: '1.x',
+      label: "1.x"
     },
     {
       key: 1.25,
-      label: '1.25x',
+      label: "1.25x"
     },
     {
       key: 1.5,
-      label: '1.5x',
+      label: "1.5x"
     },
     {
       key: 2,
-      label: '2.x',
+      label: "2.x"
     }
-  ].map(d => {
+  ].map((d) => {
     return {
       ...d,
-      onClick: () => dispatch({
-        type: "playmodel/setPlayRate",
-        payload: {
-          playerRate: d.key
-        }
-      })
+      onClick: () => setPlayRate(d.key)
     }
   })
-
-
 
   // 视频播放隐藏
   if (location.pathname === "/mv-detail") return null
 
   return (
-    <footer className={classnames(style._footer, 'flex  px-[20px] py-[14px] justify-between')}>
+    <footer className={classnames(style._footer, "flex  px-[20px] py-[14px] justify-between")}>
       {renderMusicInfo(!!Object.keys(songObj).length)}
 
       <div className="flex-1 flex gap-[16px]">
@@ -277,16 +248,10 @@ const Footer = memo(() => {
               )}
               onClick={onMute}
             />
-            <Slider
-              className="flex-1"
-              onChange={onVolume}
-              min={0}
-              max={100}
-              value={volume * 100}
-            />
+            <Slider className="flex-1" onChange={onVolume} min={0} max={100} value={volume * 100} />
           </div>
 
-          <Dropdown overlayStyle={{ width: 80 }} menu={{ items }} placement="top" arrow>
+          <Dropdown overlayStyle={{width: 80}} menu={{items}} placement="top" arrow>
             <div className="cursor-pointer">{playerRate}x</div>
           </Dropdown>
 
@@ -294,12 +259,27 @@ const Footer = memo(() => {
 
           {playRecordTip ? (
             <Tooltip title={playRecordTip} open={true}>
-              <i className={classnames("iconfont", "icon-bofangliebiao", "!text-[24px]", 'cursor-pointer')} onClick={onRecord} />
+              <i
+                className={classnames(
+                  "iconfont",
+                  "icon-bofangliebiao",
+                  "!text-[24px]",
+                  "cursor-pointer"
+                )}
+                onClick={onRecord}
+              />
             </Tooltip>
           ) : (
-            <i className={classnames("iconfont", "icon-bofangliebiao", "!text-[24px]", 'cursor-pointer')} onClick={onRecord} />
+            <i
+              className={classnames(
+                "iconfont",
+                "icon-bofangliebiao",
+                "!text-[24px]",
+                "cursor-pointer"
+              )}
+              onClick={onRecord}
+            />
           )}
-
         </div>
       </div>
 
@@ -308,18 +288,18 @@ const Footer = memo(() => {
           playsinline
           url={songObj.url}
           playing={isPlay}
-          style={{ display: "none" }}
+          style={{display: "none"}}
           volume={volume}
           playbackRate={playerRate}
           onProgress={onProgress}
           onEnded={onEnded}
-          loop={playMode === 1}
+          loop={playerMode === PlayerModeEnum.cycle}
           progressInterval={500}
           ref={playRef}
         />
       )}
     </footer>
-  );
+  )
 })
 
 export default Footer

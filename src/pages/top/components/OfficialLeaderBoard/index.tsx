@@ -1,13 +1,14 @@
 /** @format */
 
-import React, {FC} from "react"
+import {FC} from "react"
 import {CaretRightOutlined, RightOutlined} from "@ant-design/icons"
 import {Col} from "antd"
-import {Link, useDispatch, history} from "@umijs/max"
+import {Link, history} from "@umijs/max"
 import dayjs from "dayjs"
 import classnames from "classnames"
 import {Artists} from "@/components"
 import styles from "./index.scss"
+import {useGetSongInfo} from "@/store/player"
 
 interface IAr {
   id: number
@@ -105,15 +106,11 @@ export interface ISingetTopList {
 }
 
 const OfficialLeaderBoard: FC<OfficialLeaderBoardInterface> = ({data, type}) => {
-  const dispatch = useDispatch()
+  const getSongInfo = useGetSongInfo()
+
   const onPlay = (id: string) => {
     if (type === "officia") {
-      return dispatch({
-        type: "songInfoModel/getSongInfo",
-        payload: {
-          id
-        }
-      })
+      return getSongInfo(Number(id))
     }
   }
   const onLink = (id: string, name: string) => {
@@ -137,16 +134,7 @@ const OfficialLeaderBoard: FC<OfficialLeaderBoardInterface> = ({data, type}) => 
                 </div>
                 {type === "officia" ? (
                   <div className={styles.icon}>
-                    <CaretRightOutlined
-                      onClick={() =>
-                        dispatch({
-                          type: "songInfoModel/getSongInfo",
-                          payload: {
-                            id: item.tracks[0].id
-                          }
-                        })
-                      }
-                    />
+                    <CaretRightOutlined onClick={() => getSongInfo(Number(item.tracks[0].id))} />
                   </div>
                 ) : null}
               </div>
@@ -183,7 +171,10 @@ const OfficialLeaderBoard: FC<OfficialLeaderBoardInterface> = ({data, type}) => 
                 })}
               </ul>
               <p className={styles.link}>
-                <Link to={type === "officia" ? `/playList/${item.id}?listId=${item.id}` : "/singer-list"}>
+                <Link
+                  to={
+                    type === "officia" ? `/playList/${item.id}?listId=${item.id}` : "/singer-list"
+                  }>
                   查看全部
                   <RightOutlined />
                 </Link>

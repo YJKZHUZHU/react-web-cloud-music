@@ -4,7 +4,6 @@ import React, { useState, FC } from "react"
 import { Modal, Space, Input, Checkbox, Button, message } from "antd"
 import { useBoolean, useRequest } from "ahooks"
 import Draggable from "react-draggable"
-import { useDispatch } from "@umijs/max"
 import { useDraggable } from "@/hooks"
 import API from "@/api"
 import styles from "../index.scss"
@@ -14,7 +13,6 @@ interface IAddSongList {
 }
 
 const AddSongList: FC<IAddSongList> = ({ reload }) => {
-  const dispatch = useDispatch()
   const { onStart, onMouseOver, draggableed, bounds, draggleRef, onMouseOut } = useDraggable()
   const [visible, { setFalse, setTrue }] = useBoolean(false)
   const [value, setValue] = useState("")

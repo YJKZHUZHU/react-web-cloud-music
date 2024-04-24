@@ -1,25 +1,26 @@
 /** @format */
 
-import React, { useState } from "react"
-import { SearchOutlined } from "@ant-design/icons"
-import { Input, Popover, Modal } from "antd"
-import { useRequest } from "ahooks"
-import { useDispatch, history } from "@umijs/max"
-import { SearchList, History } from "./index"
+import {useState} from "react"
+import {SearchOutlined} from "@ant-design/icons"
+import {Input, Popover, Modal} from "antd"
+import {useRequest} from "ahooks"
+import {history} from "@umijs/max"
+import {SearchList, History} from "./index"
 import API from "@/api"
-import { useToSearchDetail } from "@/hooks"
+import {useToSearchDetail} from "@/hooks"
 import store from "@/help/localStorage"
 import styles from "../index.scss"
+import {useSetKeywords} from "@/store/player"
 
-const { confirm } = Modal
+const {confirm} = Modal
 
 const Search = () => {
   const [modalVisible, setModalVisible] = useState(false)
   const [inputValue, setInputValue] = useState("")
-  const dispatch = useDispatch()
+  const setKeywords = useSetKeywords()
   const toDetail = useToSearchDetail()
 
-  const { run, data } = useRequest((keywords) => API.getSearchSuggest({ keywords }), {
+  const {run, data} = useRequest((keywords) => API.getSearchSuggest({keywords}), {
     manual: true,
     debounceInterval: 500,
     formatResult: (response) => {
@@ -54,7 +55,6 @@ const Search = () => {
   }
 
   const onHistory = (keywords: string) => {
-    
     setInputValue(keywords)
     history.push(`/search-detail/single?keywords=${keywords}&type=1`)
   }
@@ -63,12 +63,7 @@ const Search = () => {
     setInputValue(e.target.value)
     if (e.target.value) {
       run(e.target.value)
-      dispatch({
-        type: "songInfoModel/setKeywords",
-        payload: {
-          keywords: e.target.value
-        }
-      })
+      setKeywords(e.target.value)
     }
   }
 

@@ -57,9 +57,9 @@ export default defineConfig({
   // },
   // cssModulesTypescriptLoader: {},
   fastRefresh: true,
-  dva: {
-    immer: {},
-  },
+  // dva: {
+  //   immer: {},
+  // },
 
   codeSplitting: {
     jsStrategy: "granularChunks",

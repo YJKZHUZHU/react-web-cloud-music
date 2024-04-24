@@ -1,20 +1,18 @@
 /** @format */
 
-import React, {FC, useEffect, useContext} from "react"
+import {FC, useEffect} from "react"
 import {message, Space, Button} from "antd"
 import {useRequest} from "ahooks"
-import {useDispatch} from "@umijs/max"
+import {history} from "@umijs/max"
 import QrCode from "qrcode.react"
-import {GlobalContext} from "@/layouts"
 import API from "@/api"
 import styles from "./index.scss"
+import {setLoginCache} from "@/help/cache"
 
 interface IQrLoginProps {
   callback: (visible: boolean) => void
 }
 const QrLogin: FC<IQrLoginProps> = ({callback}) => {
-  const dispatch = useDispatch()
-  const {reloadMenu} = useContext(GlobalContext)
   const {data: key} = useRequest(API.getQrKey, {
     formatResult: (response) => {
       if (response.code !== 200) {
@@ -39,14 +37,14 @@ const QrLogin: FC<IQrLoginProps> = ({callback}) => {
     pollingInterval: 2000,
     pollingWhenHidden: false,
     onSuccess: async (response) => {
+      console.log("response", response)
       if (response?.code !== 803) return
       callback(false)
+
       try {
-        await dispatch({
-          type: "userModel/getUserInfo"
-        })
-        reloadMenu && (await reloadMenu())
-        return message.success("登录成功")
+        setLoginCache(true, false, "", response.cookie)
+        history.push("/")
+        return message.success(response.message || "登录成功")
       } catch (error) {
         callback(false)
         throw error

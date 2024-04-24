@@ -2,6 +2,7 @@ import { AllPlayRecordInterface } from '@/models/userStore'
 import store from './localStorage'
 import dayjs from 'dayjs'
 import calendar from 'dayjs/plugin/calendar'
+import { IAllPlayRecordItem } from '@/store/user'
 
 dayjs.extend(calendar)
 
@@ -216,7 +217,7 @@ class Utils {
     })
   }
 
-  static formatAllRecord(record: AllPlayRecordInterface[]) {
+  static formatAllRecord(record: IAllPlayRecordItem[]) {
     return record.map(({ song, playCount, score }) => {
       return {
         playCount,

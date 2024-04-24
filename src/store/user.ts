@@ -1,5 +1,7 @@
 import { create } from "zustand"
 import { devtools } from "zustand/middleware"
+import { userRecord } from "@/api/user"
+import { EnumLocalStorage, getItem } from "@/help/cache"
 
 export interface IUserInfo {
   level: number // 用户等级
@@ -360,36 +362,161 @@ export interface ISongListItem {
 }
 
 
+export interface IAllPlayRecordItem {
+  playCount: number; // 播放次数
+  score: number; // 评分
+  song: Song; // 歌曲信息
+}
+
+interface SongPrivilege {
+  id: number; // 歌曲ID
+  fee: number; // 费用等级
+  payed: number; // 是否付费
+  st: number; // 状态
+  pl: number; // 播放权限级别
+  dl: number; // 下载权限级别
+  sp: number; // 单曲售卖级别
+  cp: number; // 版权信息
+  subp: number; // 订阅权限级别
+  cs: boolean; // 是否为云盘歌曲
+  maxbr: number; // 最高比特率
+  fl: number; // 比特率
+  toast: boolean; // 是否有toast提示
+  flag: number; // 标识
+  preSell: boolean; // 是否为预售
+  playMaxbr: number; // 播放时的最高比特率
+  downloadMaxbr: number; // 下载时的最高比特率
+  maxBrLevel: string; // 最高比特率级别
+  playMaxBrLevel: string; // 播放时的最高比特率级别
+  downloadMaxBrLevel: string; // 下载时的最高比特率级别
+  plLevel: string; // 播放权限级别
+  dlLevel: string; // 下载权限级别
+  flLevel: string; // 比特率级别
+  rscl: any; // 未知字段
+  freeTrialPrivilege: {
+    resConsumable: boolean; // 资源是否可消费
+    userConsumable: boolean; // 用户是否可消费
+    listenType: any; // 未知字段
+  };
+  chargeInfoList: {
+    rate: number; // 比特率
+    chargeUrl: null; // 收费链接
+    chargeMessage: null; // 收费信息
+    chargeType: number; // 收费类型
+  }[];
+};
+
+interface SongQuality {
+  br: number; // 比特率
+  fid: number; // 文件ID
+  size: number; // 文件大小
+  vd: number; // 未知字段
+};
+
+interface Artist {
+  id: number; // 艺术家ID
+  name: string; // 艺术家名称
+  tns: string[]; // 未知字段
+  alias: string[]; // 艺术家别名
+};
+
+interface Album {
+  id: number; // 专辑ID
+  name: string; // 专辑名称
+  picUrl: string; // 专辑图片URL
+  tns: string[]; // 未知字段
+  pic_str: string; // 未知字段
+  pic: number; // 专辑图片标识
+};
+
+interface Song {
+  name: string; // 歌曲名称
+  id: number; // 歌曲ID
+  pst: number; // 未知字段
+  t: number; // 未知字段
+  ar: Artist[]; // 艺术家数组
+  alia: string[]; // 歌曲别名
+  pop: number; // 流行度
+  st: number; // 状态
+  rt: null; // 未知字段
+  fee: number; // 费用等级
+  v: number; // 版本
+  crbt: null; // 未知字段
+  cf: string; // 未知字段
+  al: Album; // 专辑信息
+  dt: number; // 时长
+  h: SongQuality; // 高品质
+  m: SongQuality; // 中品质
+  l: SongQuality; // 低品质
+  a: null; // 未知字段
+  cd: string; // 专辑中的歌曲编号
+  no: number; // 序号
+  rtUrl: null; // 未知字段
+  ftype: number; // 文件类型
+  rtUrls: any[]; // 未知字段
+  djId: number; // 未知字段
+  copyright: number; // 版权信息
+  s_id: number; // 未知字段
+  mark: number; // 标记
+  originCoverType: number; // 原始封面类型
+  originSongSimpleData: null; // 未知字段
+  single: number; // 是否为单曲
+  noCopyrightRcmd: null; // 无版权推荐
+  rtype: number; // 未知字段
+  rurl: null; // 未知字段
+  mst: number; // 未知字段
+  cp: number; // 版权信息
+  mv: number; // 音乐视频ID
+  publishTime: number; // 发布时间戳
+  privilege: SongPrivilege; // 权限信息
+};
+
+
+
 
 interface Props {
   accountInfo: Partial<IAccountInfo> // 账号信息
   userInfo: Partial<IUserInfo> // 用户信息
   vipInfo: Partial<IVipInfo>
   songList: ISongListItem[] // 用户歌单
+  allPlayRecord: IAllPlayRecordItem[] // 播放记录
 }
 
 interface Actions {
   setAccountInfo: (accountInfo: IAccountInfo) => void
   setUserInfo: (userInfo: IUserInfo) => void
-  setVipInfo: (userInfo: IVipInfo) => void
+  setVipInfo: (vipInfo: IVipInfo) => void
   setSongList: (songList: ISongListItem[]) => void
+  setAllPlayRecord: () => void
 }
 
 const initialState: Props = {
   accountInfo: {},
   userInfo: {},
   vipInfo: {},
-  songList: []
+  songList: [],
+  allPlayRecord: []
 }
 
 export const useUserStore = create<Props & Actions>()(
   devtools(
-    (set) => ({
+    (set, get) => ({
       ...initialState,
       setAccountInfo: (accountInfo) => set({ accountInfo }, false, "设置账户信息"),
       setUserInfo: (userInfo) => set({ userInfo }, false, "设置用户信息"),
       setVipInfo: (vipInfo) => set({ vipInfo }, false, "设置vip信息"),
       setSongList: (songList) => set({ songList }, false, "设置用户歌单信息"),
+      setAllPlayRecord: async () => {
+        try {
+          const uid = getItem(EnumLocalStorage.userId) as string
+          if (!uid) return
+          const res = await userRecord({ uid, type: 0 })
+          console.log('res--', res)
+          set({ allPlayRecord: res.data.allData })
+        } catch (error) {
+          console.log('error', error)
+        }
+      }
     }),
     {
       name: "userStore",
@@ -397,6 +524,7 @@ export const useUserStore = create<Props & Actions>()(
   )
 )
 
+export const useUserInfo = () => useUserStore((state) => state.userInfo)
 
 export const useAvatarUrl = () => useUserStore((state) => state.accountInfo.profile?.avatarUrl)
 
@@ -408,7 +536,7 @@ export const useLevel = () => useUserStore((state) => state.userInfo?.level)
 
 export const useFollows = () => useUserStore((state) => state.userInfo.profile?.follows)
 
-export const useEventCount= () => useUserStore((state) => state.userInfo.profile?.eventCount)
+export const useEventCount = () => useUserStore((state) => state.userInfo.profile?.eventCount)
 
 export const useFolloweds = () => useUserStore((state) => state.userInfo.profile?.followeds)
 
@@ -422,3 +550,8 @@ export const useCreatorSongList = () => useUserStore((state) => state.songList?.
 
 // 用户收藏的歌单
 export const useFavoriteSongList = () => useUserStore((state) => state.songList?.filter((item) => item.subscribed))
+
+
+export const useAllPlayRecord = () => useUserStore((state) => state.allPlayRecord)
+
+export const useSetAllPlayRecord = () => useUserStore((state) => state.setAllPlayRecord)

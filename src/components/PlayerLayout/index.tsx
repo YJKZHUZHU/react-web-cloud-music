@@ -2,7 +2,6 @@
 
 import React, {useEffect, useState, useRef} from "react"
 import classnames from "classnames"
-import {useSelector} from "@umijs/max"
 import {Space} from "antd"
 import {CaretRightOutlined} from "@ant-design/icons"
 import BScroll from "@better-scroll/core"
@@ -16,6 +15,14 @@ import {IData as Iformat} from "@/components/SimiItem"
 import Utils from "@/help"
 import styles from "./index.scss"
 import {IState} from "typings"
+import {
+  useIsPlay,
+  useLyric,
+  usePlayerObj,
+  useShowPlayer,
+  useSongId,
+  useSongObj
+} from "@/store/player"
 
 BScroll.use(ScrollBar)
 BScroll.use(MouseWheel)
@@ -48,25 +55,31 @@ const formatSimiSongList = (data: any[] = []): Iformat[] => {
 }
 
 const PlayerLayout = () => {
-  const {songInfoModel, playmodel} = useSelector((state: IState) => state)
-  const {isPlay, songObj, lyric, songId: id} = songInfoModel
-  const {playerObj, showPlayer} = playmodel
+  const showPlayer = useShowPlayer()
+  const playerObj = usePlayerObj()
+  const isPlay = useIsPlay()
+  const songObj = useSongObj()
+  const lyric = useLyric()
+  const id = useSongId()
+
   const [scroller, setScroller] = useState<any>(null)
   const [rd, setRd] = useState<any>(null)
   const imgContainerRef: any = useRef<any>(null)
 
   // 相似歌曲
-  const {run: runSimiSong, data: simiSong, loading: simiLoading} = useRequest(
-    () => API.getSimiSong({id}),
-    {manual: true}
-  )
+  const {
+    run: runSimiSong,
+    data: simiSong,
+    loading: simiLoading
+  } = useRequest(() => API.getSimiSong({id}), {manual: true})
   // 相似歌单
-  const {run: runSimiSongList, data: simiSongList, loading: simiListLoading} = useRequest(
-    () => API.getSimiSongList({id}),
-    {
-      manual: true
-    }
-  )
+  const {
+    run: runSimiSongList,
+    data: simiSongList,
+    loading: simiListLoading
+  } = useRequest(() => API.getSimiSongList({id}), {
+    manual: true
+  })
   const detectDeviceType = () => {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
       navigator.userAgent
@@ -77,7 +90,7 @@ const PlayerLayout = () => {
 
   const findLyricIndex = () => {
     return lyric
-      ? lyric.findIndex((l, index) => {
+      ? lyric.findIndex((l: any, index: any) => {
           const nextLyric: any = lyric[index + 1]
           if (index === lyric.length - 1) return true
           return (
@@ -122,7 +135,7 @@ const PlayerLayout = () => {
       pointRadius: 4
     }
     const timers = setTimeout(() => {
-      const rdx = new window.Ripple(
+      const rdx = new (window as any).Ripple(
         "#ripple",
         Object.assign(
           {cover: songObj.backgroundImg},

@@ -1,13 +1,10 @@
 export { default as Artists } from './Artists'
 export { default as Header } from './Header'
 export { default as Loading } from './Loading'
-export { default as MenuItem } from './MenuItem'
-export { default as NewMusic } from './NewMusic'
 export { default as PlayIcon } from './PlayIcon'
 export { default as PlayMode } from './PlayMode'
 export { default as PlayRecord } from './PlayRecord'
 export { default as PlayerLayout } from './PlayerLayout'
-export { default as RecommendedSongList } from './RecommendedSongList'
 export { default as SimiItem } from './SimiItem'
 
 export { default as HotComment } from './HotComment'
@@ -19,6 +16,8 @@ export { default as VideoIcon } from './VideoIcon'
 export { default as QrLogin } from './QrLogin'
 
 export { default as Card } from './Card'
+
+export { default as HighlightText } from './HighlightText'
 
 
 

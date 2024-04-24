@@ -1,8 +1,8 @@
 /** @format */
 
-import React, { useEffect, FC, useState } from "react"
-import { useRequest, useBoolean } from "ahooks"
-import { Spin, Row, Col, Card, Pagination, Space, Divider } from "antd"
+import React, {useEffect, FC, useState} from "react"
+import {useRequest, useBoolean} from "ahooks"
+import {Spin, Row, Col, Card, Pagination, Space, Divider} from "antd"
 import {
   PlayCircleOutlined,
   FolderAddOutlined,
@@ -10,15 +10,15 @@ import {
   PlaySquareOutlined,
   RightOutlined
 } from "@ant-design/icons"
-import { history, useDispatch } from "@umijs/max"
+import {history} from "@umijs/max"
 import API from "@/api"
 import dayjs from "dayjs"
 import classnames from "classnames"
-import { PlayIcon } from "@/components"
-import { IProps } from "../index"
-import Utils, { generateNumber } from "@/help"
+import {PlayIcon} from "@/components"
+import Utils, {generateNumber} from "@/help"
 import styles from "./index.scss"
-import { useQuery } from "@/hooks"
+import {useQuery} from "@/hooks"
+import {useGetSongInfo} from "@/store/player"
 
 export interface IArtists {
   img1v1Id: number
@@ -93,8 +93,8 @@ enum MapLayout {
   TABLE_CARD = "tableCard"
 }
 
-const getData = ({ id, pageSize, current }: Iparams): Promise<IResponse> =>
-  API.getSingerAlbum({ id, limit: pageSize, offset: (current - 1) * pageSize })
+const getData = ({id, pageSize, current}: Iparams): Promise<IResponse> =>
+  API.getSingerAlbum({id, limit: pageSize, offset: (current - 1) * pageSize})
 
 const generateId = (data: IHotAlbum[]) => {
   const arrayId = data.map((item) => item.id)
@@ -106,7 +106,7 @@ const classNames = classnames(styles.item, styles.showAll)
 
 const mapData = (idList: number[]) => {
   return idList.map((id) => {
-    return API.getAlbumContent({ id })
+    return API.getAlbumContent({id})
   })
 }
 
@@ -116,16 +116,16 @@ interface IAlbumContentList {
 }
 
 const Album: FC<IAlbum> = (props) => {
-  const { total, type, topImgUrl } = props
+  const {total, type, topImgUrl} = props
   const query = useQuery()
-  const { id, name } = query
-  const dispatch = useDispatch()
-  const [showAll, { toggle }] = useBoolean(false)
+  const {id, name} = query
+  const getSongInfo = useGetSongInfo()
+  const [showAll, {toggle}] = useBoolean(false)
   const [albumLoading, setAlbumLoading] = useState(false)
   const [albumContentList, setAlbumContentList] = useState<IAlbumContentList[]>([])
 
-  const { data, run, loading, pagination } = useRequest(
-    ({ current, pageSize }) => getData({ id: Number(id), current, pageSize }),
+  const {data, run, loading, pagination} = useRequest(
+    ({current, pageSize}) => getData({id: Number(id), current, pageSize}),
     {
       paginated: true,
       manual: true,
@@ -142,10 +142,10 @@ const Album: FC<IAlbum> = (props) => {
             setAlbumLoading(false)
           })
       },
-      formatResult: ({ hotAlbums: list }: IData): IResponse => ({ list, total })
+      formatResult: ({hotAlbums: list}: IData): IResponse => ({list, total})
     }
   )
-  const { data: topData, run: runTop } = useRequest(() => API.getSingerTop({ id }), {
+  const {data: topData, run: runTop} = useRequest(() => API.getSingerTop({id}), {
     manual: true,
     formatResult: (response): any[] => response.songs
   })
@@ -160,12 +160,7 @@ const Album: FC<IAlbum> = (props) => {
       }
       return memo
     }, "")
-    dispatch({
-      type: "songInfoModel/getSongInfo",
-      payload: {
-        id: targetAlbum
-      }
-    })
+    targetAlbum && getSongInfo(Number(targetAlbum))
   }
 
   const renderLeft = (imgUrl: string, time?: number, id?: number) => {
@@ -173,7 +168,7 @@ const Album: FC<IAlbum> = (props) => {
       <div className={styles.left}>
         <Space direction="vertical" size={15}>
           <div
-            className={classnames(styles.img, { [styles.diff]: !!id })}
+            className={classnames(styles.img, {[styles.diff]: !!id})}
             onClick={() => id && history.push(`/album/song-list?id=${id}`)}>
             <img src={imgUrl} alt="" />
           </div>
@@ -188,16 +183,7 @@ const Album: FC<IAlbum> = (props) => {
       <Space size={20}>
         <span>{title ? title : "热门50首"}</span>
         <Space>
-          <PlayCircleOutlined
-            onClick={() =>
-              dispatch({
-                type: "songInfoModel/getSongInfo",
-                payload: {
-                  id: generateId(data)
-                }
-              })
-            }
-          />
+          <PlayCircleOutlined onClick={() => getSongInfo(generateId(data))} />
           <Divider type="vertical" className={styles.divider} />
           <FolderAddOutlined />
         </Space>
@@ -210,17 +196,7 @@ const Album: FC<IAlbum> = (props) => {
       <ul className={styles.list}>
         {data?.map((item, index) => {
           return (
-            <li
-              key={item.id}
-              className={styles.item}
-              onDoubleClick={() =>
-                dispatch({
-                  type: "songInfoModel/getSongInfo",
-                  payload: {
-                    id: item.id
-                  }
-                })
-              }>
+            <li key={item.id} className={styles.item} onDoubleClick={() => getSongInfo(item.id)}>
               <Space>
                 <span>{index < 9 ? `0${index + 1}` : index + 1}</span>
                 <HeartOutlined />
@@ -274,8 +250,8 @@ const Album: FC<IAlbum> = (props) => {
               onClick={() => history.push(`/album/song-list?id=${item.id}`)}>
               <Card
                 bordered={false}
-                style={{ width: "100%" }}
-                bodyStyle={{ padding: 0 }}
+                style={{width: "100%"}}
+                bodyStyle={{padding: 0}}
                 loading={loading}
                 cover={
                   <div className={styles.singerCover}>
@@ -334,7 +310,7 @@ const Album: FC<IAlbum> = (props) => {
     }
     if (type === MapLayout.TABLE_CARD) {
       return (
-        <Space direction="vertical" size={20} style={{ width: "100%" }}>
+        <Space direction="vertical" size={20} style={{width: "100%"}}>
           <div className={styles.tableCardLayout}>
             {renderLeft(topImgUrl)}
             <div className={styles.right}>
@@ -362,7 +338,7 @@ const Album: FC<IAlbum> = (props) => {
   }
 
   useEffect(() => {
-    run({ current: 1, pageSize: 12 })
+    run({current: 1, pageSize: 12})
     runTop()
   }, [name])
 

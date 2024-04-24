@@ -1,16 +1,17 @@
 import { useRef } from "react"
 import { message } from "antd"
-import { useSelector, useDispatch } from "@umijs/max"
 import { useRequest, useBoolean } from "ahooks"
-import { IPlayListItem } from '@umijs/max'
 import Utils from "@/help"
 import API from "@/api"
-import { IState } from "typings"
+import { usePlayRecord } from "@/hooks"
+import { useGetSongInfo, useSetPlayRecord, useSetPlayRecordTip } from "@/store/player"
 
 
 const usePlayList = (id: string) => {
-  const dispatch = useDispatch()
-  const { playRecord } = useSelector((state: IState) => state.songInfoModel)
+  const playRecord = usePlayRecord()
+  const getSongInfo = useGetSongInfo()
+  const setPlayRecord = useSetPlayRecord()
+  const setPlayRecordTip = useSetPlayRecordTip()
   const [isSearch, { toggle }] = useBoolean(true)
   const playAllRef = useRef(true)
   const idsRef = useRef("")
@@ -43,28 +44,12 @@ const usePlayList = (id: string) => {
 
   const onPlayAll = () => {
     if (playAllRef.current) {
-      dispatch({ type: "songInfoModel/getSongInfo", payload: { id: tableList[0].id } })
-      dispatch({
-        type: "songInfoModel/setPlayRecordTip",
-        payload: {
-          playRecordTip: "歌单已更新"
-        }
-      })
-
-      dispatch({
-        type: "songInfoModel/setPlayRecord",
-        payload: {
-          playRecord: Utils.removeRepeat(tableList?.concat(playRecord), "id")
-        }
-      })
+      getSongInfo(tableList[0].id)
+      setPlayRecordTip('歌单已更新')
+      setPlayRecord(Utils.removeRepeat(tableList?.concat(playRecord), "id"))
 
       setTimeout(() => {
-        dispatch({
-          type: "songInfoModel/setPlayRecordTip",
-          payload: {
-            playRecordTip: ""
-          }
-        })
+        setPlayRecordTip('')
       }, 1000)
     }
 
@@ -76,7 +61,7 @@ const usePlayList = (id: string) => {
   return {
     isSearch,
     toggle,
-    data: data as IPlayListItem,
+    data,
     tableList,
     loading,
     onPlayAll,

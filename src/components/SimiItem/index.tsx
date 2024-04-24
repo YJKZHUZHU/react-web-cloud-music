@@ -2,9 +2,10 @@
 
 import React, {FC} from "react"
 import {Space, Spin} from "antd"
-import {history, useDispatch} from "@umijs/max"
+import {history} from "@umijs/max"
 import {PlayIcon} from "@/components"
 import styles from "./index.scss"
+import {useGetSongInfo, useSetIsPlay, useSetShowPlayer} from "@/store/player"
 
 export interface IData {
   path?: string
@@ -24,24 +25,17 @@ interface SimiItemProps {
 
 const SimiItem: FC<SimiItemProps> = (props) => {
   const {showPlayIcon, data, hidePlayer, loading} = props
-  const dispatch = useDispatch()
+  const setIsPlay = useSetIsPlay()
+  const setShowPlayer = useSetShowPlayer()
+  const getSongInfo = useGetSongInfo()
+
   const onLink = (item: any) => {
     if (hidePlayer) {
       history.push(item.path)
-      dispatch({type: "playmodel/setShowPlayer", payload: {showPlayer: false}})
-      return dispatch({
-        type: "songInfoModel/setIsPlay",
-        payload: {
-          isPlay: false
-        }
-      })
+      setShowPlayer(false)
+      return setIsPlay(false)
     }
-    return dispatch({
-      type: "songInfoModel/getSongInfo",
-      payload: {
-        id: item.id
-      }
-    })
+    return getSongInfo(item.id)
   }
   return (
     <Spin spinning={loading}>

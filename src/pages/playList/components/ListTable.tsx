@@ -1,12 +1,13 @@
 /** @format */
 
-import React, {FC} from "react"
+import {FC} from "react"
 import {HeartOutlined} from "@ant-design/icons"
 import {Table, Space} from "antd"
-import {useDispatch} from "@umijs/max"
 import {Artists, VideoIcon} from "@/components"
 import Utils from "@/help"
+import {ColumnsType} from "antd/es/table"
 import styles from "../index.scss"
+import {useGetSongInfo} from "@/store/player"
 
 interface TableListProps {
   data: any[]
@@ -15,10 +16,10 @@ interface TableListProps {
 }
 
 const TableList: FC<TableListProps> = (props) => {
-  const {data, loading, searchValue} = props
-  const dispatch = useDispatch()
+  const {data, loading, searchValue = ""} = props
+  const getSongInfo = useGetSongInfo()
 
-  const columns: any[] = [
+  const columns: () => ColumnsType<any> = () => [
     {
       title: "操作",
       dataIndex: "operator",
@@ -41,6 +42,15 @@ const TableList: FC<TableListProps> = (props) => {
       key: "name",
       align: "left",
       ellipsis: true
+      // render: (text) => {
+      //   console.log("text---", text, searchValue)
+      //   // return text
+      //   return searchValue ? (
+      //     <HighlightText content={text} pattern={new RegExp(searchValue, "g")} />
+      //   ) : (
+      //     text
+      //   )
+      // }
     },
     {
       title: "歌手",
@@ -73,20 +83,12 @@ const TableList: FC<TableListProps> = (props) => {
       loading={loading}
       onRow={(record: any) => {
         return {
-          onDoubleClick: () =>
-            dispatch({
-              type: "songInfoModel/getSongInfo",
-              payload: {
-                id: record.id
-              }
-            })
+          onDoubleClick: () => getSongInfo(record.id)
         }
       }}
-      columns={columns}
+      columns={columns()}
       size="small"
-      dataSource={
-        searchValue ? data?.filter((item: {name: string}) => item.name.includes(searchValue)) : data
-      }
+      dataSource={data}
       pagination={false}
       rowKey={(record: any) => record.id}
     />

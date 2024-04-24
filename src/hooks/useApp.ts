@@ -1,16 +1,15 @@
 import { accountDetail, userDetail, userPlaylist, vipGrowthpoint } from "@/api/user"
 import { EnumLocalStorage, getItem, login } from "@/help/cache"
 import { refreshLogin } from "@/help/refreshLogin"
-import renderRouter, { defaultRoutes, mapPlayList } from "@/layouts/Router"
 import { useLoginStore } from "@/store/login"
-import { useCreatorSongList, useFavoriteSongList, useIsVip, useUserStore } from "@/store/user"
-import { useEffect, useMemo, useState } from "react"
+import { useIsVip, useSetAllPlayRecord, useUserStore } from "@/store/user"
+import { useEffect } from "react"
 import { useShallow } from "zustand/react/shallow"
-import { Route } from "@ant-design/pro-layout/es/typing"
 
 
 const useApp = () => {
   const update = useLoginStore((state) => state.update)
+  const setAllPlayRecord = useSetAllPlayRecord()
 
   const [setAccountInfo, setUserInfo, setVipInfo, setSongList] = useUserStore(
     useShallow((state) => [state.setAccountInfo, state.setUserInfo, state.setVipInfo, state.setSongList])
@@ -83,6 +82,7 @@ const useApp = () => {
         const userId = getItem(EnumLocalStorage.userId) as string
         result && userId && (await getUserDetail(+userId))
         result && userId && (await getUserSongList(+userId))
+        result && userId && setAllPlayRecord()
       }
 
       // 未登录，默认注册游客模式，获取用户ID
@@ -93,8 +93,6 @@ const useApp = () => {
     }
 
   }
-
-
 
 
   useEffect(() => {

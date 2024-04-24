@@ -1,14 +1,13 @@
 /** @format */
 
-import React, { FC, useEffect, useState } from "react"
-import { WechatOutlined, CheckOutlined, PlusOutlined } from "@ant-design/icons"
-import { List, Avatar, Divider, Button, message } from "antd"
-import { Link, useSelector } from "@umijs/max"
+import {FC, useEffect, useState} from "react"
+import {WechatOutlined, CheckOutlined, PlusOutlined} from "@ant-design/icons"
+import {List, Avatar, Divider, Button, message} from "antd"
+import {Link} from "@umijs/max"
 import API from "@/api"
+import {EnumLocalStorage, getItem} from "@/help/cache"
+import {useNickName} from "@/store/login"
 import styles from "../index.scss"
-import { IState } from "typings"
-import { EnumLocalStorage, getItem } from "@/help/cache"
-import { useNickName } from "@/store/login"
 
 interface ICare {
   type: number
@@ -20,7 +19,7 @@ const Care: FC<ICare> = (props) => {
   const nickName = useNickName()
 
   const follow = (id: any) => {
-    API.follow({ id, t: 1 }).then((res: any) => {
+    API.follow({id, t: 1}).then((res: any) => {
       if (res.code !== 200) {
         return message.error("关注失败，请售稍后再试")
       }
@@ -71,7 +70,7 @@ const Care: FC<ICare> = (props) => {
 
   useEffect(() => {
     const apiTYpe = props.type === 1 ? "follows" : "followeds"
-    API[apiTYpe]({ uid: getItem(EnumLocalStorage.userId), loading: true }).then((res: any) => {
+    API[apiTYpe]({uid: getItem(EnumLocalStorage.userId), loading: true}).then((res: any) => {
       if (res.code !== 200) {
         return false
       }
@@ -90,7 +89,7 @@ const Care: FC<ICare> = (props) => {
       <List
         itemLayout="horizontal"
         dataSource={followsArr}
-        grid={{ column: 3, gutter: 32 }}
+        grid={{column: 3, gutter: 32}}
         renderItem={(item: any) => (
           <List.Item>
             <List.Item.Meta

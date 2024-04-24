@@ -1,26 +1,26 @@
 /** @format */
 
-import React, { useContext, FC } from "react"
-import { Table, Space } from "antd"
-import { useDispatch, history, useLocation } from "@umijs/max"
-import { HeartOutlined } from "@ant-design/icons"
-import { useRequest } from "ahooks"
-import { useQuery } from '@/hooks'
+import {useContext} from "react"
+import {Table, Space} from "antd"
+import {history} from "@umijs/max"
+import {HeartOutlined} from "@ant-design/icons"
+import {useRequest} from "ahooks"
+import {useQuery} from "@/hooks"
 import API from "@/api"
 import Utils from "@/help"
-import { Artists, VideoIcon } from "@/components"
-import { CountContext } from "./index"
-import styles from "../index.scss"
+import {Artists, VideoIcon} from "@/components"
+import {CountContext} from "./index"
+import {useGetSongInfo} from "@/store/player"
 
 const Single = () => {
-  const dispatch = useDispatch()
-  const { getCount } = useContext(CountContext)
+  const getSongInfo = useGetSongInfo()
+  const {getCount} = useContext(CountContext)
 
-  const { keywords } = useQuery()
+  const {keywords} = useQuery()
 
-  const { data, pagination, loading } = useRequest(
-    ({ current, pageSize }) =>
-      API.getSearchByType({ keywords, type: 1, limit: pageSize, offset: (current - 1) * pageSize }),
+  const {data, pagination, loading} = useRequest(
+    ({current, pageSize}) =>
+      API.getSearchByType({keywords, type: 1, limit: pageSize, offset: (current - 1) * pageSize}),
     {
       refreshDeps: [keywords],
       paginated: true,
@@ -63,7 +63,7 @@ const Single = () => {
         return (
           <Space direction="vertical">
             <Space>
-              <span dangerouslySetInnerHTML={{ __html: text && Utils.highLight(text) }} />
+              <span dangerouslySetInnerHTML={{__html: text && Utils.highLight(text)}} />
               <VideoIcon id={record.mvid} type={0} />
             </Space>
             {record.alias.length ? (
@@ -97,7 +97,7 @@ const Single = () => {
         return (
           <span
             onClick={() => history.push(`/album/song-list?id=${record.album.id}`)}
-            dangerouslySetInnerHTML={{ __html: text && Utils.highLight(text.name) }}
+            dangerouslySetInnerHTML={{__html: text && Utils.highLight(text.name)}}
           />
         )
       }
@@ -117,17 +117,11 @@ const Single = () => {
   return (
     <Table
       loading={loading}
-      locale={{ emptyText: "暂无歌曲" }}
-      scroll={{ scrollToFirstRowOnChange: true }}
+      locale={{emptyText: "暂无歌曲"}}
+      scroll={{scrollToFirstRowOnChange: true}}
       onRow={(record: any) => {
         return {
-          onDoubleClick: () =>
-            dispatch({
-              type: "songInfoModel/getSongInfo",
-              payload: {
-                id: record.id
-              }
-            })
+          onDoubleClick: () => getSongInfo(record.id)
         }
       }}
       bordered={false}

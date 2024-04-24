@@ -1,15 +1,14 @@
 /** @format */
 
 import React, {useEffect, useState, FC} from "react"
-import {useDispatch, history} from "@umijs/max"
 import {Tabs, Spin, Space} from "antd"
-import {CaretRightOutlined, PlaySquareOutlined} from "@ant-design/icons"
 import {useRequest} from "ahooks"
 import {Artists, PlayIcon, VideoIcon} from "@/components"
 import API from "@/api"
 import Utils from "@/help"
 import {NEW_SONGS_TAB_MAP} from "@/help/map"
 import styles from "../index.scss"
+import {useGetSongInfo} from "@/store/player"
 
 const {TabPane} = Tabs
 
@@ -134,8 +133,7 @@ interface IList {
 }
 
 const List: FC<IList> = ({active, tip}) => {
-  const dispatch = useDispatch()
-
+  const getSongInfo = useGetSongInfo()
   const {data, loading, run} = useRequest<IData>(() => API.getLatestMusic({type: active}), {
     manual: true
   })
@@ -150,17 +148,7 @@ const List: FC<IList> = ({active, tip}) => {
         <ul>
           {data?.data?.map((item, index) => {
             return (
-              <li
-                className={styles.item}
-                key={item.id}
-                onDoubleClick={() =>
-                  dispatch({
-                    type: "songInfoModel/getSongInfo",
-                    payload: {
-                      id: item.id
-                    }
-                  })
-                }>
+              <li className={styles.item} key={item.id} onDoubleClick={() => getSongInfo(item.id)}>
                 <span className={styles.number}>{index < 9 ? `0${index + 1}` : index + 1}</span>
                 <div className={styles.img}>
                   <img src={item.album.picUrl} />

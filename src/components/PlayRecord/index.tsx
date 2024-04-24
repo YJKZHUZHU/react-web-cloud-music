@@ -1,13 +1,13 @@
 /** @format */
 
-import React from "react"
 import {DeleteOutlined, FileAddOutlined} from "@ant-design/icons"
 import {Tabs, Divider, Table} from "antd"
-import {useSelector, useDispatch} from "@umijs/max"
-import styles from "./index.scss"
 import Utils from "@/help/index"
 import classnames from "classnames"
-import {IState} from "typings"
+import {useAllPlayRecord} from "@/store/user"
+import {useGetSongInfo, usePlayHistory, usePlayRecord} from "@/store/player"
+import styles from "./index.scss"
+
 const {TabPane} = Tabs
 
 const columns: any[] = [
@@ -48,10 +48,10 @@ const allRecordsColumns: any[] = [
 ]
 
 const PlayRecord = () => {
-  const dispatch = useDispatch()
-  const {userModel, songInfoModel} = useSelector((state: IState) => state)
-  const {allPlayRecord} = userModel
-  const {playRecord, playHistory} = songInfoModel
+  const allPlayRecord = useAllPlayRecord()
+  const playRecord = usePlayRecord()
+  const playHistory = usePlayHistory()
+  const getSongInfo = useGetSongInfo()
 
   const header = (total: number, isDelete: boolean = true, isCollect: boolean = true) => {
     return (
@@ -90,13 +90,7 @@ const PlayRecord = () => {
           pagination={false}
           onRow={(record: any) => {
             return {
-              onDoubleClick: () =>
-                dispatch({
-                  type: "songInfoModel/getSongInfo",
-                  payload: {
-                    id: record.id
-                  }
-                })
+              onDoubleClick: () => getSongInfo(record.id)
             }
           }}
         />
@@ -111,13 +105,7 @@ const PlayRecord = () => {
           pagination={false}
           onRow={(record: any) => {
             return {
-              onDoubleClick: () =>
-                dispatch({
-                  type: "songInfoModel/getSongInfo",
-                  payload: {
-                    id: record.id
-                  }
-                })
+              onDoubleClick: () => getSongInfo(record.id)
             }
           }}
         />
@@ -134,13 +122,7 @@ const PlayRecord = () => {
           pagination={false}
           onRow={(record: any) => {
             return {
-              onDoubleClick: () =>
-                dispatch({
-                  type: "songInfoModel/getSongInfo",
-                  payload: {
-                    id: record.id
-                  }
-                })
+              onDoubleClick: () => getSongInfo(record.id)
             }
           }}
         />

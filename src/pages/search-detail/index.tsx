@@ -1,15 +1,14 @@
 /** @format */
 
-import React, { useState, useEffect, FC, createContext, memo } from "react"
-import { Tabs, Space } from "antd"
-import { useLocation, history, useParams, Outlet } from "@umijs/max"
-import { MAP_TAB } from "@/help/map"
-import qs from 'qs'
+import {useState, useEffect, FC, createContext, memo} from "react"
+import {Tabs} from "antd"
+import {history, Outlet} from "@umijs/max"
+import {MAP_TAB} from "@/help/map"
+import {HighlightText} from "@/components"
 import store from "@/help/localStorage"
-import { useQuery } from '@/hooks'
+import {useQuery} from "@/hooks"
+import classNames from "classnames"
 import styles from "./index.scss"
-
-const { TabPane } = Tabs
 
 interface ICountContext {
   getCount: (type: number | string, count: number) => void
@@ -17,7 +16,7 @@ interface ICountContext {
 }
 
 export const CountContext = createContext<ICountContext>({
-  getCount: () => { },
+  getCount: () => {},
   countInfo: {}
 })
 
@@ -41,9 +40,9 @@ const SOURCE: Record<string, string> = {
 
 const SearchDetail: FC = () => {
   const query = useQuery()
-  const { keywords, type } = query
+  const {keywords, type} = query
   const [activeKey, setActiveKey] = useState(SOURCE[type])
-  const [countInfo, setCountInfo] = useState<{ [propsName: string]: number }>({})
+  const [countInfo, setCountInfo] = useState<{[propsName: string]: number}>({})
 
   const onTab = (value: string) => {
     setActiveKey(value)
@@ -53,72 +52,68 @@ const SearchDetail: FC = () => {
   const getCount = (type: number | string, count: number) => {
     if (!countInfo[type]) {
       // 缓存
-      setCountInfo({ ...countInfo, [type]: count })
+      setCountInfo({...countInfo, [type]: count})
     }
   }
+
   useEffect(() => {
     setActiveKey(SOURCE[type])
   }, [type])
 
+  const items = [
+    {
+      key: "single",
+      tabKey: "single",
+      label: "单曲",
+      children: <Outlet />
+    },
+    {
+      key: "singer",
+      tabKey: "singer",
+      label: "歌手",
+      children: <Outlet />
+    },
+    {
+      key: "album",
+      tabKey: "album",
+      label: "专辑",
+      children: <Outlet />
+    },
+    {
+      key: "video",
+      tabKey: "video",
+      label: "视频",
+      children: <Outlet />
+    },
+    {
+      key: "song-list",
+      tabKey: "song-list",
+      label: "歌单",
+      children: <Outlet />
+    },
+    {
+      key: "user",
+      tabKey: "user",
+      label: "用户",
+      children: <Outlet />
+    }
+  ]
 
   useEffect(() => {
     let storeHistory = store.getValue("searchHistory")
     let id = storeHistory.length === 0 ? 0 : storeHistory.sort((a, b) => b.id - a.id)[0]?.id + 1
     storeHistory = storeHistory.filter((item) => item.keywords !== keywords)
-    store.setValue("searchHistory", [...storeHistory, { id, keywords }])
+    store.setValue("searchHistory", [...storeHistory, {id, keywords}])
   }, [keywords])
 
   return (
     <div className={styles._searchDetail}>
-      <CountContext.Provider value={{ getCount }}>
-        <Space>
-          <span>搜索</span>
-          <span className={styles.keywords}>"{keywords}"</span>
-          <span>
-            找到{countInfo[type] || 0}相关{MAP_TAB[type]}
-          </span>
-        </Space>
-        <div className={styles.tab}>
-          <Tabs activeKey={activeKey} onChange={onTab} items={[
-            {
-              key: 'single',
-              tabKey: 'single',
-              label: '单曲',
-              children: <Outlet />
-            },
-            {
-              key: 'singer',
-              tabKey: 'singer',
-              label: '歌手',
-              children: <Outlet />
-            },
-            {
-              key: 'album',
-              tabKey: 'album',
-              label: '专辑',
-              children: <Outlet />
-            },
-            {
-              key: 'video',
-              tabKey: 'video',
-              label: '视频',
-              children: <Outlet />
-            },
-            {
-              key: 'song-list',
-              tabKey: 'song-list',
-              label: '歌单',
-              children: <Outlet />
-            },
-            {
-              key: 'user',
-              tabKey: 'user',
-              label: '用户',
-              children: <Outlet />
-            }
-          ]}>
-
-          </Tabs>
+      <CountContext.Provider value={{getCount}}>
+        <HighlightText
+          content={`搜索 "${keywords}" 找到${countInfo[type] || 0}相关${MAP_TAB[type]}`}
+          pattern={new RegExp(keywords, "g")}></HighlightText>
+        <div className={classNames(styles.tab, "mt-[12px]")}>
+          <Tabs activeKey={activeKey} onChange={onTab} items={items}></Tabs>
         </div>
       </CountContext.Provider>
     </div>

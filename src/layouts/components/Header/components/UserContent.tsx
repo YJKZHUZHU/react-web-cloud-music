@@ -1,6 +1,5 @@
 /** @format */
 
-import React, { FC } from "react"
 import {
   CaretDownOutlined,
   CarryOutOutlined,
@@ -10,13 +9,12 @@ import {
   ThunderboltOutlined,
   UserOutlined
 } from "@ant-design/icons"
-import { Divider, Avatar, Button, Space, Popover, message } from "antd"
-import styles from "../index.scss"
-import { login } from "@/help/cache"
-import { history, useSelector } from "@umijs/max"
-import { useBoolean, useRequest } from "ahooks"
-import {useLogout} from '@/hooks'
-import { useNickName } from "@/store/login"
+import {Divider, Avatar, Button, Space, Popover, message} from "antd"
+import {login} from "@/help/cache"
+import {history} from "@umijs/max"
+import {useBoolean, useRequest} from "ahooks"
+import {useLogout} from "@/hooks"
+import {useNickName} from "@/store/login"
 import {
   useAvatarUrl,
   useEventCount,
@@ -29,11 +27,12 @@ import {
 } from "@/store/user"
 import API from "@/api"
 import classNames from "classnames"
+import styles from "../index.scss"
 
 const UserContent = () => {
-  const [signIn, { setTrue: setSignInTrue }] = useBoolean(false)
+  const [signIn, {setTrue: setSignInTrue}] = useBoolean(false)
 
-  const [visible, { setFalse: setVisibleFalse, toggle: visibleToggle }] = useBoolean(false)
+  const [visible, {setFalse: setVisibleFalse, toggle: visibleToggle}] = useBoolean(false)
 
   const nickName = useNickName()
   const avatarUrl = useAvatarUrl()
@@ -47,20 +46,7 @@ const UserContent = () => {
 
   const runLogout = useLogout()
 
-
-
-  // const { run: runLogout } = useRequest(() => API.logout({ loading: true }), {
-  //   manual: true,
-  //   onSuccess: (response: any) => {
-  //     if (response.code !== 200) return message.info("服务器开小差了哦。。")
-  //     setVisibleFalse()
-  //     message.success("退出成功")
-  //     localStorage.clear()
-  //     window.location.reload()
-  //   }
-  // })
-
-  const { run: runSignin } = useRequest(() => API.dailySignIn({ type: 1 }), {
+  const {run: runSignin} = useRequest(() => API.dailySignIn({type: 1}), {
     manual: true,
     onSuccess: (response) => {
       if (response.code !== 200) return message.info("已经签到过了哦")
@@ -77,19 +63,19 @@ const UserContent = () => {
 
   const renderContent = () => {
     return (
-      <div className={classNames(styles._main, 'flex-1')}>
+      <div className={classNames(styles._main, "flex-1")}>
         <div className={styles.top}>
           <div className={styles.user}>
             <Space>
-
               <i className={styles.name}>{nickName}</i>
-              {vipLevel && <img
-                className="rounded-[16px]"
-                width={48}
-                height={16}
-                src={require(`../../../../assets/musicVip/${vipLevel}.png`)}
-              />}
-
+              {vipLevel && (
+                <img
+                  className="rounded-[16px]"
+                  width={48}
+                  height={16}
+                  src={require(`../../../../assets/musicVip/${vipLevel}.png`)}
+                />
+              )}
             </Space>
 
             <Button
