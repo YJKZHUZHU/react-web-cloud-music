@@ -210,7 +210,11 @@ const Footer = memo(() => {
     <footer
       className={classnames(
         style._footer,
-        "bg-[#ffffff] flex  px-[20px] py-[14px] justify-between"
+        "bg-[#ffffff]",
+        "flex",
+        "px-[20px]",
+        "py-[14px]",
+        "justify-between"
       )}>
       {renderMusicInfo(!!Object.keys(songObj).length)}
 
