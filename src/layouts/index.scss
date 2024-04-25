@@ -332,6 +332,10 @@
 ._footer {
 
   @include fix-footer(80px);
+  background-color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  padding: 14px 20px;
 
 
   .musicInfo {

@@ -207,15 +207,7 @@ const Footer = memo(() => {
   if (location.pathname === "/mv-detail") return null
 
   return (
-    <footer
-      className={classnames(
-        style._footer,
-        "bg-[#ffffff]",
-        "flex",
-        "px-[20px]",
-        "py-[14px]",
-        "justify-between"
-      )}>
+    <footer className={style._footer}>
       {renderMusicInfo(!!Object.keys(songObj).length)}
 
       <div className="flex-1 flex gap-[16px]">
