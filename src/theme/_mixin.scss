@@ -5,8 +5,8 @@
 // 固定定位, 兼容IE6
 @mixin fixed {
   position: fixed;
-  _position: absolute;
-  *zoom: 1;
+  // _position: absolute;
+  // *zoom: 1;
 }
 
 // 水平竖直方向居中-translate
