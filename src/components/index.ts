@@ -19,6 +19,8 @@ export { default as Card } from './Card'
 
 export { default as HighlightText } from './HighlightText'
 
+export { default as People } from './People'
+
 
 
 interface IUser {

@@ -1,124 +1,122 @@
 /** @format */
 
-import React, {useState, useEffect} from "react"
-import {Spin, Row} from "antd"
-import {useRequest} from "ahooks"
-import OfficialLeaderBoard, {ISingetTopList} from "./components/OfficialLeaderBoard"
-import AllTopList from "./components/AllTopList"
-import API from "@/api"
+import {useEffect} from "react"
+import {Row, Col} from "antd"
+import {history} from "@umijs/max"
+import {People} from "@/components"
+import classNames from "classnames"
+import {useGlobalList, useInit, useOfficialList} from "@/store/top"
+import dayjs from "dayjs"
+import Card from "./components/Card"
 import styles from "./index.scss"
-
-interface IGlobalData {
-  code: number
-  list: any[]
-  artistToplist: any
-  rewardToplist: any[]
-}
-
-interface IOfficiaData {
-  code: 200
-  relatedVideos: null
-  playlist: {[key: string]: any}
-  urls: null | string
-  privileges: any[]
-}
-
-const mapTopId = (list: any[]) => {
-  return list
-    .map((item) => {
-      if (item.ToplistType) {
-        return item.id
-      }
-    })
-    .filter((d) => d)
-}
-
-const getOfficeData = (idList: number[]) => {
-  return Promise.all([
-    API.playList({id: idList[0]}),
-    API.playList({id: idList[1]}),
-    API.playList({id: idList[2]}),
-    API.playList({id: idList[3]})
-  ])
-}
+import {CaretRightOutlined, RightOutlined} from "@ant-design/icons"
+import Utils from "@/help"
+import {useGetSongInfo} from "@/store/player"
 
 export default () => {
-  const [topIdArr, setTopIdArr] = useState([])
+  const init = useInit()
 
-  const {data: gloabalData, run: runGlobal} = useRequest<IGlobalData>(API.getAllTopList, {
-    manual: true,
-    onSuccess: (response) => setTopIdArr(mapTopId(response.list) as any)
-  })
+  const getSongInfo = useGetSongInfo()
 
-  const {run: runOffice, data: officiaData, loading} = useRequest(() => getOfficeData(topIdArr), {
-    manual: true,
-    formatResult: (response) => response.map((item) => item.playlist)
-  })
-
-  const {data: singetTopList, run: runSingerTopList} = useRequest<ISingetTopList>(
-    API.getSingerTopList,
-    {
-      manual: true,
-      formatResult: (response) => {
-        return [
-          {
-            coverImgUrl: gloabalData?.artistToplist.coverUrl,
-            upateFrequency: gloabalData?.artistToplist.upateFrequency,
-            subscribers: [],
-            subscribed: false,
-            creator: {},
-            tracks: response?.list?.artists,
-            updateTime: response?.list.updateTime,
-            trackIds: [],
-            backgroundCoverId: 0,
-            backgroundCoverUrl: null,
-            titleImage: 0,
-            titleImageUrl: null,
-            englishTitle: null,
-            opRecommend: false,
-            adType: 0,
-            subscribedCount: 0,
-            cloudTrackCount: 0,
-            userId: 0,
-            highQuality: false,
-            specialType: 0,
-            coverImgId: 0,
-            newImported: false,
-            commentThreadId: "",
-            privacy: 0,
-            name: gloabalData?.artistToplist.name,
-            id: 0,
-            ToplistType: "",
-            commentCount: 0
-          }
-        ]
-      }
-    }
-  )
+  const officialList = useOfficialList()
+  const globalList = useGlobalList()
 
   useEffect(() => {
-    runGlobal()
-    runSingerTopList()
+    init()
   }, [])
 
-  useEffect(() => {
-    if (topIdArr.length !== 0) {
-      runOffice()
-    }
-  }, [topIdArr.length])
-
   return (
-    <Spin spinning={loading} tip="Loading...">
-      <div className={styles.leaderBoard}>
-        <h2>官方榜单</h2>
-        <Row gutter={48}>
-          <OfficialLeaderBoard data={officiaData as any[]} type="officia" />
-          <OfficialLeaderBoard data={singetTopList as any[]} type="singer" />
+    <div className={classNames(styles.topContainer, "flex flex-col gap-[40px]")}>
+      <Card title="官方榜单">
+        <div className="flex flex-col gap-[20px]">
+          {officialList.map((item) => {
+            return (
+              <div key={item.id} className="flex justify-between gap-[20px]">
+                <div
+                  style={{
+                    backgroundImage: `-webkit-cross-fade(url(${item.tracks[0].al.picUrl}?param=200y200), url(${item.coverImgUrl}), 95%)`
+                  }}
+                  className={classNames(styles.bg)}>
+                  <span className="text-[#ffffff] text-[12px] mt-[60px]">
+                    {dayjs(item.updateTime).format("MM月DD日更新")}
+                  </span>
+                </div>
+                <div className="flex-1 flex flex-col justify-between">
+                  <div className=" flex flex-col">
+                    {item.tracks.slice(0, 5).map((d, index) => {
+                      return (
+                        <div
+                          onDoubleClick={() => getSongInfo(d.id)}
+                          key={d.id}
+                          className={classNames(
+                            "h-[35px] flex items-center gap-[8px] hover:bg-[#F1F1F2]",
+                            {
+                              "bg-[#F9F9F9]": index % 2 === 0
+                            }
+                          )}>
+                          <span
+                            className={classNames(
+                              {
+                                "text-[#E00000]": index <= 2,
+                                "text-[#BABABD]": index > 2
+                              },
+                              "pr-[8px]",
+                              "pl-[4px]"
+                            )}>
+                            {index + 1}
+                          </span>
+                          <span className="text-[#363D62] w-[300px] line-clamp-1">
+                            {d.name}
+                            <i className="text-[#BABABD]">
+                              {d.alia.join() && `(${d.alia.join()})`}
+                            </i>
+                          </span>
+                          <span className="text-[#BABABD] w-[250px] line-clamp-1">
+                            专辑-{d.al.name}
+                          </span>
+                          <People
+                            data={d.ar.slice(0, 3)}
+                            className="flex-1 justify-end text-[#BABABD] line-clamp-1 pr-[4px]"
+                          />
+                        </div>
+                      )
+                    })}
+                  </div>
+
+                  <div
+                    onClick={() => history.push(`/playList/${item.id}?listId=${item.id}`)}
+                    className="inline-flex items-center cursor-pointer text-[#BABABD] hover:text-[#363D62]">
+                    <span>查看全部</span>
+                    <RightOutlined />
+                  </div>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      </Card>
+      <Card title="全球榜">
+        <Row gutter={[32, 16]} justify="space-between">
+          {globalList.map((item) => {
+            return (
+              <Col key={item.id} span={4}>
+                <div
+                  className="w-150 h-[150px] bg-no-repeat relative bg-cover  rounded-[12px] mb-[8px] cursor-pointer"
+                  style={{backgroundImage: `url(${item.coverImgUrl}?param=150y150)`}}
+                  onClick={() => history.push(`/playList/${item.id}?listId=${item.id}`)}>
+                  <div className="flex items-center gap-[4px] absolute right-[10px] top-[10px]">
+                    <CaretRightOutlined style={{color: "#ffffff", fontSize: 18}} />
+                    <span className="text-[18px] text-[#ffffff]">
+                      {Utils.tranNumber(item.playCount, 2)}
+                    </span>
+                  </div>
+                </div>
+                <span className="text-[#363D62] text-[18px]">{item.name}</span>
+              </Col>
+            )
+          })}
         </Row>
-        <h2>全球榜</h2>
-        <AllTopList data={gloabalData?.list} />
-      </div>
-    </Spin>
+      </Card>
+    </div>
   )
 }
-

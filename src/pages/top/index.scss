@@ -1,6 +1,22 @@
 /** @format */
 
+.topContainer {
+  .bg {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
 .leaderBoard {
   width: 100%;
   min-height: 300px;
+
 }

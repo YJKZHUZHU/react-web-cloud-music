@@ -1,6 +1,5 @@
 /** @format */
 
-import {useState} from "react"
 import {
   FolderAddOutlined,
   PlayCircleOutlined,
@@ -10,31 +9,69 @@ import {
   EditOutlined,
   CustomerServiceOutlined
 } from "@ant-design/icons"
-import {Button, Tabs, Input, Space, Avatar} from "antd"
+import {Button, Tabs, Space, Avatar} from "antd"
 import {history, useParams} from "@umijs/max"
 import dayjs from "dayjs"
 import {HotComment, NewComment} from "@/components"
 import {ListTable, Collection} from "./components"
-import usePlayList from "./hooks/usePlayList"
 import Utils from "@/help"
 import classNames from "classnames"
 import styles from "./index.scss"
-
-const {Search} = Input
+import {useGetDetail, useLoading, usePlayListDetailData} from "@/store/playlistDetail"
+import {useGetSongInfo, usePlayRecord, useSetPlayRecord, useSetPlayRecordTip} from "@/store/player"
+import {useEffect, useState} from "react"
+import {IPlaylistDetails} from "@/types/playlistDetails"
 
 const PlayList = () => {
   const params: any = useParams()
-
+  const [playListDetail, setPlayListDetail] = useState<IPlaylistDetails>()
   const {id} = params
-  const {isSearch, toggle, data, tableList, loading, onPlayAll, label, commentTabContent} =
-    usePlayList(id)
-  const [searchValue, setSearchValue] = useState("")
+  const getSongInfo = useGetSongInfo()
+  const getDetail = useGetDetail()
+  const playRecord = usePlayRecord()
+  const setPlayRecord = useSetPlayRecord()
+  const setPlayRecordTip = useSetPlayRecordTip()
+
+  const init = async (id: number) => {
+    try {
+      const res = await getDetail(id)
+      setPlayListDetail(res)
+    } catch (error) {
+      console.log("error", error)
+    }
+  }
+
+  useEffect(() => {
+    init(id)
+  }, [id])
+
+  const loading = useLoading()
+
+  const label =
+    playListDetail?.playlist?.creator?.expertTags || playListDetail?.playlist?.tags || []
+
+  const commentTabContent = playListDetail?.playlist?.commentCount
+    ? `评论(${Utils.formatCommentNumber(playListDetail?.playlist?.commentCount)})`
+    : "评论"
+
+  const onPlayAll = () => {
+    if (playListDetail?.playlist) {
+      getSongInfo(playListDetail?.playlist?.tracks[0]?.id)
+      setPlayRecordTip("歌单已更新")
+
+      setPlayRecord(Utils.removeRepeat(playListDetail?.playlist?.tracks?.concat(playRecord), "id"))
+
+      setTimeout(() => {
+        setPlayRecordTip("")
+      }, 1000)
+    }
+  }
 
   const items = [
     {
       label: "歌曲列表",
       key: "1",
-      children: <ListTable data={tableList} loading={loading} searchValue={searchValue} />
+      children: <ListTable data={playListDetail?.playlist.tracks!} loading={loading} />
     },
     {
       label: commentTabContent,
@@ -49,7 +86,7 @@ const PlayList = () => {
     {
       label: "收藏者",
       key: "3",
-      children: <Collection subscribedCount={data?.subscribedCount} />
+      children: <Collection subscribedCount={playListDetail?.playlist?.subscribedCount} />
     }
   ]
 
@@ -61,15 +98,17 @@ const PlayList = () => {
           size={200}
           shape="square"
           alt="资源加载异常"
-          src={`${data?.creator.backgroundUrl}?param=200y200`}
+          src={`${playListDetail?.playlist.creator.backgroundUrl}?param=200y200`}
         />
 
         <Space direction="vertical" size={12}>
           <Space className={styles.name}>
             <span className={styles.colorLabel}>歌单</span>
-            <span className={styles.markTitle}>{data?.name}</span>
-            {!data?.subscribed ? (
-              <EditOutlined onClick={() => history.push(`/edit-song-list?id=${data?.id}`)} />
+            <span className={styles.markTitle}>{playListDetail?.playlist?.name}</span>
+            {!playListDetail?.playlist?.subscribed ? (
+              <EditOutlined
+                onClick={() => history.push(`/edit-song-list?id=${playListDetail?.playlist?.id}`)}
+              />
             ) : null}
           </Space>
           <Space className={styles.name}>
@@ -78,13 +117,13 @@ const PlayList = () => {
               size={40}
               shape="square"
               alt="资源加载异常"
-              src={`${data?.creator.avatarUrl}?param=40y40`}
+              src={`${playListDetail?.playlist?.creator.avatarUrl}?param=40y40`}
             />
-            <a onClick={() => history.push(`/homepage?uid=${data?.userId}`)}>
-              {data?.creator.nickname}
+            <a onClick={() => history.push(`/homepage?uid=${playListDetail?.playlist?.userId}`)}>
+              {playListDetail?.playlist?.creator.nickname}
             </a>
             <Space>
-              <span>{dayjs(data?.createTime).format("YYYY-MM-DD")}</span>
+              <span>{dayjs(playListDetail?.playlist?.createTime).format("YYYY-MM-DD")}</span>
               <i>创建</i>
             </Space>
           </Space>
@@ -96,12 +135,15 @@ const PlayList = () => {
               </div>
             </Button>
             <Button
-              icon={data?.subscribed ? <CheckOutlined /> : <FolderAddOutlined />}
+              icon={
+                playListDetail?.playlist?.subscribed ? <CheckOutlined /> : <FolderAddOutlined />
+              }
               type="primary">
-              {data?.subscribed ? "已收藏" : "收藏"}({Utils.tranNumber(data?.subscribedCount, 0)})
+              {playListDetail?.playlist?.subscribed ? "已收藏" : "收藏"}(
+              {Utils.tranNumber(playListDetail?.playlist?.subscribedCount, 0)})
             </Button>
             <Button icon={<ShareAltOutlined />} type="primary">
-              分享({Utils.tranNumber(data?.shareCount, 0)})
+              分享({Utils.tranNumber(playListDetail?.playlist?.shareCount, 0)})
             </Button>
           </Space>
           {label && (
@@ -119,12 +161,14 @@ const PlayList = () => {
             </Space>
           )}
           <Space>
-            <span>歌曲数：{data?.trackCount || 0}</span>
-            <span>播放数：{Utils.tranNumber(+data?.playCount, 0) || 0}</span>
+            <span>歌曲数：{playListDetail?.playlist?.trackCount || 0}</span>
+            <span>播放数：{Utils.tranNumber(+playListDetail?.playlist?.playCount!, 0) || 0}</span>
           </Space>
           <Space className={styles.introduction}>
             <span>简介：</span>
-            <span className={classNames(styles.des, "leading-[18px]")}>{data?.description}</span>
+            <span className={classNames(styles.des, "leading-[18px]")}>
+              {playListDetail?.playlist?.description}
+            </span>
           </Space>
         </Space>
       </Space>
@@ -138,8 +182,7 @@ const PlayList = () => {
         // }
         className={styles.tabs}
         tabBarStyle={{margin: 0}}
-        items={items}
-        onChange={(key) => toggle(+key === 1)}></Tabs>
+        items={items}></Tabs>
     </Space>
   )
 }

@@ -91,6 +91,7 @@ const PersonalRecommendation = () => {
                 />
 
                 <span
+                  key={item.targetId}
                   className={classNames(styles.bg, "_carousel_bg")}
                   style={{background: item?.titleColor}}>
                   {item?.typeTitle}

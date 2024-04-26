@@ -4,6 +4,7 @@ import { create } from "zustand"
 import { createJSONStorage, devtools, persist } from "zustand/middleware"
 import { getSongDetail, checkMusic, getLyric, getSongUrl } from "@/api/plyer"
 import Utils from "@/help"
+import { Track } from "@/types/playlistDetails"
 
 export interface IPlayerObj {
   loaded: number
@@ -50,7 +51,7 @@ interface IPlayHistoryItem {
   [propName: string]: any
 }
 
-interface IPlayRecordItem {
+interface IPlayRecordItem extends Track {
   title: string
   singer: string
   time: string

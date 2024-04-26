@@ -12,11 +12,10 @@ import {useGetSongInfo} from "@/store/player"
 interface TableListProps {
   data: any[]
   loading: boolean
-  searchValue: string
 }
 
 const TableList: FC<TableListProps> = (props) => {
-  const {data, loading, searchValue = ""} = props
+  const {data, loading} = props
   const getSongInfo = useGetSongInfo()
 
   const columns: () => ColumnsType<any> = () => [
