@@ -3,49 +3,6 @@
 @import "src/theme/utils";
 
 ._playList {
-  width: 100%;
-  .top {
-    display: flex;
-    min-height: 100px;
-    :global(.ant-space-item) {
-      &:nth-child(2) {
-        flex: 1;
-      }
-      &:nth-child(3) {
-        align-self: baseline;
-      }
-    }
-    .name {
-      :global(.ant-space-item) {
-        &:nth-child(3) {
-          align-self: initial;
-        }
-      }
-    }
-    .info {
-      align-items: center;
-      width: 100%;
-    }
-    .colorLabel {
-      width: 30px;
-      border: 1px solid $fontColor;
-      color: $fontColor;
-      height: 20px;
-      font-size: 12px;
-      @include flex-center(30px, 20px);
-      border-radius: 5;
-    }
-    .markTitle {
-      font-size: 18px;
-      font-weight: 400;
-    }
-    .introduction {
-      align-items: baseline;
-      .des {
-        word-break: break-all;
-      }
-    }
-  }
 
   .tabs {
     margin-top: 20px;
@@ -54,6 +11,7 @@
       font-size: 18px;
       margin-left: 8px;
     }
+
     .playIcon {
       font-size: 18px;
       color: $fontColor;
@@ -62,19 +20,24 @@
 
     .comment {
       min-height: 300px;
+
       .title {
         font-size: 20px;
       }
+
       .user {
         cursor: pointer;
       }
+
       .hotLink {
         text-align: center;
       }
+
       .footer {
         display: flex;
         justify-content: space-between;
         align-items: center;
+
         .number {
           display: block;
           width: 35px;
@@ -85,13 +48,16 @@
     .collection {
       margin-top: 20px;
       min-height: 200px;
+
       .content {
         display: flex;
         flex-direction: column;
         align-items: center;
         margin-bottom: 20px;
+
         .img {
           width: 50px;
+
           img {
             width: 100%;
             border-radius: 50%;
@@ -104,6 +70,7 @@
         }
       }
     }
+
     .operator {
       display: flex;
       align-items: center;

@@ -93,7 +93,7 @@ export default () => {
                           return (
                             <span
                               className={styles.singer}
-                              onClick={() => history.push(`/homepage?uid=${items.userId}`)}>
+                              onClick={() => history.push(`/homepage/${items.userId}`)}>
                               {items.userName}
                               {item.creator.length !== index + 1 ? "/" : null}
                             </span>

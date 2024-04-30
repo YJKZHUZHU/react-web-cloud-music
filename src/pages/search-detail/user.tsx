@@ -31,7 +31,7 @@ const User = () => {
               <li
                 className={styles.item}
                 key={Utils.createRandomId()}
-                onClick={() => history.push(`/homePage?uid=${item.userId}`)}>
+                onClick={() => history.push(`/homePage/${item.userId}`)}>
                 <div className={styles.img}>
                   <Avatar
                     size={64}

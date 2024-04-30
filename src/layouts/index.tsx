@@ -1,7 +1,7 @@
 /** @format */
 
 import {createContext, FC, useState} from "react"
-import {Drawer} from "antd"
+import {Drawer, Flex} from "antd"
 import {useLocation, history, useRouteProps, Outlet} from "@umijs/max"
 import {PlayRecord, PlayerLayout} from "@/components"
 import {useApp} from "@/hooks"
@@ -36,20 +36,22 @@ const BasicLayout: FC = () => {
   }
 
   return (
-    <div className="flex flex-col h-[100vh] min-w-[1280px] overflow-y-hidden">
+    <Flex vertical className="h-[100vh] min-w-[1280px] overflow-y-hidden">
       <Header>
         <TagsView selectKeys={selectKeys} />
       </Header>
-      <div className="flex flex-1 bg-[#F2F1F6]">
+      <Flex flex={1} className="bg-[#F2F1F6]">
         <Aside selectKeys={selectKeys} onMenuItem={onMenuItem} visible={playerLayoutVisible} />
         <div
+          id="_contentContainer"
           className={classNames(
             "bg-[length:40px_40px] bg-no-repeat bg-[url('../../assets/layout/radius@2x.png')] relative flex-1 h-[calc(100vh-120px)] w-[calc(100vw-220px)] overflow-scroll px-[40px] pt-[30px]",
             playerLayoutVisible ? "pb-[100px]" : "pb-[24px]"
           )}>
           <Outlet />
         </div>
-      </div>
+      </Flex>
+
       <Footer />
       {playerLayoutVisible && <PlayerLayout />}
       <Drawer
@@ -62,7 +64,7 @@ const BasicLayout: FC = () => {
         getContainer={false}>
         <PlayRecord />
       </Drawer>
-    </div>
+    </Flex>
   )
 }
 

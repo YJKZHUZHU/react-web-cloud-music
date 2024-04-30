@@ -277,9 +277,17 @@ const routes: IRoue[] = [
         parentKey: MenuKeyEnum.FIND_MUSIC
       },
       {
-        path: '/homepage',
+        path: '/homepage/:uid',
         component: 'homepage',
         title: "个人主页",
+        wrappers: [
+          '@/wrappers/Auth',
+        ]
+      },
+      {
+        path: '/hot-comment-list/:id/:type',
+        component: 'hot-comment-list',
+        title: "热门评论",
         wrappers: [
           '@/wrappers/Auth',
         ]

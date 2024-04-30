@@ -11,7 +11,8 @@ interface Props {
 }
 
 interface Actions {
-  getDetail: (id: number) => Promise<IPlaylistDetails | undefined>
+  // getDetail: (id: number) => Promise<IPlaylistDetails | undefined>
+  getDetail: (id: number) => void
   getExistDetail: (id: number) => IPlaylistDetails | false
   updateDetail: (key: number, data: IPlaylistDetails) => void
 }
@@ -31,19 +32,17 @@ export const usePlaylistDetail = create<Props & Actions>()(
             return result || false
           }
           return false
-
-
         },
         getDetail: async (id) => {
           try {
-            const detail = get().getExistDetail(id)
-            if (detail) return detail
+            // const detail = get().getExistDetail(id)
+            // if (detail) return detail
 
             set({ loading: true }, false, 'loading')
             const result = get().data
             const res = await playlistDetail({ id })
             set({ loading: false, data: { ...result, [id]: res.data } }, false, '更新歌单详情')
-            return res.data
+            // return res.data
           } catch (error) {
             set({ loading: true }, false, 'loading')
             console.log('error', error)

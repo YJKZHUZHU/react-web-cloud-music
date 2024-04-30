@@ -1,11 +1,14 @@
 /** @format */
 
-import React, { FC, useEffect, useState } from "react"
-import { UserOutlined } from "@ant-design/icons"
-import { Col, Row, Avatar, Pagination, message, Spin } from "antd"
-import { useQuery } from '@/hooks'
-import API from "@/api"
-import styles from "../index.scss"
+import React, {FC, useEffect, useRef, useState} from "react"
+import {UserOutlined} from "@ant-design/icons"
+import {Col, Row, Avatar, Pagination, message, Spin, Flex} from "antd"
+import {useQuery} from "@/hooks"
+import {history} from "@umijs/max"
+import {playlistSubscribers} from "@/api/playlistDetail"
+import {ISubscriber} from "@/types/playlistDetails"
+import man from "@/assets/man.png"
+import woman from "@/assets/woman.png"
 
 interface CollectionProps {
   subscribedCount?: number
@@ -22,76 +25,77 @@ interface ParamInterface {
   limit?: number
   offset?: number
 }
-const Collection: FC<CollectionProps> = ({ subscribedCount }) => {
-  const { listId } = useQuery()
+const Collection = () => {
+  const {listId} = useQuery<{listId: number}>()
   const [loading, setLoading] = useState(false)
-  const initParam = {
-    id: listId,
-    limit: 60,
-    offset: 0
-  }
-  const [collectionList, setCollectionList] = useState([])
+  const [total, setTotal] = useState(0)
   const [current, setCurrent] = useState(1)
+  const pageRef = useRef({limit: 60, offset: 0})
 
-  const getList = async (params: ParamInterface) => {
-    setLoading(true)
+  const [list, setList] = useState<ISubscriber[]>([])
+
+  const getList = async () => {
     try {
-      const Ret = await API.playlistCollection(params)
+      setLoading(true)
+      const res = await playlistSubscribers({id: listId, ...pageRef.current})
       setLoading(false)
-      if (Ret.code !== 200) return message.info("稍后再试...")
-      return setCollectionList(Ret.subscribers)
+      setList(res.data.subscribers)
+      setTotal(res.data.total)
     } catch (error) {
       setLoading(false)
       return message.info("稍后再试...")
     }
   }
 
-  const onPage = (page: number) => {
+  const onPageChange = (page: number, size: number) => {
     setCurrent(page)
-    getList({
-      id: listId,
-      limit: 60,
-      offset: (page - 1) * 60
-    })
+    pageRef.current.limit = size
+    pageRef.current.offset = (page - 1) * size
+    getList()
   }
 
   useEffect(() => {
-    getList(initParam)
+    getList()
   }, [])
 
   return (
-    <Spin spinning={loading} tip="Loading...">
-      <div className={styles.collection}>
-        <Row justify="start">
-          {collectionList.map((item: ItemInterface) => {
+    <Spin spinning={loading} tip="Loading..." delay={500}>
+      <Flex vertical gap={24} className=" mt-[16px]">
+        <Flex wrap="wrap" gap={16}>
+          {list.map((item) => {
             return (
-              <Col span={3} key={item.userId}>
-                <div className={styles.content}>
-                  <p className={styles.img}>
-                    <Avatar
-                      style={{ backgroundColor: "#D74D45" }}
-                      icon={<UserOutlined />}
-                      src={item.avatarUrl}
-                    />
-                  </p>
-                  <p className={styles.name}>{item.nickname}</p>
-                </div>
-              </Col>
+              <Flex flex="1 1 45%" gap={8} align="center" key={item.userId}>
+                <Avatar
+                  size={100}
+                  className="bg-#D74D45"
+                  icon={<UserOutlined />}
+                  src={item.avatarUrl}
+                />
+                <Flex vertical gap={4}>
+                  <Flex align="center" gap={4}>
+                    <span onClick={() => history.push(`/homepage/${item.userId}`)} className="cursor-pointer text-[#262626] hover:text-[#000000] text-[16px]">
+                      {item.nickname}
+                    </span>
+                    <img className="h-[16]" src={item.gender === 1 ? man : woman} />
+                  </Flex>
+                  <span className="text-[#939393] text-[14px]">{item.signature || "无"}</span>
+                </Flex>
+              </Flex>
             )
           })}
-        </Row>
-        {collectionList.length !== 0 ? (
-          <div className={styles.page}>
-            <Pagination
-              size="small"
-              current={current}
-              total={subscribedCount}
-              showSizeChanger={false}
-              onChange={onPage}
-            />
-          </div>
-        ) : null}
-      </div>
+        </Flex>
+        <Pagination
+          className="self-center"
+          size="small"
+          current={current}
+          defaultCurrent={1}
+          total={total}
+          hideOnSinglePage
+          showSizeChanger={false}
+          showQuickJumper={false}
+          onChange={onPageChange}
+        />
+      </Flex>
     </Spin>
   )
 }

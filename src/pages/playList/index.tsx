@@ -7,52 +7,49 @@ import {
   ShareAltOutlined,
   CheckOutlined,
   EditOutlined,
-  CustomerServiceOutlined
+  CustomerServiceOutlined,
+  CaretDownOutlined,
+  CaretUpOutlined
 } from "@ant-design/icons"
-import {Button, Tabs, Space, Avatar} from "antd"
+import {Button, Tabs, Avatar, Flex, Tag} from "antd"
 import {history, useParams} from "@umijs/max"
+import {Comment} from "@/components"
 import dayjs from "dayjs"
-import {HotComment, NewComment} from "@/components"
 import {ListTable, Collection} from "./components"
 import Utils from "@/help"
 import classNames from "classnames"
-import styles from "./index.scss"
 import {useGetDetail, useLoading, usePlayListDetailData} from "@/store/playlistDetail"
 import {useGetSongInfo, usePlayRecord, useSetPlayRecord, useSetPlayRecordTip} from "@/store/player"
-import {useEffect, useState} from "react"
-import {IPlaylistDetails} from "@/types/playlistDetails"
+import {useEffect, useMemo, useState} from "react"
+import {CommentTypeEnum} from "@/types/comment"
+import styles from "./index.scss"
 
 const PlayList = () => {
+  const [showAll, setShowAll] = useState(false)
   const params: any = useParams()
-  const [playListDetail, setPlayListDetail] = useState<IPlaylistDetails>()
   const {id} = params
   const getSongInfo = useGetSongInfo()
+  const playListDetail = usePlayListDetailData(id)
   const getDetail = useGetDetail()
   const playRecord = usePlayRecord()
   const setPlayRecord = useSetPlayRecord()
   const setPlayRecordTip = useSetPlayRecordTip()
 
-  const init = async (id: number) => {
-    try {
-      const res = await getDetail(id)
-      setPlayListDetail(res)
-    } catch (error) {
-      console.log("error", error)
-    }
-  }
-
   useEffect(() => {
-    init(id)
+    getDetail(id)
   }, [id])
 
   const loading = useLoading()
 
-  const label =
-    playListDetail?.playlist?.creator?.expertTags || playListDetail?.playlist?.tags || []
+  const label = useMemo<string[]>(() => {
+    return playListDetail?.playlist?.creator?.expertTags || playListDetail?.playlist?.tags || []
+  }, [playListDetail])
 
-  const commentTabContent = playListDetail?.playlist?.commentCount
-    ? `评论(${Utils.formatCommentNumber(playListDetail?.playlist?.commentCount)})`
-    : "评论"
+  const commentTabContent = useMemo(() => {
+    return playListDetail?.playlist?.commentCount
+      ? `评论(${Utils.formatCommentNumber(playListDetail?.playlist?.commentCount)})`
+      : "评论"
+  }, [playListDetail])
 
   const onPlayAll = () => {
     if (playListDetail?.playlist) {
@@ -77,22 +74,28 @@ const PlayList = () => {
       label: commentTabContent,
       key: "2",
       children: (
-        <>
-          <HotComment type={2} id={id} />
-          <NewComment type={2} id={id} />
-        </>
+        <div className=" min-h-[200px]">
+          <Comment id={id} type={CommentTypeEnum.playList} />
+        </div>
       )
     },
     {
       label: "收藏者",
       key: "3",
-      children: <Collection subscribedCount={playListDetail?.playlist?.subscribedCount} />
+      children: (
+        <div className=" min-h-[200px]">
+          <Collection />
+        </div>
+      )
     }
   ]
 
   return (
-    <Space direction="vertical" className={styles._playList} size={0}>
-      <Space className={styles.top} size={16}>
+    <Flex
+      vertical
+      gap={24}
+      className={classNames("bg-[#ffffff] rounded-[20px] p-[16px]", styles._playList)}>
+      <Flex gap={16}>
         <Avatar
           icon={<CustomerServiceOutlined />}
           size={200}
@@ -100,34 +103,37 @@ const PlayList = () => {
           alt="资源加载异常"
           src={`${playListDetail?.playlist.creator.backgroundUrl}?param=200y200`}
         />
-
-        <Space direction="vertical" size={12}>
-          <Space className={styles.name}>
-            <span className={styles.colorLabel}>歌单</span>
-            <span className={styles.markTitle}>{playListDetail?.playlist?.name}</span>
-            {!playListDetail?.playlist?.subscribed ? (
+        <Flex flex={1} vertical gap={12}>
+          <Flex gap={4} align="center">
+            <Tag color="red" bordered={false}>
+              歌单
+            </Tag>
+            <span className="text-[18px] font-[600] text-[#262627]">
+              {playListDetail?.playlist?.name}
+            </span>
+            {!playListDetail?.playlist?.subscribed && (
               <EditOutlined
+                style={{color: "#262627", fontSize: 18}}
                 onClick={() => history.push(`/edit-song-list?id=${playListDetail?.playlist?.id}`)}
               />
-            ) : null}
-          </Space>
-          <Space className={styles.name}>
+            )}
+          </Flex>
+          <Flex gap={4} align="center">
             <Avatar
               icon={<CustomerServiceOutlined />}
-              size={40}
-              shape="square"
+              size={30}
+              shape="circle"
               alt="资源加载异常"
               src={`${playListDetail?.playlist?.creator.avatarUrl}?param=40y40`}
             />
-            <a onClick={() => history.push(`/homepage?uid=${playListDetail?.playlist?.userId}`)}>
+            <span
+              className="cursor-pointer text-[#40699F]"
+              onClick={() => history.push(`/homepage/${playListDetail?.playlist?.userId}`)}>
               {playListDetail?.playlist?.creator.nickname}
-            </a>
-            <Space>
-              <span>{dayjs(playListDetail?.playlist?.createTime).format("YYYY-MM-DD")}</span>
-              <i>创建</i>
-            </Space>
-          </Space>
-          <Space>
+            </span>
+            <span>{dayjs(playListDetail?.playlist?.createTime).format("YYYY-MM-DD")}创建</span>
+          </Flex>
+          <Flex gap={4} align="center">
             <Button icon={<PlayCircleOutlined />} onClick={onPlayAll} type="primary">
               <div className=" inline-flex gap-[4px] items-center">
                 <span> 播放全部</span>
@@ -145,45 +151,63 @@ const PlayList = () => {
             <Button icon={<ShareAltOutlined />} type="primary">
               分享({Utils.tranNumber(playListDetail?.playlist?.shareCount, 0)})
             </Button>
-          </Space>
-          {label && (
-            <Space>
-              <span>标签:</span>
-              <Space split="/">
-                {label.map((item: any, index: number) => {
+          </Flex>
+          {label.length !== 0 && (
+            <Flex gap={4} align="center">
+              <span className="text-[#363D62]">标签：</span>
+              <Flex gap={4} align="center">
+                {label.map((item) => {
                   return (
-                    <a onClick={() => history.push(`/find-music/song-list?tag=${item}`)} key={item}>
+                    <Tag
+                      color="green"
+                      bordered={false}
+                      onClick={() => history.push(`/find-music/song-list?tag=${item}`)}
+                      key={item}>
                       {item}
-                    </a>
+                    </Tag>
                   )
                 })}
-              </Space>
-            </Space>
+              </Flex>
+            </Flex>
           )}
-          <Space>
-            <span>歌曲数：{playListDetail?.playlist?.trackCount || 0}</span>
-            <span>播放数：{Utils.tranNumber(+playListDetail?.playlist?.playCount!, 0) || 0}</span>
-          </Space>
-          <Space className={styles.introduction}>
-            <span>简介：</span>
-            <span className={classNames(styles.des, "leading-[18px]")}>
-              {playListDetail?.playlist?.description}
-            </span>
-          </Space>
-        </Space>
-      </Space>
 
-      <Tabs
-        defaultActiveKey="1"
-        // tabBarExtraContent={
-        //   isSearch && (
-        //     <Search placeholder="搜索歌单音乐" onChange={(e) => setSearchValue(e.target.value)} />
-        //   )
-        // }
-        className={styles.tabs}
-        tabBarStyle={{margin: 0}}
-        items={items}></Tabs>
-    </Space>
+          <Flex gap={8} align="center">
+            <Flex align="center">
+              <span className="text-[#363D62]">歌曲数：</span>
+              <span className="text-[#BABABD]">{playListDetail?.playlist?.trackCount || 0}</span>
+            </Flex>
+            <Flex align="center">
+              <span className="text-[#363D62]">播放数：</span>
+              <span className="text-[#BABABD]">
+                {Utils.tranNumber(+playListDetail?.playlist?.playCount!, 0) || 0}
+              </span>
+            </Flex>
+          </Flex>
+          <Flex align="center" gap={12}>
+            <Flex>
+              <span className="text-[#363D62]">简&emsp;介：</span>
+              <Flex flex={1} align="center">
+                <span className={classNames("text-[#BABABD], leading-[20px]", {"line-clamp-1": !showAll})}>
+                  {playListDetail?.playlist?.description}
+                </span>
+                {showAll ? (
+                  <CaretUpOutlined
+                    className="cursor-pointer self-start"
+                    onClick={() => setShowAll(false)}
+                  />
+                ) : (
+                  <CaretDownOutlined
+                    className="cursor-pointer self-start"
+                    onClick={() => setShowAll(true)}
+                  />
+                )}
+              </Flex>
+            </Flex>
+          </Flex>
+        </Flex>
+      </Flex>
+      <Tabs defaultActiveKey="1" className={styles.tabs} tabBarStyle={{margin: 0}} items={items} />
+    </Flex>
   )
 }
 

@@ -22,6 +22,7 @@
     "nprogress": "^0.2.0",
     "qrcode.react": "^1.0.1",
     "qs": "^6.12.0",
+    "rc-virtual-list": "^3.11.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-draggable": "^4.4.3",

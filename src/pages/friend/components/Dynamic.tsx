@@ -87,7 +87,7 @@ const Dynamic: FC<IDynamicProps> = ({data, loading}) => {
               avatar={<Avatar size="large" src={item?.user?.avatarUrl} />}
               title={
                 <Space className={styles.name}>
-                  <span onClick={() => history.push(`/homepage?id=${item?.user?.userId}`)}>
+                  <span onClick={() => history.push(`/homepage/${item?.user?.userId}`)}>
                     {item?.user?.nickname}
                   </span>
                   <span>{json?.song ? "分享单曲" : "发表动态"}</span>

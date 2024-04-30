@@ -20,6 +20,10 @@ export { default as Card } from './Card'
 export { default as HighlightText } from './HighlightText'
 
 export { default as People } from './People'
+export { default as Comment } from './Comment'
+export { default as CommentItem } from './CommentItem'
+
+export { default as WithEmoji } from './WithEmoji'
 
 
 

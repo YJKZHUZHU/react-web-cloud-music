@@ -120,7 +120,7 @@ const ArtistsDetail: FC = () => {
                     {collect ? "已收藏" : "收藏"}
                   </Button>
 
-                  <Button shape="round" onClick={() => history.push(`/homepage/uid=${data?.id}`)}>
+                  <Button shape="round" onClick={() => history.push(`/homepage/${data?.id}`)}>
                     <UserOutlined />
                     个人主页
                   </Button>

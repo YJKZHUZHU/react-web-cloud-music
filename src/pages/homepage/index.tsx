@@ -1,11 +1,12 @@
 /** @format */
 
-import React, { useEffect } from "react"
-import { useRequest } from "ahooks"
-import { useQuery } from '@/hooks'
+import React, {useEffect} from "react"
+import {useRequest} from "ahooks"
+import {useQuery} from "@/hooks"
+import {useParams} from "@umijs/max"
 import API from "@/api"
-import { Space, Avatar } from "antd"
-import { CustomerServiceOutlined, ManOutlined, WomanOutlined } from "@ant-design/icons"
+import {Space, Avatar} from "antd"
+import {CustomerServiceOutlined, ManOutlined, WomanOutlined} from "@ant-design/icons"
 
 interface IAllAuthTypes {
   desc: string
@@ -116,11 +117,11 @@ interface IUserInfo {
 }
 
 const HomePage = () => {
-  const { uid } = useQuery()
-  const { data, run, loading } = useRequest<IUserInfo>(() => API.useInfo({ uid }), {
+  const {uid} = useParams() as {uid: string}
+  console.log("uid--", uid)
+  const {data, run, loading} = useRequest<IUserInfo>(() => API.useInfo({uid}), {
     manual: true
   })
-
 
   useEffect(() => {
     run()

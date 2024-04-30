@@ -7,11 +7,7 @@ import {login} from "@/help/cache"
 
 const Success: FC = () => {
   if (!login()) {
-    return (
-      <div className={styles.wrapContainer}>
-        <Outlet />
-      </div>
-    )
+    return <Outlet />
   }
   return <Navigate to="/personal-recommendation" replace />
 }

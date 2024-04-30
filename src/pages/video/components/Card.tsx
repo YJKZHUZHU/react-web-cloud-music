@@ -16,7 +16,7 @@ interface ICardProps {
 const Card: FC<ICardProps> = ({data, loading}) => {
   const onLink = (e: React.MouseEvent<HTMLElement>, id: string) => {
     e.stopPropagation()
-    history.push(`/homePage?id=${id}`)
+    history.push(`/homePage/${id}`)
   }
   return (
     <Spin spinning={loading} tip="视频加载中。。。">

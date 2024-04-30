@@ -283,3 +283,70 @@ interface ChargeInfo {
   chargeMessage: any | null; // 收费信息，具体结构未知
   chargeType: number; // 收费类型
 }
+
+
+export interface ISubscriber {
+  // 是否有默认头像，默认为 false
+  defaultAvatar: boolean;
+  // 省份编号
+  province: number;
+  // 认证状态，0 表示未认证
+  authStatus: number;
+  // 是否已关注
+  followed: boolean;
+  // 用户头像 URL
+  avatarUrl: string;
+  // 账号状态，0 表示正常
+  accountStatus: number;
+  // 性别，0 表示未知，1 表示男，2 表示女
+  gender: number;
+  // 城市编号
+  city: number;
+  // 生日，格式为时间戳
+  birthday: number;
+  // 用户 ID
+  userId: number;
+  // 用户类型，0 表示普通用户
+  userType: number;
+  // 用户昵称
+  nickname: string;
+  // 用户签名
+  signature: string;
+  // 用户描述
+  description: string;
+  // 用户详细描述
+  detailDescription: string;
+  // 头像图片 ID
+  avatarImgId: number;
+  // 背景图片 ID
+  backgroundImgId: number;
+  // 背景图片 URL
+  backgroundUrl: string;
+  // 权限等级
+  authority: number;
+  // 是否互相关注
+  mutual: boolean;
+  // 专家标签，可能为 null
+  expertTags: any[] | null;
+  // 专家信息，可能为 null
+  experts: any[] | null;
+  // DJ 状态，0 表示未认证 DJ
+  djStatus: number;
+  // VIP 类型
+  vipType: number;
+  // 备注名称，可能为 null
+  remarkName: string | null;
+  // 订阅时间，格式为时间戳
+  subscribeTime: number;
+  // 背景图片 ID 的字符串形式
+  backgroundImgIdStr: string;
+  // 头像图片 ID 的字符串形式
+  avatarImgIdStr: string;
+  // VIP 权益，可能为 null
+  vipRights: any[] | null;
+  // 头像图片 ID 的字符串形式，别名
+  avatarImgId_str: string;
+  // 头像详细信息，可能为 null
+  avatarDetail: any | null;
+}
+
