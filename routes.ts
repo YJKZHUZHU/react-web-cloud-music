@@ -135,6 +135,12 @@ const routes: IRoue[] = [
         parentKey: MenuKeyEnum.FIND_MUSIC
       },
       {
+        path: '/find-music/quality-play-list/:id',
+        component: 'quality-play-list',
+        title: '精品歌单',
+        parentKey: MenuKeyEnum.FIND_MUSIC
+      },
+      {
         path: '/find-music/top',
         component: 'top',
         title: '排行榜',

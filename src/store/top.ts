@@ -3,7 +3,7 @@ import { createJSONStorage, devtools, persist } from "zustand/middleware";
 import { toplist, toplistDetail, playlistDetail } from '@/api/top'
 import { IResp } from "@/help/server";
 import { IPlaylistDetails, Playlist } from "@/types/playlistDetails";
-import { useUpdateDetail, usePlaylistDetail } from '@/store/playlistDetail'
+import { usePlaylistDetail } from '@/store/playlistDetail'
 
 
 export enum OfficialTypeEnum {

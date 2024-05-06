@@ -8,6 +8,14 @@ export interface IResp<T = Record<string, string>> {
   success: boolean
   data: T
 }
-export const service = <T = any>(url: string, data?: Record<string, any>) => {
-  return request<IResp<T>>(url, { data, method: 'post', headers: { format: true } })
+
+type Res = { cache?: boolean }
+
+export const service = <T = any>(url: string, data?: Record<string, any>, cache: boolean = false) => {
+  return request<IResp<T>>(url, {
+    data: {
+      ...data,
+      cache
+    }, method: 'post', headers: { format: true }
+  })
 }

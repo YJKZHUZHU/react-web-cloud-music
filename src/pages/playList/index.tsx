@@ -186,18 +186,18 @@ const PlayList = () => {
           <Flex align="center" gap={12}>
             <Flex>
               <span className="text-[#363D62]">简&emsp;介：</span>
-              <Flex flex={1} align="center">
+              <Flex flex={1} align="center" gap={4}>
                 <span className={classNames("text-[#BABABD], leading-[20px]", {"line-clamp-1": !showAll})}>
                   {playListDetail?.playlist?.description}
                 </span>
                 {showAll ? (
                   <CaretUpOutlined
-                    className="cursor-pointer self-start"
+                    className="cursor-pointer"
                     onClick={() => setShowAll(false)}
                   />
                 ) : (
                   <CaretDownOutlined
-                    className="cursor-pointer self-start"
+                    className="cursor-pointer"
                     onClick={() => setShowAll(true)}
                   />
                 )}

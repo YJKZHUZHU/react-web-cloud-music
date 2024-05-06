@@ -58,7 +58,7 @@ const PagehotCommentList = () => {
     if (
       Math.abs(e.currentTarget.scrollHeight - e.currentTarget.scrollTop - virtualHeight) <= 50 &&
       !loading &&
-      !hasMore.current
+      hasMore.current
     ) {
       pageRef.current.offset += max
       getHotComment()
@@ -71,7 +71,6 @@ const PagehotCommentList = () => {
     if (ele) {
       setVirtualHeight(ele?.offsetHeight!)
     }
-
   }, [id])
 
   return (

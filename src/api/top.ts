@@ -1,6 +1,5 @@
-import { cssExports } from './../pages/mv/components/SelectTag/index.scss.d';
 import { service } from '@/help/server'
-import { ILyrics, IPrivilegeItem, ISongUrl, ISongsItem, MusicLevelEnum } from '@/store/player'
+import { ISongUrl } from '@/store/player'
 import { IArtistToplist, IArtistToplistDetail, IRewardToplist, ITopDetailListItem, ITopListItem, OfficialTypeEnum } from '@/store/top'
 import { IPlaylistDetails } from '@/types/playlistDetails';
 
