@@ -9,7 +9,6 @@ export interface IResp<T = Record<string, string>> {
   data: T
 }
 
-type Res = { cache?: boolean }
 
 export const service = <T = any>(url: string, data?: Record<string, any>, cache: boolean = false) => {
   return request<IResp<T>>(url, {

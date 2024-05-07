@@ -26,7 +26,7 @@ export const EDIT_SONG_LIST = [
   }
 ]
 
-export const MAP_TAB:Record<string,string> = {
+export const MAP_TAB: Record<string, string> = {
   '1': '单曲',
   '100': '歌手',
   '10': '专辑',
@@ -39,50 +39,65 @@ export const MAP_TAB:Record<string,string> = {
   '1018': '综合'
 }
 
+export const enum LANGUAGE_ENUM {
+  all = -1,
+  china = 7,
+  europeAndAmerica = 96,
+  japan = 8,
+  korea = 16,
+  other = 0
+}
 
 // 语种
 export const LANGUAGE = [
   {
-    id: -1,
+    id: LANGUAGE_ENUM.all,
     value: "全部"
   },
   {
-    id: 7,
+    id: LANGUAGE_ENUM.china,
     value: "华语"
   },
   {
-    id: 96,
+    id: LANGUAGE_ENUM.europeAndAmerica,
     value: "欧美"
   },
   {
-    id: 8,
+    id: LANGUAGE_ENUM.japan,
     value: "日本"
   },
   {
-    id: 16,
+    id: LANGUAGE_ENUM.korea,
     value: "韩国"
   },
   {
-    id: 0,
+    id: LANGUAGE_ENUM.other,
     value: "其他"
   }
 ]
+
+export const enum CLASSIFICATION_ENUM {
+  all=-1,
+  man=1,
+  woman,
+  band
+}
 // 分类
 export const CLASSIFICATION = [
   {
-    id: -1,
+    id: CLASSIFICATION_ENUM.all,
     value: "全部"
   },
   {
-    id: 1,
+    id: CLASSIFICATION_ENUM.man,
     value: "男歌手"
   },
   {
-    id: 2,
+    id: CLASSIFICATION_ENUM.woman,
     value: "女歌手"
   },
   {
-    id: 3,
+    id: CLASSIFICATION_ENUM.band,
     value: "乐队"
   }
 ]
@@ -202,6 +217,18 @@ export const SELECT = [
   }
 ]
 
+export const enum MAP_SINGER_TAG_ENUM {
+  LANGUAGE,
+  CLASSIFICATION,
+  SELECT
+}
+
+export const MAP_SINGER_TAG = [
+  { key: MAP_SINGER_TAG_ENUM.LANGUAGE, name: '语种', list: LANGUAGE },
+  { key: MAP_SINGER_TAG_ENUM.CLASSIFICATION, name: '分类', list: CLASSIFICATION },
+  { key: MAP_SINGER_TAG_ENUM.SELECT, name: '筛选', list: SELECT }
+]
+
 // 最新音乐
 export const NEW_SONGS_TAB_MAP = [
   {
@@ -252,8 +279,8 @@ export const NEW_DISK_TAB_MAP = [
 // MV
 export const MV_AREA = [
   {
-    id:'全部',
-    value:'全部'
+    id: '全部',
+    value: '全部'
   },
   {
     id: '内地',
@@ -279,8 +306,8 @@ export const MV_AREA = [
 
 export const MV_TYPE = [
   {
-    id:'全部',
-    value:'全部'
+    id: '全部',
+    value: '全部'
   },
   {
     id: '官方版',
@@ -302,8 +329,8 @@ export const MV_TYPE = [
 
 export const MV_SORT = [
   {
-    id:'上升最快',
-    value:'上升最快'
+    id: '上升最快',
+    value: '上升最快'
   },
   {
     id: '最新',

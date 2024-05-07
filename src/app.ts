@@ -60,9 +60,9 @@ export const request: RequestConfig = {
       Nprogress.start()
       const [url, queryString] = options.url?.split("?") || []
       console.log('url', url, options)
-      const { cache = false } = options.data
+      const { cache = false } = options.data || {}
       let obj = Object.create(null)
-      if (cache) {
+      if (!cache) {
         obj.timestamp = Date.now()
       }
       if (queryString) {

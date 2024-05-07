@@ -1,18 +1,15 @@
 /** @format */
 
-import React, {useEffect, useMemo, useRef, useState} from "react"
+import React, {useEffect, useMemo, useState} from "react"
 import {history} from "@umijs/max"
 import {
   Row,
   Col,
-  Space,
   Spin,
   Pagination,
-  message,
   Flex,
   Image,
   Button,
-  ConfigProvider,
   Popover,
   Tag,
   Divider
@@ -27,22 +24,22 @@ import {
   SongCategory,
   IPlaylistItem,
   useAllCatlist,
-  useSubCatlist,
   useReduceSubCatlist
 } from "@/store/songList"
-import Skeleton, {SkeletonProps} from "react-loading-skeleton"
+import Skeleton from "react-loading-skeleton"
 import {
   CaretRightOutlined,
-  GlobalOutlined,
   MenuUnfoldOutlined,
   RightOutlined,
   UserOutlined
 } from "@ant-design/icons"
 import Utils from "@/help"
+import {useQuery} from "@/hooks"
 
 const {CheckableTag} = Tag
 
 const SongList = () => {
+  const {tag} = useQuery()
   const [list, setList] = useState<IPlaylistItem[]>([])
   const allCatlist = useAllCatlist()
   const reduceSubCatlist = useReduceSubCatlist()
@@ -111,11 +108,10 @@ const SongList = () => {
   }, [activeTag])
 
   useEffect(() => {
-    getList({cat: "全部", order: "hot", limit: 50, offset: 0})
+    tag && updateActiveTag(tag)
+    getList({cat: tag || "全部", order: "hot", limit: 50, offset: 0})
     init()
   }, [])
-
-  console.log("highqualityDesc", highqualityDesc)
 
   return (
     <Flex vertical gap={20}>

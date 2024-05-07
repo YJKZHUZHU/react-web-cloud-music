@@ -26,17 +26,16 @@ import styles from "./index.scss"
 
 const PlayList = () => {
   const [showAll, setShowAll] = useState(false)
-  const params: any = useParams()
-  const {id} = params
+  const {id} = useParams() as unknown as {id: string}
   const getSongInfo = useGetSongInfo()
-  const playListDetail = usePlayListDetailData(id)
+  const playListDetail = usePlayListDetailData(Number(id))
   const getDetail = useGetDetail()
   const playRecord = usePlayRecord()
   const setPlayRecord = useSetPlayRecord()
   const setPlayRecordTip = useSetPlayRecordTip()
 
   useEffect(() => {
-    getDetail(id)
+    getDetail(Number(id))
   }, [id])
 
   const loading = useLoading()
@@ -75,7 +74,7 @@ const PlayList = () => {
       key: "2",
       children: (
         <div className=" min-h-[200px]">
-          <Comment id={id} type={CommentTypeEnum.playList} />
+          <Comment id={Number(id)} type={CommentTypeEnum.playList} />
         </div>
       )
     },
@@ -159,6 +158,7 @@ const PlayList = () => {
                 {label.map((item) => {
                   return (
                     <Tag
+                      className=" cursor-pointer"
                       color="green"
                       bordered={false}
                       onClick={() => history.push(`/find-music/song-list?tag=${item}`)}
@@ -187,19 +187,16 @@ const PlayList = () => {
             <Flex>
               <span className="text-[#363D62]">简&emsp;介：</span>
               <Flex flex={1} align="center" gap={4}>
-                <span className={classNames("text-[#BABABD], leading-[20px]", {"line-clamp-1": !showAll})}>
+                <span
+                  className={classNames("text-[#BABABD], leading-[20px]", {
+                    "line-clamp-1": !showAll
+                  })}>
                   {playListDetail?.playlist?.description}
                 </span>
                 {showAll ? (
-                  <CaretUpOutlined
-                    className="cursor-pointer"
-                    onClick={() => setShowAll(false)}
-                  />
+                  <CaretUpOutlined className="cursor-pointer" onClick={() => setShowAll(false)} />
                 ) : (
-                  <CaretDownOutlined
-                    className="cursor-pointer"
-                    onClick={() => setShowAll(true)}
-                  />
+                  <CaretDownOutlined className="cursor-pointer" onClick={() => setShowAll(true)} />
                 )}
               </Flex>
             </Flex>

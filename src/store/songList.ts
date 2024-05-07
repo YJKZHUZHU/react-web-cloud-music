@@ -376,6 +376,8 @@ export const useUpdateActiveTag = () => useSongList(state => state.updateActiveT
 
 export const useHighqualityTags = () => useSongList(state => state.highqualityTags)
 
+export const useGetHighqualityTags = () => useSongList(state => state.getHighqualityTags)
+
 export const useReduceSubCatlist = () => useSongList(state => ([
   {
     name: '语种',

@@ -16,7 +16,7 @@ const max = 60
 const PagehotCommentList = () => {
   const {id, type} = useParams() as unknown as IParams
   const [list, setList] = useState<ICommentItem[]>([])
-  const [loading, setLoadiing] = useState(false)
+  const [loading, setLoading] = useState(false)
   const pageRef = useRef({limit: max, offset: 0})
   const total = useRef(0)
   const before = useRef("")
@@ -25,7 +25,7 @@ const PagehotCommentList = () => {
 
   const getHotComment = async () => {
     try {
-      setLoadiing(true)
+      setLoading(true)
       const res = await commentHot({
         id,
         type,
@@ -46,9 +46,9 @@ const PagehotCommentList = () => {
         message.info("到底了")
       }
 
-      setLoadiing(false)
+      setLoading(false)
     } catch (error) {
-      setLoadiing(false)
+      setLoading(false)
       console.log("error", error)
     }
   }
