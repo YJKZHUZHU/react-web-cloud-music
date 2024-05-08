@@ -12,7 +12,7 @@ enum FetchEnum {
   /**所有榜单内容摘要 */
   toplistDetail = '/toplist/detail',
   /** 歌单详情 */
-  playlistDetail = 'playlist/detail'
+  playlistDetail = '/playlist/detail'
 }
 
 export const toplistArtist = (data: { type: OfficialTypeEnum }) => {

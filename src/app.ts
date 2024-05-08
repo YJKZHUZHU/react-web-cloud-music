@@ -59,7 +59,6 @@ export const request: RequestConfig = {
     (_, options: any) => {
       Nprogress.start()
       const [url, queryString] = options.url?.split("?") || []
-      console.log('url', url, options)
       const { cache = false } = options.data || {}
       let obj = Object.create(null)
       if (!cache) {
@@ -82,7 +81,7 @@ export const request: RequestConfig = {
   ],
   responseInterceptors: [
     (response: any) => {
-      console.log('response===', response.config.url, response)
+      // console.log('response===', response.config.url, response)
       Nprogress.done()
       if (response.status === 301) {
         message.info('登录可以体验更多功能哦！')

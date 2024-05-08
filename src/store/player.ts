@@ -5,6 +5,7 @@ import { createJSONStorage, devtools, persist } from "zustand/middleware"
 import { getSongDetail, checkMusic, getLyric, getSongUrl } from "@/api/plyer"
 import Utils from "@/help"
 import { Track } from "@/types/playlistDetails"
+import { message } from "antd"
 
 export interface IPlayerObj {
   loaded: number
@@ -30,11 +31,13 @@ export interface ISingerArrItem {
 }
 
 export interface ISongObj {
-  url?: string
-  id?: number
+  /** 歌曲名称 */
   name?: string
-  singerArr?: ISingerArrItem[]
+  /** 演唱者 */
+  singerArr?: string[]
+  /** 歌曲时长 */
   songTime?: number
+  /** 歌曲背景 */
   backgroundImg?: string
 }
 
@@ -43,7 +46,7 @@ export interface ILyricItem {
   lyc?: string
 }
 
-interface IPlayHistoryItem {
+export interface IPlayHistoryItem {
   title: string
   singer: string
   time: string
@@ -394,35 +397,6 @@ export interface ILyrics {
   code: number
 }
 
-interface Props {
-  showPlayer: boolean
-  playerObj: IPlayerObj
-  playerMode: PlayerModeEnum
-  playerRate: number
-  songObj: ISongObj
-  lyric: ILyricItem[]
-  playHistory: IPlayHistoryItem[]
-  isPlay: boolean
-  showPlayRecord: boolean
-  playRecordTip: string
-  keywords: string
-  playRecord: IPlayRecordItem[]
-  songId: number
-}
-
-interface Actions {
-  setShowPlayer: (showPlayer: boolean) => void
-  setPlayerObj: (playerObj: IPlayerObj) => void
-  setPlayerMode: (playMode: PlayerModeEnum) => void
-  setPlayRate: (playerRate: number) => void
-  getSongInfo: (id: number) => void
-  setIsPlay: (isPlay: boolean) => void
-  setShowPlayRecord: (showPlayRecord: boolean) => void
-  setPlayRecordTip: (playRecordTip: string) => void
-  setKeywords: (keywords: string) => void
-  setPlayRecord: (playRecord: IPlayRecordItem[]) => void
-}
-
 export enum MusicLevelEnum {
   /** 标准 */
   standard = "standard",
@@ -442,6 +416,38 @@ export enum MusicLevelEnum {
   jymaster = "jymaster"
 }
 
+interface Props {
+  showPlayer: boolean
+  playerObj: IPlayerObj
+  playerMode: PlayerModeEnum
+  playerRate: number
+  songObj: ISongObj
+  /** 音乐Url */
+  songUrl: string
+  lyric: ILyricItem[]
+  playHistory: ISongsItem[]
+  isPlay: boolean
+  showPlayRecord: boolean
+  playRecordTip: string
+  playRecord: IPlayRecordItem[]
+  songId: number,
+  loading: boolean
+}
+
+interface Actions {
+  setShowPlayer: (showPlayer: boolean) => void
+  setPlayerObj: (playerObj: IPlayerObj) => void
+  setPlayerMode: (playMode: PlayerModeEnum) => void
+  setPlayRate: (playerRate: number) => void
+  getSongInfo: (id: number, songObj?: ISongObj) => void
+  setIsPlay: (isPlay: boolean) => void
+  setShowPlayRecord: (showPlayRecord: boolean) => void
+  setPlayRecordTip: (playRecordTip: string) => void
+  setPlayRecord: (playRecord: IPlayRecordItem[]) => void
+}
+
+
+
 const initialState: Props = {
   showPlayer: false,
   playerObj: {} as IPlayerObj,
@@ -453,9 +459,18 @@ const initialState: Props = {
   isPlay: false,
   showPlayRecord: false,
   playRecordTip: "",
-  keywords: "",
   playRecord: [],
-  songId: 0
+  songId: 0,
+  songUrl: '',
+  loading: false
+}
+
+const updatePlayRecord = (source: ISongsItem[], target: ISongsItem) => {
+  const isExist = source.find(item => item.id === target.id)
+  if (!isExist) {
+    return [...source, target]
+  }
+  return source
 }
 
 export const usePlayer = create<Props & Actions>()(
@@ -475,40 +490,71 @@ export const usePlayer = create<Props & Actions>()(
         setPlayRate: (playerRate) => {
           set({ playerRate })
         },
-        getSongInfo: async (id) => {
+        getSongInfo: async (id, songObj) => {
           try {
-            // const { playHistory, songObj: songInfo } = yield select((state: any): SongInfoModelState => state.songInfoModel)
-            const playHistory = get().playHistory
-            const songInfo = get().songObj
-            if (songInfo.id === id) return false
-            const check = await checkMusic({ id })
-            console.log("check", check)
-            const songUrlRes = await getSongUrl({ id, level: MusicLevelEnum.standard })
+            if (get().songId === id) {
+              !get().isPlay && set({ isPlay: true }, false, '播放歌曲')
+
+              return message.info('当前歌曲正在播放')
+            }
+            // if (songObj) {
+            //   set({
+            //     songObj: {
+            //       ...get().songObj,
+            //       ...songObj
+            //     },
+            //     isPlay: false,
+            //     playerObj: {} as IPlayerObj,
+            //   }, false, '提前设置歌曲信息')
+            // }
+
+            set({ loading: true }, false, 'Loading...')
+
+            const resCheck = await checkMusic({ id })
+
+            if (!resCheck.data.success) {
+              return message.warning(resCheck.data.message)
+            }
+            console.log('====音乐可播放===')
+
+            set({ playerObj: {} as IPlayerObj, }, false, '清空播放器信息')
+
+            set({ songId: id }, false, '设置音乐ID')
+
             const songDetailRes = await getSongDetail({ ids: id })
-            const lyricRes = await getLyric({ id })
-            const songDetail = songDetailRes.data.songs[0]
-            const lyric = Utils.formatterLyric(lyricRes.data.lrc ? lyricRes.data.lrc.lyric : "")
-            console.log("播放信息", {
-              songUrlRes,
-              songDetailRes,
-              lyricRes,
-              songDetail,
-              lyric
-            })
+
+            console.log('====歌曲详情===', songDetailRes)
+
+            const [songDetail] = songDetailRes.data.songs
             set({
               songObj: {
-                url: songUrlRes.data[0].url,
-                id: songUrlRes.data[0].id,
                 backgroundImg: songDetail.al.picUrl,
                 name: songDetail.name,
                 songTime: songDetail.dt / 1000,
-                singerArr: songDetail.ar
-              },
-              playHistory: Utils.removeRepeat([...playHistory, songDetail], "id"),
-              isPlay: true,
-              lyric,
-              songId: id
-            })
+                singerArr: songDetail.ar.map(item => item.name)
+              }
+            }, false, '设置歌曲信息')
+
+            const songUrlRes = await getSongUrl({ id, level: MusicLevelEnum.standard })
+
+            console.log('====音乐Url===', songUrlRes)
+
+            set({ songUrl: songUrlRes.data.at(0)?.url }, false, '设置音乐URL')
+
+            const lyricRes = await getLyric({ id })
+
+            console.log('====歌词信息===', songDetailRes)
+
+            const lyric = Utils.formatterLyric(lyricRes.data.lrc ? lyricRes.data.lrc.lyric : "")
+
+            set({ lyric }, false, '设置歌词')
+            // Utils.removeRepeat([...get().playHistory, songDetail], "id")
+            set({ playHistory: updatePlayRecord(get().playHistory, songDetail), }, false, '更新播放记录')
+
+            set({ isPlay: true }, false, '歌曲加载完毕')
+
+            set({ loading: false }, false, 'Loading...')
+
           } catch (error) {
             console.log("error", error)
           }
@@ -522,20 +568,31 @@ export const usePlayer = create<Props & Actions>()(
         setPlayRecordTip: (playRecordTip) => {
           set({ playRecordTip })
         },
-        setKeywords: (keywords) => {
-          set({ keywords })
-        },
+
         setPlayRecord: (playRecord) => {
           set({ playRecord })
         }
       }),
       {
         name: "playStore",
-        storage: createJSONStorage(() => localStorage) // (optional) by default, 'localStorage' is used
+        storage: createJSONStorage(() => localStorage),
+        partialize: state => {
+          return {
+            playerObj: state.playerObj,
+            playerMode: state.playerMode,
+            playerRate: state.playerRate,
+            songObj: state.songObj,
+            lyric: state.lyric,
+            playHistory: state.playHistory,
+            playRecord: state.playRecord,
+            songId: state.songId,
+            songUrl: state.songUrl,
+          }
+        }
       }
     ),
     {
-      name: "playStore"
+      name: "playStore",
     }
   )
 )
@@ -554,12 +611,12 @@ export const usePlayerRate = () => usePlayer((state) => state.playerRate)
 export const useSetPlayerMode = () => usePlayer((state) => state.setPlayerMode)
 
 export const useSetIsPlay = () => usePlayer((state) => state.setIsPlay)
+
 export const useSetPlayerObj = () => usePlayer((state) => state.setPlayerObj)
 export const useSetShowPlayRecord = () => usePlayer((state) => state.setShowPlayRecord)
 export const useSetPlayRecordTip = () => usePlayer((state) => state.setPlayRecordTip)
 export const useSetPlayRate = () => usePlayer((state) => state.setPlayRate)
 export const useSetPlayRecord = () => usePlayer((state) => state.setPlayRecord)
-export const useSetKeywords = () => usePlayer((state) => state.setKeywords)
 
 export const useSetShowPlayer = () => usePlayer((state) => state.setShowPlayer)
 
@@ -568,3 +625,5 @@ export const usePlayRecord = () => usePlayer((state) => state.playRecord)
 export const usePlayHistory = () => usePlayer((state) => state.playHistory)
 
 export const useGetSongInfo = () => usePlayer((state) => state.getSongInfo)
+
+export const useSongUrl = () => usePlayer((state) => state.songUrl)

@@ -1,6 +1,6 @@
 /** @format */
 
-import {useEffect, useRef} from "react"
+import {Fragment, useEffect, useRef} from "react"
 import {Row, Col, Carousel, message, Image} from "antd"
 import {
   CustomerServiceOutlined,
@@ -76,11 +76,10 @@ const PersonalRecommendation = () => {
           centerPadding="80px"
           slidesToShow={3}
           ref={slider}>
-          {carouseData?.map((item) => {
+          {carouseData?.map((item, index) => {
             return (
-              <>
+              <Fragment key={item.imageUrl}>
                 <Image
-                  key={item.targetId}
                   className="w-[auto]"
                   width={!item?.imageUrl ? 300 : undefined}
                   height={!item?.imageUrl ? 150 : undefined}
@@ -96,7 +95,7 @@ const PersonalRecommendation = () => {
                   style={{background: item?.titleColor}}>
                   {item?.typeTitle}
                 </span>
-              </>
+              </Fragment>
             )
           })}
         </Carousel>
@@ -121,7 +120,7 @@ const PersonalRecommendation = () => {
               </p>
             </div>
           </Col>
-          {recommendResource?.map((item) => {
+          {recommendResource?.map((item, index) => {
             return (
               <Col
                 onClick={() => history.push(`/playList/${item.id}?listId=${item.id}`)}
@@ -211,7 +210,7 @@ const PersonalRecommendation = () => {
         <Row className={styles.mv} gutter={[32, 32]}>
           {mv.map((item) => {
             return (
-              <Col span={6} key={item.id}>
+              <Col span={6} key={item.picUrl}>
                 <div
                   onClick={() => history.push(`/mv-detail?mvid=${item.id}&type=${+item.type - 5}`)}
                   className={styles.mvItem}>

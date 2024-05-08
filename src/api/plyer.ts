@@ -16,7 +16,11 @@ export const getSongUrl = (data: { id: number, level: MusicLevelEnum }) => {
 }
 
 export const checkMusic = (data: { id: number, }) => {
-  return service<any>(FetchEnum.checkMusic, data)
+  return service<{
+    code: number,
+    message: string,
+    success: boolean
+  }>(FetchEnum.checkMusic, data)
 }
 
 interface ISongDetailRes {

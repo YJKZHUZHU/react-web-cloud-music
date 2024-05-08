@@ -120,8 +120,17 @@ const Single = () => {
       locale={{emptyText: "暂无歌曲"}}
       scroll={{scrollToFirstRowOnChange: true}}
       onRow={(record: any) => {
+        console.log("record", record)
         return {
-          onDoubleClick: () => getSongInfo(record.id)
+          onDoubleClick: () =>
+            getSongInfo(record.id, {
+              /** 歌曲名称 */
+              name: record.name,
+              /** 演唱者 */
+              singerArr: record.artists.map((item: any) => item.name),
+              /** 歌曲时长 */
+              songTime: record.duration / 1000
+            })
         }
       }}
       bordered={false}

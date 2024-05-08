@@ -1,8 +1,8 @@
-import { AllPlayRecordInterface } from '@/models/userStore'
 import store from './localStorage'
 import dayjs from 'dayjs'
 import calendar from 'dayjs/plugin/calendar'
 import { IAllPlayRecordItem } from '@/store/user'
+import { IPlayHistoryItem, ISongsItem, PlayerModeEnum } from '@/store/player'
 
 dayjs.extend(calendar)
 
@@ -235,19 +235,20 @@ class Utils {
       return memo
     }, [])
   }
+ 
   //评论数格式化
   static formatCommentNumber(commentNumber: number): string | number {
     if (commentNumber < 999) return commentNumber
     if (commentNumber > 100000) return '10w+'
     return '999+'
   }
-  static findIndex(source: any[], target: number | string, playMode: number) {
+  static findIndex(source: any[], target: number | string, playMode: PlayerModeEnum) {
     let result = -1
     const index = source.findIndex(item => item.id === target)
     const arr = [...new Array(source.length).keys()].filter(item => item !== index)
-    if (playMode === 0) {// 顺序播放
+    if (playMode === PlayerModeEnum.order) {// 顺序播放
       result = index
-    } else if (playMode === 2) {// 随机播放,只有一首时播放当前歌曲
+    } else if (playMode === PlayerModeEnum.random) {// 随机播放,只有一首时播放当前歌曲
       result = source.length === 1 ? 0 : arr[parseInt(String(Math.random() * arr.length - 1), 10)]
     }
     return result

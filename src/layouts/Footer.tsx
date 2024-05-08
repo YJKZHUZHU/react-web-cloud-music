@@ -18,6 +18,7 @@ import Utils from "@/help"
 import ReactPlayer from "react-player"
 import store from "@/help/localStorage"
 import {PlayMode} from "@/components"
+import throttle from "lodash-es/debounce"
 import {
   IPlayerObj,
   PlayerModeEnum,
@@ -25,6 +26,7 @@ import {
   useIsPlay,
   usePlayRecordTip,
   usePlayerMode,
+  usePlayerObj,
   usePlayerRate,
   useSetIsPlay,
   useSetPlayRate,
@@ -34,18 +36,26 @@ import {
   useSetShowPlayer,
   useShowPlayRecord,
   useShowPlayer,
-  useSongObj
+  useSongId,
+  useSongObj,
+  useSongUrl
 } from "@/store/player"
 import style from "./index.scss"
 
+enum PLAY_TYPE_ENUM {
+  prev,
+  next
+}
+
 const Footer = memo(() => {
   const location = useLocation()
-  const playRef = useRef<any>(null)
+  const playRef = useRef<ReactPlayer>(null)
   const list = usePlayRecord()
   const volumnRef = useRef(0)
   const [volume, setVolme] = useState(Number(store.getStorage("volume")))
   const [showValumeIcon, {toggle}] = useBoolean(Number(store.getStorage("volume")) === 0) // 是否静音
-
+  const songUrl = useSongUrl()
+  const songId = useSongId()
   const isPlay = useIsPlay()
   const showPlayRecord = useShowPlayRecord()
   const playRecordTip = usePlayRecordTip()
@@ -54,6 +64,7 @@ const Footer = memo(() => {
   const playerMode = usePlayerMode()
   const playerRate = usePlayerRate()
   const setIsPlay = useSetIsPlay()
+  const playerObj = usePlayerObj()
   const getSongInfo = useGetSongInfo()
   const setPlayerObj = useSetPlayerObj()
   const setShowPlayRecord = useSetShowPlayRecord()
@@ -81,24 +92,25 @@ const Footer = memo(() => {
   const onPlayBtn = () => {
     setIsPlay(!isPlay)
 
-    if (!songObj.id && list.length !== 0) {
+    if (!songId && list.length !== 0) {
       getSongInfo(list[0]["id"])
     }
   }
 
+  // 播放结束的操作
   const onEnded = () => {
-    const {getSecondsLoaded, getCurrentTime} = playRef.current
-    if (parseInt(getSecondsLoaded(), 10) === parseInt(getCurrentTime(), 10)) {
+    const {getSecondsLoaded, getCurrentTime} = playRef.current!
+    if (parseInt(String(getSecondsLoaded()), 10) === parseInt(String(getCurrentTime()), 10)) {
       // 单曲循环
       if (playerMode === PlayerModeEnum.cycle) {
-        return getSongInfo(songObj.id!)
+        return getSongInfo(songId)
       }
       // 顺序或者随机播放，触发下一首点击事件
-      onPlay(1)
+      onPlay(PLAY_TYPE_ENUM.next)
     }
   }
   const onProgress = (state: IPlayerObj) => {
-    console.log("onProgress", state)
+    console.log("==播放进度==", state)
     setPlayerObj(state)
   }
 
@@ -107,27 +119,27 @@ const Footer = memo(() => {
     setPlayRecordTip("")
   }
 
-  const onPlay = (type: number) => {
+  const onPlay = (type: PLAY_TYPE_ENUM) => {
     // type: 0上一首 type:1 下一首
-    let songId: any = ""
-    const index = Utils.findIndex(list, songObj.id as number, playerMode)
+    let newSongId: any = ""
+    const index = Utils.findIndex(list, songId as number, playerMode)
     if (index === -1) {
-      songId = list[0]["id"]
+      newSongId = list[0]["id"]
     } else {
       if (+playerMode === PlayerModeEnum.order) {
         // 顺序播放以及循环播放
-        if (type === 0) {
-          songId = index === 0 ? list[list.length - 1]["id"] : list[index - 1]["id"]
-        } else if (type === 1) {
-          songId = index === list.length - 1 ? list[0]["id"] : list[index + 1]["id"]
+        if (type === PLAY_TYPE_ENUM.prev) {
+          newSongId = index === 0 ? list[list.length - 1]["id"] : list[index - 1]["id"]
+        } else if (type === PLAY_TYPE_ENUM.next) {
+          newSongId = index === list.length - 1 ? list[0]["id"] : list[index + 1]["id"]
         }
-        getSongInfo(songId)
+        getSongInfo(newSongId)
       } else if (+playerMode === PlayerModeEnum.random) {
         // 随机播放
-        songId = list[index]["id"]
+        newSongId = list[index]["id"]
       }
     }
-    getSongInfo(songId)
+    getSongInfo(newSongId)
   }
 
   const renderMusicInfo = (visible: boolean) => {
@@ -155,21 +167,11 @@ const Footer = memo(() => {
           <div className={style.top}>
             <span className={style.songName}>{songObj.name}</span>
             <i className={style.split}>-</i>
-            <span className={style.name}>
-              {songObj.singerArr &&
-                songObj.singerArr.map((item: any, index: any) => {
-                  return (
-                    <span key={item.id}>
-                      {item.name}
-                      {(songObj.singerArr as any[]).length === index + 1 ? null : "/"}
-                    </span>
-                  )
-                })}
-            </span>
+            <span className={style.name}>{songObj.singerArr?.join("/") || "--"}</span>
           </div>
           <div className={style.bottom}>
             <span>
-              {playRef ? Utils.formatPlayerTime(playRef.current?.getCurrentTime()) : "00:00"}
+              {playRef ? Utils.formatPlayerTime(playRef.current?.getCurrentTime()!) : "00:00"}
             </span>
             <i className={style.split}>/</i>
             <span>{playRef ? Utils.formatPlayerTime(songObj.songTime || 0) : "00:00"}</span>
@@ -203,6 +205,14 @@ const Footer = memo(() => {
     }
   })
 
+  const onSliderChange = (value: number) => {
+    console.log("playRef", playRef.current, value)
+    if (!playRef.current) return
+    // setIsPlay(false)
+    playRef.current.seekTo(value)
+    // setIsPlay(true)
+  }
+
   // 视频播放隐藏
   if (location.pathname === "/mv-detail") return null
 
@@ -213,19 +223,25 @@ const Footer = memo(() => {
       <div className="flex-1 flex gap-[16px]">
         <div className="flex flex-col w-[650px]">
           <div className="flex items-center gap-[60px] self-center">
-            <StepBackwardOutlined className="text-[30px]" onClick={() => onPlay(0)} />
+            <StepBackwardOutlined
+              className="text-[30px]"
+              onClick={() => onPlay(PLAY_TYPE_ENUM.prev)}
+            />
 
             {isPlay ? (
               <PauseOutlined className="text-[30px]" onClick={onPlayBtn} />
             ) : (
               <CaretRightOutlined className="text-[30px]" onClick={onPlayBtn} />
             )}
-            <StepForwardOutlined className="text-[30px]" onClick={() => onPlay(1)} />
+            <StepForwardOutlined
+              className="text-[30px]"
+              onClick={() => onPlay(PLAY_TYPE_ENUM.next)}
+            />
           </div>
           <Slider
-            disabled={!playRef.current}
-            onChange={(val: number) => playRef.current && playRef.current.seekTo(val)}
-            value={playRef.current?.getCurrentTime()}
+            disabled={!!!songUrl}
+            onChange={onSliderChange}
+            value={playerObj.playedSeconds}
             defaultValue={0}
             step={0.001}
             min={0}
@@ -282,10 +298,10 @@ const Footer = memo(() => {
         </div>
       </div>
 
-      {Object.keys(songObj).length !== 0 && (
+      {songUrl && (
         <ReactPlayer
           playsinline
-          url={songObj.url}
+          url={songUrl}
           playing={isPlay}
           style={{display: "none"}}
           volume={volume}

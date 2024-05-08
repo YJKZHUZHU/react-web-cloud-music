@@ -48,9 +48,12 @@ const Video = () => {
           }
           placement="bottom"
           trigger="click">
-          <Button shape="round" className={styles.chooseBtn}>
+          <Button
+            icon={<RightOutlined />}
+            iconPosition="end"
+            shape="round"
+            className={styles.chooseBtn}>
             {selectTag}
-            <RightOutlined />
           </Button>
         </Popover>
         <div className={styles.rightContent}>
