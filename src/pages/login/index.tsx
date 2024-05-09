@@ -226,8 +226,8 @@ const Login = () => {
     }
   }
 
-  const onQrCallback = () => {
-    console.log("登录失败")
+  const onQrCallback = (response: any) => {
+    console.log("==扫码登录==", response)
   }
 
   useEffect(() => {

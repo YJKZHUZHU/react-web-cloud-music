@@ -10,7 +10,7 @@ import styles from "./index.scss"
 import {setLoginCache} from "@/help/cache"
 
 interface IQrLoginProps {
-  callback: (visible: boolean) => void
+  callback: (info: any) => void
 }
 const QrLogin: FC<IQrLoginProps> = ({callback}) => {
   const {data: key} = useRequest(API.getQrKey, {
@@ -37,16 +37,20 @@ const QrLogin: FC<IQrLoginProps> = ({callback}) => {
     pollingInterval: 2000,
     pollingWhenHidden: false,
     onSuccess: async (response) => {
-      console.log("response", response)
-      if (response?.code !== 803) return
-      callback(false)
+      // console.log("==扫码结果==", response)
+      if (response?.code !== 803) {
+        callback(response)
+        return
+      }
+      callback(response)
 
       try {
-        setLoginCache(true, false, "", response.cookie)
+        setLoginCache(false, true, "", response.cookie)
+        // setLoginCache(true, false, "", response.cookie)
         history.push("/")
         return message.success(response.message || "登录成功")
       } catch (error) {
-        callback(false)
+        callback(error)
         throw error
       }
     }

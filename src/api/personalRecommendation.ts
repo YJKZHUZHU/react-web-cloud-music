@@ -11,7 +11,7 @@ enum FetchEnum {
   /** 独家放送 */
   privateContent = '/personalized/privatecontent',
   /** 推荐mv */
-  mv = 'personalized/mv'
+  mv = '/personalized/mv'
 }
 
 export const banner = () => {

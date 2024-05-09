@@ -31,7 +31,7 @@ export const userDetail = (data: { uid: string }) => {
 
 
 export const loginStatus = () => {
-  return service<ILoginRes>(FetchEnum.loginStatus,)
+  return service<ILoginRes>(FetchEnum.loginStatus)
 }
 
 interface IAnonimousResp {

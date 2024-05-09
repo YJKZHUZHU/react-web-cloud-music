@@ -7,7 +7,9 @@ const onRegister = async () => {
     removeLoginCache()
     const res = await anonimous()
     if (res.success) {
+      console.log('==注册游客成功==', res)
       setLoginCache(true, false, res.data.userId, res.data.cookie)
+      // window.location.reload()
       location.href = "/"
     }
   } catch (error) {
@@ -20,6 +22,7 @@ export const refreshLogin = async () => {
   try {
 
     const res = await loginStatus()
+    console.log('==刷新登录态==', res)
     if (!res.data.profile && !res.data.account) {
 
       // 注册游客模式
