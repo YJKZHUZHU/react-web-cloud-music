@@ -4,9 +4,10 @@ import {DeleteOutlined, FileAddOutlined} from "@ant-design/icons"
 import {Tabs, Divider, Table} from "antd"
 import Utils from "@/help/index"
 import classnames from "classnames"
-import {useAllPlayRecord} from "@/store/user"
+import {useAllPlayRecord, useSetAllPlayRecord} from "@/store/user"
 import {useGetSongInfo, usePlayHistory, usePlayRecord} from "@/store/player"
 import styles from "./index.scss"
+import {useEffect} from "react"
 
 const {TabPane} = Tabs
 
@@ -52,6 +53,12 @@ const PlayRecord = () => {
   const playRecord = usePlayRecord()
   const playHistory = usePlayHistory()
   const getSongInfo = useGetSongInfo()
+
+  const setAllPlayRecord = useSetAllPlayRecord()
+
+  useEffect(() => {
+    setAllPlayRecord()
+  }, [])
 
   const header = (total: number, isDelete: boolean = true, isCollect: boolean = true) => {
     return (

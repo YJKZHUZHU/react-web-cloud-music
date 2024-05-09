@@ -148,65 +148,11 @@ const Search = () => {
     return <HighlightText content={item?.name} pattern={new RegExp(keywords, "g")} />
   }
 
-  const dropdownRender = () => {
-    if ((keywords && suggestList.length !== 0) || loading) {
-      return (
-        <Spin spinning={loading} tip="Loading..." delay={500} className=" h-full">
-          <Flex vertical gap={12} className="px-[12px]">
-            <HighlightText
-              content={`搜“${keywords}”相关的结果`}
-              pattern={new RegExp(keywords, "g")}
-            />
-            <Flex vertical gap={12}>
-              {suggestList.map((item) => {
-                return (
-                  <Flex vertical key={item.key} gap={8}>
-                    <Flex align="center" gap={4}>
-                      {item.key === SUGGEST_TYOE_ENUM.songs && (
-                        <img className="h-[16px] w-[16px]" src={song} />
-                      )}
-                      {item.key === SUGGEST_TYOE_ENUM.artists && (
-                        <UserOutlined className="text-[16px] text-[#8A8A8A]" />
-                      )}
-                      {item.key === SUGGEST_TYOE_ENUM.albums && (
-                        <img className="h-[16px] w-[16px]" src={album} />
-                      )}
-                      {item.key === SUGGEST_TYOE_ENUM.playlists && (
-                        <img className="h-[16px] w-[16px]" src={playlist} />
-                      )}
-                      <span className="text-[#878788]">{item.name}</span>
-                    </Flex>
-                    <Flex vertical>
-                      {item.list.map((d) => {
-                        return (
-                          <Flex
-                            onClick={() => onSuggestLink(item.searchType, d.name, d.id)}
-                            align="center"
-                            key={d.id}
-                            className=" cursor-pointer py-[6px] pl-[16px] hover:bg-[#EDEDEF]">
-                            {item.key === SUGGEST_TYOE_ENUM.songs && renderSong(d)}
-                            {item.key === SUGGEST_TYOE_ENUM.artists &&
-                              renderArtist(d as unknown as Artist)}
-                            {item.key === SUGGEST_TYOE_ENUM.albums &&
-                              renderAlbum(d as unknown as Album)}
-                            {item.key === SUGGEST_TYOE_ENUM.playlists &&
-                              renderPlaylist(d as unknown as Playlist)}
-                          </Flex>
-                        )
-                      })}
-                    </Flex>
-                  </Flex>
-                )
-              })}
-            </Flex>
-          </Flex>
-        </Spin>
-      )
-    }
+  const renderTopList = () => {
     return (
       <Flex vertical gap={12}>
-        <Flex vertical gap={12} className="px-[12px]">
-          {searchHistoryList.length !== 0 && (
+        {searchHistoryList.length !== 0 && (
+          <Flex vertical gap={12} className="px-[12px]">
             <Flex justify="space-between">
               <Flex gap={4}>
                 <span>搜索历史</span>
@@ -218,25 +164,25 @@ const Search = () => {
                 </span>
               )}
             </Flex>
-          )}
 
-          <Flex wrap>
-            {searchHistoryList?.map((item) => {
-              return (
-                <Tag
-                  color="green"
-                  closable
-                  key={item}
-                  onClick={() => onHistory(item)}
-                  onClose={() =>
-                    updateSearchHistoryList(searchHistoryList.filter((d) => d !== item))
-                  }>
-                  {item}
-                </Tag>
-              )
-            })}
+            <Flex wrap>
+              {searchHistoryList?.map((item) => {
+                return (
+                  <Tag
+                    color="green"
+                    closable
+                    key={item}
+                    onClick={() => onHistory(item)}
+                    onClose={() =>
+                      updateSearchHistoryList(searchHistoryList.filter((d) => d !== item))
+                    }>
+                    {item}
+                  </Tag>
+                )
+              })}
+            </Flex>
           </Flex>
-        </Flex>
+        )}
         <Flex vertical gap={18}>
           <span className="px-[12px] text-[#545455]">热搜榜</span>
           <Flex vertical gap={12} className="">
@@ -273,6 +219,64 @@ const Search = () => {
     )
   }
 
+  const renderSearchList = () => {
+    return (
+      <Flex vertical gap={12} className="px-[12px]">
+        <HighlightText content={`搜“${keywords}”相关的结果`} pattern={new RegExp(keywords, "g")} />
+        <Flex vertical gap={12}>
+          {suggestList.map((item) => {
+            return (
+              <Flex vertical key={item.key} gap={8}>
+                <Flex align="center" gap={4}>
+                  {item.key === SUGGEST_TYOE_ENUM.songs && (
+                    <img className="h-[16px] w-[16px]" src={song} />
+                  )}
+                  {item.key === SUGGEST_TYOE_ENUM.artists && (
+                    <UserOutlined className="text-[16px] text-[#8A8A8A]" />
+                  )}
+                  {item.key === SUGGEST_TYOE_ENUM.albums && (
+                    <img className="h-[16px] w-[16px]" src={album} />
+                  )}
+                  {item.key === SUGGEST_TYOE_ENUM.playlists && (
+                    <img className="h-[16px] w-[16px]" src={playlist} />
+                  )}
+                  <span className="text-[#878788]">{item.name}</span>
+                </Flex>
+                <Flex vertical>
+                  {item.list.map((d) => {
+                    return (
+                      <Flex
+                        onClick={() => onSuggestLink(item.searchType, d.name, d.id)}
+                        align="center"
+                        key={d.id}
+                        className=" cursor-pointer py-[6px] pl-[16px] hover:bg-[#EDEDEF]">
+                        {item.key === SUGGEST_TYOE_ENUM.songs && renderSong(d)}
+                        {item.key === SUGGEST_TYOE_ENUM.artists &&
+                          renderArtist(d as unknown as Artist)}
+                        {item.key === SUGGEST_TYOE_ENUM.albums &&
+                          renderAlbum(d as unknown as Album)}
+                        {item.key === SUGGEST_TYOE_ENUM.playlists &&
+                          renderPlaylist(d as unknown as Playlist)}
+                      </Flex>
+                    )
+                  })}
+                </Flex>
+              </Flex>
+            )
+          })}
+        </Flex>
+      </Flex>
+    )
+  }
+
+  const dropdownRender = () => {
+    return (
+      <Spin style={{height: 300}} spinning={loading} tip="搜索中..." delay={500}>
+        {keywords ? renderSearchList() : renderTopList()}
+      </Spin>
+    )
+  }
+
   useEffect(() => {
     getHotList()
   }, [])
@@ -282,39 +286,29 @@ const Search = () => {
       allowClear
       options={[{value: "占位"}]}
       open={open}
-      showSearch
       value={keywords}
       onClear={() => {
-        console.log("点击了清除")
         alwaysShow.current = true
         setTimeout(() => {
           alwaysShow.current = false
         }, 100)
       }}
-      // searchValue={keywords}
       onKeyDown={onSearch}
-      onFocus={() => {
-        console.log("聚焦")
-        // alwaysShow.current = false
-        // setOpen(true)
-      }}
       onBlur={() => {
-        console.log("失去焦点", alwaysShow.current)
         if (alwaysShow.current) {
           setOpen(true)
           return
         }
-        // setOpen(false)
       }}
       onDropdownVisibleChange={(visible) => {
-        console.log("visible", visible, alwaysShow.current)
         if (alwaysShow.current) return
         setOpen(visible)
       }}
       onChange={onChange}
       className={classNames("w-[500px] !ml-[24px] ")}
-      popupClassName="overflow-y-scroll h-[300px] py-[16px]"
-      suffixIcon={<SearchOutlined className="site-form-item-icon" />}
+      popupClassName="overflow-y-scroll  py-[16px]"
+      dropdownStyle={{height: 300}}
+      suffixIcon={<SearchOutlined />}
       placeholder="搜索"
       dropdownRender={dropdownRender}
     />

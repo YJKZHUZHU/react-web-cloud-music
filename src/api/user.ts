@@ -1,3 +1,4 @@
+import { EnumLocalStorage, getItem } from '@/help/cache'
 import { service } from '@/help/server'
 import { AccountData, IAccountInfo, IAllPlayRecordItem, ISongListItem, IUserInfo, IVipInfo, ProfileData } from '@/store/user'
 
@@ -31,7 +32,7 @@ export const userDetail = (data: { uid: string }) => {
 
 
 export const loginStatus = () => {
-  return service<ILoginRes>(FetchEnum.loginStatus)
+  return service<ILoginRes>(FetchEnum.loginStatus, { cookie: getItem(EnumLocalStorage.cookie) })
 }
 
 interface IAnonimousResp {

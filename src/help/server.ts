@@ -16,7 +16,6 @@ export const service = <T = any>(url: string, data?: Record<string, any>, cache:
     data: {
       ...data,
       cache,
-      cookie: getItem(EnumLocalStorage.cookie) // 携带登录cookie 
     }, method: 'post', headers: { format: true }
   })
 }

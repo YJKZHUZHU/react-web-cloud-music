@@ -60,8 +60,7 @@ const BasicLayout: FC = () => {
         style={{paddingTop: 18}}
         open={showPlayRecord}
         width={640}
-        onClose={() => setShowPlayRecord(false)}
-        getContainer={false}>
+        onClose={() => setShowPlayRecord(false)}>
         <PlayRecord />
       </Drawer>
     </Flex>

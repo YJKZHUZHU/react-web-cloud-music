@@ -480,6 +480,7 @@ interface Props {
   vipInfo: Partial<IVipInfo>
   songList: ISongListItem[] // 用户歌单
   allPlayRecord: IAllPlayRecordItem[] // 播放记录
+  playRecordLoading: boolean
 }
 
 interface Actions {
@@ -495,7 +496,8 @@ const initialState: Props = {
   userInfo: {},
   vipInfo: {},
   songList: [],
-  allPlayRecord: []
+  allPlayRecord: [],
+  playRecordLoading: false
 }
 
 export const useUserStore = create<Props & Actions>()(
@@ -508,11 +510,13 @@ export const useUserStore = create<Props & Actions>()(
       setSongList: (songList) => set({ songList }, false, "设置用户歌单信息"),
       setAllPlayRecord: async () => {
         try {
+          set({ playRecordLoading: true }, false, 'Loading...')
           const uid = getItem(EnumLocalStorage.userId) as string
           if (!uid) return
           const res = await userRecord({ uid, type: 0 })
-          console.log('res--', res)
-          set({ allPlayRecord: res.data.allData })
+          console.log('===播放列表获取成功===')
+          set({ allPlayRecord: res.data.allData }, false, '获取播放列表')
+          set({ playRecordLoading: false }, false, 'Loading...')
         } catch (error) {
           console.log('error', error)
         }
@@ -555,3 +559,5 @@ export const useFavoriteSongList = () => useUserStore((state) => state.songList?
 export const useAllPlayRecord = () => useUserStore((state) => state.allPlayRecord)
 
 export const useSetAllPlayRecord = () => useUserStore((state) => state.setAllPlayRecord)
+
+export const usePlayRecordLoading = () => useUserStore((state) => state.playRecordLoading)

@@ -2,14 +2,13 @@ import { accountDetail, userDetail, userPlaylist, vipGrowthpoint } from "@/api/u
 import { EnumLocalStorage, getItem, login } from "@/help/cache"
 import { refreshLogin } from "@/help/refreshLogin"
 import { useLoginStore } from "@/store/login"
-import { useIsVip, useSetAllPlayRecord, useUserStore } from "@/store/user"
+import { useIsVip, useUserStore } from "@/store/user"
 import { useEffect } from "react"
 import { useShallow } from "zustand/react/shallow"
 
 
 const useApp = () => {
   const update = useLoginStore((state) => state.update)
-  const setAllPlayRecord = useSetAllPlayRecord()
 
   const [setAccountInfo, setUserInfo, setVipInfo, setSongList] = useUserStore(
     useShallow((state) => [state.setAccountInfo, state.setUserInfo, state.setVipInfo, state.setSongList])
@@ -81,8 +80,7 @@ const useApp = () => {
         const result = await getAccountInfo()
         const userId = getItem(EnumLocalStorage.userId) as string
         result && userId && (await getUserDetail(+userId))
-        result && userId && (await getUserSongList(+userId))
-        result && userId && setAllPlayRecord()
+        // result && userId && (await getUserSongList(+userId))
       }
 
       // 未登录，默认注册游客模式，获取用户ID

@@ -145,7 +145,7 @@ const Footer = memo(() => {
   const renderMusicInfo = (visible: boolean) => {
     if (!visible) return <div className=" w-[300px]"></div>
     return (
-      <div className={classnames(style.musicInfo, "flex items-center w-[300px]")}>
+      <div className={classnames(style.musicInfo, "flex items-center w-[300px] gap-[15px]")}>
         <div
           className={classnames(
             style.pictureInfo,
@@ -163,17 +163,19 @@ const Footer = memo(() => {
           <img width={60} height={60} className=" rounded-[8px]" src={songObj.backgroundImg} />
           {showPlayer ? <FullscreenOutlined className={style.full} /> : <FullscreenExitOutlined />}
         </div>
-        <div className={style.content}>
-          <div className={style.top}>
-            <span className={style.songName}>{songObj.name}</span>
-            <i className={style.split}>-</i>
-            <span className={style.name}>{songObj.singerArr?.join("/") || "--"}</span>
+        <div className="flex flex-col items-center flex-1 gap-[15px] justify-center">
+          <div className="flex items-center gap-[5px]">
+            <span className="text-[#333333]">{songObj.name}</span>
+            <i className="text-[12px]">-</i>
+            <span className="line-clamp-1 flex-1 text-[12px]">
+              {songObj.singerArr?.join("/") || "--"}
+            </span>
           </div>
-          <div className={style.bottom}>
+          <div className="flex items-center gap-[5px] text-[12px] self-baseline">
             <span>
               {playRef ? Utils.formatPlayerTime(playRef.current?.getCurrentTime()!) : "00:00"}
             </span>
-            <i className={style.split}>/</i>
+            <i>/</i>
             <span>{playRef ? Utils.formatPlayerTime(songObj.songTime || 0) : "00:00"}</span>
           </div>
         </div>

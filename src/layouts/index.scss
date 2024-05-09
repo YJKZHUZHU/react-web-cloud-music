@@ -175,16 +175,6 @@
         }
       }
 
-      .mask {
-        // position: absolute;
-        // left: 0;
-        // bottom: 0;
-        // top: 0;
-        // right: 0;
-        // background: rgba(0, 0, 0, 0.2);
-        // z-index: 2;
-        // border-radius: 20%;
-      }
 
       .full {
         @include center();
@@ -193,46 +183,10 @@
         opacity: 0;
       }
 
-      // img {
-      //   width: 100%;
-      //   border-radius: 20%;
-      // }
+
     }
 
-    .content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-left: 15px;
 
-      .top {
-        margin-bottom: 10px;
-
-        .songName {
-          color: var(--font-color-white);
-          @include ellipsis();
-        }
-
-        .split {
-          font-size: 12px;
-          padding: 5px;
-        }
-
-        .name {
-          font-size: 12px;
-          @include ellipsis();
-        }
-      }
-
-      .bottom {
-        font-size: 12px;
-        width: 100%;
-
-        .split {
-          padding: 0 5px;
-        }
-      }
-    }
   }
 
   .footerContainer {
