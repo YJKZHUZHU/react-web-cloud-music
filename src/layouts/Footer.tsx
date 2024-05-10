@@ -163,7 +163,7 @@ const Footer = memo(() => {
           <img width={60} height={60} className=" rounded-[8px]" src={songObj.backgroundImg} />
           {showPlayer ? <FullscreenOutlined className={style.full} /> : <FullscreenExitOutlined />}
         </div>
-        <div className="flex flex-col items-center flex-1 gap-[15px] justify-center">
+        <div className="flex flex-col flex-1 gap-[15px] justify-center">
           <div className="flex items-center gap-[5px]">
             <span className="text-[#333333]">{songObj.name}</span>
             <i className="text-[12px]">-</i>

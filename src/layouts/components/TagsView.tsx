@@ -1,14 +1,14 @@
 /** @format */
 
-import { Flex, Tag } from "antd"
-import { FC, useEffect, useState } from "react"
-import { useLocation, history, useRouteProps } from "@umijs/max"
-import { ITagItem, MAP_TAGS_VIEWS, MenuKeyEnum } from "@/constants/layout"
+import {Flex, Tag} from "antd"
+import {FC, useEffect, useState} from "react"
+import {useLocation, history} from "@umijs/max"
+import {ITagItem, MAP_TAGS_VIEWS, MenuKeyEnum} from "@/constants/layout"
 
 interface IProps {
   selectKeys: MenuKeyEnum[]
 }
-const TagsView: FC<IProps> = ({ selectKeys }) => {
+const TagsView: FC<IProps> = ({selectKeys}) => {
   const selectKey = selectKeys[0] || ""
   const location = useLocation()
   const [tagsData, setTagsData] = useState<ITagItem[]>([])
@@ -21,7 +21,6 @@ const TagsView: FC<IProps> = ({ selectKeys }) => {
   }
   useEffect(() => {
     setTagsData(MAP_TAGS_VIEWS.get(selectKey) || [])
-
   }, [selectKey])
   useEffect(() => {
     setSelectedTag(location.pathname)

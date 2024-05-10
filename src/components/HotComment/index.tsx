@@ -13,6 +13,8 @@ import styles from "./index.scss"
 const HotComments: FC<ICommentsProps> = (props) => {
   const {type, id} = props
 
+  console.log("进来执行了？")
+
   const {data, loading} = useRequest<any, any[], IComments[], IComments[]>(
     () => API.getHotComment({id, type, limit: 10}),
     {

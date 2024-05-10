@@ -60,7 +60,7 @@ const CommentItem: FC<Props> = (props) => {
         )}
 
         <Flex align="center">
-          <span className="text-[#BABABD] leading-[22px]">
+          <span className="text-[#BABABD] leading-[22px] text-[14px]">
             {Utils.commentFormatTime(data.time)}
           </span>
           <Flex flex={1} justify="flex-end" gap={24}>

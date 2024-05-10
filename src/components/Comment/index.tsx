@@ -6,16 +6,26 @@ import {FC, useEffect, useRef, useState} from "react"
 import {CommentSortTypeEnum, CommentTypeEnum, ICommentItem} from "@/types/comment"
 import {history} from "@umijs/max"
 import {CommentItem} from "@/components"
+import classNames from "classnames"
 import {RightOutlined} from "@ant-design/icons"
 
 interface Props {
   id: number
+  className?: string
+  /** 是否立即触发请求 */
+  immediate?: boolean
   type?: CommentTypeEnum
   sortType?: CommentSortTypeEnum
 }
 
 const Comment: FC<Props> = (props) => {
-  const {id, type = CommentTypeEnum.playList, sortType = CommentSortTypeEnum.time} = props
+  const {
+    id,
+    type = CommentTypeEnum.playList,
+    sortType = CommentSortTypeEnum.time,
+    immediate = true,
+    className
+  } = props
   const [hotComment, setHotComment] = useState<ICommentItem[]>([])
   const [newCommment, setNewCommment] = useState<ICommentItem[]>([])
   const [total, setTotal] = useState(0)
@@ -82,12 +92,12 @@ const Comment: FC<Props> = (props) => {
   }
 
   useEffect(() => {
-    getData()
-  }, [id])
+    immediate && getData()
+  }, [id, immediate])
 
   return (
-    <Spin spinning={loading} tip="Loading..." delay={500}>
-      <Flex vertical gap={20} className="mt-[20px]">
+    <Flex vertical gap={20} className={classNames("mt-[20px]",className)}>
+      <Spin className={className} spinning={loading} tip="Loading..." delay={500}>
         {hotComment.length !== 0 && (
           <Flex vertical gap={20}>
             <span className="text-[#7D829E] text-[16px] font-[600]">精彩评论</span>
@@ -135,8 +145,8 @@ const Comment: FC<Props> = (props) => {
             />
           </Flex>
         )}
-      </Flex>
-    </Spin>
+      </Spin>
+    </Flex>
   )
 }
 

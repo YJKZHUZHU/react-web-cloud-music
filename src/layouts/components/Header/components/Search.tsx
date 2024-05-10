@@ -42,6 +42,7 @@ const Search = () => {
   const updateSearchHistoryList = useUpdateSearchHistoryList()
   const [open, setOpen] = useState(false)
   const alwaysShow = useRef(false)
+  const hasFetchHot = useRef(false)
 
   const onDelete: React.MouseEventHandler<HTMLSpanElement> = (e) => {
     alwaysShow.current = true
@@ -278,8 +279,11 @@ const Search = () => {
   }
 
   useEffect(() => {
-    getHotList()
-  }, [])
+    if (open && !hasFetchHot.current && !keywords) {
+      hasFetchHot.current = true
+      getHotList()
+    }
+  }, [open, keywords])
 
   return (
     <AutoComplete
