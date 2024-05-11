@@ -72,9 +72,9 @@ em {
 }
 
 .playerWrapper {
-  overflow: hidden;
-  height: 370px;
-  position: relative;
+  // overflow: hidden;
+  // height: 370px;
+  // position: relative;
   mask-image: linear-gradient(180deg,
       hsla(0, 0%, 100%, 0) 0,
       hsla(0, 0%, 100%, 0.6) 15%,
@@ -89,25 +89,7 @@ em {
     background: var(--scrollbar-color) !important;
   }
 
-  .content {
-    text-align: center;
-    margin-top: 100px;
 
-    .wrapItem {
-      margin-bottom: 14px;
-      font-size: 14px;
-
-      .active {
-        font-size: 16px;
-        color: #000101;
-        font-weight: 700;
-      }
-
-      .title {
-        margin-bottom: 4px;
-      }
-    }
-  }
 }
 
 // 滚动条

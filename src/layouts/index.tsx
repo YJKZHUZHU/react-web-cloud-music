@@ -53,7 +53,8 @@ const BasicLayout: FC = () => {
       </Flex>
 
       <Footer />
-      {playerLayoutVisible && <PlayerLayout />}
+      {/* {playerLayoutVisible && } */}
+      <PlayerLayout />
       <Drawer
         zIndex={99999}
         placement="right"

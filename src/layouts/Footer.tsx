@@ -1,7 +1,7 @@
 /** @format */
 
 import {useState, useRef, memo} from "react"
-import {Slider, Tooltip, Dropdown, MenuProps} from "antd"
+import {Slider, Tooltip, Dropdown, MenuProps, message} from "antd"
 import {
   FullscreenOutlined,
   FullscreenExitOutlined,
@@ -91,9 +91,12 @@ const Footer = memo(() => {
 
   const onPlayBtn = () => {
     setIsPlay(!isPlay)
-
-    if (!songId && list.length !== 0) {
-      getSongInfo(list[0]["id"])
+    if (!songId) {
+      if (list.length !== 0) {
+        getSongInfo(list[0]["id"])
+        return
+      }
+      message.info("暂无可播放的歌曲")
     }
   }
 
@@ -120,9 +123,13 @@ const Footer = memo(() => {
   }
 
   const onPlay = (type: PLAY_TYPE_ENUM) => {
+    if (!songUrl) {
+      return message.info("没有能播放的歌曲")
+    }
     // type: 0上一首 type:1 下一首
-    let newSongId: any = ""
+    let newSongId: string | number = ""
     const index = Utils.findIndex(list, songId as number, playerMode)
+    console.log("index--", index)
     if (index === -1) {
       newSongId = list[0]["id"]
     } else {
@@ -133,13 +140,13 @@ const Footer = memo(() => {
         } else if (type === PLAY_TYPE_ENUM.next) {
           newSongId = index === list.length - 1 ? list[0]["id"] : list[index + 1]["id"]
         }
-        getSongInfo(newSongId)
+        getSongInfo(Number(newSongId))
       } else if (+playerMode === PlayerModeEnum.random) {
         // 随机播放
         newSongId = list[index]["id"]
       }
     }
-    getSongInfo(newSongId)
+    getSongInfo(Number(newSongId))
   }
 
   const renderMusicInfo = (visible: boolean) => {
@@ -208,11 +215,8 @@ const Footer = memo(() => {
   })
 
   const onSliderChange = (value: number) => {
-    console.log("playRef", playRef.current, value)
     if (!playRef.current) return
-    // setIsPlay(false)
     playRef.current.seekTo(value)
-    // setIsPlay(true)
   }
 
   // 视频播放隐藏
@@ -300,21 +304,19 @@ const Footer = memo(() => {
         </div>
       </div>
 
-      {songUrl && (
-        <ReactPlayer
-          playsinline
-          url={songUrl}
-          playing={isPlay}
-          style={{display: "none"}}
-          volume={volume}
-          playbackRate={playerRate}
-          onProgress={onProgress}
-          onEnded={onEnded}
-          loop={playerMode === PlayerModeEnum.cycle}
-          progressInterval={500}
-          ref={playRef}
-        />
-      )}
+      <ReactPlayer
+        playsinline
+        url={songUrl}
+        playing={isPlay}
+        style={{display: "none"}}
+        volume={volume}
+        playbackRate={playerRate}
+        onProgress={onProgress}
+        onEnded={onEnded}
+        loop={playerMode === PlayerModeEnum.cycle}
+        progressInterval={300}
+        ref={playRef}
+      />
     </footer>
   )
 })

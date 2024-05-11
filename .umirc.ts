@@ -35,7 +35,8 @@ export default defineConfig({
   //   loading: '@/components/Loading/index'
   // },
   routes: routes,
-  scripts: [`/ripple.js?version=${Date.now()}`],
+  // '/ripple.js',
+  scripts: ['/ripple.js'],
   title: "豆芽音乐",
   autoprefixer: {},
   // targets: {

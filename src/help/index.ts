@@ -127,23 +127,20 @@ class Utils {
 
   //歌词格式化
   static formatterLyric(lyric: string) {
-    let result: LiricInterface[] = []
+
+    const MapLyric = new Map<number, string[]>()
+    if (!lyric) return MapLyric
     lyric.split(/[\n]/g).forEach(item => {
       //去除空的内容
       let temp: string[] = decodeURIComponent(item).split(/\[(.+?)\]/).filter(item => item !== '')
-      const lyContent = temp.pop()
-      //去除最后一个空数组
       if (temp.length !== 0) {
-        temp.forEach((k) => {
-          result.push({
-            time: this.formatterLyricTime(k) as number,
-            lyc: lyContent
-          })
-        })
+        const time = this.formatterLyricTime(temp.at(0)!)
+        MapLyric.set(time, temp)
       }
     })
 
-    return result.sort((a, b) => (a.time as number) - (b.time as number))
+    return MapLyric
+
   }
 
   //动态计算歌词长度
@@ -235,7 +232,7 @@ class Utils {
       return memo
     }, [])
   }
- 
+
   //评论数格式化
   static formatCommentNumber(commentNumber: number): string | number {
     if (commentNumber < 999) return commentNumber
