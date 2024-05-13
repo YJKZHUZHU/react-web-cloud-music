@@ -1,7 +1,7 @@
 /** @format */
 
 import {createContext, FC, useState} from "react"
-import {Drawer, Flex} from "antd"
+import {Flex} from "antd"
 import {useLocation, history, useRouteProps, Outlet} from "@umijs/max"
 import {PlayRecord, PlayerLayout} from "@/components"
 import {useApp} from "@/hooks"
@@ -53,17 +53,8 @@ const BasicLayout: FC = () => {
       </Flex>
 
       <Footer />
-      {/* {playerLayoutVisible && } */}
       <PlayerLayout />
-      <Drawer
-        zIndex={99999}
-        placement="right"
-        style={{paddingTop: 18}}
-        open={showPlayRecord}
-        width={640}
-        onClose={() => setShowPlayRecord(false)}>
-        <PlayRecord />
-      </Drawer>
+      <PlayRecord />
     </Flex>
   )
 }

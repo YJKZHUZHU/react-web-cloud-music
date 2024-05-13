@@ -1,6 +1,6 @@
 /** @format */
 
-import {useState, useRef, memo} from "react"
+import {useState, useRef, memo, useMemo} from "react"
 import {Slider, Tooltip, Dropdown, MenuProps, message} from "antd"
 import {
   FullscreenOutlined,
@@ -17,13 +17,16 @@ import {usePlayRecord} from "@/hooks"
 import Utils from "@/help"
 import ReactPlayer from "react-player"
 import store from "@/help/localStorage"
-import {PlayMode} from "@/components"
-import throttle from "lodash-es/debounce"
+import playList from "@/assets/footer/play-list.png"
+import playListActive from "@/assets/footer/play-list_active.png"
+import volumIcon from "@/assets/footer/volum.png"
+import soundOffIcon from "@/assets/footer/sound-off.png"
 import {
   IPlayerObj,
   PlayerModeEnum,
   useGetSongInfo,
   useIsPlay,
+  useIsSoundOff,
   usePlayRecordTip,
   usePlayerMode,
   usePlayerObj,
@@ -31,15 +34,23 @@ import {
   useSetIsPlay,
   useSetPlayRate,
   useSetPlayRecordTip,
+  useSetPlayerMode,
   useSetPlayerObj,
   useSetShowPlayRecord,
   useSetShowPlayer,
+  useSetVolum,
   useShowPlayRecord,
   useShowPlayer,
   useSongId,
   useSongObj,
-  useSongUrl
+  useSongUrl,
+  useVolum
 } from "@/store/player"
+import {MAP_PALYER_MODE, MAP_PALYER_MODE_NEXT, MAP_PALYER_MODE_TIP} from "@/constants/layout"
+import cycle from "@/assets/footer/cycle.png"
+import listCycle from "@/assets/footer/list-cycle.png"
+import order from "@/assets/footer/order.png"
+import random from "@/assets/footer/random.png"
 import style from "./index.scss"
 
 enum PLAY_TYPE_ENUM {
@@ -51,9 +62,9 @@ const Footer = memo(() => {
   const location = useLocation()
   const playRef = useRef<ReactPlayer>(null)
   const list = usePlayRecord()
-  const volumnRef = useRef(0)
-  const [volume, setVolme] = useState(Number(store.getStorage("volume")))
-  const [showValumeIcon, {toggle}] = useBoolean(Number(store.getStorage("volume")) === 0) // 是否静音
+  const volum = useVolum()
+  const setVolum = useSetVolum()
+  const isSoundOff = useIsSoundOff()
   const songUrl = useSongUrl()
   const songId = useSongId()
   const isPlay = useIsPlay()
@@ -63,30 +74,36 @@ const Footer = memo(() => {
   const showPlayer = useShowPlayer()
   const playerMode = usePlayerMode()
   const playerRate = usePlayerRate()
-  const setIsPlay = useSetIsPlay()
   const playerObj = usePlayerObj()
+  const setIsPlay = useSetIsPlay()
   const getSongInfo = useGetSongInfo()
   const setPlayerObj = useSetPlayerObj()
   const setShowPlayRecord = useSetShowPlayRecord()
   const setPlayRecordTip = useSetPlayRecordTip()
   const setShowPlayer = useSetShowPlayer()
   const setPlayRate = useSetPlayRate()
+  const setPlayerMode = useSetPlayerMode()
+  const prevVolum = useRef(0)
 
-  const onVolume = (value: any) => {
-    volumnRef.current = value / 100
-    if (value === 0) {
-      toggle(true)
-    } else {
-      toggle(false)
-      setVolme(() => {
-        store.setStorage("volume", String(value / 100))
-        return value / 100
-      })
-    }
+  const modeTip = useMemo(() => {
+    return MAP_PALYER_MODE_TIP.get(playerMode)!
+  }, [playerMode])
+
+  const playListIcon = useMemo(() => {
+    return showPlayRecord ? playListActive : playList
+  }, [showPlayRecord])
+
+  const onVolume = (value: number) => {
+    console.log("value", value)
+    setVolum(value)
   }
   const onMute = () => {
-    toggle()
-    setVolme(showValumeIcon ? volumnRef.current : 0)
+    if (!isSoundOff) {
+      prevVolum.current = volum
+      setVolum(0)
+      return
+    }
+    setVolum(prevVolum.current)
   }
 
   const onPlayBtn = () => {
@@ -259,26 +276,63 @@ const Footer = memo(() => {
         </div>
 
         <div className="flex-1 flex items-center gap-[16px] justify-end">
-          {/* 音量 */}
-          <div className="flex items-center w-[200px] gap-[4px]">
-            <i
-              className={classnames(
-                "!text-[24px]",
-                "iconfont",
-                showValumeIcon ? "icon-jingyin" : "icon-volume"
-              )}
-              onClick={onMute}
-            />
-            <Slider className="flex-1" onChange={onVolume} min={0} max={100} value={volume * 100} />
-          </div>
-
-          <Dropdown overlayStyle={{width: 80}} menu={{items}} placement="top" arrow>
+          {/* <Dropdown overlayStyle={{width: 80}} menu={{items}} placement="top" arrow>
             <div className="cursor-pointer">{playerRate}x</div>
-          </Dropdown>
+          </Dropdown> */}
 
-          <PlayMode />
+          <Tooltip
+            overlayInnerStyle={{color: "#000000"}}
+            color="#ffffff"
+            placement="top"
+            title={modeTip}
+            arrow={false}>
+            <img
+              onClick={() => setPlayerMode(MAP_PALYER_MODE_NEXT.get(playerMode)!)}
+              className="w-[20px]"
+              alt={modeTip}
+              src={MAP_PALYER_MODE.get(playerMode)}
+            />
+          </Tooltip>
 
-          {playRecordTip ? (
+          <Tooltip title={playRecordTip} open={!!playRecordTip}>
+            <img
+              onClick={() => setShowPlayRecord(!showPlayRecord)}
+              className="w-[20px]"
+              alt="当前播放"
+              src={playListIcon}
+            />
+          </Tooltip>
+
+          <Tooltip
+            overlayInnerStyle={{
+              color: "#000000",
+              paddingLeft: 0,
+              paddingRight: 0
+            }}
+            color="#ffffff"
+            placement="top"
+            title={
+              <Slider
+                tooltip={{open: false}}
+                className="h-[100px]"
+                vertical
+                onChange={onVolume}
+                value={volum}
+              />
+            }>
+            <img
+              onClick={onMute}
+              className="w-[20px]"
+              alt="音量"
+              src={isSoundOff ? soundOffIcon : volumIcon}
+            />
+          </Tooltip>
+
+          <span className=" text-[#3B3B3B]">词</span>
+
+          {/* <PlayMode /> */}
+
+          {/* {playRecordTip ? (
             <Tooltip title={playRecordTip} open={true}>
               <i
                 className={classnames(
@@ -300,7 +354,7 @@ const Footer = memo(() => {
               )}
               onClick={onRecord}
             />
-          )}
+          )} */}
         </div>
       </div>
 
@@ -309,7 +363,7 @@ const Footer = memo(() => {
         url={songUrl}
         playing={isPlay}
         style={{display: "none"}}
-        volume={volume}
+        volume={volum / 100}
         playbackRate={playerRate}
         onProgress={onProgress}
         onEnded={onEnded}

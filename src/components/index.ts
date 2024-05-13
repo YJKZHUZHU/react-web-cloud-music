@@ -1,7 +1,6 @@
 export { default as Artists } from './Artists'
 export { default as Loading } from './Loading'
 export { default as PlayIcon } from './PlayIcon'
-export { default as PlayMode } from './PlayMode'
 export { default as PlayRecord } from './PlayRecord'
 export { default as PlayerLayout } from './PlayerLayout'
 export { default as SimiItem } from './SimiItem'

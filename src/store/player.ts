@@ -17,6 +17,8 @@ export interface IPlayerObj {
 export enum PlayerModeEnum {
   /**顺序播放 */
   order,
+  /** 列表循环 */
+  listCycle,
   /**单曲循环 */
   cycle,
   /**随机播放 */
@@ -661,6 +663,7 @@ interface Props {
   loading: boolean,
   simiSongList: MusicData[],
   simiPlayList: Playlist[],
+  volum: number,
 }
 
 interface Actions {
@@ -673,6 +676,8 @@ interface Actions {
   setShowPlayRecord: (showPlayRecord: boolean) => void
   setPlayRecordTip: (playRecordTip: string) => void
   setPlayRecord: (playRecord: IPlayRecordItem[]) => void
+  setVolum: (volum: number) => void
+  setPlayHistory: (list: ISongsItem[]) => void
 }
 
 
@@ -694,6 +699,7 @@ const initialState: Props = {
   loading: false,
   simiSongList: [],// 相似歌曲
   simiPlayList: [], // 相似歌单
+  volum: 0
 }
 
 const updatePlayRecord = (source: ISongsItem[], target: ISongsItem) => {
@@ -720,6 +726,12 @@ export const usePlayer = create<Props & Actions>()(
         },
         setPlayRate: (playerRate) => {
           set({ playerRate })
+        },
+        setVolum: (volum) => {
+          set({ volum })
+        },
+        setPlayHistory: (list) => {
+          set({ playHistory: list }, false, '设置播放历史')
         },
         getSongInfo: async (id, songObj) => {
           try {
@@ -852,6 +864,7 @@ export const usePlayer = create<Props & Actions>()(
             playRecord: state.playRecord,
             songId: state.songId,
             songUrl: state.songUrl,
+            volum: state.volum
           }
         }
       }
@@ -893,6 +906,8 @@ export const useGetSongInfo = () => usePlayer((state) => state.getSongInfo)
 
 export const useSongUrl = () => usePlayer((state) => state.songUrl)
 
+export const useSetPlayHistory = () => usePlayer((state) => state.setPlayHistory)
+
 export const useActiveLyric = () => usePlayer(state => {
   const keys = state.lyric.size !== 0 ? [...state.lyric.keys()] : []
 
@@ -917,3 +932,9 @@ export const useSimiPlayList = () => usePlayer((state) => state.simiPlayList)
 
 
 export const useLoading = () => usePlayer((state) => state.loading)
+
+export const useVolum = () => usePlayer((state) => state.volum)
+
+export const useSetVolum = () => usePlayer((state) => state.setVolum)
+
+export const useIsSoundOff = () => usePlayer((state) => state.volum === 0)

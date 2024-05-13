@@ -1,4 +1,9 @@
 import { MenuProps } from "antd"
+import cycle from "@/assets/footer/cycle.png"
+import listCycle from "@/assets/footer/list-cycle.png"
+import order from "@/assets/footer/order.png"
+import random from "@/assets/footer/random.png"
+import { PlayerModeEnum } from "@/store/player"
 
 /** @format */
 type MenuItem = Required<MenuProps>["items"][number]
@@ -93,3 +98,25 @@ export const menuList: MenuItem[] = [
     // icon:
   }
 ]
+
+
+
+export const MAP_PALYER_MODE = new Map<PlayerModeEnum, string>()
+  .set(PlayerModeEnum.order, order)
+  .set(PlayerModeEnum.listCycle, listCycle)
+  .set(PlayerModeEnum.cycle, cycle)
+  .set(PlayerModeEnum.random, random)
+
+export const MAP_PALYER_MODE_NEXT = new Map<PlayerModeEnum, PlayerModeEnum>()
+  .set(PlayerModeEnum.order, PlayerModeEnum.listCycle)
+  .set(PlayerModeEnum.listCycle, PlayerModeEnum.cycle)
+  .set(PlayerModeEnum.cycle, PlayerModeEnum.random)
+  .set(PlayerModeEnum.random, PlayerModeEnum.order)
+
+export const MAP_PALYER_MODE_TIP = new Map<PlayerModeEnum, string>()
+  .set(PlayerModeEnum.order, '顺序播放')
+  .set(PlayerModeEnum.listCycle, '列表循环')
+  .set(PlayerModeEnum.cycle, '单曲循环')
+  .set(PlayerModeEnum.random, '随机播放')
+
+
