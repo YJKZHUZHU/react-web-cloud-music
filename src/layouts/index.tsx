@@ -3,13 +3,13 @@
 import {createContext, FC, useState} from "react"
 import {Flex} from "antd"
 import {useLocation, history, useRouteProps, Outlet} from "@umijs/max"
-import {PlayRecord, PlayerLayout} from "@/components"
 import {useApp} from "@/hooks"
 import {Header, Aside, TagsView} from "./components"
 import classNames from "classnames"
 import {MAP_MENU_PATH, MenuKeyEnum} from "@/constants/layout"
-import {useSetShowPlayRecord, useShowPlayRecord} from "@/store/player"
+import PlayHistoryLayout from "./PlayHistoryLayout"
 import Footer from "./Footer"
+import PlayerLayout from "./PlayerLayout"
 
 interface IGlobalContext {
   reloadMenu?: () => void
@@ -19,8 +19,6 @@ export const GlobalContext = createContext<IGlobalContext>({
 })
 const BasicLayout: FC = () => {
   useApp()
-  const showPlayRecord = useShowPlayRecord()
-  const setShowPlayRecord = useSetShowPlayRecord()
   const {pathname} = useLocation()
   const routeProps = useRouteProps()
   const [selectKeys, setSelectKeys] = useState<MenuKeyEnum[]>([
@@ -54,7 +52,7 @@ const BasicLayout: FC = () => {
 
       <Footer />
       <PlayerLayout />
-      <PlayRecord />
+      <PlayHistoryLayout />
     </Flex>
   )
 }

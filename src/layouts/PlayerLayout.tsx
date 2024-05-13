@@ -28,7 +28,6 @@ import {
 } from "@/store/player"
 import {CommentTypeEnum} from "@/types/comment"
 import {BScrollConstructor} from "@better-scroll/core/dist/types/BScroll"
-import styles from "./index.scss"
 
 BScroll.use(ScrollBar)
 BScroll.use(MouseWheel)
@@ -116,11 +115,10 @@ const PlayerLayout = () => {
       gap={24}
       vertical
       className={classnames(
-        styles._playerLayout,
         "pb-[20px] fixed top-[60px] bottom-[75px] left-0 right-0 px-[24px] bg-[#f9f9f9] z-[1000] overflow-x-hidden overflow-y-scroll transition-transform ",
         showPlayer ? "transform-none" : "translate-y-[105%]"
       )}>
-      <Flex justify="space-between" className={classnames(styles.lyric)} gap={48}>
+      <Flex justify="space-between" gap={48}>
         <div className="pt-[80px] flex justify-center relative">
           <img className="absolute w-[32px] top-[-16px] left-[50%] z-[100]" src={node} />
           <img
@@ -139,11 +137,7 @@ const PlayerLayout = () => {
             </div>
           </div>
         </div>
-        <Flex
-          vertical
-          flex={1}
-          gap={20}
-          className={classnames(styles.right, "pt-[50px] pl-[40px]")}>
+        <Flex vertical flex={1} gap={20} className={classnames("pt-[50px] pl-[40px]")}>
           <span className="text-[24px] font-[600] text-[#363D62] self-center">{songObj.name}</span>
 
           <span className="text-[#7D829E] text-[18px] self-center line-clamp-1">
