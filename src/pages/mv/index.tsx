@@ -34,7 +34,7 @@ interface IData {
   artists: any[]
 }
 
-const Mv:FC = () => {
+const Mv: FC = () => {
   const paramsRef = useRef<IParamsRef>({type: "全部", area: "全部", order: "上升最快"})
   const countRef = useRef(0)
 
@@ -104,9 +104,7 @@ const Mv:FC = () => {
                 onClick={() => history.push(`/mv-detail?mvid=${item?.id}&type=${0}`)}>
                 <div className={styles.img}>
                   <img src={item?.cover} />
-                  <span className={styles.durationms}>
-                    {Utils.formatPlayerTime(item?.duration / 1000)}
-                  </span>
+                  <span className={styles.durationms}>{Utils.formatSeconds(item?.duration)}</span>
                   <Space size={4} className={styles.playTime}>
                     <CaretRightOutlined />
                     <span>{Utils.tranNumber(item?.playCount, 10)}</span>

@@ -480,7 +480,8 @@ interface Props {
   vipInfo: Partial<IVipInfo>
   songList: ISongListItem[] // 用户歌单
   allPlayRecord: IAllPlayRecordItem[] // 播放记录
-  playRecordLoading: boolean
+  playRecordLoading: boolean,
+  isSignIn: boolean
 }
 
 interface Actions {
@@ -489,6 +490,7 @@ interface Actions {
   setVipInfo: (vipInfo: IVipInfo) => void
   setSongList: (songList: ISongListItem[]) => void
   setAllPlayRecord: () => void
+  setIsSignIn: (signIn: boolean) => void
 }
 
 const initialState: Props = {
@@ -497,7 +499,8 @@ const initialState: Props = {
   vipInfo: {},
   songList: [],
   allPlayRecord: [],
-  playRecordLoading: false
+  playRecordLoading: false,
+  isSignIn: false
 }
 
 export const useUserStore = create<Props & Actions>()(
@@ -505,7 +508,9 @@ export const useUserStore = create<Props & Actions>()(
     (set, get) => ({
       ...initialState,
       setAccountInfo: (accountInfo) => set({ accountInfo }, false, "设置账户信息"),
-      setUserInfo: (userInfo) => set({ userInfo }, false, "设置用户信息"),
+      setUserInfo: (userInfo) => {
+        set({ userInfo, isSignIn: userInfo.pcSign }, false, "设置用户信息")
+      },
       setVipInfo: (vipInfo) => set({ vipInfo }, false, "设置vip信息"),
       setSongList: (songList) => set({ songList }, false, "设置用户歌单信息"),
       setAllPlayRecord: async () => {
@@ -520,6 +525,9 @@ export const useUserStore = create<Props & Actions>()(
         } catch (error) {
           console.log('error', error)
         }
+      },
+      setIsSignIn: (signIn) => {
+        set({ isSignIn: signIn }, false, '设置是否签到')
       }
     }),
     {
@@ -547,7 +555,9 @@ export const useFolloweds = () => useUserStore((state) => state.userInfo.profile
 export const useFollowed = () => useUserStore((state) => state.userInfo.profile?.followed)
 
 // 是否签到
-export const useSign = () => useUserStore((state) => state.userInfo.pcSign)
+export const useIsSignIn = () => useUserStore((state) => state.isSignIn)
+
+export const useSetIsSignIn = () => useUserStore((state) => state.setIsSignIn)
 
 // 用户创建的歌单
 export const useCreatorSongList = () => useUserStore((state) => state.songList?.filter((item) => !item.subscribed))

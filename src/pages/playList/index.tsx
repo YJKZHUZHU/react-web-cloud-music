@@ -11,7 +11,7 @@ import {
   CaretDownOutlined,
   CaretUpOutlined
 } from "@ant-design/icons"
-import {Button, Tabs, Avatar, Flex, Tag} from "antd"
+import {Button, Tabs, Avatar, Flex, Tag, Divider, Tooltip, Modal, Checkbox} from "antd"
 import {history, useParams} from "@umijs/max"
 import {Comment} from "@/components"
 import dayjs from "dayjs"
@@ -19,8 +19,20 @@ import {ListTable, Collection} from "./components"
 import Utils from "@/help"
 import classNames from "classnames"
 import {useGetDetail, useLoading, usePlayListDetailData} from "@/store/playlistDetail"
-import {useGetSongInfo, usePlayRecord, useSetPlayRecord, useSetPlayRecordTip} from "@/store/player"
-import {useEffect, useMemo, useState} from "react"
+import {
+  useGetSongInfo,
+  usePlayRecord,
+  useSetPlayRecord,
+  useSetPlayRecordTip,
+  useSetPlayHistory,
+  usePlayHistory,
+  ISongsItem,
+  useOpenPalyAllModal,
+  useSetOpenPalyAllModal,
+  useIsRemind,
+  useSetIsRemind
+} from "@/store/player"
+import {MouseEventHandler, useEffect, useMemo, useState} from "react"
 import {CommentTypeEnum} from "@/types/comment"
 import styles from "./index.scss"
 
@@ -28,17 +40,35 @@ const PlayList = () => {
   const [showAll, setShowAll] = useState(false)
   const {id} = useParams() as unknown as {id: string}
   const getSongInfo = useGetSongInfo()
-  const playListDetail = usePlayListDetailData(Number(id))
+  const playHistory = usePlayHistory()
+  const setPlayHistory = useSetPlayHistory()
+  const playListDetail = usePlayListDetailData(Number(id))!
   const getDetail = useGetDetail()
   const playRecord = usePlayRecord()
   const setPlayRecord = useSetPlayRecord()
   const setPlayRecordTip = useSetPlayRecordTip()
+  const isRemind = useIsRemind()
+  const setIsRemind = useSetIsRemind()
+
+  const [open, setIsOpen] = useState(false)
+
+  const loading = useLoading()
 
   useEffect(() => {
     getDetail(Number(id))
   }, [id])
 
-  const loading = useLoading()
+  const onRemind = () => {}
+
+  const onPlay = () => {
+    if (playListDetail?.playlist) {
+      getSongInfo(playListDetail?.playlist?.tracks[0]?.id)
+
+      setPlayHistory(playListDetail?.playlist?.tracks as ISongsItem[])
+      setPlayRecordTip("已开始播放")
+      setIsOpen(false)
+    }
+  }
 
   const label = useMemo<string[]>(() => {
     return playListDetail?.playlist?.creator?.expertTags || playListDetail?.playlist?.tags || []
@@ -51,16 +81,24 @@ const PlayList = () => {
   }, [playListDetail])
 
   const onPlayAll = () => {
-    if (playListDetail?.playlist) {
-      getSongInfo(playListDetail?.playlist?.tracks[0]?.id)
-      setPlayRecordTip("歌单已更新")
-
-      setPlayRecord(Utils.removeRepeat(playListDetail?.playlist?.tracks?.concat(playRecord), "id"))
-
-      setTimeout(() => {
-        setPlayRecordTip("")
-      }, 1000)
+    if (!isRemind) {
+      setIsOpen(true)
+      return
     }
+    onPlay()
+  }
+
+  const onAdd: MouseEventHandler<HTMLSpanElement> = (e) => {
+    e.stopPropagation()
+    let result = playHistory
+
+    playListDetail?.playlist?.tracks.forEach((item) => {
+      if (result.find((d) => d.id === item.id) === undefined) {
+        result.push(item as ISongsItem)
+      }
+    })
+    setPlayHistory(result)
+    setPlayRecordTip("已添加到播放列表")
   }
 
   const items = [
@@ -136,7 +174,10 @@ const PlayList = () => {
             <Button icon={<PlayCircleOutlined />} onClick={onPlayAll} type="primary">
               <div className=" inline-flex gap-[4px] items-center">
                 <span> 播放全部</span>
-                <PlusOutlined />
+                <Divider type="vertical" />
+                <Tooltip title="添加全部到播放列表">
+                  <PlusOutlined onClick={onAdd} />
+                </Tooltip>
               </div>
             </Button>
             <Button
@@ -204,6 +245,31 @@ const PlayList = () => {
         </Flex>
       </Flex>
       <Tabs defaultActiveKey="1" className={styles.tabs} tabBarStyle={{margin: 0}} items={items} />
+      <Modal
+        width={400}
+        classNames={{header: "text-center text-[#272828] font-[600] ", body: "flex justify-center"}}
+        className=" "
+        title="替换播放列表"
+        open={open}
+        onCancel={() => {
+          setIsRemind(false)
+          setIsOpen(false)
+          console.log("点击了取消")
+        }}
+        footer={
+          <Flex justify="center">
+            <Button type="primary" onClick={onPlay}>
+              继续
+            </Button>
+          </Flex>
+        }>
+        <Flex vertical gap={12}>
+          <span>“播放全部”，将会替换当前播放列表，是否继续</span>
+          <Checkbox checked={isRemind} onChange={(e) => setIsRemind(e.target.checked)}>
+            不在提醒
+          </Checkbox>
+        </Flex>
+      </Modal>
     </Flex>
   )
 }

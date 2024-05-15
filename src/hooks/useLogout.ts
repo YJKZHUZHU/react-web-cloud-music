@@ -5,8 +5,9 @@ const useLogout = () => {
   return async () => {
     try {
       const res = await API.logout({ loading: true })
-      document.cookie = ''
       removeLoginCache()
+      localStorage.clear()
+      document.cookie = ''
       // window.location.reload()
       location.href = '/'
       console.log("==退出登录==", res)

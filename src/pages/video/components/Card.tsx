@@ -31,7 +31,7 @@ const Card: FC<ICardProps> = ({data, loading}) => {
               <div className={styles.img}>
                 <img src={item?.data?.coverUrl} />
                 <span className={styles.durationms}>
-                  {Utils.formatPlayerTime(item?.data?.durationms / 1000)}
+                  {Utils.formatSeconds(item?.data?.durationms)}
                 </span>
                 <Space size={4} className={styles.playTime}>
                   <CaretRightOutlined />

@@ -210,7 +210,7 @@ const Album: FC<IAlbum> = (props) => {
                   <PlaySquareOutlined className={styles.playIcon} />
                 ) : null}
               </Space>
-              <span className={styles.playTime}>{Utils.formatPlayerTime(item.dt / 1000)}</span>
+              <span className={styles.playTime}>{Utils.formatSeconds(item.dt)}</span>
             </li>
           )
         })}

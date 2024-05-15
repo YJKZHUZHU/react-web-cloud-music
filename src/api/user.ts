@@ -13,7 +13,8 @@ enum FetchEnum {
   vipGrowthpoint = "/vip/growthpoint",
   userLevel = "/user/level",
   userPlaylist = '/user/playlist',
-  userRecord = '/user/record'
+  userRecord = '/user/record',
+  daily_signin = '/daily_signin'
 }
 
 interface ILoginRes {
@@ -23,7 +24,7 @@ interface ILoginRes {
 }
 
 export const accountDetail = () => {
-  return service<IAccountInfo>(FetchEnum.accountDetail)
+  return service<IAccountInfo>(FetchEnum.accountDetail, { cookie: getItem(EnumLocalStorage.cookie) })
 }
 
 export const userDetail = (data: { uid: string }) => {
@@ -58,4 +59,9 @@ export const userPlaylist = (data: { uid: string }) => {
 // 用户播放记录 type:0 所有 1 一周
 export const userRecord = (data: { uid: string | number, type: 0 | 1 }) => {
   return service<{ allData: IAllPlayRecordItem[], code: number }>(FetchEnum.userRecord, data)
+}
+
+// 签到 type: 签到类型 , 默认 0, 其中 0 为安卓端签到 ,1 为 web/PC 签到
+export const dailySignin = (data: { type: number }) => {
+  return service<{ code: number, point: number }>(FetchEnum.daily_signin, { ...data, cookie: getItem(EnumLocalStorage.cookie) })
 }

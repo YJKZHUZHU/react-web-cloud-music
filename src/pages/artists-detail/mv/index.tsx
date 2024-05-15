@@ -1,17 +1,17 @@
 /** @format */
 
-import React, { useEffect, FC, useContext } from "react"
-import { Row, Col, Card, Spin, Space, Pagination } from "antd"
-import { history, useLocation } from "@umijs/max"
-import { useRequest } from "ahooks"
-import { CaretRightOutlined } from "@ant-design/icons"
-import { Iparams } from "../album"
-import { IArtists } from "../similar-singer"
-import { ArtistsDetailContext } from "../index"
+import React, {useEffect, FC, useContext} from "react"
+import {Row, Col, Card, Spin, Space, Pagination} from "antd"
+import {history, useLocation} from "@umijs/max"
+import {useRequest} from "ahooks"
+import {CaretRightOutlined} from "@ant-design/icons"
+import {Iparams} from "../album"
+import {IArtists} from "../similar-singer"
+import {ArtistsDetailContext} from "../index"
 import API from "@/api"
 import Utils from "@/help"
 import styles from "./index.scss"
-import { useQuery } from "@/hooks"
+import {useQuery} from "@/hooks"
 
 interface IMv {
   id: number
@@ -34,28 +34,28 @@ interface IResponse {
   total: number
 }
 
-const getData = ({ id, pageSize, current }: Iparams): Promise<IResponse> =>
-  API.getSingerMv({ id, limit: pageSize, offset: current - 1 })
+const getData = ({id, pageSize, current}: Iparams): Promise<IResponse> =>
+  API.getSingerMv({id, limit: pageSize, offset: current - 1})
 
 const Mv = () => {
   // const location: any = useLocation()
   const query = useQuery()
-  const { id, name } = query
-  const { total } = useContext(ArtistsDetailContext)
-  const { data, run, loading, pagination } = useRequest(
-    ({ current, pageSize }) => getData({ id: Number(id), current, pageSize }),
+  const {id, name} = query
+  const {total} = useContext(ArtistsDetailContext)
+  const {data, run, loading, pagination} = useRequest(
+    ({current, pageSize}) => getData({id: Number(id), current, pageSize}),
     {
       paginated: true,
       manual: true,
       defaultPageSize: 12,
-      formatResult: ({ mvs: list }: Idata): IResponse => ({
+      formatResult: ({mvs: list}: Idata): IResponse => ({
         list,
         total
       })
     }
   )
   useEffect(() => {
-    run({ current: 1, pageSize: 12 })
+    run({current: 1, pageSize: 12})
   }, [name])
   if (!data?.list.length) return <div>没有相关mv</div>
   return (
@@ -66,16 +66,14 @@ const Mv = () => {
             <Col span={4} className={styles.card} key={item.id}>
               <Card
                 bordered={false}
-                bodyStyle={{ padding: 0 }}
+                bodyStyle={{padding: 0}}
                 loading={loading}
                 cover={
                   <div
                     className={styles.singerCover}
                     onClick={() => history.push(`/mv-detail?mvid=${item.id}`)}>
                     <img alt={item.name} src={item.imgurl} />
-                    <span className={styles.time}>
-                      {Utils.formatPlayerTime(item.duration / 1000)}
-                    </span>
+                    <span className={styles.time}>{Utils.formatSeconds(item.duration)}</span>
                     <div className={styles.playCount}>
                       <CaretRightOutlined />
                       {Utils.tranNumber(item.playCount, 0)}

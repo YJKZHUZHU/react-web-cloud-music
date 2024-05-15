@@ -64,7 +64,7 @@ interface IPlayRecordItem extends Track {
   [propName: string]: any
 }
 
-export interface ISongsItem {
+export interface ISongsItem extends Track {
   name: string // 歌曲名称
   id: number // 歌曲ID
   pst: number // 歌曲属性，可能与版权有关
@@ -664,6 +664,9 @@ interface Props {
   simiSongList: MusicData[],
   simiPlayList: Playlist[],
   volum: number,
+  isRemind: boolean
+  openPalyAllModal: boolean,
+  showCurrentLyric: boolean
 }
 
 interface Actions {
@@ -678,6 +681,9 @@ interface Actions {
   setPlayRecord: (playRecord: IPlayRecordItem[]) => void
   setVolum: (volum: number) => void
   setPlayHistory: (list: ISongsItem[]) => void
+  setOpenPalyAllModal: (open: boolean) => void
+  setIsRemind: (remind: boolean) => void
+  setShowCurrentLyric: (show: boolean) => void
 }
 
 
@@ -699,7 +705,10 @@ const initialState: Props = {
   loading: false,
   simiSongList: [],// 相似歌曲
   simiPlayList: [], // 相似歌单
-  volum: 0
+  volum: 0,
+  openPalyAllModal: false,
+  isRemind: false,
+  showCurrentLyric: false
 }
 
 const updatePlayRecord = (source: ISongsItem[], target: ISongsItem) => {
@@ -732,6 +741,17 @@ export const usePlayer = create<Props & Actions>()(
         },
         setPlayHistory: (list) => {
           set({ playHistory: list }, false, '设置播放历史')
+        },
+        setOpenPalyAllModal: (open) => {
+          set({ openPalyAllModal: open }, false, '设置是否替换播放列表弹窗')
+
+        },
+        setIsRemind: (remind) => {
+          set({ isRemind: remind }, false, '不再提醒')
+
+        },
+        setShowCurrentLyric: (show) => {
+          set({ showCurrentLyric: show }, false, '显示歌词')
         },
         getSongInfo: async (id, songObj) => {
           try {
@@ -818,7 +838,11 @@ export const usePlayer = create<Props & Actions>()(
           set({ showPlayRecord })
         },
         setPlayRecordTip: (playRecordTip) => {
-          set({ playRecordTip })
+          set({ playRecordTip }, false, '设置提示')
+
+          setTimeout(() => {
+            set({ playRecordTip: '' }, false, '设置提示')
+          }, 3000)
         },
 
         setPlayRecord: (playRecord) => {
@@ -855,7 +879,6 @@ export const usePlayer = create<Props & Actions>()(
 
         partialize: state => {
           return {
-            // playerObj: state.playerObj,
             playerMode: state.playerMode,
             playerRate: state.playerRate,
             songObj: state.songObj,
@@ -864,7 +887,10 @@ export const usePlayer = create<Props & Actions>()(
             playRecord: state.playRecord,
             songId: state.songId,
             songUrl: state.songUrl,
-            volum: state.volum
+            volum: state.volum,
+            openPalyAllModal: state.openPalyAllModal,
+            isRemind: state.isRemind,
+            showCurrentLyric: state.showCurrentLyric
           }
         }
       }
@@ -874,6 +900,7 @@ export const usePlayer = create<Props & Actions>()(
     }
   )
 )
+
 export const useIsPlay = () => usePlayer((state) => state.isPlay)
 export const useSongObj = () => usePlayer((state) => state.songObj)
 export const useLyric = () => usePlayer((state) => state.lyric)
@@ -938,3 +965,15 @@ export const useVolum = () => usePlayer((state) => state.volum)
 export const useSetVolum = () => usePlayer((state) => state.setVolum)
 
 export const useIsSoundOff = () => usePlayer((state) => state.volum === 0)
+
+export const useOpenPalyAllModal = () => usePlayer((state) => state.openPalyAllModal)
+
+export const useSetOpenPalyAllModal = () => usePlayer((state) => state.setOpenPalyAllModal)
+
+export const useIsRemind = () => usePlayer((state) => state.isRemind)
+
+export const useSetIsRemind = () => usePlayer((state) => state.setIsRemind)
+
+
+export const useSetShowCurrentLyric = () => usePlayer((state) => state.setShowCurrentLyric)
+export const useShowCurrentLyric = () => usePlayer((state) => state.showCurrentLyric)

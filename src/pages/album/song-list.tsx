@@ -47,7 +47,7 @@ const List = () => {
         <div className={styles.time}>时长</div>
       </div>
       <ul className={styles.list}>
-        {data?.songs?.map((item, index) => {
+        {data?.songs?.map((item: any, index: any) => {
           return (
             <li key={item?.id}>
               <div className={styles.space}>
@@ -64,7 +64,7 @@ const List = () => {
                 <Artists data={item?.ar} />
               </div>
               <div className={styles.album}>{item?.al?.name}</div>
-              <div className={styles.time}>{Utils.formatPlayerTime(item?.dt / 1000)}</div>
+              <div className={styles.time}>{Utils.formatSeconds(item?.dt)}</div>
             </li>
           )
         })}

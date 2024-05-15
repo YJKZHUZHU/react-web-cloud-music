@@ -1,40 +1,56 @@
 /** @format */
 
-import {FileAddOutlined} from "@ant-design/icons"
-import {Divider, Flex} from "antd"
+import {FileAddOutlined, PauseOutlined} from "@ant-design/icons"
+import {Divider, Flex, message} from "antd"
 import Utils from "@/help/index"
 import classnames from "classnames"
-import {useSetAllPlayRecord} from "@/store/user"
 import {
   useGetSongInfo,
   usePlayHistory,
   useSetPlayHistory,
   useSetShowPlayRecord,
-  useShowPlayRecord
+  useShowPlayRecord,
+  useSongId
 } from "@/store/player"
 import classNames from "classnames"
 import {useEffect} from "react"
 import {history} from "@umijs/max"
 
-const PlayRecord = () => {
+const PlayHistoryLayout = () => {
   const showPlayRecord = useShowPlayRecord()
+  const playHistory = usePlayHistory()
+  const songId = useSongId()
   const setShowPlayRecord = useSetShowPlayRecord()
   const setPlayHistory = useSetPlayHistory()
-  const playHistory = usePlayHistory()
   const getSongInfo = useGetSongInfo()
 
-  const setAllPlayRecord = useSetAllPlayRecord()
-
   useEffect(() => {
-    setAllPlayRecord()
+    const targetElement = document.getElementById("_PlayHistoryLayout")!
+    const ignoreElement = document.getElementById("_footer")!
+    document.addEventListener("click", function (event: any) {
+      // 检查点击的目标是否是'myElement'，或者是否是它的子元素
+      if (
+        ![targetElement, ignoreElement].includes(event.target!) &&
+        !targetElement.contains(event?.target!) &&
+        !ignoreElement.contains(event?.target!)
+      ) {
+        // 如果点击的不是'myElement'，也不是它的子元素，那么认为点击发生在外部
+        console.log("Clicked outside of myElement!")
+        setShowPlayRecord(false)
+      }
+    })
+    return document.removeEventListener("click", () => {
+      console.log("移除了")
+    })
   }, [])
 
   return (
     <Flex
+      id="_PlayHistoryLayout"
       vertical
       gap={16}
       className={classnames(
-        " w-[640px] fixed top-[60px] bottom-[80px] left-[calc(100%)]  bg-[#EFEDF4] z-[1001] overflow-x-hidden overflow-y-scroll transition-transform ",
+        " w-[640px] fixed top-[60px] bottom-[80px] left-[calc(100%)]  bg-[#ffffff] z-[1001] overflow-x-hidden overflow-y-scroll transition-transform ",
         !showPlayRecord ? "transform-none" : "translate-x-[-640px]"
       )}>
       <Flex vertical gap={18} className="px-[24px]">
@@ -42,7 +58,13 @@ const PlayRecord = () => {
         <Flex justify="space-between">
           <span className="text-[#AFB0B0]">共{playHistory.length}首</span>
           <Flex gap={12}>
-            <Flex gap={2} align="center" className="text-[#535354] cursor-pointer">
+            <Flex
+              onClick={() => {
+                message.info("正在努力开发中")
+              }}
+              gap={2}
+              align="center"
+              className="text-[#535354] cursor-pointer">
               <FileAddOutlined />
               <span>收藏全部</span>
             </Flex>
@@ -75,6 +97,7 @@ const PlayRecord = () => {
         ) : (
           <>
             {playHistory.map((item, index) => {
+              const isActive = item.id === songId
               return (
                 <Flex
                   onDoubleClick={() => getSongInfo(item.id)}
@@ -82,13 +105,23 @@ const PlayRecord = () => {
                   justify="space-between"
                   key={item.id}
                   className={classNames(
-                    "px-[24px] py-[8px] cursor-default",
+                    "px-[24px] py-[8px] cursor-default relative",
                     {
-                      "bg-[#FDFEFE]": index % 2 !== 0
+                      "bg-[#F7F9F9]": index % 2 !== 0
                     },
                     "hover:bg-[#F0F0F1]"
                   )}>
-                  <span className="flex-1 text-[#292929] hover:text-[#080909]">{item.name}</span>
+                  {isActive && (
+                    <PauseOutlined className="text-[#C52727] text-[12px] absolute left-[10px] top-[10px]" />
+                  )}
+
+                  <span
+                    className={classNames("flex-1 text-[#292929] hover:text-[#080909]", {
+                      "text-[#C52727]": isActive,
+                      "hover:text-[#C52727]": isActive
+                    })}>
+                    {item.name}
+                  </span>
                   <Flex
                     align="center"
                     gap={2}
@@ -96,11 +129,15 @@ const PlayRecord = () => {
                     {item.ar.map((d, i) => {
                       return (
                         <span
+                          key={d.id}
                           onClick={() => {
                             setShowPlayRecord(false)
                             history.push(`/artists-detail?id=${d.id}&name=${d.name}`)
                           }}
-                          className="text-[#515252] cursor-pointer">
+                          className={classNames("text-[#515252] cursor-pointer", {
+                            "text-[#C52727]": isActive,
+                            "hover:text-[#C52727]": isActive
+                          })}>
                           {d.name}
                           {i + 1 === item.ar.length ? "" : "/"}
                         </span>
@@ -119,4 +156,4 @@ const PlayRecord = () => {
     </Flex>
   )
 }
-export default PlayRecord
+export default PlayHistoryLayout

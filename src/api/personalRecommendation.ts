@@ -1,3 +1,4 @@
+import { EnumLocalStorage, getItem } from '@/help/cache'
 import { service } from '@/help/server'
 import { BannerItem, IMvItem, INewSongItem, IPrivateContentItem, IRecommendItem } from '@/store/personalRecommendation'
 
@@ -26,7 +27,7 @@ interface IRecommendResourceRes {
 }
 
 export const recommendResource = () => {
-  return service<IRecommendResourceRes>(FetchEnum.recommendResource)
+  return service<IRecommendResourceRes>(FetchEnum.recommendResource, { cookie: getItem(EnumLocalStorage.cookie) })
 }
 
 interface INewSongRes {

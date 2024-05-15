@@ -39,11 +39,11 @@ export const FIND_MUSIC_TAGS: ITagItem[] = [
     path: "/find-music/song-list",
     key: "song-list"
   },
-  {
-    label: "主播电台",
-    path: "/todo",
-    key: "todo"
-  },
+  // {
+  //   label: "主播电台",
+  //   path: "/todo",
+  //   key: "todo"
+  // },
   {
     label: "排行榜",
     path: "/find-music/top",

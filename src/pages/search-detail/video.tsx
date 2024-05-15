@@ -53,9 +53,7 @@ const Video = () => {
                         <VideoCameraOutlined className={styles.icon} />
                         <span>{item.playTime && Utils.tranNumber(item.playTime, 2)}</span>
                       </p>
-                      <p className={styles.time}>
-                        {Utils.formatPlayerTime(item.durationms / 1000)}
-                      </p>
+                      <p className={styles.time}>{Utils.formatSeconds(item.durationms)}</p>
                     </div>
                     <div className={styles.bottom}>
                       <p

@@ -9,7 +9,7 @@ import {
   ThunderboltOutlined,
   UserOutlined
 } from "@ant-design/icons"
-import {Divider, Avatar, Button, Space, Popover, message} from "antd"
+import {Divider, Avatar, Button, Space, Popover, message, Flex} from "antd"
 import {login} from "@/help/cache"
 import {history} from "@umijs/max"
 import {useBoolean, useRequest} from "ahooks"
@@ -21,16 +21,15 @@ import {
   useFollowed,
   useFolloweds,
   useFollows,
+  useIsSignIn,
   useLevel,
-  useSign,
-  useVipLevel
+  useVipLevel,
+  useSetIsSignIn
 } from "@/store/user"
-import API from "@/api"
-import classNames from "classnames"
-import styles from "../index.scss"
+import {dailySignin} from "@/api/user"
+import {useState} from "react"
 
 const UserContent = () => {
-  const [signIn, {setTrue: setSignInTrue}] = useBoolean(false)
 
   const [visible, {setFalse: setVisibleFalse, toggle: visibleToggle}] = useBoolean(false)
 
@@ -39,22 +38,31 @@ const UserContent = () => {
   const follows = useFollows()
   const eventCount = useEventCount()
   const followeds = useFolloweds()
-  const sign = useSign()
+  const isSignIn = useIsSignIn()
+  const setIsSignIn = useSetIsSignIn()
   const followed = useFollowed()
   const level = useLevel()
   const vipLevel = useVipLevel()
-
   const runLogout = useLogout()
+  const [signinLoading, setSigninLoading] = useState(false)
 
-  const {run: runSignin} = useRequest(() => API.dailySignIn({type: 1}), {
-    manual: true,
-    onSuccess: (response) => {
-      if (response.code !== 200) return message.info("已经签到过了哦")
-      setSignInTrue()
-      setVisibleFalse()
-      return message.success("签到成功")
+  const onSignIn = async () => {
+    try {
+      if (isSignIn) {
+        return message.info("已经签到过啦")
+      }
+      setSigninLoading(true)
+      const res = await dailySignin({type: 1})
+      if (res.data.code === 200) {
+        setIsSignIn(true)
+        message.success(`签到成功，经验值+${res.data.point}`)
+      }
+      setSigninLoading(false)
+    } catch (error) {
+      setSigninLoading(false)
+      console.log("error", error)
     }
-  })
+  }
 
   const onLink = (path: string) => {
     setVisibleFalse()
@@ -63,83 +71,88 @@ const UserContent = () => {
 
   const renderContent = () => {
     return (
-      <div className={classNames(styles._main, "flex-1")}>
-        <div className={styles.top}>
-          <div className={styles.user}>
-            <Space>
-              <i className={styles.name}>{nickName}</i>
+      <Flex vertical>
+        <Flex vertical gap={16} className=" px-[18px] pt-[12px]">
+          <Flex justify="space-between">
+            <Flex gap={4} align="center">
+              <span className="text-[14px]">{nickName}</span>
               {vipLevel && (
                 <img
+                  alt=""
                   className="rounded-[16px]"
                   width={48}
                   height={16}
                   src={require(`../../../../assets/musicVip/${vipLevel}.png`)}
                 />
               )}
-            </Space>
-
+            </Flex>
             <Button
               icon={<CarryOutOutlined />}
               size="small"
-              onClick={runSignin}
-              disabled={sign || signIn}>
-              {sign || signIn ? "已签到" : "签到"}
+              onClick={onSignIn}
+              disabled={signinLoading}>
+              {isSignIn ? "已签到" : "签到"}
             </Button>
-          </div>
-          <div className={styles.attention}>
-            <div className=" cursor-pointer" onClick={() => onLink("/care/dynamic")}>
-              <Space direction="vertical" size={5} className={styles.link}>
-                <i>{eventCount}</i>
-                <em>动态</em>
-              </Space>
-            </div>
-            <Divider type="vertical" className={styles.divider} />
-            <div className=" cursor-pointer" onClick={() => onLink("/care/follows")}>
-              <Space direction="vertical" size={5} className={styles.link}>
-                <i>{follows}</i>
-                <em>关注</em>
-              </Space>
-            </div>
-            <Divider type="vertical" className={styles.divider} />
-            <div className=" cursor-pointer" onClick={() => onLink("/care/fan")}>
-              <Space direction="vertical" size={5} className={styles.link}>
-                <i>{followeds}</i>
-                <em>粉丝</em>
-              </Space>
-            </div>
-          </div>
-        </div>
-        <Divider className={styles.divider} />
-        <div className={styles.middle}>
-          <ul>
-            <li className={styles.item}>
-              <Space>
+          </Flex>
+          <Flex align="center" justify="space-between">
+            <Flex vertical className=" cursor-pointer" onClick={() => onLink("/care/dynamic")}>
+              <span>{eventCount}</span>
+              <span>动态</span>
+            </Flex>
+            <Divider type="vertical" />
+            <Flex vertical className=" cursor-pointer" onClick={() => onLink("/care/follows")}>
+              <span>{follows}</span>
+              <span>关注</span>
+            </Flex>
+            <Divider type="vertical" />
+            <Flex vertical className=" cursor-pointer" onClick={() => onLink("/care/fan")}>
+              <span>{followeds}</span>
+              <span>粉丝</span>
+            </Flex>
+          </Flex>
+          <Divider style={{margin: 0}} />
+        </Flex>
+        <Flex vertical gap={0}>
+          <Flex vertical>
+            <Flex
+              className="px-[18px] h-[30px] cursor-pointer hover:bg-[#ecedee]"
+              align="center"
+              justify="space-between">
+              <Flex gap={4}>
                 <CustomerServiceOutlined />
-                <em>会员中心</em>
-              </Space>
+                <span className="text-[14px]">会员中心</span>
+              </Flex>
               <span>{followed ? "已订购" : "未订购"}</span>
-            </li>
-            <li className={styles.item}>
-              <Space>
+            </Flex>
+            <Flex
+              className="px-[18px] h-[30px] cursor-pointer hover:bg-[#ecedee]"
+              align="center"
+              justify="space-between">
+              <Flex gap={4}>
                 <ThunderboltOutlined />
-                <em>会员等级</em>
-              </Space>
-              <em className={styles.level}>LV.{level}</em>
-            </li>
-            <li className={styles.item}>
-              <Space>
+                <span className="text-[14px]">会员等级</span>
+              </Flex>
+              <span>LV.{level}</span>
+            </Flex>
+            <Flex
+              className="px-[18px] h-[30px] cursor-pointer hover:bg-[#ecedee]"
+              align="center"
+              justify="space-between">
+              <Flex gap={4}>
                 <SettingOutlined />
-                <em>个人信息设置</em>
-              </Space>
+                <span className="text-[14px]">个人信息设置</span>
+              </Flex>
               <RightOutlined />
-            </li>
-          </ul>
-        </div>
-        <Divider className={styles.divider} />
-        <div className={styles.bottom} onClick={runLogout}>
-          退出登录
-        </div>
-      </div>
+            </Flex>
+          </Flex>
+          <Divider style={{margin: "0"}} />
+          <div
+            className="px-[18px] content-center h-[30px] cursor-pointer hover:bg-[#ecedee]"
+            onClick={runLogout}>
+            退出登录
+          </div>
+        </Flex>
+      </Flex>
     )
   }
 
@@ -149,21 +162,27 @@ const UserContent = () => {
         open={visible}
         onOpenChange={visibleToggle}
         content={renderContent()}
-        overlayClassName={styles.userPop}
+        overlayStyle={{width: 300}}
+        overlayInnerStyle={{padding: 0}}
         trigger="click">
-        <div className={styles.user}>
-          <Avatar src={avatarUrl} icon={<UserOutlined />} />
-          <i className={styles.name}>{nickName || "游客"}</i>
-          <CaretDownOutlined className={styles.icon} />
-        </div>
+        <Flex justify="end" align="center" className=" cursor-pointer" gap={4}>
+          <Avatar alt="" src={avatarUrl} icon={<UserOutlined />} />
+          <span>{nickName || "游客"}</span>
+          <CaretDownOutlined />
+        </Flex>
       </Popover>
     )
 
   return (
-    <div className={styles.user} onClick={() => history.push("/login")}>
+    <Flex
+      onClick={() => history.push("/login")}
+      justify="end"
+      align="center"
+      className=" cursor-pointer"
+      gap={4}>
       <Avatar icon={<UserOutlined />} />
-      <i className={styles.name}>游客</i>
-    </div>
+      <span>游客</span>
+    </Flex>
   )
 }
 

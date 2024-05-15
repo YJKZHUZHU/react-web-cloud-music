@@ -93,37 +93,22 @@ class Utils {
     // document.body.append(styleLink)
   }
 
-  static formatSeconds(value: any) {
-    let secondTime = +(value / 1000).toFixed(0)
-    let minuteTime = 0
-    let hourTime = 0
-    let result = ''
-    if (secondTime > 60) {
-      minuteTime = +(secondTime / 60).toFixed(0)
-      secondTime = secondTime % 60
-      if (minuteTime > 60) {
-        hourTime = +(minuteTime / 60).toFixed(0)
-        minuteTime = minuteTime % 60
-      }
-    }
+  static formatSeconds(ms: number) {
+    if (!ms) return '00:00'
+    const totalSeconds = Math.floor(ms / 1000);
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+    const pad = (num: number) => num.toString().padStart(2, '0');
 
-    result = '' + secondTime + '秒'
-    if (minuteTime > 0) {
-      result = '' + minuteTime + '分' + result
-    }
-    if (hourTime > 0) {
-      result = '' + hourTime + '小时' + result
-    }
-    return result
+    const result = [hours, minutes, seconds].filter((item, index) => {
+      if (index === 0 && item === 0) return false
+      return true
+    }).map(item => pad(item))
+
+    return result.join(':') || '00:00'
   }
 
-  static formatPlayerTime(result: number) {
-    if (!result) return '00:00'
-    let interval = Math.floor(result)
-    let minute = (Math.floor(interval / 60)).toString().padStart(2, '0')
-    let second = (interval % 60).toString().padStart(2, '0')
-    return `${minute}:${second}`
-  }
 
   //歌词格式化
   static formatterLyric(lyric: string) {

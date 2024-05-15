@@ -1,7 +1,7 @@
 /** @format */
 
 import {useState, useRef, memo, useMemo} from "react"
-import {Slider, Tooltip, Dropdown, MenuProps, message} from "antd"
+import {Slider, Tooltip, Dropdown, MenuProps, message, Flex} from "antd"
 import {
   FullscreenOutlined,
   FullscreenExitOutlined,
@@ -39,12 +39,15 @@ import {
   useSetShowPlayRecord,
   useSetShowPlayer,
   useSetVolum,
+  useShowCurrentLyric,
   useShowPlayRecord,
   useShowPlayer,
   useSongId,
   useSongObj,
   useSongUrl,
-  useVolum
+  useVolum,
+  useSetShowCurrentLyric,
+  useActiveLyric
 } from "@/store/player"
 import {MAP_PALYER_MODE, MAP_PALYER_MODE_NEXT, MAP_PALYER_MODE_TIP} from "@/constants/layout"
 import cycle from "@/assets/footer/cycle.png"
@@ -84,6 +87,9 @@ const Footer = memo(() => {
   const setPlayRate = useSetPlayRate()
   const setPlayerMode = useSetPlayerMode()
   const prevVolum = useRef(0)
+  const showCurrentLyric = useShowCurrentLyric()
+  const setShowCurrentLyric = useSetShowCurrentLyric()
+  const activeLyric = useActiveLyric()
 
   const modeTip = useMemo(() => {
     return MAP_PALYER_MODE_TIP.get(playerMode)!
@@ -132,11 +138,6 @@ const Footer = memo(() => {
   const onProgress = (state: IPlayerObj) => {
     console.log("==播放进度==", state)
     setPlayerObj(state)
-  }
-
-  const onRecord = () => {
-    setShowPlayRecord(!showPlayRecord)
-    setPlayRecordTip("")
   }
 
   const onPlay = (type: PLAY_TYPE_ENUM) => {
@@ -195,41 +196,15 @@ const Footer = memo(() => {
               {songObj.singerArr?.join("/") || "--"}
             </span>
           </div>
-          <div className="flex items-center gap-[5px] text-[12px] self-baseline">
-            <span>
-              {playRef ? Utils.formatPlayerTime(playRef.current?.getCurrentTime()!) : "00:00"}
-            </span>
+          <Flex align="center" gap={5} className=" text-[12px] self-baseline">
+            <span>{Utils.formatSeconds(playRef.current?.getCurrentTime()! * 1000)}</span>
             <i>/</i>
-            <span>{playRef ? Utils.formatPlayerTime(songObj.songTime || 0) : "00:00"}</span>
-          </div>
+            <span> {Utils.formatSeconds(songObj.songTime! * 1000)}</span>
+          </Flex>
         </div>
       </div>
     )
   }
-
-  const items: MenuProps["items"] = [
-    {
-      key: 1,
-      label: "1.x"
-    },
-    {
-      key: 1.25,
-      label: "1.25x"
-    },
-    {
-      key: 1.5,
-      label: "1.5x"
-    },
-    {
-      key: 2,
-      label: "2.x"
-    }
-  ].map((d) => {
-    return {
-      ...d,
-      onClick: () => setPlayRate(d.key)
-    }
-  })
 
   const onSliderChange = (value: number) => {
     if (!playRef.current) return
@@ -240,7 +215,7 @@ const Footer = memo(() => {
   if (location.pathname === "/mv-detail") return null
 
   return (
-    <footer className={style._footer}>
+    <footer className={style._footer} id="_footer">
       {renderMusicInfo(!!Object.keys(songObj).length)}
 
       <div className="flex-1 flex gap-[16px]">
@@ -274,12 +249,11 @@ const Footer = memo(() => {
             }}
           />
         </div>
+        {showCurrentLyric && (
+          <span className=" flex-1 self-center text-[#000101] line-clamp-1">{activeLyric}</span>
+        )}
 
         <div className="flex-1 flex items-center gap-[16px] justify-end">
-          {/* <Dropdown overlayStyle={{width: 80}} menu={{items}} placement="top" arrow>
-            <div className="cursor-pointer">{playerRate}x</div>
-          </Dropdown> */}
-
           <Tooltip
             overlayInnerStyle={{color: "#000000"}}
             color="#ffffff"
@@ -302,7 +276,14 @@ const Footer = memo(() => {
               src={playListIcon}
             />
           </Tooltip>
-
+          <span
+            onClick={() => setShowCurrentLyric(!showCurrentLyric)}
+            className={classnames(
+              showCurrentLyric ? "text-[#C52727]" : "text-[#3B3B3B]",
+              "cursor-pointer"
+            )}>
+            词
+          </span>
           <Tooltip
             overlayInnerStyle={{
               color: "#000000",
@@ -327,34 +308,6 @@ const Footer = memo(() => {
               src={isSoundOff ? soundOffIcon : volumIcon}
             />
           </Tooltip>
-
-          <span className=" text-[#3B3B3B]">词</span>
-
-          {/* <PlayMode /> */}
-
-          {/* {playRecordTip ? (
-            <Tooltip title={playRecordTip} open={true}>
-              <i
-                className={classnames(
-                  "iconfont",
-                  "icon-bofangliebiao",
-                  "!text-[24px]",
-                  "cursor-pointer"
-                )}
-                onClick={onRecord}
-              />
-            </Tooltip>
-          ) : (
-            <i
-              className={classnames(
-                "iconfont",
-                "icon-bofangliebiao",
-                "!text-[24px]",
-                "cursor-pointer"
-              )}
-              onClick={onRecord}
-            />
-          )} */}
         </div>
       </div>
 

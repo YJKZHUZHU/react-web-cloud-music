@@ -75,7 +75,6 @@ const useApp = () => {
       await refreshLogin()
 
       if (login()) {
-
         // 已登录，设置账号和用户信息
         const result = await getAccountInfo()
         const userId = getItem(EnumLocalStorage.userId) as string

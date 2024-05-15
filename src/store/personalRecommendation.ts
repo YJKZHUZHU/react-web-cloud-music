@@ -426,6 +426,7 @@ export const usePersonalRecommendation = create<Props & Actions>()(
   )
 )
 
+
 export const useInit = () => usePersonalRecommendation((state) => state.init)
 
 export const useCarouseData = () => usePersonalRecommendation((state) => state.banner)

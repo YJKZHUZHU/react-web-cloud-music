@@ -75,9 +75,7 @@ export default () => {
                         <VideoCameraOutlined />
                         <span>{Utils.tranNumber(item.playTime, 2)}</span>
                       </p>
-                      <p className={styles.time}>
-                        {Utils.formatPlayerTime(item.durationms / 1000)}
-                      </p>
+                      <p className={styles.time}>{Utils.formatSeconds(item.durationms)}</p>
                     </div>
 
                     <p className={styles.title}>

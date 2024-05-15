@@ -1,12 +1,12 @@
 /** @format */
 
 import Utils from "@/help"
-import { CaretRightOutlined } from "@ant-design/icons"
-import { history } from "@umijs/max"
-import { useRequest } from "ahooks"
+import {CaretRightOutlined} from "@ant-design/icons"
+import {history} from "@umijs/max"
+import {useRequest} from "ahooks"
 import API from "@/api"
 import styles from "../index.scss"
-import { useQuery } from "@/hooks"
+import {useQuery} from "@/hooks"
 
 export interface ISimiInterface {
   id: number
@@ -35,7 +35,6 @@ export interface ISimiInterface {
 }
 
 const SimiDetail = () => {
-
   const query = useQuery()
 
   const mvBool = +query.type === 0
@@ -43,8 +42,8 @@ const SimiDetail = () => {
   const onMv = (mvid: any) => {
     history.push(`/mv-detail?mvid=${mvid}&type=${query.type}`)
   }
-  const { data } = useRequest(
-    () => (+query.type === 0 ? API.getSimi({ ...query }) : API.getRelateVedio({ id: query.mvid })),
+  const {data} = useRequest(
+    () => (+query.type === 0 ? API.getSimi({...query}) : API.getRelateVedio({id: query.mvid})),
     {
       formatResult: (response): ISimiInterface[] => {
         return mvBool ? response.mvs : response.data
@@ -68,9 +67,7 @@ const SimiDetail = () => {
                   : Utils.tranNumber(item?.playTime, 2)}
               </span>
               <span className={styles.time}>
-                {mvBool
-                  ? Utils.formatPlayerTime(item.duration / 1000)
-                  : Utils.formatPlayerTime(item.durationms / 1000)}
+                {mvBool ? Utils.formatSeconds(item.duration) : Utils.formatSeconds(item.durationms)}
               </span>
             </div>
             <p className={styles.right}>

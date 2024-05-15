@@ -174,7 +174,7 @@ const List: FC<IList> = ({active, tip}) => {
                     </i>
                   ) : null}
                 </p>
-                <p className={styles.time}>{Utils.formatPlayerTime(item.duration / 1000)}</p>
+                <p className={styles.time}>{Utils.formatSeconds(item.duration)}</p>
               </li>
             )
           })}
