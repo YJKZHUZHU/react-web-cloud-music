@@ -14,6 +14,7 @@ import {useBoolean} from "ahooks"
 import {useLocation} from "@umijs/max"
 import classnames from "classnames"
 import {usePlayRecord} from "@/hooks"
+import {Image} from "@/components"
 import Utils from "@/help"
 import ReactPlayer from "react-player"
 import store from "@/help/localStorage"
@@ -185,7 +186,15 @@ const Footer = memo(() => {
               "absolute left-0 right-0 bottom-0 top-0 bg-[rgba(0, 0, 0, 0.2)] rounded-[8px] z-[2]"
             )}
           />
-          <img width={60} height={60} className=" rounded-[8px]" src={songObj.backgroundImg} />
+          <Image
+            width={60}
+            height={60}
+            className="rounded-[8px]"
+            src={songObj.backgroundImg}
+            size={[60, 60]}
+            multiple={2}
+          />
+          {/* <img width={60} height={60} className=" rounded-[8px]" src={songObj.backgroundImg} /> */}
           {showPlayer ? <FullscreenOutlined className={style.full} /> : <FullscreenExitOutlined />}
         </div>
         <div className="flex flex-col flex-1 gap-[15px] justify-center">

@@ -20,6 +20,7 @@ export { default as Comment } from './Comment'
 export { default as CommentItem } from './CommentItem'
 
 export { default as WithEmoji } from './WithEmoji'
+export { default as Image } from './Image'
 
 
 

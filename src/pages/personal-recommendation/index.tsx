@@ -1,7 +1,7 @@
 /** @format */
 
 import {Fragment, useEffect, useRef} from "react"
-import {Row, Col, Carousel, message, Image} from "antd"
+import {Row, Col, Carousel, message, Flex} from "antd"
 import {
   CustomerServiceOutlined,
   LeftCircleOutlined,
@@ -10,7 +10,7 @@ import {
   RightCircleOutlined
 } from "@ant-design/icons"
 import {history} from "@umijs/max"
-import {PlayIcon, Artists} from "@/components"
+import {PlayIcon, Artists, Image} from "@/components"
 import classNames from "classnames"
 import {Card} from "./components"
 import styles from "./index.scss"
@@ -21,10 +21,12 @@ import {
   useCarouseData,
   usePrivateContent,
   IPrivateContentItem,
-  useMV
+  useMV,
+  EnumTargetType,
+  IRecommendItem
 } from "@/store/personalRecommendation"
 import Utils from "@/help"
-import dayImg from "@/assets/personal-recommendation/day.jpg"
+import dayImg from "@/assets/personal-recommendation/day.jpeg"
 import {useGetSongInfo} from "@/store/player"
 
 const PersonalRecommendation = () => {
@@ -35,13 +37,19 @@ const PersonalRecommendation = () => {
   const mv = useMV()
 
   const getSongInfo = useGetSongInfo()
-  const slider = useRef<any>(null)
   const carouseData = useCarouseData()
 
-  const onPlay = (id: number | string) => {
-    if (id) {
+  const onPlay = (id: number | string, targetType: EnumTargetType) => {
+    if (targetType === EnumTargetType.song) {
       return getSongInfo(Number(id))
     }
+    if (targetType === EnumTargetType.playList) {
+      return history.push(`/playList/${id}`)
+    }
+    if (targetType === EnumTargetType.dvd) {
+      return history.push(`/album?id=${id}`)
+    }
+
     return message.info("该类型无法播放哦")
   }
   const onLink = (item: IPrivateContentItem) => {
@@ -54,103 +62,105 @@ const PersonalRecommendation = () => {
     }
     return history.push(result)
   }
+
+  const renderPlayListItem = (item: Partial<IRecommendItem>) => {
+    const onLink = () => {
+      if (item.id) {
+        return history.push(`/playList/${item.id}?listId=${item.id}`)
+      }
+      return message.info("开发中...")
+    }
+    return (
+      <Flex
+        onClick={onLink}
+        key={item.id}
+        gap={12}
+        vertical
+        style={{boxShadow: "0px 4px 28px 0px rgba(35, 29, 106, 0.1)"}}
+        className={classNames(
+          " pb-[12px] cursor-pointer relative bg-white rounded-[12px] w-[200px]",
+          styles.recommendResourceItem
+        )}>
+        <div className={classNames(styles.imgWrap)}>
+          <Image
+            className=" h-[200px] w-[200px]"
+            src={item.picUrl}
+            size={[200, 200]}
+            multiple={1.5}
+            width={200}
+            height={200}
+          />
+          {item.playcount && (
+            <Flex
+              align="center"
+              style={{backgroundColor: "rgba(0, 0, 0, 0.4)"}}
+              className={classNames(
+                styles.number,
+                " w-full h-[32px] absolute bottom-0 text-white pl-[15px]   translate-y-full transition-all rounded-bl rounded-br rounded-[5px]"
+              )}
+              gap={4}>
+              <CustomerServiceOutlined />
+              <span>{Utils.tranNumber(item.playcount, 2)}</span>
+            </Flex>
+          )}
+
+          {item.copywriter && (
+            <div
+              style={{backgroundColor: "rgba(0, 0, 0, 0.4)"}}
+              className={classNames(
+                styles.descWrap,
+                " rounded-tl rounded-tr rounded-[5px] text-[12px] min-h-[20px] w-full leading-[20px] text-[#ffffff] line-clamp-2 px-[6px] py-[4px]  absolute left-0 right-0 top-0 translate-y-[-100%] transition-all"
+              )}>
+              {item.copywriter}
+            </div>
+          )}
+
+          <PlayIcon iconClassName={styles.playIcon} />
+        </div>
+        <span className="text-[#7D829E] px-[8px] line-clamp-2  text-[14px] leading-[16px] h-[32px]">
+          {item.name}
+        </span>
+      </Flex>
+    )
+  }
   useEffect(() => {
     init()
   }, [])
   return (
-    <div
-      className={classNames(
-        styles._personalRecommendation,
-        "w-full",
-        "flex",
-        "flex-col",
-        "gap-[24px]"
-      )}>
-      <div className={styles.carousel}>
-        <Carousel
-          dots
-          autoplay={false}
-          centerMode
-          infinite
-          focusOnSelect
-          centerPadding="80px"
-          slidesToShow={3}
-          ref={slider}>
-          {carouseData?.map((item, index) => {
-            return (
-              <Fragment key={item.imageUrl}>
-                <Image
-                  className="w-[auto]"
-                  width={!item?.imageUrl ? 300 : undefined}
-                  height={!item?.imageUrl ? 150 : undefined}
-                  preview={false}
-                  src={item?.imageUrl}
-                  fallback="data:image/png;base64,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"
-                  onDoubleClick={() => onPlay(item?.targetId)}
-                />
-
-                <span
-                  key={item.targetId}
-                  className={classNames(styles.bg, "_carousel_bg")}
-                  style={{background: item?.titleColor}}>
-                  {item?.typeTitle}
-                </span>
-              </Fragment>
-            )
-          })}
-        </Carousel>
-        <LeftCircleOutlined onClick={() => slider?.current?.prev()} className={styles.left} />
-        <RightCircleOutlined onClick={() => slider?.current?.next()} className={styles.right} />
-      </div>
-      <Card title="推荐歌单" link="/find-music/song-list">
-        <Row className={styles.recommendResource} justify="start" gutter={[24, 16]}>
-          <Col span={4}>
-            <div className={styles.recommendResourceItem}>
-              <div className={styles.imgWrap}>
-                <img src={dayImg} />
-
-                <div className={styles.descWrap}>
-                  <span className={styles.desc}>根据您的音乐口味生成每日更新</span>
-                </div>
-
-                <PlayIcon iconClassName={styles.playIcon} />
-              </div>
-              <p className="text-[#7D829E] px-[8px] line-clamp-2 mt-[12px] mb-[12px] text-[14px] leading-[16px] h-[32px]">
-                每日歌曲推荐
-              </p>
+    <Flex className={classNames(styles._personalRecommendation, "w-full")} gap={24} vertical>
+      <Carousel arrows className="h-[150px]" dots autoplay={false} centerMode slidesToShow={3}>
+        {carouseData?.map((item) => {
+          return (
+            <div key={item.targetId} className=" px-[15px] relative">
+              <Image
+                className="w-[auto] rounded-[5px] cursor-pointer"
+                height={150}
+                preview={false}
+                src={item?.imageUrl}
+                onClick={() => onPlay(item?.targetId, item.targetType)}
+              />
+              <span
+                key={item.targetId}
+                className="text-[12px] px-[4px] py-[2px]  absolute text-[#ffffff] text-center bottom-[6px] right-[15px]  rounded-br-[5px] rounded-tl-[5px] "
+                style={{background: item?.titleColor}}>
+                {item?.typeTitle}
+              </span>
             </div>
-          </Col>
-          {recommendResource?.map((item, index) => {
-            return (
-              <Col
-                onClick={() => history.push(`/playList/${item.id}?listId=${item.id}`)}
-                span={4}
-                key={item.id}>
-                <div className={styles.recommendResourceItem}>
-                  <div className={styles.imgWrap}>
-                    <img src={item.picUrl} />
-                    <span className={styles.number}>
-                      <CustomerServiceOutlined />
-                      <i>{Utils.tranNumber(item.playcount, 2)}</i>
-                    </span>
-                    {item.copywriter && (
-                      <div className={styles.descWrap}>
-                        <span className={styles.desc}>{item.copywriter}</span>
-                      </div>
-                    )}
+          )
+        })}
+      </Carousel>
 
-                    <PlayIcon iconClassName={styles.playIcon} />
-                  </div>
-                  <p className="text-[#7D829E] px-[8px] line-clamp-2 mt-[12px] mb-[12px] text-[14px] leading-[16px] h-[32px]">
-                    {item.name}
-                  </p>
-                </div>
-              </Col>
-            )
+      <Card title="推荐歌单" link="/find-music/song-list">
+        <Flex wrap gap={24}>
+          {renderPlayListItem({
+            picUrl: dayImg,
+            copywriter: "根据您的音乐口味生成每日更新",
+            name: "每日歌曲推荐"
           })}
-        </Row>
+          {recommendResource?.map(renderPlayListItem)}
+        </Flex>
       </Card>
-      <div className="flex justify-between gap-[30px]">
+      <Flex justify="space-between" gap={30}>
         <Card className="w-[400px]" title="最新音乐" link="/find-music/latest-music">
           <div className={styles.newSong}>
             {newSong.map((item, index) => {
@@ -205,7 +215,7 @@ const PersonalRecommendation = () => {
             })}
           </div>
         </Card>
-      </div>
+      </Flex>
       <Card title="推荐MV" link="/find-music/song-list">
         <Row className={styles.mv} gutter={[32, 32]}>
           {mv.map((item) => {
@@ -244,7 +254,7 @@ const PersonalRecommendation = () => {
           })}
         </Row>
       </Card>
-    </div>
+    </Flex>
   )
 }
 

@@ -4,6 +4,8 @@ import {RightOutlined} from "@ant-design/icons"
 import {FC} from "react"
 import {Link} from "@umijs/max"
 import classNames from "classnames"
+import {Flex} from "antd"
+import {history} from "@umijs/max"
 
 interface IProps {
   title: string
@@ -12,19 +14,27 @@ interface IProps {
 }
 const Card: FC<IProps> = (props) => {
   const {children, title, link, className} = props
+  const onLink = () => {
+    history.push(link)
+  }
   return (
-    <div className={classNames("bg-[#ffffff] rounded-[20px] p-[16px]", className)}>
-      <div className="flex justify-between items-center mb-[16px]">
-        <span className="text-[#7D829E]">{title}</span>
-        <Link to={link} className=" text-[#7D829E] text-[14px] ">
-          <div className="flex items-center gap-[4px]">
-            <span>更多</span>
-            <RightOutlined />
-          </div>
-        </Link>
-      </div>
+    <Flex
+      gap={16}
+      vertical
+      className={classNames("bg-[#ffffff] rounded-[20px] p-[16px]", className)}>
+      <Flex justify="space-between" align="center">
+        <span className="text-[#7D829E] flex-1">{title}</span>
+        <Flex
+          onClick={onLink}
+          align="center"
+          gap={4}
+          className="text-[#7D829E] hover:text-[#000000] text-[14px] cursor-pointer">
+          <span>更多</span>
+          <RightOutlined />
+        </Flex>
+      </Flex>
       {children}
-    </div>
+    </Flex>
   )
 }
 

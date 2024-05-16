@@ -10,7 +10,6 @@ const prodGzipList = ["js", "css"];
 //判断只有在生产模式才开启
 const IS_PROD = ["production", "prod"].includes(process.env.NODE_ENV!);
 
-
 export default defineConfig({
   model: {},
   initialState: {},
@@ -28,15 +27,16 @@ export default defineConfig({
     import: false,
     configProvider: {},
     styleProvider: {
-      hashPriority: 'high' // https://ant.design/docs/react/compatible-style-cn#where-%E9%80%89%E6%8B%A9%E5%99%A8
-    }
+      hashPriority: "high", // https://ant.design/docs/react/compatible-style-cn#where-%E9%80%89%E6%8B%A9%E5%99%A8
+    },
   },
+  // mako: {},
   // dynamicImport: {
   //   loading: '@/components/Loading/index'
   // },
   routes: routes,
   // '/ripple.js',
-  scripts: ['/ripple.js'],
+  scripts: ["/ripple.js"],
   title: "豆芽音乐",
   autoprefixer: {},
   // targets: {

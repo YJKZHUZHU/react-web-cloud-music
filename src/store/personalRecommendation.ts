@@ -2,6 +2,14 @@ import { create } from "zustand"
 import { persist, createJSONStorage, devtools } from "zustand/middleware"
 import { banner, recommendResource, newSong, privateContent, mv } from '@/api/personalRecommendation'
 
+export enum EnumTargetType {
+  /** 新碟收发 */
+  dvd = 10,
+  /** 热歌推荐，新歌首发 */
+  song = 1,
+  /** 歌单推荐 */
+  playList = 1000,
+}
 
 export interface BannerItem {
   // 图片URL
@@ -11,7 +19,7 @@ export interface BannerItem {
   // 广告ID，可以为null
   adid: number | null;
   // 目标类型，例如1可能代表某种特定的目标类型
-  targetType: number;
+  targetType: EnumTargetType;
   // 标题颜色，如"red"
   titleColor: string;
   // 类型标题，如"新歌首发"
@@ -426,7 +434,6 @@ export const usePersonalRecommendation = create<Props & Actions>()(
   )
 )
 
-
 export const useInit = () => usePersonalRecommendation((state) => state.init)
 
 export const useCarouseData = () => usePersonalRecommendation((state) => state.banner)
@@ -434,6 +441,7 @@ export const useCarouseData = () => usePersonalRecommendation((state) => state.b
 export const useCarouseLoading = () => usePersonalRecommendation((state) => state.bannerLoading)
 
 export const useRecommendResource = () => usePersonalRecommendation((state) => state.recommendResource)
+
 export const useRecommendResourceLoading = () => usePersonalRecommendation((state) => state.recommendResourceLoading)
 
 export const useNewSong = () => usePersonalRecommendation((state) => state.newSong.slice(0, 5))

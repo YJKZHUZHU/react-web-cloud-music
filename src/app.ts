@@ -50,6 +50,7 @@ export const request: RequestConfig = {
   errorConfig: {
     errorHandler,
   },
+  withCredentials: true,
 
   headers: {
     'Content-Type': 'multipart/form-data',

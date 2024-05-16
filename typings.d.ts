@@ -2,6 +2,8 @@ declare module "*.scss"
 
 declare module '*.png'
 
+declare module '*.jpeg'
+
 declare module '*.jpg'
 
 // // 在 TypeScript 中声明一个模块，可以是任何名字

@@ -11,10 +11,8 @@
     }
 
     img {
-      height: 150px !important;
-      width: 95% !important;
+
       border-radius: 5px;
-      margin: 2%;
       position: relative;
       cursor: pointer;
     }
@@ -54,87 +52,30 @@
     }
   }
 
-  .recommendResource {
-    .recommendResourceItem {
-      position: relative;
-      cursor: pointer;
-      box-shadow: 0px 4px 28px 0px rgba(35, 29, 106, 0.1);
-      background: #FFFFFF;
-      display: flex;
-      flex-direction: column;
-      border-radius: 12px;
+  .recommendResourceItem {
 
-      .imgWrap {
-        position: relative;
-        width: 100%;
-        padding-top: 100%;
-        border-radius: 12px;
-        overflow: hidden;
+    .imgWrap {
+      position: relative;
+
+      overflow: hidden;
+
+      &:hover {
+        .descWrap {
+          transform: translateY(0);
+        }
 
         .number {
-          position: absolute;
-          bottom: 0;
-          color: #fff;
-          width: 100%;
-          background-color: rgba(0, 0, 0, 0.4);
-          line-height: 32px;
-          display: flex;
-          align-items: center;
-          gap: 4px;
-          padding-left: 15px;
-          transform: translateY(100%);
-          transition: all 0.3s;
+          transform: translateY(0%);
+          bottom: 3px;
         }
 
-        img {
-          position: absolute;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          top: 0;
-          width: 100%;
-          height: 100%;
-        }
-
-        .descWrap {
-
-          min-height: 20px;
-          word-break: break-all;
-          font-size: 12px;
-          position: absolute;
-          padding: 4px 6px;
-          line-height: 16px;
-          left: 0;
-          right: 0;
-          top: 0;
-          background-color: rgba(0, 0, 0, 0.4);
-          transform: translateY(-100%);
-          transition: all 0.3s;
-
-          .desc {
-            color: #ffffff;
-            //font-size: $font-size-sm;
-          }
-        }
-
-        &:hover {
-          .descWrap {
-            transform: translateY(0);
-          }
-
-          .number {
-            transform: translateY(0%);
-          }
-
-          .playIcon {
-            opacity: 1;
-          }
+        .playIcon {
+          opacity: 1;
         }
       }
     }
-
-
   }
+
 
   .newSong {
     .newSongItem {
