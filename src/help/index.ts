@@ -1,8 +1,10 @@
-import store from './localStorage'
-import dayjs from 'dayjs'
-import calendar from 'dayjs/plugin/calendar'
-import { IAllPlayRecordItem } from '@/store/user'
-import { IPlayHistoryItem, ISongsItem, PlayerModeEnum } from '@/store/player'
+/** @format */
+
+import store from "./localStorage"
+import dayjs from "dayjs"
+import calendar from "dayjs/plugin/calendar"
+import {IAllPlayRecordItem} from "@/store/user"
+import {IPlayHistoryItem, ISongsItem, PlayerModeEnum} from "@/store/player"
 
 dayjs.extend(calendar)
 
@@ -51,34 +53,37 @@ class Utils {
   static tranNumber(num: number | undefined, point: number = 2) {
     if (!num) return num
     // 将数字转换为字符串,然后通过split方法用.分隔,取到第0个
-    const numStr = num?.toString().split('.')[0]
-    if (numStr?.length < 6) { // 判断数字有多长,如果小于6,,表示10万以内的数字,让其直接显示
+    const numStr = num?.toString().split(".")[0]
+    if (numStr?.length < 6) {
+      // 判断数字有多长,如果小于6,,表示10万以内的数字,让其直接显示
       return numStr
-    } else if (numStr.length >= 6 && numStr.length <= 8) { // 如果数字大于6位,小于8位,让其数字后面加单位万
+    } else if (numStr.length >= 6 && numStr.length <= 8) {
+      // 如果数字大于6位,小于8位,让其数字后面加单位万
       const decimal = numStr.substring(numStr.length - 4, numStr.length - 4 + point)
       // 由千位,百位组成的一个数字
-      return parseInt((String(num / 10000)), 10) + '万'
+      return parseInt(String(num / 10000), 10) + "万"
       // return parseFloat(parseInt((String(num / 10000)), 10) + '.' + decimal) + '万'
-    } else if (numStr.length > 8) { // 如果数字大于8位,让其数字后面加单位亿
+    } else if (numStr.length > 8) {
+      // 如果数字大于8位,让其数字后面加单位亿
       const decimal = numStr.substring(numStr.length - 8, numStr.length - 8 + point)
-      return parseFloat(parseInt((String(num / 100000000)), 10) + '.' + decimal) + '亿'
+      return parseFloat(parseInt(String(num / 100000000), 10) + "." + decimal) + "亿"
     }
   }
 
   static setTheme(theme: string) {
-    store.setStorage('theme', theme)
+    store.setStorage("theme", theme)
     this.createTheme(theme)
   }
 
   static getTheme() {
-    const theme: any = store.getStorage('theme')
+    const theme: any = store.getStorage("theme")
     this.createTheme(theme)
   }
 
   static createTheme(theme: string) {
     // let styleLink: any = document.getElementById('theme')
-    let body = document.getElementsByTagName('body')[0]
-    body.className = `body-wrap-${theme}`  // 切换自定义组件的主题
+    let body = document.getElementsByTagName("body")[0]
+    body.className = `body-wrap-${theme}` // 切换自定义组件的主题
     // if (styleLink) {//假如存在id为theme 的link标签，直接修改其href
     //   // styleLink.href = `/theme/${theme}.css`  // 切换 antd 组件主题
     //   body.className = `body-wrap-${theme}`  // 切换自定义组件的主题
@@ -94,30 +99,39 @@ class Utils {
   }
 
   static formatSeconds(ms: number) {
-    if (!ms) return '00:00'
-    const totalSeconds = Math.floor(ms / 1000);
-    const hours = Math.floor(totalSeconds / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const seconds = totalSeconds % 60;
-    const pad = (num: number) => num.toString().padStart(2, '0');
+    if (!ms) return "00:00"
+    const totalSeconds = Math.floor(ms / 1000)
+    const hours = Math.floor(totalSeconds / 3600)
+    const minutes = Math.floor((totalSeconds % 3600) / 60)
+    const seconds = totalSeconds % 60
+    const pad = (num: number) => num.toString().padStart(2, "0")
 
-    const result = [hours, minutes, seconds].filter((item, index) => {
-      if (index === 0 && item === 0) return false
-      return true
-    }).map(item => pad(item))
+    const result = [hours, minutes, seconds]
+      .filter((item, index) => {
+        if (index === 0 && item === 0) return false
+        return true
+      })
+      .map((item) => pad(item))
 
-    return result.join(':') || '00:00'
+    return result.join(":") || "00:00"
   }
 
+  static generateIndex(index: number) {
+    if (index < 9) {
+      return `0${index + 1}`
+    }
+    return index + 1
+  }
 
   //歌词格式化
   static formatterLyric(lyric: string) {
-
     const MapLyric = new Map<number, string[]>()
     if (!lyric) return MapLyric
-    lyric.split(/[\n]/g).forEach(item => {
+    lyric.split(/[\n]/g).forEach((item) => {
       //去除空的内容
-      let temp: string[] = decodeURIComponent(item).split(/\[(.+?)\]/).filter(item => item !== '')
+      let temp: string[] = decodeURIComponent(item)
+        .split(/\[(.+?)\]/)
+        .filter((item) => item !== "")
       if (temp.length !== 0) {
         const time = this.formatterLyricTime(temp.at(0)!)
         MapLyric.set(time, temp)
@@ -125,7 +139,6 @@ class Utils {
     })
 
     return MapLyric
-
   }
 
   //动态计算歌词长度
@@ -135,9 +148,14 @@ class Utils {
       return 0
     }
     //八倍
-    return Math.max.apply(Math, lyric.map(function (o) {
-      return (o.lyc as string).length
-    })) * 8
+    return (
+      Math.max.apply(
+        Math,
+        lyric.map(function (o) {
+          return (o.lyc as string).length
+        })
+      ) * 8
+    )
   }
 
   //歌词时间格式化 00:00.000 -> 128 ms
@@ -145,8 +163,8 @@ class Utils {
     if (!timeStr) {
       return 0
     }
-    const sp1 = timeStr.split(':')
-    const sp2 = sp1[1].split('.')
+    const sp1 = timeStr.split(":")
+    const sp2 = sp1[1].split(".")
 
     const minute = +sp1[0] * 60
     const seconds = +sp2[0]
@@ -156,35 +174,43 @@ class Utils {
 
   //生成随机不重复ID
   static createRandomId() {
-    return (Math.random() * 10000000).toString(16).substr(0, 4) + '-' + (new Date()).getTime() + '-' + Math.random().toString().substr(2, 5)
+    return (
+      (Math.random() * 10000000).toString(16).substr(0, 4) +
+      "-" +
+      new Date().getTime() +
+      "-" +
+      Math.random().toString().substr(2, 5)
+    )
   }
 
   //关键词高亮
   static highLight(content: string) {
-    if (!content) return ''
-    const keywords = String(store.getStorage('keywords'))
-    const Reg = new RegExp(keywords, 'gi')
+    if (!content) return ""
+    const keywords = String(store.getStorage("keywords"))
+    const Reg = new RegExp(keywords, "gi")
     return content.replace(Reg, `<span style="color: #5D73C5; ">${keywords}</span>`)
   }
 
   //评论时间格式化
   static commentFormatTime(time: any) {
     return dayjs(time).calendar(dayjs(), {
-      sameDay: '[今天] HH:MM:ss',
-      nextDay: '[明天]',
-      nextWeek: 'dddd',
-      lastDay: '[昨天] HH:MM:ss',
-      lastWeek: '[上个] dddd HH:MM:ss',
-      sameElse: 'YYYY-MM-DD HH:MM'
+      sameDay: "[今天] HH:MM:ss",
+      nextDay: "[明天]",
+      nextWeek: "dddd",
+      lastDay: "[昨天] HH:MM:ss",
+      lastWeek: "[上个] dddd HH:MM:ss",
+      sameElse: "YYYY-MM-DD HH:MM"
     })
   }
 
   //歌手序列化['华晨宇'，'张杰] -> 华晨宇/张杰
 
-  static formatName(name: ArInterface[], link = '/', target = 'name') {
-    return name?.map(item => {
-      return item[target]
-    }).join(link)
+  static formatName(name: ArInterface[], link = "/", target = "name") {
+    return name
+      ?.map((item) => {
+        return item[target]
+      })
+      .join(link)
   }
   //播放列表
 
@@ -200,7 +226,7 @@ class Utils {
   }
 
   static formatAllRecord(record: IAllPlayRecordItem[]) {
-    return record.map(({ song, playCount, score }) => {
+    return record.map(({song, playCount, score}) => {
       return {
         playCount,
         score,
@@ -213,7 +239,7 @@ class Utils {
   static removeRepeat(source: any[], target: string) {
     let hash: any = {}
     return source.reduce(function (memo, item) {
-      hash[item[target]] ? '' : hash[item[target]] = true && memo.push(item);
+      hash[item[target]] ? "" : (hash[item[target]] = true && memo.push(item))
       return memo
     }, [])
   }
@@ -221,29 +247,30 @@ class Utils {
   //评论数格式化
   static formatCommentNumber(commentNumber: number): string | number {
     if (commentNumber < 999) return commentNumber
-    if (commentNumber > 100000) return '10w+'
-    return '999+'
+    if (commentNumber > 100000) return "10w+"
+    return "999+"
   }
   static findIndex(source: any[], target: number | string, playMode: PlayerModeEnum) {
     let result = -1
-    const index = source.findIndex(item => item.id === target)
-    const arr = [...new Array(source.length).keys()].filter(item => item !== index)
-    if (playMode === PlayerModeEnum.order) {// 顺序播放
+    const index = source.findIndex((item) => item.id === target)
+    const arr = [...new Array(source.length).keys()].filter((item) => item !== index)
+    if (playMode === PlayerModeEnum.order) {
+      // 顺序播放
       result = index
-    } else if (playMode === PlayerModeEnum.random) {// 随机播放,只有一首时播放当前歌曲
+    } else if (playMode === PlayerModeEnum.random) {
+      // 随机播放,只有一首时播放当前歌曲
       result = source.length === 1 ? 0 : arr[parseInt(String(Math.random() * arr.length - 1), 10)]
     }
     return result
   }
 }
 
-
 export const formatCatList = (sub: CatListItemInterface[], categories: any): CatListInterface[] => {
   let result: CatListInterface[] = []
   Object.keys(categories).forEach((item) => {
     result.push({
       name: categories[item],
-      list: sub.filter(items => +items.category === +item)
+      list: sub.filter((items) => +items.category === +item)
     })
   })
   return result
@@ -259,6 +286,3 @@ export function generateNumber(length: number) {
 }
 
 export default Utils
-
-
-

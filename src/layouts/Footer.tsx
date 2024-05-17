@@ -14,7 +14,7 @@ import {useBoolean} from "ahooks"
 import {useLocation} from "@umijs/max"
 import classnames from "classnames"
 import {usePlayRecord} from "@/hooks"
-import {Image} from "@/components"
+import {Artists, Image} from "@/components"
 import Utils from "@/help"
 import ReactPlayer from "react-player"
 import store from "@/help/localStorage"
@@ -169,9 +169,9 @@ const Footer = memo(() => {
   }
 
   const renderMusicInfo = (visible: boolean) => {
-    if (!visible) return <div className=" w-[300px]"></div>
+    if (!visible) return <div className=" w-[320px]"></div>
     return (
-      <div className={classnames(style.musicInfo, "flex items-center w-[300px] gap-[15px]")}>
+      <div className={classnames(style.musicInfo, "flex items-center w-[320px] gap-[15px]")}>
         <div
           className={classnames(
             style.pictureInfo,
@@ -194,17 +194,14 @@ const Footer = memo(() => {
             size={[60, 60]}
             multiple={2}
           />
-          {/* <img width={60} height={60} className=" rounded-[8px]" src={songObj.backgroundImg} /> */}
           {showPlayer ? <FullscreenOutlined className={style.full} /> : <FullscreenExitOutlined />}
         </div>
         <div className="flex flex-col flex-1 gap-[15px] justify-center">
-          <div className="flex items-center gap-[5px]">
+          <Flex align="center" gap={5}>
             <span className="text-[#333333]">{songObj.name}</span>
             <i className="text-[12px]">-</i>
-            <span className="line-clamp-1 flex-1 text-[12px]">
-              {songObj.singerArr?.join("/") || "--"}
-            </span>
-          </div>
+            <Artists max={2} data={songObj.singerArr!} className=" text-[12px] flex-1" />
+          </Flex>
           <Flex align="center" gap={5} className=" text-[12px] self-baseline">
             <span>{Utils.formatSeconds(playRef.current?.getCurrentTime()! * 1000)}</span>
             <i>/</i>

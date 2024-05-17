@@ -6,7 +6,7 @@ import classnames from "classnames"
 import styles from "./index.scss"
 
 interface PlayIconProps {
-  iconStyle?: React.StyleHTMLAttributes<HTMLElement>
+  iconStyle?: React.CSSProperties
   iconClassName: string
 }
 

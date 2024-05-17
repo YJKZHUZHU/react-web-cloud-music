@@ -11,9 +11,10 @@ interface IProps {
   title: string
   link: string
   className?: string
+  titleClassName?: string
 }
 const Card: FC<IProps> = (props) => {
-  const {children, title, link, className} = props
+  const {children, title, link, className, titleClassName} = props
   const onLink = () => {
     history.push(link)
   }
@@ -22,7 +23,7 @@ const Card: FC<IProps> = (props) => {
       gap={16}
       vertical
       className={classNames("bg-[#ffffff] rounded-[20px] p-[16px]", className)}>
-      <Flex justify="space-between" align="center">
+      <Flex justify="space-between" align="center" className={titleClassName}>
         <span className="text-[#7D829E] flex-1">{title}</span>
         <Flex
           onClick={onLink}

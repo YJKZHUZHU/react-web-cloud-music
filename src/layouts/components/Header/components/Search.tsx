@@ -310,7 +310,7 @@ const Search = () => {
       }}
       onChange={onChange}
       className={classNames("w-[500px] !ml-[24px] ")}
-      popupClassName="overflow-y-scroll  py-[16px]"
+      popupClassName="!overflow-y-scroll  py-[16px]"
       dropdownStyle={{height: 300}}
       suffixIcon={<SearchOutlined />}
       placeholder="搜索"

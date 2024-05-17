@@ -15,6 +15,7 @@ import {
 import classNames from "classnames"
 import {useEffect} from "react"
 import {history} from "@umijs/max"
+import {Artists} from "@/components"
 
 const PlayHistoryLayout = () => {
   const showPlayRecord = useShowPlayRecord()
@@ -122,6 +123,7 @@ const PlayHistoryLayout = () => {
                     })}>
                     {item.name}
                   </span>
+                  <Artists className="w-[200px] text-[#515252] hover:text-[#232323] line-clamp-1" data={item.ar} />
                   <Flex
                     align="center"
                     gap={2}

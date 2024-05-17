@@ -118,6 +118,9 @@ devDependencies:
   '@types/react-test-renderer':
     specifier: ^16.0.3
     version: 16.9.12
+  '@types/tailwindcss':
+    specifier: ^3.1.0
+    version: 3.1.0
   '@types/video-react':
     specifier: ^0.15.6
     version: 0.15.6
@@ -2730,6 +2733,15 @@ packages:
 
   /@types/stylis@4.2.5:
     resolution: {integrity: sha512-1Xve+NMN7FWjY14vLoY5tL3BVEQ/n42YLwaqJIPYhotZ9uBHt87VceMwWQpzmdEt2TNXIorIFG+YeCUUW7RInw==}
+    dev: true
+
+  /@types/tailwindcss@3.1.0:
+    resolution: {integrity: sha512-JxPzrm609hzvF4nmOI3StLjbBEP3WWQxDDJESqR1nh94h7gyyy3XSl0hn5RBMJ9mPudlLjtaXs5YEBtLw7CnPA==}
+    deprecated: This is a stub types definition. tailwindcss provides its own type definitions, so you do not need this installed.
+    dependencies:
+      tailwindcss: 3.4.1
+    transitivePeerDependencies:
+      - ts-node
     dev: true
 
   /@types/use-sync-external-store@0.0.3:

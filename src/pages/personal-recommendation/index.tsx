@@ -1,14 +1,8 @@
 /** @format */
 
-import {Fragment, useEffect, useRef} from "react"
-import {Row, Col, Carousel, message, Flex} from "antd"
-import {
-  CustomerServiceOutlined,
-  LeftCircleOutlined,
-  PlayCircleOutlined,
-  PlaySquareOutlined,
-  RightCircleOutlined
-} from "@ant-design/icons"
+import {useEffect} from "react"
+import {Carousel, message, Flex} from "antd"
+import {CustomerServiceOutlined, PlayCircleOutlined, PlaySquareOutlined} from "@ant-design/icons"
 import {history} from "@umijs/max"
 import {PlayIcon, Artists, Image} from "@/components"
 import classNames from "classnames"
@@ -161,98 +155,115 @@ const PersonalRecommendation = () => {
         </Flex>
       </Card>
       <Flex justify="space-between" gap={30}>
-        <Card className="w-[400px]" title="最新音乐" link="/find-music/latest-music">
-          <div className={styles.newSong}>
+        <Card
+          className="w-[400px] p-0"
+          titleClassName=" px-[16px] pt-[16px]"
+          title="最新音乐"
+          link="/find-music/latest-music">
+          <Flex vertical>
             {newSong.map((item, index) => {
               return (
-                <div
+                <Flex
+                  gap={15}
                   key={item.id}
-                  className={styles.newSongItem}
-                  onDoubleClick={() => getSongInfo(item.id)}>
-                  <span className={styles.number}>{index < 10 ? `0${index}` : index}</span>
+                  className={classNames(
+                    styles.newSongItem,
+                    " cursor-pointer py-[8px] pr-[8px] hover:bg-[#efefef] rounded-[8px]"
+                  )}
+                  onClick={() => getSongInfo(item.id)}>
+                  <span className=" pl-[16px]  self-center">
+                    {index < 10 ? `0${index + 1}` : index + 1}
+                  </span>
                   <div className={styles.img}>
-                    <img alt="" src={`${item.picUrl}?param=64y64`} />
+                    <Image
+                      width={64}
+                      className=" rounded-[5px] "
+                      src={item.picUrl}
+                      size={[64, 64]}
+                      multiple={2}
+                    />
                     <PlayIcon iconClassName={styles.playIcon} />
                   </div>
-                  <div className={styles.content}>
-                    <p className="line-clamp-1 w-[190px]">{item.name}</p>
-                    <span className={classNames("line-clamp-1", "w-[190px]", "text-[#BCBEC9]")}>
-                      {item.song.artists.map((d: any) => d.name).join("/")}
-                    </span>
-                  </div>
+                  <Flex gap={12} vertical flex={1} justify="center" align="center">
+                    <span className="line-clamp-1 self-start w-full">{item.name}</span>
+                    <Artists data={item.song.artists} className="self-start w-full" />
+                  </Flex>
                   {!!item.song.mvid ? (
                     <PlaySquareOutlined
-                      className={styles.icon}
-                      onClick={() =>
+                      className=" text-[#d33931]"
+                      onClick={(e) => {
+                        e.stopPropagation()
                         history.push(`/mv-detail?mvid=${item.song.mvid}&type=${item.song.ftype}`)
-                      }
+                      }}
                     />
                   ) : null}
-                </div>
+                </Flex>
               )
             })}
-          </div>
+          </Flex>
         </Card>
         <Card className="flex-1" title="独家放送" link="/exclusive-broadcast">
-          <div
-            className={classNames(
-              styles.privateContent,
-              "flex flex-col gap-[26px] flex-1 justify-between"
-            )}>
+          <Flex vertical gap={26} flex={1}>
             {privateContent.map((item) => {
               return (
-                <div
+                <Flex
+                  gap={16}
                   key={item.id}
                   onClick={() => onLink(item)}
-                  className={classNames(styles.privateContentItem, "flex", "gap-[16px]")}>
-                  <div className={styles.img}>
-                    <img src={item.picUrl} />
-                    <PlayCircleOutlined className={styles.icon} />
+                  className={classNames(styles.privateContentItem)}>
+                  <div className="rounded-[5px] relative cursor-pointer">
+                    <Image width={300} src={item.picUrl} size={[300, 300]} multiple={2} />
+                    <PlayIcon iconClassName={styles.playIcon} />
                   </div>
-                  <p className="flex-1 line-clamp-2 leading-[20px]">{item.name}</p>
-                </div>
+                  <span className="flex-1 line-clamp-2 leading-[20px]">{item.name}</span>
+                </Flex>
               )
             })}
-          </div>
+          </Flex>
         </Card>
       </Flex>
       <Card title="推荐MV" link="/find-music/song-list">
-        <Row className={styles.mv} gutter={[32, 32]}>
+        <Flex gap={32} wrap className={styles.mv}>
           {mv.map((item) => {
             return (
-              <Col span={6} key={item.picUrl}>
+              <Flex
+                vertical
+                gap={8}
+                key={item.id}
+                onClick={() => history.push(`/mv-detail?mvid=${item.id}&type=${+item.type - 5}`)}
+                className={classNames("relative w-[300px]", styles.mvItem)}>
                 <div
-                  onClick={() => history.push(`/mv-detail?mvid=${item.id}&type=${+item.type - 5}`)}
-                  className={styles.mvItem}>
-                  <div className={styles.imgWrap}>
-                    <Image
-                      preview={false}
-                      width="100%"
-                      height="100%"
-                      // width={200}
-                      // height={200}
-                      src={`${item.picUrl}?param=300y200`}
-                      fallback="data:image/png;base64,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"
-                    />
-                    {/* <img alt="" /> */}
-                    <span className={styles.number}>
-                      <PlayCircleOutlined className={styles.listen} />
-                      <i>{Utils.tranNumber(item.playCount, 2)}</i>
-                    </span>
-                    <div className={styles.descWrap}>
-                      <span className={styles.desc}>{item.copywriter}</span>
-                    </div>
-                    <PlayIcon iconClassName={styles.playIcon} />
-                  </div>
-                  <div className="flex flex-col gap-[4px]">
-                    <p className="line-clamp-1">{item.name}</p>
-                    <Artists data={item.artists} />
+                  className={classNames(
+                    styles.imgWrap,
+                    "relative w-[300px] rounded-[4px] cursor-pointer overflow-hidden"
+                  )}>
+                  <Image height={150} src={item.picUrl} size={[300, 150]} multiple={2} />
+                  <PlayIcon iconClassName={styles.playIcon} />
+                  <Flex
+                    align="center"
+                    justify="end"
+                    gap={5}
+                    className=" pr-[10px] w-full absolute right-0 text-[#ffffff] top-0 leading-[32px]">
+                    <PlayCircleOutlined />
+                    <span>{Utils.tranNumber(item.playCount, 2)}</span>
+                  </Flex>
+                  <div
+                    style={{backgroundColor: "rgba(0, 0, 0, 0.4)"}}
+                    className={classNames(
+                      styles.descWrap,
+                      "leading-1 w-full text-[12px] absolute leading-[16px] p-[4px] left-0 right-0 top-0 translate-y-[-100%] transition-all text-[#ffffff]"
+                    )}>
+                    {item.copywriter}
                   </div>
                 </div>
-              </Col>
+                <Flex vertical gap={8}>
+                  <span className="line-clamp-1 leading-[16px]">{item.name}</span>
+                  <Artists data={item.artists} />
+                </Flex>
+              </Flex>
             )
           })}
-        </Row>
+        </Flex>
       </Card>
     </Flex>
   )
