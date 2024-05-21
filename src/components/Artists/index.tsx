@@ -133,7 +133,12 @@ const Artists: FC<Props> = (props) => {
       align="center"
       gap={gap}
       className={classNames("line-clamp-1", className)}>
-      {/* <CharWidthMeasurer/> */}
+      {/* <CharWidthMeasurer
+        character={maxData.join()}
+        getWidth={(width) => {
+          console.log("width", width)
+        }}
+      /> */}
       {maxData.map((item, index) => (
         <Flex
           align="center"
@@ -141,12 +146,12 @@ const Artists: FC<Props> = (props) => {
           key={item.id}
           className={classNames(
             itemClassName,
-            'leading-[20px]',
+            "leading-[20px]",
             index === maxData.length - 1 ? " flex-1" : ""
           )}
           onClick={(e) => onLink(e, item.id, item.name)}>
           <HoverText
-            className={index === maxData.length - 1 ? " flex-1 line-clamp-1" : ""}
+            className={index === maxData.length - 1 ? " flex-1 line-clamp-1" : "line-clamp-1 w-max"}
             color={color}
             hoverColor={hoverColor}
             name={item.name}

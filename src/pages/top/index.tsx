@@ -1,7 +1,7 @@
 /** @format */
 
 import {useEffect} from "react"
-import {Row, Col} from "antd"
+import {Row, Col, Flex} from "antd"
 import {history} from "@umijs/max"
 import {People} from "@/components"
 import classNames from "classnames"
@@ -27,22 +27,23 @@ export default () => {
 
   return (
     <div className={classNames(styles.topContainer, "flex flex-col gap-[40px]")}>
-      <Card title="官方榜单">
-        <div className="flex flex-col gap-[20px]">
+      <Flex vertical gap={20} className={classNames("bg-[#ffffff] rounded-[20px] p-[16px]")}>
+        <div className="text-[32px] font-[600]  text-[#363D62]">全球榜</div>
+        <Flex vertical gap={20} justify="space-between">
           {officialList.map((item) => {
             return (
-              <div key={item.id} className="flex justify-between gap-[20px]">
+              <Flex key={item.id} gap={20}>
                 <div
                   style={{
                     backgroundImage: `-webkit-cross-fade(url(${item.tracks[0].al.picUrl}?param=200y200), url(${item.coverImgUrl}), 95%)`
                   }}
-                  className={classNames(styles.bg)}>
+                  className={classNames(styles.bg, "w-[200px]")}>
                   <span className="text-[#ffffff] text-[12px] mt-[60px]">
                     {dayjs(item.updateTime).format("MM月DD日更新")}
                   </span>
                 </div>
-                <div className="flex-1 flex flex-col justify-between">
-                  <div className=" flex flex-col">
+                <Flex flex={1} vertical justify="space-between">
+                  <Flex vertical>
                     {item.tracks.slice(0, 5).map((d, index) => {
                       return (
                         <div
@@ -81,7 +82,7 @@ export default () => {
                         </div>
                       )
                     })}
-                  </div>
+                  </Flex>
 
                   <div
                     onClick={() => history.push(`/playList/${item.id}?listId=${item.id}`)}
@@ -89,20 +90,21 @@ export default () => {
                     <span>查看全部</span>
                     <RightOutlined />
                   </div>
-                </div>
-              </div>
+                </Flex>
+              </Flex>
             )
           })}
-        </div>
-      </Card>
+        </Flex>
+      </Flex>
+
       <Card title="全球榜">
-        <Row gutter={[32, 16]} justify="space-between">
+        <Row gutter={[32, 16]}>
           {globalList.map((item) => {
             return (
               <Col key={item.id} span={4}>
                 <div
-                  className="w-150 h-[150px] bg-no-repeat relative bg-cover  rounded-[12px] mb-[8px] cursor-pointer"
-                  style={{backgroundImage: `url(${item.coverImgUrl}?param=150y150)`}}
+                  className="w-[150px] h-[150px] bg-no-repeat relative bg-cover  rounded-[12px] mb-[8px] cursor-pointer"
+                  style={{backgroundImage: `url(${item.coverImgUrl}?param=300y300)`}}
                   onClick={() => history.push(`/playList/${item.id}?listId=${item.id}`)}>
                   <div className="flex items-center gap-[4px] absolute right-[10px] top-[10px]">
                     <CaretRightOutlined style={{color: "#ffffff", fontSize: 18}} />

@@ -1,48 +1,54 @@
 /** @format */
 
-import React, {useEffect, useMemo, useState} from "react"
-import {Flex, Radio, Spin, Tag} from "antd"
+import React, {useEffect, useMemo, useRef, useState} from "react"
+import {Flex, Spin, Tag} from "antd"
 import {
   MAP_CLASSIFICATION_TYPE_ENUM,
   MAP_TAG,
   MAP_TAG_ENUM,
   MAP_NEW_SONG_AREA,
-  ITagItem
+  ITagItem,
+  MAP_NEW_DISK_AREA
 } from "@/constants/latest-music"
 import {history} from "@umijs/max"
 import VirtualList from "rc-virtual-list"
-import {Artists, Image, PlayIcon, VideoIcon} from "@/components"
+import {Artists, Image, PlayIcon} from "@/components"
 import coverall from "@/assets/coverall.png"
 import playing from "@/assets/playing.png"
-import NewSongs from "./components/NewSongs"
-import NewDisc from "./components/NewDisc"
 import styles from "./index.scss"
 import classNames from "classnames"
 import {
   useGetSong,
   useSong,
   useLoading,
-  SongKey,
   useGetAlbum,
-  useMonthAlbum,
-  IAlbumItem
+  IAlbumItem,
+  useAlbum,
+  Song,
+  useInitAlbum,
+  usePrevAlbum
 } from "@/store/latestMusic"
 import Utils from "@/help"
 import {PlaySquareOutlined} from "@ant-design/icons"
 import {useGetSongInfo, useSongId} from "@/store/player"
+import dayjs from "dayjs"
+import {useVirtualListHeight} from "@/hooks"
 
 const {CheckableTag} = Tag
 
 const LatestMusic = () => {
-  const [radioKey, setRadioKey] = useState<"new-songs" | "new-disc">("new-songs")
   const loading = useLoading()
   const getSong = useGetSong()
   const getSongInfo = useGetSongInfo()
   const getAlbum = useGetAlbum()
-  // const isPalying = useIsPalying()
+  const album = useAlbum()
+
+  const virtualHeight = useVirtualListHeight(124)
+
   const song = useSong()
   const songId = useSongId()
-  const monthAlbum = useMonthAlbum()
+  const initAlbum = useInitAlbum()
+
   const [selectTags, setSelectTags] = useState([
     MAP_CLASSIFICATION_TYPE_ENUM.newSong,
     MAP_CLASSIFICATION_TYPE_ENUM.ALL,
@@ -50,8 +56,12 @@ const LatestMusic = () => {
   ])
 
   const [category, area] = selectTags
+  const [[title, subTitle], setAlbumText] = useState(["新碟", "本周"])
 
-  const [virtualHeight, setVirtualHeight] = useState(0)
+  const timeRef = useRef({year: Number(dayjs().format("YYYY")), month: Number(dayjs().format("M"))})
+  const showWeekData = useRef(true)
+
+  const prevAlbum = usePrevAlbum()
 
   const tags = useMemo(() => {
     return [
@@ -64,12 +74,12 @@ const LatestMusic = () => {
         title: "地区：",
         data: MAP_TAG.get(MAP_TAG_ENUM.AREA),
         key: MAP_TAG_ENUM.AREA
-      },
-      {
-        title: "筛选：",
-        data: MAP_TAG.get(MAP_TAG_ENUM.NEW_DISK_TYPE),
-        key: MAP_TAG_ENUM.NEW_DISK_TYPE
       }
+      // { // 暂时去掉，接口不支持
+      //   title: "筛选：",
+      //   data: MAP_TAG.get(MAP_TAG_ENUM.NEW_DISK_TYPE),
+      //   key: MAP_TAG_ENUM.NEW_DISK_TYPE
+      // }
     ].filter((item) => {
       if (selectTags.at(0) === MAP_CLASSIFICATION_TYPE_ENUM.newSong) {
         return item.key !== MAP_TAG_ENUM.NEW_DISK_TYPE
@@ -78,34 +88,53 @@ const LatestMusic = () => {
     })
   }, [selectTags])
 
-  const onChange = (item: ITagItem, index: number) => {
-    const result = selectTags.map((s, i) => {
-      if (index === i) {
-        return item.key
+  const onChange = async (item: ITagItem, index: number) => {
+    try {
+      const result = selectTags.map((s, i) => {
+        if (index === i) {
+          return item.key
+        }
+        if (index === 0 && i === 2 && s === MAP_CLASSIFICATION_TYPE_ENUM.newDiskTypeHot) {
+          return MAP_CLASSIFICATION_TYPE_ENUM.newDiskTypeNew
+        }
+        return s
+      })
+      const [category, area, type] = result
+      setSelectTags(result)
+      if (category === MAP_CLASSIFICATION_TYPE_ENUM.newSong) {
+        getSong(MAP_NEW_SONG_AREA.get(area)!)
+      } else if (category === MAP_CLASSIFICATION_TYPE_ENUM.newDisk) {
+        initAlbum()
+        timeRef.current.year = Number(dayjs().format("YYYY"))
+        timeRef.current.month = Number(dayjs().format("M"))
+        await getAlbum({
+          area: MAP_NEW_DISK_AREA.get(area)!,
+          type: MAP_CLASSIFICATION_TYPE_ENUM.newDiskTypeNew,
+          year: timeRef.current.year.toString(),
+          month: timeRef.current.month.toString()
+        })
       }
-      if (index === 0 && i === 2 && s === MAP_CLASSIFICATION_TYPE_ENUM.newDiskTypeHot) {
-        return MAP_CLASSIFICATION_TYPE_ENUM.newDiskTypeNew
-      }
-      return s
-    })
-    const [category, area] = result
-    setSelectTags(result)
-    if (category === MAP_CLASSIFICATION_TYPE_ENUM.newSong) {
-      getSong(MAP_NEW_SONG_AREA.get(area)!)
-    } else if (category === MAP_CLASSIFICATION_TYPE_ENUM.newDisk) {
-      getAlbum({})
+    } catch (error) {
+      console.log("error", error)
+      throw error
     }
   }
 
   const renderNewSong = () => {
-    if (category !== MAP_CLASSIFICATION_TYPE_ENUM.newSong) {
-      return
-    }
     const key = MAP_NEW_SONG_AREA.get(area)!
-    const data = song[key]
+
+    const data = song[key] || []
+
     return (
-      <Flex vertical>
-        {data?.map((item, index) => {
+      <VirtualList
+        fullHeight
+        itemHeight={80}
+        height={virtualHeight}
+        className={classNames(styles.virtualList)}
+        data={data!}
+        styles={{verticalScrollBarThumb: {}}}
+        itemKey="id">
+        {(item: Song, index) => {
           const isPlaying = String(item.id) === String(songId)
           return (
             <Flex
@@ -113,7 +142,7 @@ const LatestMusic = () => {
               key={item.id}
               gap={12}
               onClick={() => getSongInfo(item.id)}
-              className={classNames("py-[12px] px-[12px] cursor-pointer", {
+              className={classNames(" h-[80px] px-[12px] cursor-pointer", {
                 "bg-[#F9F9F9]": index % 2 === 0,
                 "hover:bg-[#ECECEC]": index % 2 === 0
               })}>
@@ -178,86 +207,120 @@ const LatestMusic = () => {
               </span>
             </Flex>
           )
-        })}
+        }}
+      </VirtualList>
+    )
+  }
+
+  const renderAlbum = () => {
+    const data = Utils.chunkArray<IAlbumItem>(album, 6)
+    return (
+      <Flex flex={1} justify="space-between" className={classNames("px-[16px]")} gap={12}>
+        <Flex vertical gap={12}>
+          <div className="w-[50px] text-[#262626] text-[24px] font-[600]">{subTitle}</div>
+          <div className="w-[50px] text-[#262727] ">{title}</div>
+        </Flex>
+
+        <VirtualList
+          fullHeight
+          itemHeight={180}
+          height={virtualHeight}
+          className={classNames(styles.virtualList, "flex-1")}
+          data={data}
+          styles={{verticalScrollBarThumb: {}}}
+          itemKey="key"
+          onScroll={onScroll}>
+          {(dataSource: {key: number; list: IAlbumItem[]}, index) => {
+            return (
+              <Flex key={index} wrap gap={25} justify="flex-start">
+                {dataSource?.list?.map((item) => (
+                  <Flex
+                    onClick={(e) => {
+                      history.push(`/album?id=${item.id}&name=${item.name}`)
+                    }}
+                    vertical
+                    key={item?.id}
+                    gap={8}
+                    className=" rounded-[5px] w-[153px]">
+                    <div
+                      style={{
+                        backgroundRepeat: "no-repeat",
+                        background: `url(${coverall})`,
+                        backgroundPosition: "0 -845px"
+                      }}
+                      className=" rounded-[5px] w-[153px] h-[130px]">
+                      <Image
+                        className="cursor-pointer rounded-[5px]"
+                        height={132}
+                        size={[132, 132]}
+                        multiple={2}
+                        src={item.picUrl}
+                      />
+                    </div>
+                    <Flex vertical gap={8} className="w-[130px]">
+                      <span className="line-clamp-1 text-[14px] text-[#2B2B2B] cursor-pointer hover:text-[#020202]">
+                        {item.name}
+                      </span>
+                      <Artists className="text-[14px]" data={item.artists} max={2} />
+                    </Flex>
+                  </Flex>
+                ))}
+              </Flex>
+            )
+          }}
+        </VirtualList>
       </Flex>
     )
   }
 
   const onScroll = (e: React.UIEvent<HTMLElement, UIEvent>) => {
-    console.log("滚动啊")
     // Refer to: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollHeight#problems_and_solutions
-    // if (
-    //   Math.abs(e.currentTarget.scrollHeight - e.currentTarget.scrollTop - virtualHeight) <= 140 &&
-    //   !loading &&
-    //   hasMore.current
-    // ) {
-    //   offset.current += 30
-    //   console.log("触发了吗")
-    //   getList(
-    //     {
-    //       limit: max,
-    //       offset: offset.current,
-    //       area,
-    //       type,
-    //       initial
-    //     },
-    //     true
-    //   )
-    // }
-  }
+    if (
+      Math.abs(e.currentTarget.scrollHeight - e.currentTarget.scrollTop - virtualHeight) <= 180 &&
+      !loading
+    ) {
+      console.log("到底了", e.currentTarget.scrollHeight - e.currentTarget.scrollTop, virtualHeight)
+      if (prevAlbum.length !== 0) {
+        setAlbumText([timeRef.current.year.toString(), timeRef.current.month.toString()])
+        getAlbum({
+          area: MAP_NEW_DISK_AREA.get(area)!,
+          type: MAP_CLASSIFICATION_TYPE_ENUM.newDiskTypeNew,
+          year: timeRef.current.year.toString(),
+          month: timeRef.current.month.toString()
+        })
+        return
+      }
+      showWeekData.current = false
+      if (timeRef.current.month === 12) {
+        timeRef.current.year -= 1
+      }
+      if (timeRef.current.month === 12) {
+        timeRef.current.month = 1
+      } else {
+        timeRef.current.month -= 1
+      }
+      setAlbumText([timeRef.current.year.toString(), timeRef.current.month.toString()])
 
-  const renderAlbum = () => {
-    if (category !== MAP_CLASSIFICATION_TYPE_ENUM.newDisk) {
-      return
+      getAlbum({
+        area: MAP_NEW_DISK_AREA.get(area)!,
+        type: MAP_CLASSIFICATION_TYPE_ENUM.newDiskTypeNew,
+        year: timeRef.current.year.toString(),
+        month: timeRef.current.month.toString()
+      })
     }
-    return (
-      <VirtualList
-        virtual
-        height={virtualHeight}
-        className={styles.virtualList}
-        data={monthAlbum}
-        styles={{verticalScrollBarThumb: {}}}
-        itemKey="id"
-        onScroll={onScroll}>
-        {(item: IAlbumItem) => (
-          <Flex vertical key={item.id} gap={12} className=" rounded-[5px] w-[153px] mb-[16px]">
-            <div
-              style={{
-                backgroundRepeat: "no-repeat",
-                background: `url(${coverall})`,
-                backgroundPosition: "0 -845px"
-              }}
-              className=" rounded-[5px] w-[153px] h-[130px]">
-              <Image
-                className="cursor-pointer rounded-[5px]"
-                height={132}
-                size={[132, 132]}
-                multiple={2}
-                src={item.picUrl}
-              />
-            </div>
-
-            <span className="line-clamp-1">{item.name}</span>
-            <Artists data={item.artists} />
-          </Flex>
-        )}
-      </VirtualList>
-    )
   }
 
   useEffect(() => {
-    const ele = document.querySelector<HTMLDivElement>("#_contentContainer")
-    ele && setVirtualHeight(ele?.offsetHeight!)
     getSong(MAP_NEW_SONG_AREA.get(area)!)
   }, [])
 
   return (
-    <Spin spinning={loading}>
-      <Flex vertical gap={24} className=" bg-[#ffffff] rounded-[20px]">
+    <Spin spinning={loading} tip="Loading...">
+      <Flex flex={1} vertical gap={24} className=" bg-[#ffffff] rounded-[20px] pb-[16px]">
         <Flex vertical gap={24} className=" px-[16px] mt-[16px]">
           {tags.map((d, index) => {
             return (
-              <Flex key={d.key} align="center">
+              <Flex key={d.key} align="center" gap={12}>
                 <span>{d.title}</span>
                 <Flex flex={1} align="center">
                   {d.data?.map((item) => {
@@ -275,8 +338,7 @@ const LatestMusic = () => {
             )
           })}
         </Flex>
-        {renderNewSong()}
-        {renderAlbum()}
+        {category === MAP_CLASSIFICATION_TYPE_ENUM.newSong ? renderNewSong() : renderAlbum()}
       </Flex>
     </Spin>
   )

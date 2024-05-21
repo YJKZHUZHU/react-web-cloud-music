@@ -169,7 +169,7 @@ const Album: FC<IAlbum> = (props) => {
         <Space direction="vertical" size={15}>
           <div
             className={classnames(styles.img, {[styles.diff]: !!id})}
-            onClick={() => id && history.push(`/album/song-list?id=${id}`)}>
+            onClick={() => id && history.push(`/album/${id}`)}>
             <img src={imgUrl} alt="" />
           </div>
           {time ? <span>{dayjs(time).format("YYYY-MM-DD")}</span> : null}
@@ -224,7 +224,7 @@ const Album: FC<IAlbum> = (props) => {
         ) : (
           <>
             {data?.length === 10 ? (
-              <li className={classNames} onClick={() => history.push(`/album/song-list?id=${id}`)}>
+              <li className={classNames} onClick={() => history.push(`/album/${id}`)}>
                 <Space>
                   <span>查看全部</span>
                   <RightOutlined />
@@ -247,7 +247,7 @@ const Album: FC<IAlbum> = (props) => {
               span={4}
               className={styles.card}
               key={item.id}
-              onClick={() => history.push(`/album/song-list?id=${item.id}`)}>
+              onClick={() => history.push(`/album/${item.id}`)}>
               <Card
                 bordered={false}
                 style={{width: "100%"}}
@@ -289,12 +289,12 @@ const Album: FC<IAlbum> = (props) => {
               <li className={styles.tableItem} key={item.id}>
                 <div
                   className={styles.img}
-                  onClick={() => history.push(`/album/song-list?id=${item.id}`)}>
+                  onClick={() => history.push(`/album/${item.id}`)}>
                   <img src={item.picUrl} alt={item.name} />
                 </div>
                 <span
                   className={styles.singerName}
-                  onClick={() => history.push(`/album/song-list?id=${item.id}`)}>
+                  onClick={() => history.push(`/album/${item.id}`)}>
                   {item.name}
                   {item.alias.length !== 0 ? (
                     <i className={styles.alias}>({item.alias.join("")})</i>

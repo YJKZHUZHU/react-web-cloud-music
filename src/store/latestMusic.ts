@@ -3,7 +3,7 @@
 import {create} from "zustand"
 import {persist, createJSONStorage, devtools} from "zustand/middleware"
 import {MAP_CLASSIFICATION_TYPE_ENUM} from "@/constants/latest-music"
-import {songs, album} from "@/api/latestMusic"
+import {songs, album, IAlbumParams} from "@/api/latestMusic"
 
 type MusicQuality = {
   dfsId: number
@@ -168,6 +168,7 @@ export interface IAlbumItem {
   areaId: number // 区域ID
   exclusive: boolean // 是否独家
   isSub: boolean // 是否订阅
+  index?: number
 }
 
 export type SongKey =
@@ -182,20 +183,21 @@ type Props = {
     [key in MAP_CLASSIFICATION_TYPE_ENUM]: Song[]
   }>
   loading: boolean
-  monthAlbum: IAlbumItem[]
-  weekAlbum: IAlbumItem[]
+  album: IAlbumItem[]
+  prevAlbum: IAlbumItem[]
 }
 
 interface Actions {
   getSong: (type: MAP_CLASSIFICATION_TYPE_ENUM) => void
-  getAlbum: (data: any) => void
+  getAlbum: (data: IAlbumParams) => void
+  initAlbum: () => void
 }
 
 const initialState: Props = {
   song: {},
   loading: false,
-  monthAlbum: [],
-  weekAlbum: []
+  album: [],
+  prevAlbum: []
 }
 
 export const useLatestMusic = create<Props & Actions>()(
@@ -203,12 +205,54 @@ export const useLatestMusic = create<Props & Actions>()(
     persist(
       (set, get) => ({
         ...initialState,
+        initAlbum: () => {
+          set({album: [], prevAlbum: []}, false, "初始化album")
+        },
+        getAlbum: async (data) => {
+          const albumData = get().album
+          const prevAlbum = get().prevAlbum
 
-        getAlbum: async () => {
+          if (prevAlbum.length !== 0) {
+            set(
+              {
+                album: [...albumData, ...prevAlbum],
+                prevAlbum: []
+              },
+              false,
+              "新碟上架数据"
+            )
+            return
+          }
+
           try {
-            const res = await album({})
-            set({monthAlbum: res.data.monthData}, false, "")
+            set({loading: true}, false, "Loading...")
+            const res = await album(data)
+
+            const result = [...(res.data?.weekData || []), ...res.data.monthData]
+            const isExit = !!res.data?.weekData
+            if (isExit && prevAlbum.length === 0) {
+              set(
+                {
+                  album: res.data?.weekData,
+                  prevAlbum: res.data.monthData
+                },
+                false,
+                "新碟上架数据"
+              )
+            } else {
+              set(
+                {
+                  album: [...albumData, ...res.data.monthData],
+                  prevAlbum: []
+                },
+                false,
+                "新碟上架数据"
+              )
+            }
+
+            set({loading: false}, false, "Loading...")
           } catch (error) {
+            set({loading: false}, false, "Loading...")
             console.log("error", error)
           }
         },
@@ -235,8 +279,6 @@ export const useLatestMusic = create<Props & Actions>()(
               false,
               "新歌速递"
             )
-
-            console.log("res--", res)
           } catch (error) {
             set({loading: false}, false, "Loading...")
             console.log("error", error)
@@ -245,7 +287,12 @@ export const useLatestMusic = create<Props & Actions>()(
       }),
       {
         name: "latestMusicStore",
-        storage: createJSONStorage(() => sessionStorage) // (optional) by default, 'localStorage' is used
+        storage: createJSONStorage(() => sessionStorage), // (optional) by default, 'localStorage' is used
+        partialize: (state) => {
+          return {
+            song: state.song
+          }
+        }
       }
     ),
     {
@@ -262,4 +309,8 @@ export const useSong = () => useLatestMusic((state) => state.song)
 
 export const useGetAlbum = () => useLatestMusic((state) => state.getAlbum)
 
-export const useMonthAlbum = () => useLatestMusic((state) => state.monthAlbum)
+export const useAlbum = () => useLatestMusic((state) => state.album)
+
+export const useInitAlbum = () => useLatestMusic((state) => state.initAlbum)
+
+export const usePrevAlbum = () => useLatestMusic((state) => state.prevAlbum)

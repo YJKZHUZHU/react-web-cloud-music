@@ -1,28 +1,30 @@
-export { default as Artists } from './Artists'
-export { default as Loading } from './Loading'
-export { default as PlayIcon } from './PlayIcon'
-export { default as SimiItem } from './SimiItem'
+/** @format */
 
-export { default as HotComment } from './HotComment'
+export {default as Artists} from "./Artists"
+export {default as Loading} from "./Loading"
+export {default as PlayIcon} from "./PlayIcon"
+export {default as SimiItem} from "./SimiItem"
 
-export { default as NewComment } from './NewComment'
+export {default as HotComment} from "./HotComment"
 
-export { default as VideoIcon } from './VideoIcon'
+export {default as NewComment} from "./NewComment"
 
-export { default as QrLogin } from './QrLogin'
+export {default as VideoIcon} from "./VideoIcon"
 
-export { default as Card } from './Card'
+export {default as QrLogin} from "./QrLogin"
 
-export { default as HighlightText } from './HighlightText'
+export {default as Card} from "./Card"
 
-export { default as People } from './People'
-export { default as Comment } from './Comment'
-export { default as CommentItem } from './CommentItem'
+export {default as HighlightText} from "./HighlightText"
 
-export { default as WithEmoji } from './WithEmoji'
-export { default as Image } from './Image'
+export {default as People} from "./People"
+export {default as Comment} from "./Comment"
+export {default as CommentItem} from "./CommentItem"
 
+export {default as WithEmoji} from "./WithEmoji"
+export {default as Image} from "./Image"
 
+export {default as PlayStatus} from "./PlayStatus"
 
 interface IUser {
   locationInfo: any
@@ -89,5 +91,3 @@ export interface ICommentsProps {
   type: CommentType
   id: string | number
 }
-
-

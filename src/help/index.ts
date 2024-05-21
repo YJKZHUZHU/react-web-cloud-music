@@ -263,6 +263,14 @@ class Utils {
     }
     return result
   }
+
+  static chunkArray<T>(array: T[], chunkSize: number) {
+    let chunks = []
+    for (let i = 0; i < array.length; i += chunkSize) {
+      chunks.push({key: i, list: array.slice(i, i + chunkSize)})
+    }
+    return chunks
+  }
 }
 
 export const formatCatList = (sub: CatListItemInterface[], categories: any): CatListInterface[] => {

@@ -123,7 +123,7 @@ const Collect: FC = ({ children }) => {
             dataSource={albumData?.data}
             renderItem={(item) => (
               <List.Item
-                onClick={() => history.push(`/album/song-list?id=${item.id}`)}
+                onClick={() => history.push(`/album/${item.id}`)}
                 className={styles.albItem}>
                 <List.Item.Meta
                   avatar={<Avatar src={item.picUrl} />}

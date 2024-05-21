@@ -6,7 +6,7 @@ import {history} from "@umijs/max"
 import {UserOutlined} from "@ant-design/icons"
 import {Artists} from "@/components"
 import {useSearchDetail} from "@/hooks"
-import {IComProps, CountContext} from "./index"
+import {CountContext} from "./index"
 import Utils from "@/help"
 import styles from "./index.scss"
 
@@ -30,7 +30,7 @@ const Album = () => {
           {request?.data?.list.map((item: any) => {
             return (
               <li
-                onClick={() => history.push(`/album/song-list?id=${item.id}`)}
+                onClick={() => history.push(`/album/${item.id}`)}
                 className={styles.item}
                 key={Utils.createRandomId()}>
                 <Space>

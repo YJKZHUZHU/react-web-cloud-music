@@ -43,7 +43,7 @@ const BasicLayout: FC = () => {
         <div
           id="_contentContainer"
           className={classNames(
-            "bg-[length:40px_40px] bg-no-repeat bg-[url('../../assets/layout/radius@2x.png')] relative flex-1 h-[calc(100vh-120px)] w-[calc(100vw-220px)] overflow-scroll px-[40px] pt-[30px]",
+            "bg-[length:40px_40px] bg-no-repeat bg-[url('../../assets/layout/radius@2x.png')] relative flex-1 h-[calc(100vh-120px)] w-[calc(100vw-220px)] overflow-scroll px-[40px] pt-[30px] flex flex-col",
             playerLayoutVisible ? "pb-[100px]" : "pb-[24px]"
           )}>
           <Outlet />

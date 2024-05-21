@@ -157,7 +157,7 @@ const PersonalRecommendation = () => {
       <Flex justify="space-between" gap={30}>
         <Card
           className="w-[400px] p-0"
-          titleClassName=" px-[16px] pt-[16px]"
+          titleClassName=" px-[16px]"
           title="最新音乐"
           link="/find-music/latest-music">
           <Flex vertical>

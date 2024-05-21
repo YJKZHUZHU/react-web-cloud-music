@@ -96,7 +96,7 @@ const Single = () => {
       render: (text: any, record: any) => {
         return (
           <span
-            onClick={() => history.push(`/album/song-list?id=${record.album.id}`)}
+            onClick={() => history.push(`/album/${record.album.id}`)}
             dangerouslySetInnerHTML={{__html: text && Utils.highLight(text.name)}}
           />
         )

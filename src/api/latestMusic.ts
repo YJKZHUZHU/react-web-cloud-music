@@ -21,7 +21,7 @@ enum FetchEnum {
   song = "/top/song"
 }
 
-interface IAlbumParams {
+export interface IAlbumParams {
   /** ALL:全部,ZH:华语,EA:欧美,KR:韩国,JP:日本 */
   area: MAP_CLASSIFICATION_TYPE_ENUM
   /** new:全部 hot:热门,默认为 new */
@@ -30,8 +30,8 @@ interface IAlbumParams {
   year: string
   /** 月,默认本月 5 */
   month: string
-  offset: number
-  limit: number
+  offset?: number
+  limit?: number
 }
 
 export interface IAlbumRes {

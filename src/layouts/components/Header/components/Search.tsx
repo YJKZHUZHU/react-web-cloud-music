@@ -64,12 +64,15 @@ const Search = () => {
   }
 
   const onHistory = (keywords: string) => {
+    setOpen(false)
+    updateKeywords(keywords, true)
     history.push(`/search-detail/single?keywords=${keywords}&type=1`)
   }
 
   const onSearch: React.KeyboardEventHandler<HTMLDivElement> = (e) => {
     if (e.key.toLocaleLowerCase() === "enter") {
       setOpen(false)
+      updateSearchHistoryList([...searchHistoryList, keywords])
       history.push(`/search-detail/single?keywords=${keywords}&type=${1}`)
     }
   }
@@ -97,7 +100,7 @@ const Search = () => {
       return history.push(`/artists-detail?id=${id}&name=${name}`)
     }
     if (searchType === SEARCH_TYPE_ENUM.album) {
-      return history.push(`/album/song-list?id=${id}`)
+      return history.push(`/album/${id}`)
     }
     if (searchType === SEARCH_TYPE_ENUM.playlist) {
       return history.push(`playList/${id}`)
@@ -172,6 +175,7 @@ const Search = () => {
                   <Tag
                     color="green"
                     closable
+                    className=" cursor-pointer"
                     key={item}
                     onClick={() => onHistory(item)}
                     onClose={() =>
