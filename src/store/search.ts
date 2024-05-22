@@ -2,8 +2,7 @@
 
 import {create} from "zustand"
 import {createJSONStorage, devtools, persist} from "zustand/middleware"
-import {hotDetail, searchSuggest} from "@/api/search"
-import throttle from "lodash-es/throttle"
+import {hotDetail, searchSuggest, defaultSearch} from "@/api/search"
 import debounce from "lodash-es/debounce"
 
 export interface SearchResponse {
@@ -89,16 +88,16 @@ export enum SUGGEST_TYOE_ENUM {
 }
 
 export enum SEARCH_TYPE_ENUM {
-  single = 1,
-  album = 10,
-  singer = 100,
-  playlist = 1000,
-  user = 1002,
-  mv = 1004,
-  lyric = 1006,
-  broadcastingStation = 1009,
-  video = 1014,
-  synthesize = 1018
+  single = '1',
+  album = '10',
+  singer = '100',
+  playlist = '1000',
+  user = '1002',
+  mv = '1004',
+  lyric = '1006',
+  broadcastingStation = '1009',
+  video = '1014',
+  synthesize = '1018'
 }
 
 interface ISuggestListItem<T> {
@@ -118,6 +117,7 @@ interface Actions {
   updateKeywords: (keywords: string, fetch?: boolean) => void
   getHotList: () => void
   getSearchSuggest: (keywords: string) => void
+  getDefaultSearch: () => void
   updateSearchHistoryList: (list: string[]) => void
 }
 
@@ -128,6 +128,7 @@ interface Props {
   loading: boolean
   suggestList: ISuggestList
   searchHistoryList: string[]
+  defaultSearch: string
 }
 const initialState: Props = {
   keywords: "",
@@ -135,7 +136,8 @@ const initialState: Props = {
   hotLoading: false,
   suggestList: [] as unknown as ISuggestList,
   loading: false,
-  searchHistoryList: []
+  searchHistoryList: [],
+  defaultSearch: ""
 }
 
 export const useSearchStore = create<Props & Actions>()(
@@ -151,12 +153,21 @@ export const useSearchStore = create<Props & Actions>()(
 
           fetch && get().getSearchSuggest(keywords)
         },
+        getDefaultSearch: async () => {
+          try {
+            const res = await defaultSearch()
+            set({defaultSearch: res.data.showKeyword}, false, "设置默认搜索关键词")
+          } catch (error) {
+            console.log("error", error)
+          }
+        },
         getHotList: async () => {
           try {
             set({hotLoading: true}, false, "Loading....")
 
             const res = await hotDetail()
             set({hotLoading: false, hotList: res.data}, false, "获取热搜列表....")
+            get().getDefaultSearch()
           } catch (error) {
             console.log("error", error)
             set({hotLoading: false}, false, "Loading....")
@@ -232,3 +243,7 @@ export const useUpdateSearchHistoryList = () =>
   useSearchStore((state) => state.updateSearchHistoryList)
 
 export const useLoading = () => useSearchStore((state) => state.loading)
+
+export const useDefaultSearch = () => useSearchStore((state) => state.defaultSearch)
+
+export const useGetDefaultSearch = () => useSearchStore((state) => state.getDefaultSearch)

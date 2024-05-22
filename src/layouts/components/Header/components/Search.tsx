@@ -21,7 +21,9 @@ import {
   Song,
   Playlist,
   SUGGEST_TYOE_ENUM,
-  SEARCH_TYPE_ENUM
+  SEARCH_TYPE_ENUM,
+  useDefaultSearch,
+  useGetDefaultSearch
 } from "@/store/search"
 import song from "@/assets/song.png"
 import album from "@/assets/album.png"
@@ -33,16 +35,19 @@ const {confirm} = Modal
 const Search = () => {
   const loading = useLoading()
   const keywords = useKeywords()
-  const getSongInfo = useGetSongInfo()
-  const updateKeywords = useUpdateKeywords()
-  const getHotList = useGetHotList()
+  const placeholder = useDefaultSearch()
   const suggestList = useSuggestList()
   const hotList = useHotList()
   const searchHistoryList = useSearchHistoryList()
-  const updateSearchHistoryList = useUpdateSearchHistoryList()
   const [open, setOpen] = useState(false)
   const alwaysShow = useRef(false)
   const hasFetchHot = useRef(false)
+  const getDefaultSearch = useGetDefaultSearch()
+  const getSongInfo = useGetSongInfo()
+  const updateKeywords = useUpdateKeywords()
+  const getHotList = useGetHotList()
+
+  const updateSearchHistoryList = useUpdateSearchHistoryList()
 
   const onDelete: React.MouseEventHandler<HTMLSpanElement> = (e) => {
     alwaysShow.current = true
@@ -66,15 +71,21 @@ const Search = () => {
   const onHistory = (keywords: string) => {
     setOpen(false)
     updateKeywords(keywords, true)
-    history.push(`/search-detail/single?keywords=${keywords}&type=1`)
+    history.push(`/search-detail/${1}?keywords=${keywords}`)
   }
 
-  const onSearch: React.KeyboardEventHandler<HTMLDivElement> = (e) => {
+  const onKeyDown: React.KeyboardEventHandler<HTMLDivElement> = (e) => {
     if (e.key.toLocaleLowerCase() === "enter") {
       setOpen(false)
       updateSearchHistoryList([...searchHistoryList, keywords])
-      history.push(`/search-detail/single?keywords=${keywords}&type=${1}`)
+
+      history.push(`/search-detail/${1}?keywords=${keywords || placeholder}`)
+      getDefaultSearch()
     }
+  }
+  const onSearch: React.MouseEventHandler<HTMLSpanElement> = () => {
+    history.push(`/search-detail/${1}?keywords=${keywords || placeholder}`)
+    getDefaultSearch()
   }
   const onChange = (newValue: string) => {
     console.log("onChange", newValue)
@@ -86,7 +97,8 @@ const Search = () => {
     setOpen(false)
     updateKeywords(item.searchWord)
     updateSearchHistoryList([...searchHistoryList, item.searchWord])
-    history.push(`/search-detail/single?keywords=${item.searchWord}&type=${1}`)
+    history.push(`/search-detail/${1}?keywords=${item.searchWord}`)
+    getDefaultSearch()
   }
 
   const onSuggestLink = (searchType: SEARCH_TYPE_ENUM, name: string, id: string | number) => {
@@ -105,7 +117,7 @@ const Search = () => {
     if (searchType === SEARCH_TYPE_ENUM.playlist) {
       return history.push(`playList/${id}`)
     }
-    return history.push(`/search-detail/single?keywords=${name}&type=${searchType}`)
+    return history.push(`/search-detail/${searchType}?keywords=${name}`)
   }
 
   const renderSong = (item: Song) => {
@@ -289,6 +301,10 @@ const Search = () => {
     }
   }, [open, keywords])
 
+  useEffect(() => {
+    getDefaultSearch()
+  }, [])
+
   return (
     <AutoComplete
       allowClear
@@ -301,7 +317,7 @@ const Search = () => {
           alwaysShow.current = false
         }, 100)
       }}
-      onKeyDown={onSearch}
+      onKeyDown={onKeyDown}
       onBlur={() => {
         if (alwaysShow.current) {
           setOpen(true)
@@ -316,8 +332,8 @@ const Search = () => {
       className={classNames("w-[500px] !ml-[24px] ")}
       popupClassName="!overflow-y-scroll  py-[16px]"
       dropdownStyle={{height: 300}}
-      suffixIcon={<SearchOutlined />}
-      placeholder="搜索"
+      suffixIcon={<SearchOutlined onClick={onSearch} />}
+      placeholder={placeholder}
       dropdownRender={dropdownRender}
     />
   )

@@ -131,6 +131,8 @@ const PersonalRecommendation = () => {
                 height={150}
                 preview={false}
                 src={item?.imageUrl}
+                size={[347, 150]}
+                multiple={1.5}
                 onClick={() => onPlay(item?.targetId, item.targetType)}
               />
               <span
