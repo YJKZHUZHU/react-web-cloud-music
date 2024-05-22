@@ -1,12 +1,13 @@
 /** @format */
 
-import {Flex, Tag} from "antd"
+import {Flex} from "antd"
 import {history} from "@umijs/max"
 import {HeartOutlined, PlayCircleOutlined} from "@ant-design/icons"
 import Utils from "@/help"
-import {Artists, HighlightText, PlayStatus} from "@/components"
+import {Artists, HighlightText, PlayStatus, Tag} from "@/components"
 import {useGetSongInfo} from "@/store/player"
 import VirtualList from "rc-virtual-list"
+
 import {ISearchSongItem} from "@/api/search"
 import classNames from "classnames"
 import {ComponentProps} from "./index"
@@ -55,18 +56,11 @@ const Single = (props: ComponentProps<ISearchSongItem>) => {
               </Flex>
               <Flex gap={4} align="center" className=" w-[49%]">
                 <HighlightText content={item.name} pattern={new RegExp(keywords, "g")} />
-                <Flex flex={1} align="center">
+                <Flex flex={1} align="center" gap={4}>
                   {item.alia?.length !== 0 && (
                     <span className="text-[#878888]  line-clamp-1">{`(${item?.alia?.join()})`}</span>
                   )}
-                  {item?.sq && (
-                    <Tag
-                      className="!px-[2px] !leading-[14px] !text-[12px]"
-                      color="red"
-                      bordered={false}>
-                      SQ
-                    </Tag>
-                  )}
+                  {item?.sq && <Tag>SQ</Tag>}
                   {!!item?.mv && (
                     <PlayCircleOutlined
                       onClick={(e) => {

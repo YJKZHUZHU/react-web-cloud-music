@@ -88,16 +88,16 @@ export enum SUGGEST_TYOE_ENUM {
 }
 
 export enum SEARCH_TYPE_ENUM {
-  single = '1',
-  album = '10',
-  singer = '100',
-  playlist = '1000',
-  user = '1002',
-  mv = '1004',
-  lyric = '1006',
-  broadcastingStation = '1009',
-  video = '1014',
-  synthesize = '1018'
+  single = "1",
+  album = "10",
+  singer = "100",
+  playlist = "1000",
+  user = "1002",
+  mv = "1004",
+  lyric = "1006",
+  broadcastingStation = "1009",
+  video = "1014",
+  synthesize = "1018"
 }
 
 interface ISuggestListItem<T> {
@@ -215,7 +215,8 @@ export const useSearchStore = create<Props & Actions>()(
         storage: createJSONStorage(() => localStorage),
         partialize: (state) => ({
           hotList: state.hotList,
-          searchHistoryList: state.searchHistoryList
+          searchHistoryList: state.searchHistoryList,
+          defaultSearch: state.defaultSearch
         })
       }
     ),

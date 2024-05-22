@@ -1,51 +1,13 @@
 /** @format */
 
-import {useState, useEffect, FC, createContext, memo, useRef, useMemo} from "react"
+import {useState, useEffect, FC, useRef, useMemo} from "react"
 import {Flex, Spin, Tabs} from "antd"
 import {useParams} from "@umijs/max"
 import {useQuery, useVirtualListHeight} from "@/hooks"
 import {SEARCH_TYPE_ENUM} from "@/store/search"
 import {cloudSearch} from "@/api/search"
 import {Single, Singer, Album, Playlist, User, Video} from "./components"
-
-interface ICountContext {
-  getCount: (type: number | string, count: number) => void
-  countInfo?: Record<any, any>
-}
-
-export const CountContext = createContext<ICountContext>({
-  getCount: () => {},
-  countInfo: {}
-})
-
-type ListType = "songs" | "albums" | "playlists" | "artists" | "mvs" | "userprofiles" | "videos"
-
-type CountType =
-  | "songCount"
-  | "albumCount"
-  | "playlistCount"
-  | "artistCount"
-  | "mvCount"
-  | "userprofileCount"
-  | "videoCount"
-
-const MapKey = new Map<SEARCH_TYPE_ENUM, [ListType, CountType, (total: number) => string]>()
-  .set(SEARCH_TYPE_ENUM.single, ["songs", "songCount", (total: number) => `找到${total}首单曲`])
-  .set(SEARCH_TYPE_ENUM.album, ["albums", "albumCount", (total: number) => `找到${total}张专辑`])
-  .set(SEARCH_TYPE_ENUM.lyric, ["songs", "songCount", (total: number) => `找到${total}首歌词`])
-  .set(SEARCH_TYPE_ENUM.playlist, [
-    "playlists",
-    "playlistCount",
-    (total: number) => `找到${total}个歌单`
-  ])
-  .set(SEARCH_TYPE_ENUM.singer, ["artists", "artistCount", (total: number) => `找到${total}位歌手`])
-  .set(SEARCH_TYPE_ENUM.mv, ["mvs", "mvCount", (total: number) => `找到${total}个MV`])
-  .set(SEARCH_TYPE_ENUM.user, [
-    "userprofiles",
-    "userprofileCount",
-    (total: number) => `找到${total}位用户`
-  ])
-  .set(SEARCH_TYPE_ENUM.video, ["videos", "videoCount", (total: number) => `找到${total}个视频`])
+import {MapKey, MapTabLabel} from "@/constants/search-detail"
 
 const LIMIT = 100
 
@@ -63,7 +25,6 @@ const SearchDetail: FC = () => {
   const offsetRef = useRef(0)
 
   const onTab = (value: string) => {
-    setList([])
     setActiveKey(value as SEARCH_TYPE_ENUM)
     getCloudsearch(value as SEARCH_TYPE_ENUM, true)
   }
@@ -87,6 +48,7 @@ const SearchDetail: FC = () => {
     try {
       setLoading(true)
       init && setTopTitle("")
+      init && setList([])
       const res = await cloudSearch({
         keywords,
         type,
@@ -94,9 +56,9 @@ const SearchDetail: FC = () => {
         offset: offsetRef.current
       })
       const [listKey, countKey, cb] = MapKey.get(type)!
-      const result = res.data.result[listKey]
-      const count = res.data.result[countKey] as number
-      setTopTitle(cb(count))
+      const result = res.data.result[listKey] || []
+      const count = (res.data.result[countKey] as number) || 0
+      setTopTitle(!!!count ? "" : cb(count))
       const mergeList = [...list, ...(result as any)]
       hasMoreRef.current = mergeList.length < count
       setList(init ? (result as any) : mergeList)
@@ -119,10 +81,26 @@ const SearchDetail: FC = () => {
     }
   }
 
+  const renderChildren = (children: JSX.Element | false) => {
+    if (list.length === 0 && !loading) {
+      return (
+        <Flex align="center" gap={2} justify="center" className="text-[#2D2D2E] mt-[50px]">
+          <span>很抱歉，未能找到与</span>
+          <span className="text-[#416BA0]">“{keywords}”</span>
+          <span>相关的任何{MapTabLabel.get(activeKey)}</span>
+        </Flex>
+      )
+    }
+    return (
+      <Spin spinning={loading} tip="Loading...">
+        {children}
+      </Spin>
+    )
+  }
+
   const init = () => {
     hasMoreRef.current = false
     offsetRef.current = 0
-    setList([])
     getCloudsearch(activeKey, true)
   }
 
@@ -143,70 +121,70 @@ const SearchDetail: FC = () => {
     {
       key: SEARCH_TYPE_ENUM.single,
       tabKey: SEARCH_TYPE_ENUM.single,
-      label: "单曲",
-      children: activeKey === SEARCH_TYPE_ENUM.single && (
-        <Spin spinning={loading} tip="Loading...">
+      label: MapTabLabel.get(SEARCH_TYPE_ENUM.single),
+      children:
+        activeKey === SEARCH_TYPE_ENUM.single &&
+        renderChildren(
           <Single
             {...commomProps}
             height={singleHeight}
             onScroll={(e) => onScroll(e, singleHeight, 40)}
           />
-        </Spin>
-      )
+        )
     },
     {
       key: SEARCH_TYPE_ENUM.singer,
       tabKey: SEARCH_TYPE_ENUM.singer,
-      label: "歌手",
-      children: activeKey === SEARCH_TYPE_ENUM.singer && (
-        <Spin spinning={loading} tip="Loading...">
+      label: MapTabLabel.get(SEARCH_TYPE_ENUM.singer),
+      children:
+        activeKey === SEARCH_TYPE_ENUM.singer &&
+        renderChildren(
           <Singer {...commomProps} height={height} onScroll={(e) => onScroll(e, height, 100)} />
-        </Spin>
-      )
+        )
     },
     {
       key: SEARCH_TYPE_ENUM.album,
       tabKey: SEARCH_TYPE_ENUM.album,
-      label: "专辑",
-      children: activeKey === SEARCH_TYPE_ENUM.album && (
-        <Spin spinning={loading} tip="Loading...">
+      label: MapTabLabel.get(SEARCH_TYPE_ENUM.album),
+      children:
+        activeKey === SEARCH_TYPE_ENUM.album &&
+        renderChildren(
           <Album {...commomProps} height={height} onScroll={(e) => onScroll(e, height, 100)} />
-        </Spin>
-      )
+        )
     },
     {
       key: SEARCH_TYPE_ENUM.video,
       tabKey: SEARCH_TYPE_ENUM.video,
-      label: "视频",
-      children: activeKey === SEARCH_TYPE_ENUM.video && (
-        <Spin spinning={loading} tip="Loading...">
+      label: MapTabLabel.get(SEARCH_TYPE_ENUM.video),
+      children:
+        activeKey === SEARCH_TYPE_ENUM.video &&
+        renderChildren(
           <Video
             {...commomProps}
             height={videoHeight}
             onScroll={(e) => onScroll(e, videoHeight, 100)}
           />
-        </Spin>
-      )
+        )
     },
     {
       key: SEARCH_TYPE_ENUM.playlist,
       tabKey: SEARCH_TYPE_ENUM.playlist,
-      label: "歌单",
-      children: activeKey === SEARCH_TYPE_ENUM.playlist && (
-        <Spin spinning={loading} tip="Loading...">
+      label: MapTabLabel.get(SEARCH_TYPE_ENUM.playlist),
+      children:
+        activeKey === SEARCH_TYPE_ENUM.playlist &&
+        renderChildren(
           <Playlist {...commomProps} height={height} onScroll={(e) => onScroll(e, height, 100)} />
-        </Spin>
-      )
+        )
     },
     {
       key: SEARCH_TYPE_ENUM.user,
       tabKey: SEARCH_TYPE_ENUM.user,
-      label: "用户",
-      children: activeKey === SEARCH_TYPE_ENUM.user && (
-        <Spin spinning={loading} tip="Loading...">
+      label: MapTabLabel.get(SEARCH_TYPE_ENUM.user),
+      children:
+        activeKey === SEARCH_TYPE_ENUM.user &&
+        renderChildren(
           <User {...commomProps} height={height} onScroll={(e) => onScroll(e, height, 80)} />
-        </Spin>
-      )
+        )
     }
   ]
 

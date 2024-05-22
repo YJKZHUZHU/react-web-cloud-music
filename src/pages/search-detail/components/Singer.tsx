@@ -1,6 +1,5 @@
 /** @format */
 
-import React from "react"
 import {Flex} from "antd"
 import {history} from "@umijs/max"
 import {UserOutlined} from "@ant-design/icons"

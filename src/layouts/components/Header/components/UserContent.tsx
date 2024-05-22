@@ -30,7 +30,6 @@ import {dailySignin} from "@/api/user"
 import {useState} from "react"
 
 const UserContent = () => {
-
   const [visible, {setFalse: setVisibleFalse, toggle: visibleToggle}] = useBoolean(false)
 
   const nickName = useNickName()
@@ -96,17 +95,17 @@ const UserContent = () => {
           </Flex>
           <Flex align="center" justify="space-between">
             <Flex vertical className=" cursor-pointer" onClick={() => onLink("/care/dynamic")}>
-              <span>{eventCount}</span>
+              <span className="self-center">{eventCount}</span>
               <span>动态</span>
             </Flex>
             <Divider type="vertical" />
             <Flex vertical className=" cursor-pointer" onClick={() => onLink("/care/follows")}>
-              <span>{follows}</span>
+              <span className="self-center">{follows}</span>
               <span>关注</span>
             </Flex>
             <Divider type="vertical" />
             <Flex vertical className=" cursor-pointer" onClick={() => onLink("/care/fan")}>
-              <span>{followeds}</span>
+              <span className="self-center">{followeds}</span>
               <span>粉丝</span>
             </Flex>
           </Flex>

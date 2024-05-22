@@ -32,8 +32,8 @@ const PlayHistoryLayout = () => {
       // 检查点击的目标是否是'myElement'，或者是否是它的子元素
       if (
         ![targetElement, ignoreElement].includes(event.target!) &&
-        !targetElement.contains(event?.target!) &&
-        !ignoreElement.contains(event?.target!)
+        !targetElement?.contains(event?.target!) &&
+        !ignoreElement?.contains(event?.target!)
       ) {
         // 如果点击的不是'myElement'，也不是它的子元素，那么认为点击发生在外部
         console.log("Clicked outside of myElement!")

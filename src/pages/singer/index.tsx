@@ -110,7 +110,6 @@ const Singer = () => {
   const source = useMemo(() => {
     return Utils.chunkArray<ArtistInfo>(list, 7)
   }, [list])
-  console.log("source", source)
   return (
     <Spin spinning={loading} delay={500} tip="Loading...">
       <Flex flex={1} className=" bg-[#ffffff] rounded-[20px] p-[16px]" vertical gap={20}>
@@ -142,7 +141,7 @@ const Singer = () => {
           itemHeight={168}
           className={styles.virtualList}
           data={source}
-          styles={{verticalScrollBarThumb: {}}}
+          styles={{verticalScrollBarThumb: {display: "none"}}}
           itemKey="key"
           onScroll={onScroll}>
           {(dataSource: {key: number; list: ArtistInfo[]}, index) => {

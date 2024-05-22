@@ -1,11 +1,10 @@
 /** @format */
 
-import {Tag} from "antd"
 import {VideoCameraOutlined} from "@ant-design/icons"
 import Utils from "@/help"
 import {Flex} from "antd"
 import {history} from "@umijs/max"
-import {Artists, HighlightText, Image} from "@/components"
+import {Artists, HighlightText, Image, Tag} from "@/components"
 import VirtualList from "rc-virtual-list"
 import {IVideoItem} from "@/api/search"
 import classNames from "classnames"
@@ -20,7 +19,7 @@ const Video = (props: ComponentProps<IVideoItem>) => {
   return (
     <VirtualList
       fullHeight
-      itemHeight={196}
+      itemHeight={180}
       height={height}
       data={wrapData!}
       className={classNames(styles.virtualList)}
@@ -56,8 +55,8 @@ const Video = (props: ComponentProps<IVideoItem>) => {
                       </span>
                     </Flex>
                   </div>
-                  <Flex align="center">
-                    <Tag color="red" bordered={false} className="">
+                  <Flex align="center" gap={4}>
+                    <Tag color="red" className="">
                       MV
                     </Tag>
                     <HighlightText

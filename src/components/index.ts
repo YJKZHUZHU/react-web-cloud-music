@@ -25,6 +25,7 @@ export {default as WithEmoji} from "./WithEmoji"
 export {default as Image} from "./Image"
 
 export {default as PlayStatus} from "./PlayStatus"
+export {default as Tag} from "./Tag"
 
 interface IUser {
   locationInfo: any
