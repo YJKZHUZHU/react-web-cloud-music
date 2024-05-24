@@ -8,7 +8,6 @@ import {history} from "@umijs/max"
 import {CLASSIFICATION_ENUM, LANGUAGE_ENUM, MAP_SINGER_TAG, MAP_SINGER_TAG_ENUM} from "@/help/map"
 import VirtualList from "rc-virtual-list"
 import {ArtistInfo, IArtistListParams, artistList} from "@/api/singer"
-import styles from "./index.scss"
 import {useVirtualListHeight} from "@/hooks"
 import Utils from "@/help"
 
@@ -139,21 +138,21 @@ const Singer = () => {
           fullHeight
           height={virtualHeight}
           itemHeight={168}
-          className={styles.virtualList}
           data={source}
           styles={{verticalScrollBarThumb: {display: "none"}}}
           itemKey="key"
-          onScroll={onScroll}>
-          {(dataSource: {key: number; list: ArtistInfo[]}, index) => {
+          onScroll={onScroll}
+        >
+          {(dataSource: {key: number; list: ArtistInfo[]}) => {
             return (
-              <Flex key={index} wrap gap={21} justify="flex-start">
+              <Flex key={dataSource.key} wrap gap={21} justify="flex-start" className="pb-[16px]">
                 {dataSource.list.map((item) => (
-                  <Flex vertical key={item.picId} gap={12} className=" w-[140px]">
+                  <Flex vertical key={item.id} gap={12} className=" w-[140px]">
                     <Image
                       onClick={() =>
-                        history.push(`/artists-detail/album?id=${item.id}&name=${item.name}`)
+                        history.push(`/artists-detail?id=${item.id}&name=${item.name}`)
                       }
-                      className="cursor-pointer"
+                      className="cursor-pointer w-[140px] h-[140px]"
                       width={140}
                       height={140}
                       size={[140, 140]}
@@ -163,7 +162,7 @@ const Singer = () => {
                     <Flex justify="space-between" gap={4}>
                       <span
                         onClick={() =>
-                          history.push(`/artists-detail/album?id=${item.id}&name=${item.name}`)
+                          history.push(`/artists-detail?id=${item.id}&name=${item.name}`)
                         }
                         className=" flex-1 line-clamp-1 text-[#262627] cursor-pointer hover:text-[#020204]">
                         {item.name}

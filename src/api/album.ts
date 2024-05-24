@@ -1,18 +1,6 @@
 /** @format */
 
-import {MAP_CLASSIFICATION_TYPE_ENUM} from "@/constants/latest-music"
 import {service} from "@/help/server"
-import {IAlbumItem} from "@/store/latestMusic"
-import {ISongUrl} from "@/store/player"
-import {
-  IArtistToplist,
-  IArtistToplistDetail,
-  IRewardToplist,
-  ITopDetailListItem,
-  ITopListItem,
-  OfficialTypeEnum
-} from "@/store/top"
-import {IPlaylistDetails} from "@/types/playlistDetails"
 
 enum FetchEnum {
   album = "/album",

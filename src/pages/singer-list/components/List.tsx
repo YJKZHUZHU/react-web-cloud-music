@@ -63,7 +63,7 @@ const List: FC<IList> = ({type}) => {
   })
 
   const onLink = (id: number, name: string) =>
-    history.push(`/artists-detail/album?id=${id}&name=${name}`)
+    history.push(`/artists-detail?id=${id}&name=${name}`)
 
   useEffect(() => {
     run()

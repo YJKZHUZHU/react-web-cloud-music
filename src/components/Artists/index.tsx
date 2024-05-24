@@ -8,11 +8,14 @@ import classNames from "classnames"
 import {useSetShowPlayer} from "@/store/player"
 
 export interface IItem extends Partial<Artist> {
-  name: string
-  id: number
+  name?: string
+  id?: number
+  userName?: string
+  userId?: string | number
 }
 
 interface Props {
+  type?: "artist" | "user"
   data: IItem[]
   isJump?: boolean
   gap?: number
@@ -93,6 +96,7 @@ const Artists: FC<Props> = (props) => {
     className,
     splitClassName,
     itemClassName,
+    type = "artist",
     isJump = true,
     max = 3,
     gap = 2,
@@ -106,16 +110,16 @@ const Artists: FC<Props> = (props) => {
 
   const setShowPlayer = useSetShowPlayer()
 
-  const onLink = (
-    e: React.MouseEvent<HTMLElement, MouseEvent>,
-    id: number | undefined,
-    name: string | undefined
-  ) => {
+  const onLink = (e: React.MouseEvent<HTMLElement, MouseEvent>, item: IItem) => {
     if (!isJump) return false
     e.preventDefault()
     e.stopPropagation()
     setShowPlayer(false)
-    return history.push(`/artists-detail?id=${id}&name=${name}`)
+    const url =
+      type === "artist"
+        ? `/artists-detail?id=${item.id}&name=${item.name}`
+        : `/homepage/${item.userId}`
+    return history.push(url)
   }
   const containerRef = useRef<HTMLElement | null>(null)
 
@@ -123,9 +127,9 @@ const Artists: FC<Props> = (props) => {
     return data.slice(0, max)
   }, [max, data])
 
-  const showEllipsis = useMemo(() => {
-    return maxData.length !== data.length
-  }, [maxData, data])
+  // const showEllipsis = useMemo(() => {
+  //   return maxData.length !== data.length
+  // }, [maxData, data])
 
   return (
     <Flex
@@ -133,12 +137,6 @@ const Artists: FC<Props> = (props) => {
       align="center"
       gap={gap}
       className={classNames("line-clamp-1", className)}>
-      {/* <CharWidthMeasurer
-        character={maxData.join()}
-        getWidth={(width) => {
-          console.log("width", width)
-        }}
-      /> */}
       {maxData.map((item, index) => (
         <Flex
           align="center"
@@ -149,19 +147,18 @@ const Artists: FC<Props> = (props) => {
             "leading-[20px]",
             index === maxData.length - 1 ? " flex-1" : ""
           )}
-          onClick={(e) => onLink(e, item.id, item.name)}>
+          onClick={(e) => onLink(e, item)}>
           <HoverText
             className={index === maxData.length - 1 ? " flex-1 line-clamp-1" : "line-clamp-1 w-max"}
             color={color}
             hoverColor={hoverColor}
-            name={item.name}
+            name={type === "artist" ? item.name! : item.userName!}
           />
           {index !== maxData.length - 1 && (
             <span className={classNames(splitClassName, `text-[${splitColor}]`)}>{split}</span>
           )}
         </Flex>
       ))}
-      {/* {showEllipsis && <span>...</span>} */}
     </Flex>
   )
 }

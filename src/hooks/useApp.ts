@@ -1,17 +1,23 @@
-import { accountDetail, userDetail, userPlaylist, vipGrowthpoint } from "@/api/user"
-import { EnumLocalStorage, getItem, login } from "@/help/cache"
-import { refreshLogin } from "@/help/refreshLogin"
-import { useLoginStore } from "@/store/login"
-import { useIsVip, useUserStore } from "@/store/user"
-import { useEffect } from "react"
-import { useShallow } from "zustand/react/shallow"
+/** @format */
 
+import {accountDetail, userDetail, userPlaylist, vipGrowthpoint} from "@/api/user"
+import {EnumLocalStorage, getItem, login} from "@/help/cache"
+import {refreshLogin} from "@/help/refreshLogin"
+import {useLoginStore} from "@/store/login"
+import {useIsVip, useUserStore} from "@/store/user"
+import {useEffect} from "react"
+import {useShallow} from "zustand/react/shallow"
 
 const useApp = () => {
   const update = useLoginStore((state) => state.update)
 
   const [setAccountInfo, setUserInfo, setVipInfo, setSongList] = useUserStore(
-    useShallow((state) => [state.setAccountInfo, state.setUserInfo, state.setVipInfo, state.setSongList])
+    useShallow((state) => [
+      state.setAccountInfo,
+      state.setUserInfo,
+      state.setVipInfo,
+      state.setSongList
+    ])
   )
 
   const isVip = useIsVip()
@@ -22,7 +28,7 @@ const useApp = () => {
       console.log("==账户信息==", res.data)
       res.success && setAccountInfo(res.data)
       if (res.success && res.data.profile && res.data.profile?.nickname!) {
-        update({ nickName: res.data.profile.nickname! })
+        update({nickName: res.data.profile.nickname!})
       }
 
       return res.success
@@ -34,7 +40,7 @@ const useApp = () => {
   // 用户信息
   const getUserDetail = async (userId: number) => {
     try {
-      const res = await userDetail({ uid: String(userId) })
+      const res = await userDetail({uid: String(userId)})
       console.log("==用户信息==", res)
       res.success && setUserInfo(res.data)
     } catch (error) {
@@ -57,18 +63,17 @@ const useApp = () => {
   // 用户歌单信息
   const getUserSongList = async (userId: number) => {
     try {
-      const res = await userPlaylist({ uid: String(userId) })
-      console.log('歌单==', res)
+      const res = await userPlaylist({uid: String(userId)})
+      console.log("歌单==", res)
       if (res.success) {
         setSongList(res.data.playlist)
         // const target =
         // setMenu(target)
       }
     } catch (error) {
-      console.log('error', error)
+      console.log("error", error)
     }
   }
-
 
   const init = async () => {
     try {
@@ -84,13 +89,10 @@ const useApp = () => {
 
       // 未登录，默认注册游客模式，获取用户ID
       // !pathName.startsWith("/login") && (await onRegister())
-
     } catch (error) {
-      console.log('error', error)
+      console.log("error", error)
     }
-
   }
-
 
   useEffect(() => {
     init()
@@ -101,7 +103,7 @@ const useApp = () => {
   }, [isVip])
 
   return {
-    init,
+    init
   }
 }
 

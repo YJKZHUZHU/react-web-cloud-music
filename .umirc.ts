@@ -1,14 +1,16 @@
-const path = require("path");
-const fs = require("fs");
-const lessToJs = require("less-vars-to-js");
-const CompressionWebpackPlugin = require("compression-webpack-plugin");
-import { defineConfig } from "@umijs/max";
+/** @format */
+
+const path = require("path")
+const fs = require("fs")
+const lessToJs = require("less-vars-to-js")
+const CompressionWebpackPlugin = require("compression-webpack-plugin")
+import {defineConfig} from "@umijs/max"
 // import px2rem from 'postcss-plugin-px2rem'
-import routes from "./routes";
-const prodGzipList = ["js", "css"];
+import routes from "./routes"
+const prodGzipList = ["js", "css"]
 
 //判断只有在生产模式才开启
-const IS_PROD = ["production", "prod"].includes(process.env.NODE_ENV!);
+const IS_PROD = ["production", "prod"].includes(process.env.NODE_ENV!)
 
 export default defineConfig({
   model: {},
@@ -20,15 +22,15 @@ export default defineConfig({
     default: "zh-CN",
     antd: true,
     // default true, when it is true, will use `navigator.language` overwrite default
-    baseNavigator: true,
+    baseNavigator: true
   },
   exportStatic: false,
   antd: {
     import: false,
     configProvider: {},
     styleProvider: {
-      hashPriority: "high", // https://ant.design/docs/react/compatible-style-cn#where-%E9%80%89%E6%8B%A9%E5%99%A8
-    },
+      hashPriority: "high" // https://ant.design/docs/react/compatible-style-cn#where-%E9%80%89%E6%8B%A9%E5%99%A8
+    }
   },
   // mako: {},
   // dynamicImport: {
@@ -63,7 +65,7 @@ export default defineConfig({
   // },
 
   codeSplitting: {
-    jsStrategy: "granularChunks",
+    jsStrategy: "granularChunks"
   },
   // chainWebpack(config, { webpack }) {
   //   config.merge({
@@ -111,5 +113,5 @@ export default defineConfig({
   //   });
   // },
   npmClient: "pnpm",
-  tailwindcss: {},
-});
+  tailwindcss: {}
+})

@@ -1,7 +1,9 @@
-import { create } from "zustand"
-import { devtools } from "zustand/middleware"
-import { userRecord } from "@/api/user"
-import { EnumLocalStorage, getItem } from "@/help/cache"
+/** @format */
+
+import {create} from "zustand"
+import {devtools} from "zustand/middleware"
+import {userRecord, userSubcount} from "@/api/user"
+import {EnumLocalStorage, getItem} from "@/help/cache"
 
 export interface IUserInfo {
   level: number // 用户等级
@@ -209,279 +211,297 @@ export interface IVipInfo {
 
 export interface IUserItem {
   // 用户的默认头像标志位，true表示使用默认头像
-  defaultAvatar: boolean;
+  defaultAvatar: boolean
   // 用户所在的省份ID
-  province: number;
+  province: number
   // 用户的认证状态，0表示未认证
-  authStatus: number;
+  authStatus: number
   // 是否已关注该用户
-  followed: boolean;
+  followed: boolean
   // 用户头像的URL
-  avatarUrl: string;
+  avatarUrl: string
   // 用户账号状态，0表示账号正常
-  accountStatus: number;
+  accountStatus: number
   // 用户的性别，2表示女性
-  gender: number;
+  gender: number
   // 用户所在的城市ID
-  city: number;
+  city: number
   // 用户的生日，0表示未设置
-  birthday: number;
+  birthday: number
   // 用户的唯一ID
-  userId: number;
+  userId: number
   // 用户类型，0表示普通用户
-  userType: number;
+  userType: number
   // 用户的昵称
-  nickname: string;
+  nickname: string
   // 用户的签名
-  signature: string;
+  signature: string
   // 用户的详细描述
-  description: string;
+  description: string
   // 用户的详细描述详细信息
-  detailDescription: string;
+  detailDescription: string
   // 头像图片ID
-  avatarImgId: number;
+  avatarImgId: number
   // 背景图片ID
-  backgroundImgId: number;
+  backgroundImgId: number
   // 背景图片的URL
-  backgroundUrl: string;
+  backgroundUrl: string
   // 用户的权限等级
-  authority: number;
+  authority: number
   // 是否互相关注
-  mutual: boolean;
+  mutual: boolean
   // 专家标签，null表示没有
-  expertTags: string[] | null;
+  expertTags: string[] | null
   // 专家信息，null表示没有
-  experts: any[] | null; // 这里需要具体的结构，这里暂时用any代替
+  experts: any[] | null // 这里需要具体的结构，这里暂时用any代替
   // DJ身份状态，0表示不是DJ
-  djStatus: number;
+  djStatus: number
   // VIP类型，11表示某种VIP身份
-  vipType: number;
+  vipType: number
   // 用户的备注名
-  remarkName: string | null;
+  remarkName: string | null
   // 认证类型
-  authenticationTypes: number;
+  authenticationTypes: number
   // 头像图片的详细信息，null表示没有
-  avatarDetail: any | null; // 这里需要具体的结构，这里暂时用any代替
+  avatarDetail: any | null // 这里需要具体的结构，这里暂时用any代替
   // 头像图片ID的字符串形式
-  avatarImgIdStr: string;
+  avatarImgIdStr: string
   // 是否为主播
-  anchor: boolean;
+  anchor: boolean
   // 头像图片ID的字符串形式
-  avatarImgId_str: string;
+  avatarImgId_str: string
 
   // 其他字段...
 }
 
 export interface ISongListItem {
   // 订阅者列表，空数组表示没有订阅者
-  subscribers: IUserItem[];
+  subscribers: IUserItem[]
   // 是否已订阅该歌单
-  subscribed: boolean;
+  subscribed: boolean
   // 歌单创建者的信息
-  creator: IUserItem;
+  creator: IUserItem
   // 艺术家列表，null表示没有
-  artists: any[] | null; // 这里需要具体的结构，这里暂时用any代替
+  artists: any[] | null // 这里需要具体的结构，这里暂时用any代替
   // 音轨列表，null表示没有
-  tracks: any[] | null; // 这里需要具体的结构，这里暂时用any代替
+  tracks: any[] | null // 这里需要具体的结构，这里暂时用any代替
   // 是否置顶歌单
-  top: boolean;
+  top: boolean
   // 更新频率，null表示未知
-  updateFrequency: string | null;
+  updateFrequency: string | null
   // 背景封面图片ID
-  backgroundCoverId: number;
+  backgroundCoverId: number
   // 背景封面图片的URL，null表示没有
-  backgroundCoverUrl: string | null;
+  backgroundCoverUrl: string | null
   // 歌单标题图片ID
-  titleImage: number;
+  titleImage: number
   // 歌单标题图片的URL，null表示没有
-  titleImageUrl: string | null;
+  titleImageUrl: string | null
   // 歌单的英文标题，null表示没有
-  englishTitle: string | null;
+  englishTitle: string | null
   // 是否官方推荐
-  opRecommend: boolean;
+  opRecommend: boolean
   // 推荐信息，null表示没有
-  recommendInfo: any | null; // 这里需要具体的结构，这里暂时用any代替
+  recommendInfo: any | null // 这里需要具体的结构，这里暂时用any代替
   // 订阅者数量
-  subscribedCount: number;
+  subscribedCount: number
   // 云同步音轨数量
-  cloudTrackCount: number;
+  cloudTrackCount: number
   // 歌单所属用户的唯一ID
-  userId: number;
+  userId: number
   // 所有音轨的总时长，单位为毫秒
-  totalDuration: number;
+  totalDuration: number
   // 封面图片ID
-  coverImgId: number;
+  coverImgId: number
   // 歌单的隐私设置，0表示公开
-  privacy: number;
+  privacy: number
   // 音轨最后更新的时间戳
-  trackUpdateTime: number;
+  trackUpdateTime: number
   // 音轨数量
-  trackCount: number;
+  trackCount: number
   // 歌单最后更新的时间戳
-  updateTime: number;
+  updateTime: number
   // 评论线程ID
-  commentThreadId: string;
+  commentThreadId: string
   // 封面图片的URL
-  coverImgUrl: string;
+  coverImgUrl: string
   // 歌单的特殊类型，5表示是用户的收藏夹
-  specialType: number;
+  specialType: number
   // 是否匿名创建，false表示不是匿名
-  anonymous: boolean;
+  anonymous: boolean
   // 歌单创建的时间戳
-  createTime: number;
+  createTime: number
   // 是否为高品质音频，false表示不是
-  highQuality: boolean;
+  highQuality: boolean
   // 是否为新导入的歌单，false表示不是
-  newImported: boolean;
+  newImported: boolean
   // 音轨数量最后更新的时间戳
-  trackNumberUpdateTime: number;
+  trackNumberUpdateTime: number
   // 播放次数
-  playCount: number;
+  playCount: number
   // 广告类型，0表示没有广告
-  adType: number;
+  adType: number
   // 歌单描述
-  description: string;
+  description: string
   // 歌单标签列表
-  tags: string[];
+  tags: string[]
   // 是否已排序，false表示未排序
-  ordered: boolean;
+  ordered: boolean
   // 歌单状态，0表示正常
-  status: number;
+  status: number
   // 歌单名称
-  name: string;
+  name: string
   // 歌单的唯一ID
-  id: number;
+  id: number
   // 封面图片ID的字符串形式
-  coverImgId_str: string;
+  coverImgId_str: string
   // 共享用户列表，null表示没有
-  sharedUsers: any[] | null; // 这里需要具体的结构，这里暂时用any代替
+  sharedUsers: any[] | null // 这里需要具体的结构，这里暂时用any代替
   // 共享状态，null表示未知
-  shareStatus: string | null;
+  shareStatus: string | null
   // 是否被复制，false表示未被复制
-  copied: boolean;
+  copied: boolean
 }
 
-
 export interface IAllPlayRecordItem {
-  playCount: number; // 播放次数
-  score: number; // 评分
-  song: Song; // 歌曲信息
+  playCount: number // 播放次数
+  score: number // 评分
+  song: Song // 歌曲信息
 }
 
 interface SongPrivilege {
-  id: number; // 歌曲ID
-  fee: number; // 费用等级
-  payed: number; // 是否付费
-  st: number; // 状态
-  pl: number; // 播放权限级别
-  dl: number; // 下载权限级别
-  sp: number; // 单曲售卖级别
-  cp: number; // 版权信息
-  subp: number; // 订阅权限级别
-  cs: boolean; // 是否为云盘歌曲
-  maxbr: number; // 最高比特率
-  fl: number; // 比特率
-  toast: boolean; // 是否有toast提示
-  flag: number; // 标识
-  preSell: boolean; // 是否为预售
-  playMaxbr: number; // 播放时的最高比特率
-  downloadMaxbr: number; // 下载时的最高比特率
-  maxBrLevel: string; // 最高比特率级别
-  playMaxBrLevel: string; // 播放时的最高比特率级别
-  downloadMaxBrLevel: string; // 下载时的最高比特率级别
-  plLevel: string; // 播放权限级别
-  dlLevel: string; // 下载权限级别
-  flLevel: string; // 比特率级别
-  rscl: any; // 未知字段
+  id: number // 歌曲ID
+  fee: number // 费用等级
+  payed: number // 是否付费
+  st: number // 状态
+  pl: number // 播放权限级别
+  dl: number // 下载权限级别
+  sp: number // 单曲售卖级别
+  cp: number // 版权信息
+  subp: number // 订阅权限级别
+  cs: boolean // 是否为云盘歌曲
+  maxbr: number // 最高比特率
+  fl: number // 比特率
+  toast: boolean // 是否有toast提示
+  flag: number // 标识
+  preSell: boolean // 是否为预售
+  playMaxbr: number // 播放时的最高比特率
+  downloadMaxbr: number // 下载时的最高比特率
+  maxBrLevel: string // 最高比特率级别
+  playMaxBrLevel: string // 播放时的最高比特率级别
+  downloadMaxBrLevel: string // 下载时的最高比特率级别
+  plLevel: string // 播放权限级别
+  dlLevel: string // 下载权限级别
+  flLevel: string // 比特率级别
+  rscl: any // 未知字段
   freeTrialPrivilege: {
-    resConsumable: boolean; // 资源是否可消费
-    userConsumable: boolean; // 用户是否可消费
-    listenType: any; // 未知字段
-  };
+    resConsumable: boolean // 资源是否可消费
+    userConsumable: boolean // 用户是否可消费
+    listenType: any // 未知字段
+  }
   chargeInfoList: {
-    rate: number; // 比特率
-    chargeUrl: null; // 收费链接
-    chargeMessage: null; // 收费信息
-    chargeType: number; // 收费类型
-  }[];
-};
+    rate: number // 比特率
+    chargeUrl: null // 收费链接
+    chargeMessage: null // 收费信息
+    chargeType: number // 收费类型
+  }[]
+}
 
 interface SongQuality {
-  br: number; // 比特率
-  fid: number; // 文件ID
-  size: number; // 文件大小
-  vd: number; // 未知字段
-};
+  br: number // 比特率
+  fid: number // 文件ID
+  size: number // 文件大小
+  vd: number // 未知字段
+}
 
 interface Artist {
-  id: number; // 艺术家ID
-  name: string; // 艺术家名称
-  tns: string[]; // 未知字段
-  alias: string[]; // 艺术家别名
-};
+  id: number // 艺术家ID
+  name: string // 艺术家名称
+  tns: string[] // 未知字段
+  alias: string[] // 艺术家别名
+}
 
 interface Album {
-  id: number; // 专辑ID
-  name: string; // 专辑名称
-  picUrl: string; // 专辑图片URL
-  tns: string[]; // 未知字段
-  pic_str: string; // 未知字段
-  pic: number; // 专辑图片标识
-};
+  id: number // 专辑ID
+  name: string // 专辑名称
+  picUrl: string // 专辑图片URL
+  tns: string[] // 未知字段
+  pic_str: string // 未知字段
+  pic: number // 专辑图片标识
+}
 
 interface Song {
-  name: string; // 歌曲名称
-  id: number; // 歌曲ID
-  pst: number; // 未知字段
-  t: number; // 未知字段
-  ar: Artist[]; // 艺术家数组
-  alia: string[]; // 歌曲别名
-  pop: number; // 流行度
-  st: number; // 状态
-  rt: null; // 未知字段
-  fee: number; // 费用等级
-  v: number; // 版本
-  crbt: null; // 未知字段
-  cf: string; // 未知字段
-  al: Album; // 专辑信息
-  dt: number; // 时长
-  h: SongQuality; // 高品质
-  m: SongQuality; // 中品质
-  l: SongQuality; // 低品质
-  a: null; // 未知字段
-  cd: string; // 专辑中的歌曲编号
-  no: number; // 序号
-  rtUrl: null; // 未知字段
-  ftype: number; // 文件类型
-  rtUrls: any[]; // 未知字段
-  djId: number; // 未知字段
-  copyright: number; // 版权信息
-  s_id: number; // 未知字段
-  mark: number; // 标记
-  originCoverType: number; // 原始封面类型
-  originSongSimpleData: null; // 未知字段
-  single: number; // 是否为单曲
-  noCopyrightRcmd: null; // 无版权推荐
-  rtype: number; // 未知字段
-  rurl: null; // 未知字段
-  mst: number; // 未知字段
-  cp: number; // 版权信息
-  mv: number; // 音乐视频ID
-  publishTime: number; // 发布时间戳
-  privilege: SongPrivilege; // 权限信息
-};
+  name: string // 歌曲名称
+  id: number // 歌曲ID
+  pst: number // 未知字段
+  t: number // 未知字段
+  ar: Artist[] // 艺术家数组
+  alia: string[] // 歌曲别名
+  pop: number // 流行度
+  st: number // 状态
+  rt: null // 未知字段
+  fee: number // 费用等级
+  v: number // 版本
+  crbt: null // 未知字段
+  cf: string // 未知字段
+  al: Album // 专辑信息
+  dt: number // 时长
+  h: SongQuality // 高品质
+  m: SongQuality // 中品质
+  l: SongQuality // 低品质
+  a: null // 未知字段
+  cd: string // 专辑中的歌曲编号
+  no: number // 序号
+  rtUrl: null // 未知字段
+  ftype: number // 文件类型
+  rtUrls: any[] // 未知字段
+  djId: number // 未知字段
+  copyright: number // 版权信息
+  s_id: number // 未知字段
+  mark: number // 标记
+  originCoverType: number // 原始封面类型
+  originSongSimpleData: null // 未知字段
+  single: number // 是否为单曲
+  noCopyrightRcmd: null // 无版权推荐
+  rtype: number // 未知字段
+  rurl: null // 未知字段
+  mst: number // 未知字段
+  cp: number // 版权信息
+  mv: number // 音乐视频ID
+  publishTime: number // 发布时间戳
+  privilege: SongPrivilege // 权限信息
+}
 
-
-
-
+// 统计信息接口，用于描述一个用户在音乐平台上的各类内容统计
+export interface ISubCountInfo {
+  // 节目数量，用户创建的节目总数
+  programCount: number
+  // 电台数量，用户创建的电台总数
+  djRadioCount: number
+  // 音乐视频数量，用户收藏的音乐视频总数
+  mvCount: number
+  // 艺人数量，用户关注的艺人总数
+  artistCount: number
+  // 新节目数量，用户新创建的节目总数
+  newProgramCount: number
+  // 创建电台数量，用户新创建的电台总数
+  createDjRadioCount: number
+  // 创建歌单数量，用户创建的歌单总数
+  createdPlaylistCount: number
+  // 订阅歌单数量，用户订阅的歌单总数
+  subPlaylistCount: number
+  // 状态码，用于表示请求是否成功，200 表示成功
+  code: number
+}
 interface Props {
   accountInfo: Partial<IAccountInfo> // 账号信息
   userInfo: Partial<IUserInfo> // 用户信息
   vipInfo: Partial<IVipInfo>
   songList: ISongListItem[] // 用户歌单
   allPlayRecord: IAllPlayRecordItem[] // 播放记录
-  playRecordLoading: boolean,
+  playRecordLoading: boolean
   isSignIn: boolean
+  subCountInfo: Partial<ISubCountInfo>
 }
 
 interface Actions {
@@ -491,6 +511,7 @@ interface Actions {
   setSongList: (songList: ISongListItem[]) => void
   setAllPlayRecord: () => void
   setIsSignIn: (signIn: boolean) => void
+  setSubCountInfo: () => void
 }
 
 const initialState: Props = {
@@ -500,38 +521,47 @@ const initialState: Props = {
   songList: [],
   allPlayRecord: [],
   playRecordLoading: false,
-  isSignIn: false
+  isSignIn: false,
+  subCountInfo: {}
 }
 
 export const useUserStore = create<Props & Actions>()(
   devtools(
     (set, get) => ({
       ...initialState,
-      setAccountInfo: (accountInfo) => set({ accountInfo }, false, "设置账户信息"),
+      setAccountInfo: (accountInfo) => set({accountInfo}, false, "设置账户信息"),
       setUserInfo: (userInfo) => {
-        set({ userInfo, isSignIn: userInfo.pcSign }, false, "设置用户信息")
+        set({userInfo, isSignIn: userInfo.pcSign}, false, "设置用户信息")
       },
-      setVipInfo: (vipInfo) => set({ vipInfo }, false, "设置vip信息"),
-      setSongList: (songList) => set({ songList }, false, "设置用户歌单信息"),
+      setVipInfo: (vipInfo) => set({vipInfo}, false, "设置vip信息"),
+      setSongList: (songList) => set({songList}, false, "设置用户歌单信息"),
       setAllPlayRecord: async () => {
         try {
-          set({ playRecordLoading: true }, false, 'Loading...')
+          set({playRecordLoading: true}, false, "Loading...")
           const uid = getItem(EnumLocalStorage.userId) as string
           if (!uid) return
-          const res = await userRecord({ uid, type: 0 })
-          console.log('===播放列表获取成功===')
-          set({ allPlayRecord: res.data.allData }, false, '获取播放列表')
-          set({ playRecordLoading: false }, false, 'Loading...')
+          const res = await userRecord({uid, type: 0})
+          console.log("===播放列表获取成功===")
+          set({allPlayRecord: res.data.allData}, false, "获取播放列表")
+          set({playRecordLoading: false}, false, "Loading...")
         } catch (error) {
-          console.log('error', error)
+          console.log("error", error)
         }
       },
       setIsSignIn: (signIn) => {
-        set({ isSignIn: signIn }, false, '设置是否签到')
+        set({isSignIn: signIn}, false, "设置是否签到")
+      },
+      setSubCountInfo: async () => {
+        try {
+          const res = await userSubcount()
+          set({subCountInfo: res.data}, false, "获取用户信息 , 歌单，收藏，mv, dj 数量")
+        } catch (error) {
+          console.log("error", error)
+        }
       }
     }),
     {
-      name: "userStore",
+      name: "userStore"
     }
   )
 )
@@ -560,14 +590,19 @@ export const useIsSignIn = () => useUserStore((state) => state.isSignIn)
 export const useSetIsSignIn = () => useUserStore((state) => state.setIsSignIn)
 
 // 用户创建的歌单
-export const useCreatorSongList = () => useUserStore((state) => state.songList?.filter((item) => !item.subscribed))
+export const useCreatorSongList = () =>
+  useUserStore((state) => state.songList?.filter((item) => !item.subscribed))
 
 // 用户收藏的歌单
-export const useFavoriteSongList = () => useUserStore((state) => state.songList?.filter((item) => item.subscribed))
-
+export const useFavoriteSongList = () =>
+  useUserStore((state) => state.songList?.filter((item) => item.subscribed))
 
 export const useAllPlayRecord = () => useUserStore((state) => state.allPlayRecord)
 
 export const useSetAllPlayRecord = () => useUserStore((state) => state.setAllPlayRecord)
 
 export const usePlayRecordLoading = () => useUserStore((state) => state.playRecordLoading)
+
+export const useSubCountInfo = () => useUserStore((state) => state.subCountInfo)
+
+export const useSetSubCountInfo = () => useUserStore((state) => state.setSubCountInfo)

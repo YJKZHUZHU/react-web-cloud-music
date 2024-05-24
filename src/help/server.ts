@@ -1,6 +1,6 @@
-import { request } from '@umijs/max'
-import { EnumLocalStorage, getItem } from './cache'
+/** @format */
 
+import {request} from "@umijs/max"
 
 export interface IResp<T = Record<string, string>> {
   code: string
@@ -10,12 +10,18 @@ export interface IResp<T = Record<string, string>> {
   data: T
 }
 
-
-export const service = <T = any>(url: string, data?: Record<string, any>, cache: boolean = false) => {
+export const service = <T = any>(
+  url: string,
+  data?: Record<string, any>,
+  cache: boolean = false,
+  headers?: Record<string, string | number | boolean>
+) => {
   return request<IResp<T>>(url, {
     data: {
       ...data,
-      cache,
-    }, method: 'post', headers: { format: true }
+      cache
+    },
+    method: "post",
+    headers: {format: true, ...headers}
   })
 }

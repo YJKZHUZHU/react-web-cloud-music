@@ -4,7 +4,7 @@ import {useEffect, useRef} from "react"
 import {history} from "@umijs/max"
 import classnames from "classnames"
 import {Flex, Spin} from "antd"
-import {Image} from "@/components"
+import {Artists, Image} from "@/components"
 import {CaretRightOutlined} from "@ant-design/icons"
 import BScroll from "@better-scroll/core"
 import ScrollBar from "@better-scroll/scroll-bar"
@@ -141,10 +141,7 @@ const PlayerLayout = () => {
         </div>
         <Flex vertical flex={1} gap={20} className={classnames("pt-[50px] pl-[40px]")}>
           <span className="text-[24px] font-[600] text-[#363D62] self-center">{songObj.name}</span>
-
-          <span className="text-[#7D829E] text-[18px] self-center line-clamp-1">
-            {songObj.singerArr?.join("/")}
-          </span>
+          <Artists className=" self-center " data={songObj.singerArr!} />
 
           <div id="_lyricScroll" className="playerWrapper overflow-hidden relative h-[280px]">
             <Flex vertical gap={14} align="center" className=" pt-[10px] pb-[20px] ">

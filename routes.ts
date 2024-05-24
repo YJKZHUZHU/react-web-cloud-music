@@ -92,23 +92,23 @@ const routes: IRoue[] = [
       {
         path: "/collect",
         component: "collect",
-        title: "收藏的专辑",
-        parentKey: MenuKeyEnum.MY_MUSIC,
-        wrappers: ["@/wrappers/Auth"],
-        routes: [
-          {
-            path: "/collect/singer",
-            component: "collect/singer",
-            title: "收藏的歌手",
-            wrappers: ["@/wrappers/Auth"]
-          },
-          {
-            path: "/collect/video",
-            component: "collect/video",
-            title: "收藏的视频",
-            wrappers: ["@/wrappers/Auth"]
-          }
-        ]
+        title: "我的收藏",
+        parentKey: MenuKeyEnum.MY_MUSIC
+        // wrappers: ["@/wrappers/Auth"],
+        // routes: [
+        //   {
+        //     path: "/collect/singer",
+        //     component: "collect/singer",
+        //     title: "收藏的歌手",
+        //     wrappers: ["@/wrappers/Auth"]
+        //   },
+        //   {
+        //     path: "/collect/video",
+        //     component: "collect/video",
+        //     title: "收藏的视频",
+        //     wrappers: ["@/wrappers/Auth"]
+        //   }
+        // ]
       },
       {
         path: "/find-music/song-list",
@@ -153,65 +153,33 @@ const routes: IRoue[] = [
         path: "/search-detail/:type",
         component: "search-detail",
         title: "搜索详情"
-        // routes: [
-        //   {
-        //     path: "/search-detail/single",
-        //     component: "search-detail/single",
-        //     title: "单曲"
-        //   },
-        //   {
-        //     path: "/search-detail/singer",
-        //     component: "search-detail/singer",
-        //     title: "歌手"
-        //   },
-        //   {
-        //     path: "/search-detail/album",
-        //     component: "search-detail/album",
-        //     title: "专辑"
-        //   },
-        //   {
-        //     path: "/search-detail/video",
-        //     component: "search-detail/video",
-        //     title: "视频"
-        //   },
-        //   {
-        //     path: "/search-detail/song-list",
-        //     component: "search-detail/song-list",
-        //     title: "歌单"
-        //   },
-        //   {
-        //     path: "/search-detail/user",
-        //     component: "search-detail/user",
-        //     title: "用户"
-        //   }
-        // ]
       },
       {
         path: "/artists-detail",
         component: "artists-detail",
-        title: "专辑",
-        routes: [
-          {
-            path: "/artists-detail/album",
-            component: "artists-detail/album",
-            title: "Album"
-          },
-          {
-            path: "/artists-detail/mv",
-            component: "artists-detail/mv",
-            title: "MV"
-          },
-          {
-            path: "/artists-detail/singer-detail",
-            component: "artists-detail/singer-detail",
-            title: "歌手详情"
-          },
-          {
-            path: "/artists-detail/similar-singer",
-            component: "artists-detail/similar-singer",
-            title: "相似歌手"
-          }
-        ]
+        title: "歌手详情",
+        // routes: [
+        //   {
+        //     path: "/artists-detail/album",
+        //     component: "artists-detail/album",
+        //     title: "Album"
+        //   },
+        //   {
+        //     path: "/artists-detail/mv",
+        //     component: "artists-detail/mv",
+        //     title: "MV"
+        //   },
+        //   {
+        //     path: "/artists-detail/singer-detail",
+        //     component: "artists-detail/singer-detail",
+        //     title: "歌手详情"
+        //   },
+        //   {
+        //     path: "/artists-detail/similar-singer",
+        //     component: "artists-detail/similar-singer",
+        //     title: "相似歌手"
+        //   }
+        // ]
       },
       {
         path: "/album/:id",

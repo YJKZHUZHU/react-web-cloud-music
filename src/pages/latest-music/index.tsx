@@ -15,7 +15,6 @@ import VirtualList from "rc-virtual-list"
 import {Artists, Image, PlayIcon} from "@/components"
 import coverall from "@/assets/coverall.png"
 import playing from "@/assets/playing.png"
-import styles from "./index.scss"
 import classNames from "classnames"
 import {
   useGetSong,
@@ -130,7 +129,6 @@ const LatestMusic = () => {
         fullHeight
         itemHeight={80}
         height={virtualHeight}
-        className={classNames(styles.virtualList)}
         data={data!}
         styles={{verticalScrollBarThumb: {}}}
         itemKey="id">
@@ -225,14 +223,14 @@ const LatestMusic = () => {
           fullHeight
           itemHeight={180}
           height={virtualHeight}
-          className={classNames(styles.virtualList, "flex-1")}
+          className={classNames("flex-1")}
           data={data}
-          styles={{verticalScrollBarThumb: {}}}
+          styles={{verticalScrollBarThumb: {display: "none"}}}
           itemKey="key"
           onScroll={onScroll}>
-          {(dataSource: {key: number; list: IAlbumItem[]}, index) => {
+          {(dataSource: {key: number; list: IAlbumItem[]}) => {
             return (
-              <Flex key={index} wrap gap={25} justify="flex-start">
+              <Flex key={dataSource.key} wrap gap={25} className="pb-[16px]">
                 {dataSource?.list?.map((item) => (
                   <Flex
                     onClick={(e) => {
@@ -241,18 +239,19 @@ const LatestMusic = () => {
                     vertical
                     key={item?.id}
                     gap={8}
-                    className=" rounded-[5px] w-[153px]">
+                    className="w-[150px]">
                     <div
                       style={{
                         backgroundRepeat: "no-repeat",
                         background: `url(${coverall})`,
-                        backgroundPosition: "0 -845px"
+                        backgroundPosition: "-3px -845px"
                       }}
-                      className=" rounded-[5px] w-[153px] h-[130px]">
+                      className=" w-[150px] h-[130px]">
                       <Image
-                        className="cursor-pointer rounded-[5px]"
-                        height={132}
-                        size={[132, 132]}
+                        className=" w-[130px] cursor-pointer"
+                        height={130}
+                        width={130}
+                        size={[130, 130]}
                         multiple={2}
                         src={item.picUrl}
                       />

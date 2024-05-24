@@ -1,154 +1,60 @@
 /** @format */
 
-import React, { useState, useEffect, FC } from "react"
-import { Tabs, Spin, List, Space, Avatar } from "antd"
-import { history, useLocation, Outlet } from "@umijs/max"
-import { useRequest } from "ahooks"
-import API from "@/api"
-import Utils from "@/help"
-import dayjs from "dayjs"
-import styles from "./index.scss"
+import {useState, FC} from "react"
+import {Tabs, Spin, Flex, TabsProps} from "antd"
+import {useVirtualListHeight} from "@/hooks"
+import {TabEnum, MapTab} from "@/constants/collect"
+import {Album, Singer, Video} from "./components"
 
-const { TabPane } = Tabs
+const Collect: FC = () => {
+  const [activeTab, setTabKey] = useState(TabEnum.album)
 
-interface IArtists {
-  img1v1Id: number
-  topicPerson: number
-  alias: any[]
-  picId: number
-  briefDesc: string
-  albumSize: number
-  musicSize: number
-  followed: boolean
-  img1v1Url: string
-  trans: string
-  picUrl: string
-  name: string
-  id: number
-  img1v1Id_str: string
-}
+  const virtualListHeight = useVirtualListHeight(80)
 
-interface IAlbum {
-  subTime: number
-  msg: any[]
-  alias: string[]
-  artists: IArtists[]
-  picId: number
-  picUrl: string
-  name: string
-  id: number
-  size: number
-  transNames: any[]
-}
+  const [albumCount, setAlbumCount] = useState(0)
+  const [singerCount, setSingerCount] = useState(0)
+  const [videoCount, setVideoCount] = useState(0)
 
-export interface IAlbumData {
-  data: IAlbum[]
-  hasMore: boolean
-  count: number
-  code: number
-  paidCount: number
-}
-
-interface IData {
-  programCount: number
-  djRadioCount: number
-  mvCount: number
-  artistCount: number
-  newProgramCount: number
-  createDjRadioCount: number
-  createdPlaylistCount: number
-  subPlaylistCount: number
-  code: number
-}
-
-const INIT_DATA = {
-  programCount: 0,
-  djRadioCount: 0,
-  mvCount: 0,
-  artistCount: 0,
-  newProgramCount: 0,
-  createDjRadioCount: 0,
-  createdPlaylistCount: 0,
-  subPlaylistCount: 0,
-  code: 200
-}
-
-const Collect: FC = ({ children }) => {
-  const location = useLocation()
-  const path =
-    location.pathname.split("/").pop() === "collect" ? "album" : location.pathname.split("/").pop()
-  const [key, setTabKey] = useState(path || "album")
-
-  const { data, run } = useRequest<IData>(API.subCount, {
-    manual: true,
-    initialData: INIT_DATA
-  })
-
-  const { data: albumData, run: runAlbum, loading } = useRequest<IAlbumData>(API.albumSublist, {
-    manual: true
-  })
+  const [loading, setLoading] = useState(false)
 
   const callback = (activeKey: string) => {
-    setTabKey(activeKey)
-    history.push(`/collect/${activeKey}`)
+    setTabKey(activeKey as TabEnum)
   }
 
-  const albumDescription = (item: IAlbum) => {
-    return (
-      <div className={styles.albumDescription}>
-        <Space className={styles.artists}>
-          <span>{Utils.formatName(item.artists)}</span>
-          <span>({item.size}首)</span>
-        </Space>
-        <Space className={styles.time}>
-          <span>发布时间</span>
-          <span>{dayjs(item.subTime).format("YYYY-MM-DD HH:mm:ss")}</span>
-        </Space>
-      </div>
-    )
+  const commonProps = {
+    loading,
+    setLoading,
+    virtualListHeight
   }
 
-  useEffect(() => {
-    run()
-    runAlbum()
-  }, [])
+  const items: TabsProps["items"] = [
+    {
+      key: MapTab.get(TabEnum.album)!.key,
+      label: !!albumCount ? `专辑(${albumCount})` : MapTab.get(TabEnum.album)!.label,
+      children: <Album {...commonProps} getCount={setAlbumCount} />,
+      disabled: loading
+    },
+    {
+      key: MapTab.get(TabEnum.singer)!.key,
+      label: !!singerCount ? `歌手(${singerCount || 0})` : MapTab.get(TabEnum.singer)!.label,
+      children: <Singer {...commonProps} getCount={setSingerCount} />,
+      disabled: loading
+    },
+    {
+      key: MapTab.get(TabEnum.video)!.key,
+      label: !!videoCount ? `视频(${videoCount || 0})` : MapTab.get(TabEnum.video)!.label,
+      children: <Video {...commonProps} getCount={setVideoCount} />,
+      disabled: loading
+    }
+  ]
 
   return (
-    <Tabs className={styles._collect} activeKey={key} onChange={callback}>
-      <TabPane tab={`专辑 ${albumData?.count || 0}`} key="album">
-        <Spin spinning={loading} tip="Loadiing...">
-          <List
-            itemLayout="horizontal"
-            locale={{ emptyText: "暂无收藏专辑" }}
-            dataSource={albumData?.data}
-            renderItem={(item) => (
-              <List.Item
-                onClick={() => history.push(`/album/${item.id}`)}
-                className={styles.albItem}>
-                <List.Item.Meta
-                  avatar={<Avatar src={item.picUrl} />}
-                  title={
-                    <Space>
-                      <span className={styles.name}>{item.name}</span>
-                      {item.alias.length !== 0 ? <span>({item.alias.join()})</span> : null}
-                    </Space>
-                  }
-                  description={albumDescription(item)}
-                />
-              </List.Item>
-            )}
-          />
-        </Spin>
-      </TabPane>
-      <TabPane tab={`歌手 ${data?.artistCount}`} key="singer">
-        <Outlet />
-      </TabPane>
-      <TabPane tab={`视频  ${data?.mvCount}`} key="video">
-        <Outlet />
-      </TabPane>
-    </Tabs>
+    <Spin spinning={loading} tip="Loading...">
+      <Flex flex={1} vertical gap={24} className=" bg-[#ffffff] rounded-[20px] px-[16px] pb-[16px]">
+        <Tabs activeKey={activeTab} onChange={callback} items={items}></Tabs>
+      </Flex>
+    </Spin>
   )
 }
 
 export default Collect
-

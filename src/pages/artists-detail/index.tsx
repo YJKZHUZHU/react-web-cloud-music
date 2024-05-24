@@ -1,8 +1,8 @@
 /** @format */
 
-import React, { useState, useEffect, FC, createContext } from "react"
-import { history, Outlet } from "@umijs/max"
-import { Tabs, Radio, Button, Space, Spin, message } from "antd"
+import {useState, useEffect, FC, createContext} from "react"
+import {history} from "@umijs/max"
+import {Tabs, Radio, Button, message, Flex, Skeleton, TabsProps} from "antd"
 import {
   BorderInnerOutlined,
   UnorderedListOutlined,
@@ -11,12 +11,13 @@ import {
   UserOutlined,
   CheckOutlined
 } from "@ant-design/icons"
-import { useRequest } from "ahooks"
+import {Artist, artistAlbum, artistSub} from "@/api/singer"
+import {Image} from "@/components"
+import {useRequest} from "ahooks"
+import {SingerDetail, SimilarSinger, Mv} from "./components"
 import API from "@/api"
-import { useQuery } from '@/hooks'
-import Album, { IArtists, LayoutType } from "./album"
-import styles from "./index.scss"
-import qs from "qs"
+import {useQuery, useVirtualListHeight} from "@/hooks"
+import {LayoutType} from "./album"
 
 interface IArtistsDetailContext {
   total: number
@@ -34,50 +35,86 @@ export interface IProps {
   query: IQuery
 }
 
-const { TabPane } = Tabs
+enum TabEnmu {
+  album = "album",
+  mv = "mv",
+  singerDetail = "singerDetail",
+  similarSinger = "similarSinger",
+  show = "show"
+}
 
 const ArtistsDetail: FC = () => {
-  const query = useQuery<{ id: number, name: string, source: string }>()
-  const [tabKey, setTabKey] = useState(query?.source || "album")
+  const {id, name} = useQuery<{id: number; name: string; source: string}>()
+
+  const [tabKey, setTabKey] = useState(TabEnmu.album)
+
   const [collect, setCollect] = useState(false)
   const [extraType, setExtraType] = useState<LayoutType>("card")
-  const { data, run, loading } = useRequest(
-    () => API.getSingerAlbum({ id: query.id, limit: 0 }),
-    {
-      manual: true,
-      formatResult: (response): IArtists => response.artist
+
+  const [artistDetail, setArtistDetail] = useState<Artist>({} as Artist)
+
+  const [loading, setLoading] = useState(false)
+
+  const virtualListHeight = useVirtualListHeight(100)
+
+  const getArtistAlbum = async () => {
+    try {
+      setLoading(true)
+      const res = await artistAlbum({id, limit: 0})
+      setArtistDetail(res.data.artist)
+      setCollect(res.data.artist.followed)
+      setLoading(false)
+    } catch (error) {
+      setLoading(false)
+      console.log("error", error)
     }
-  )
-  const { run: runColect } = useRequest(
-    () => API.setArtistsSub({ id: data?.id, t: collect ? -1 : 1 }),
-    {
-      manual: true,
-      onSuccess: async () => {
-        await runSub()
-        if (collect) {
-          message.success("取消收藏成功")
-        } else {
-          message.success("收藏成功")
-        }
+  }
+
+  const onCollect = async (t: 0 | 1) => {
+    try {
+      setLoading(true)
+      const res = await artistSub({id, t})
+      if ((res.code as any) !== 200) {
+        message.info(res.data.blockText)
+        setLoading(false)
+        return
       }
+      setCollect(true)
+      await getArtistAlbum()
+      setLoading(false)
+    } catch (error) {
+      console.log("error", error)
     }
-  )
-  const { run: runSub } = useRequest(API.artistSublist, {
-    manual: true,
-    onSuccess: (response) => {
-      if (response.data.findIndex((item: any) => +item.id === +query.id) !== -1) {
-        setCollect(true)
-      } else {
-        setCollect(false)
-      }
-    }
-  })
+  }
+
+  // const {run: runColect} = useRequest(
+  //   () => API.setArtistsSub({id: data?.id, t: collect ? -1 : 1}),
+  //   {
+  //     manual: true,
+  //     onSuccess: async () => {
+  //       await runSub()
+  //       if (collect) {
+  //         message.success("取消收藏成功")
+  //       } else {
+  //         message.success("收藏成功")
+  //       }
+  //     }
+  //   }
+  // )
+
+  // const {run: runSub} = useRequest(API.artistSublist, {
+  //   manual: true,
+  //   onSuccess: (response) => {
+  //     if (response.data.findIndex((item: any) => +item.id === +query.id) !== -1) {
+  //       setCollect(true)
+  //     } else {
+  //       setCollect(false)
+  //     }
+  //   }
+  // })
+
   const onTab = (activeKey: any) => {
     setTabKey(activeKey)
-    history.push({
-      pathname: `/artists-detail/${activeKey}?${qs.stringify({ ...query, source: activeKey })}`,
-
-    })
   }
   const extra = (
     <Radio.Group
@@ -95,81 +132,86 @@ const ArtistsDetail: FC = () => {
       </Radio.Button>
     </Radio.Group>
   )
+
   useEffect(() => {
-    setTabKey(query?.source)
-  }, [query?.source])
-  useEffect(() => {
-    run()
-    runSub()
-  }, [query?.name])
+    getArtistAlbum()
+  }, [])
+
+  const commonProps = {
+    id,
+    virtualListHeight
+  }
+
+  const items: TabsProps["items"] = [
+    {
+      label: "专辑",
+      key: TabEnmu.album,
+      children: false
+    },
+    {
+      label: "MV",
+      key: TabEnmu.mv,
+      children: <Mv {...commonProps} />
+    },
+    {
+      label: "歌手详情",
+      key: TabEnmu.singerDetail,
+      children: <SingerDetail {...commonProps} name={name || artistDetail?.name} />
+    },
+    {
+      label: "相似歌手",
+      key: TabEnmu.similarSinger,
+      children: <SimilarSinger {...commonProps} />
+    }
+  ]
+
   return (
-    <div className={styles.attistsDetail}>
-      <Spin spinning={loading} tip="歌手信息加载中...">
-        <div className={styles.singerDetail}>
-          <div className={styles.img}>
-            <img src={data?.picUrl} alt={data?.name} />
-          </div>
-          <div className={styles.content}>
-            <p>{data?.name}</p>
-            <p className={styles.nickName}>{data?.alias?.join("")}</p>
-            <Space direction="vertical" size={20}>
-              <div>
-                <Space size={16}>
-                  <Button shape="round" onClick={runColect}>
-                    {collect ? <CheckOutlined /> : <FolderAddOutlined />}
-                    {collect ? "已收藏" : "收藏"}
-                  </Button>
+    <Flex flex={1} vertical gap={12} className=" bg-[#ffffff] rounded-[20px] p-[16px]">
+      <Flex gap={24}>
+        <Image
+          className=" w-[200px] h-[200px] cursor-pointer rounded-[5px]"
+          src={artistDetail?.picUrl}
+          height={200}
+          size={[200, 200]}
+          multiple={2}
+        />
+        <Flex flex={1} vertical gap={18}>
+          {loading ? (
+            <Skeleton.Input style={{height: 18}} size="small" active />
+          ) : (
+            <span className="text-[18px] font-[600] text-[#262627]">{artistDetail?.name}</span>
+          )}
+          {loading ? (
+            <Skeleton.Input style={{height: 16}} active />
+          ) : (
+            <span className="text-[#545454]">{artistDetail?.alias?.join("；")}</span>
+          )}
 
-                  <Button shape="round" onClick={() => history.push(`/homepage/${data?.id}`)}>
-                    <UserOutlined />
-                    个人主页
-                  </Button>
-                </Space>
-              </div>
-              <div>
-                <Space size={16}>
-                  <span>
-                    单曲数:<i className={styles.number}>{data?.musicSize}</i>
-                  </span>
-                  <span>
-                    专辑数:<i className={styles.number}>{data?.albumSize}</i>
-                  </span>
-                </Space>
-              </div>
-            </Space>
-          </div>
-        </div>
-      </Spin>
+          <Flex gap={12}>
+            <Button
+              className="w-[100px]"
+              icon={collect ? <CheckOutlined /> : <FolderAddOutlined className="text-[16px]" />}
+              shape="round"
+              onClick={() => onCollect(collect ? 0 : 1)}>
+              {collect ? "已关注" : "关注"}
+            </Button>
 
-      <Tabs
-        onChange={onTab}
-        activeKey={tabKey}
-        tabBarStyle={{ color: "var(--font-color)" }}
-        animated
-        tabBarExtraContent={tabKey === "album" ? extra : null}>
-        <TabPane tab="专辑" key="album">
-          <Album
+            <Button
+              icon={<UserOutlined />}
+              shape="round"
+              onClick={() => history.push(`/homepage/${artistDetail?.id}`)}>
+              个人主页
+            </Button>
+          </Flex>
+          <Flex gap={8}>
+            <span className="text-[#363D62]">单曲数：{artistDetail?.musicSize || 0}</span>
+            <span className="text-[#363D62]">专辑数：{artistDetail?.albumSize || 0}</span>
+          </Flex>
+        </Flex>
+      </Flex>
 
-            total={data?.albumSize as number}
-            type={extraType}
-            topImgUrl={data?.picUrl as string}
-            albumNumber={data?.albumSize as number}
-          />
-        </TabPane>
-        <TabPane tab="MV" key="mv">
-          <ArtistsDetailContext.Provider value={{ total: data?.musicSize as number }}>
-
-            <Outlet />
-          </ArtistsDetailContext.Provider>
-        </TabPane>
-        <TabPane tab="歌手详情" key="singer-detail">
-          <Outlet />
-        </TabPane>
-        <TabPane tab="相似歌手" key="similar-singer">
-          <Outlet />
-        </TabPane>
-      </Tabs>
-    </div>
+      <Tabs onChange={onTab} items={items} tabBarExtraContent={tabKey === TabEnmu.album && extra} />
+    </Flex>
   )
 }
 

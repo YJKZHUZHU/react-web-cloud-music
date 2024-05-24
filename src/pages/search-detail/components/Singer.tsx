@@ -25,7 +25,7 @@ const Singer = (props: ComponentProps<MusicArtist>) => {
         const alias = item.alias?.join("")
         return (
           <Flex
-            onClick={() => history.push(`/artists-detail/album?id=${item.id}&name=${item.name}`)}
+            onClick={() => history.push(`/artists-detail?id=${item.id}&name=${item.name}`)}
             key={item.id}
             align="center"
             gap={12}

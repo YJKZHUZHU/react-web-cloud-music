@@ -23,7 +23,7 @@ const useVirtualListHeight = (extraHeight: number = 0, selector: string = "#_con
 
       // 计算不包括内边距和边框的高度
       const heightWithoutPaddingAndBorder =
-        rect.height - paddingTop - paddingBottom - borderTopWidth - borderBottomWidth
+        rect.height - paddingTop - paddingBottom - borderTopWidth - borderBottomWidth - extraHeight
 
       console.log("heightWithoutPaddingAndBorder", heightWithoutPaddingAndBorder)
       return heightWithoutPaddingAndBorder
@@ -44,7 +44,7 @@ const useVirtualListHeight = (extraHeight: number = 0, selector: string = "#_con
     })
   }, [])
 
-  return virtualHeight - extraHeight
+  return virtualHeight
 }
 
 export default useVirtualListHeight

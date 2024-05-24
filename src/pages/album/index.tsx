@@ -22,7 +22,6 @@ import {useGetSongInfo} from "@/store/player"
 
 const Album = () => {
   const {id = ""} = useParams()
-
   const [songList, setSongList] = useState<Song[]>([])
   const [albumInfo, setAlbumInfo] = useState<Partial<AlbumInfo>>({})
   const [dynamicInfo, setDynamicInfo] = useState<Partial<IDynamicRes>>({})
