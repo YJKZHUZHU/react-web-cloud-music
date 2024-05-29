@@ -34,7 +34,7 @@ const Video = (props: ComponentProps<IVideoItem>) => {
               return (
                 <Flex
                   className=" basis-[18%]"
-                  onClick={() => history.push(`/mv-detail?mvid=${item?.vid}&type=${item?.type}`)}
+                  onClick={() => history.push(`/mv-detail/${item?.vid}`)}
                   key={item.vid}
                   vertical
                   gap={4}>
@@ -56,9 +56,7 @@ const Video = (props: ComponentProps<IVideoItem>) => {
                     </Flex>
                   </div>
                   <Flex align="center" gap={4}>
-                    <Tag color="red" className="">
-                      MV
-                    </Tag>
+                    <Tag color="red">MV</Tag>
                     <HighlightText
                       className=" line-clamp-1"
                       content={item.title}

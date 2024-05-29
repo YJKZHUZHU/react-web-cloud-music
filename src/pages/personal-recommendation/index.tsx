@@ -49,10 +49,10 @@ const PersonalRecommendation = () => {
   const onLink = (item: IPrivateContentItem) => {
     let result = ""
     if (+item.type === 5) {
-      result = `/mv-detail?mvid=${item.id}&type=0`
+      result = `/mv-detail/${item.id}`
     }
     if (+item.type === 24) {
-      result = `/mv-detail?mvid=${item.videoId}&type=1`
+      result = `/video-detail/${item.videoId}`
     }
     return history.push(result)
   }
@@ -195,7 +195,7 @@ const PersonalRecommendation = () => {
                       className=" text-[#d33931]"
                       onClick={(e) => {
                         e.stopPropagation()
-                        history.push(`/mv-detail?mvid=${item.song.mvid}&type=${item.song.ftype}`)
+                        history.push(`/mv-detail/${item.song.mvid}`)
                       }}
                     />
                   ) : null}
@@ -232,7 +232,7 @@ const PersonalRecommendation = () => {
                 vertical
                 gap={8}
                 key={item.id}
-                onClick={() => history.push(`/mv-detail?mvid=${item.id}&type=${+item.type - 5}`)}
+                onClick={() => history.push(`/mv-detail/${item.id}`)}
                 className={classNames("relative w-[300px]", styles.mvItem)}>
                 <div
                   className={classNames(

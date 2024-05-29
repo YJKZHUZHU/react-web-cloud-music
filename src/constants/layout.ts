@@ -1,14 +1,14 @@
-import { MenuProps } from "antd"
+/** @format */
+
+import {MenuProps} from "antd"
 import cycle from "@/assets/footer/cycle.png"
 import listCycle from "@/assets/footer/list-cycle.png"
 import order from "@/assets/footer/order.png"
 import random from "@/assets/footer/random.png"
-import { PlayerModeEnum } from "@/store/player"
+import {PlayerModeEnum} from "@/store/player"
 
 /** @format */
 type MenuItem = Required<MenuProps>["items"][number]
-
-
 
 export enum MenuKeyEnum {
   FIND_MUSIC = "findMusic",
@@ -71,10 +71,31 @@ export const MY_MUSIC: ITagItem[] = [
     label: "音乐云盘",
     path: "/test",
     key: "test"
+  },
+  {
+    label: "我的歌单",
+    path: "/my-playlist",
+    key: "my-playlist"
   }
 ]
 
-export const MAP_TAGS_VIEWS = new Map().set(MenuKeyEnum.FIND_MUSIC, FIND_MUSIC_TAGS).set(MenuKeyEnum.MY_MUSIC, MY_MUSIC)
+export const VIDEO: ITagItem[] = [
+  {
+    label: "视频",
+    path: "/video",
+    key: "video"
+  },
+  {
+    label: "MV",
+    path: "/mv",
+    key: "mv"
+  }
+]
+
+export const MAP_TAGS_VIEWS = new Map()
+  .set(MenuKeyEnum.FIND_MUSIC, FIND_MUSIC_TAGS)
+  .set(MenuKeyEnum.MY_MUSIC, MY_MUSIC)
+  .set(MenuKeyEnum.VIDEO, VIDEO)
 
 export const menuList: MenuItem[] = [
   {
@@ -92,14 +113,12 @@ export const menuList: MenuItem[] = [
     key: MenuKeyEnum.MY_MUSIC
     // icon:
   },
-  {
-    label: "我的歌单",
-    key: MenuKeyEnum.MY_SONG_LIST
-    // icon:
-  }
+  // {
+  //   label: "我的歌单",
+  //   key: MenuKeyEnum.MY_SONG_LIST
+  //   // icon:
+  // }
 ]
-
-
 
 export const MAP_PALYER_MODE = new Map<PlayerModeEnum, string>()
   .set(PlayerModeEnum.order, order)
@@ -114,9 +133,7 @@ export const MAP_PALYER_MODE_NEXT = new Map<PlayerModeEnum, PlayerModeEnum>()
   .set(PlayerModeEnum.random, PlayerModeEnum.order)
 
 export const MAP_PALYER_MODE_TIP = new Map<PlayerModeEnum, string>()
-  .set(PlayerModeEnum.order, '顺序播放')
-  .set(PlayerModeEnum.listCycle, '列表循环')
-  .set(PlayerModeEnum.cycle, '单曲循环')
-  .set(PlayerModeEnum.random, '随机播放')
-
-
+  .set(PlayerModeEnum.order, "顺序播放")
+  .set(PlayerModeEnum.listCycle, "列表循环")
+  .set(PlayerModeEnum.cycle, "单曲循环")
+  .set(PlayerModeEnum.random, "随机播放")

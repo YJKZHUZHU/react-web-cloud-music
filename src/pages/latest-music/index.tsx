@@ -178,7 +178,7 @@ const LatestMusic = () => {
                     className="text-[#C62526] text-[12px]"
                     onClick={(e) => {
                       e.stopPropagation()
-                      history.push(`/mv-detail?mvid=${item.mvid}&type=${0}`)
+                      history.push(`/mv-detail/${item.mvid}`)
                     }}
                   />
                 ) : null}

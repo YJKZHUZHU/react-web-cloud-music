@@ -6,6 +6,7 @@ import VirtualList from "rc-virtual-list"
 import {useEffect, useRef, useState} from "react"
 import {mv, VideoInfo} from "@/api/collect"
 import empty from "@/assets/empty.png"
+import {history} from "@umijs/max"
 import {Props} from "./index"
 import Utils from "@/help"
 import {VideoCameraOutlined} from "@ant-design/icons"
@@ -83,6 +84,14 @@ const Video = (props: Props) => {
     )
   }
 
+  const onLink = (item: VideoInfo) => {
+    if (item.type === 0) {
+      return history.push(`mv-detail/${item.vid}`)
+    }
+
+    return history.push(`video-detail/${item.vid}`)
+  }
+
   return (
     <VirtualList
       fullHeight
@@ -97,7 +106,7 @@ const Video = (props: Props) => {
           <Flex gap={12} key={item.key} wrap className=" pb-[12px]">
             {item.list.map((item) => {
               return (
-                <Flex className="w-[200px]" vertical key={item.vid}>
+                <Flex onClick={() => onLink(item)} className="w-[200px] cursor-pointer" vertical key={item.vid}>
                   <div className="relative h-[100px]">
                     <Image
                       className="w-[200px] h-[100px] object-cover"

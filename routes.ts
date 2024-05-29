@@ -94,21 +94,6 @@ const routes: IRoue[] = [
         component: "collect",
         title: "我的收藏",
         parentKey: MenuKeyEnum.MY_MUSIC
-        // wrappers: ["@/wrappers/Auth"],
-        // routes: [
-        //   {
-        //     path: "/collect/singer",
-        //     component: "collect/singer",
-        //     title: "收藏的歌手",
-        //     wrappers: ["@/wrappers/Auth"]
-        //   },
-        //   {
-        //     path: "/collect/video",
-        //     component: "collect/video",
-        //     title: "收藏的视频",
-        //     wrappers: ["@/wrappers/Auth"]
-        //   }
-        // ]
       },
       {
         path: "/find-music/song-list",
@@ -146,8 +131,14 @@ const routes: IRoue[] = [
         title: "歌单详情"
       },
       {
-        path: "/mv-detail",
-        component: "mv-detail"
+        path: "/mv-detail/:mvid",
+        component: "mv-detail",
+        title: "MV详情"
+      },
+      {
+        path: "/video-detail/:vid",
+        component: "video-detail",
+        title: "视频详情"
       },
       {
         path: "/search-detail/:type",
@@ -157,51 +148,12 @@ const routes: IRoue[] = [
       {
         path: "/artists-detail",
         component: "artists-detail",
-        title: "歌手详情",
-        // routes: [
-        //   {
-        //     path: "/artists-detail/album",
-        //     component: "artists-detail/album",
-        //     title: "Album"
-        //   },
-        //   {
-        //     path: "/artists-detail/mv",
-        //     component: "artists-detail/mv",
-        //     title: "MV"
-        //   },
-        //   {
-        //     path: "/artists-detail/singer-detail",
-        //     component: "artists-detail/singer-detail",
-        //     title: "歌手详情"
-        //   },
-        //   {
-        //     path: "/artists-detail/similar-singer",
-        //     component: "artists-detail/similar-singer",
-        //     title: "相似歌手"
-        //   }
-        // ]
+        title: "歌手详情"
       },
       {
         path: "/album/:id",
         component: "album",
         title: "专辑"
-        // routes: [
-        //   {
-        //     path: '/album/song-list',
-        //     component: 'album/song-list',
-        //     title: '歌曲列表'
-        //   },
-        //   {
-        //     path: '/album/comment',
-        //     component: 'album/comment',
-        //     title: '专辑评论'
-        //   },
-        //   {
-        //     path: '/album/detail',
-        //     component: 'album/detail',
-        //     title: '专辑详情'
-        //   }
-        // ]
       },
       {
         path: "/care/dynamic",
@@ -250,6 +202,13 @@ const routes: IRoue[] = [
         component: "edit-song-list",
         title: "编辑歌单"
       },
+      {
+        path: "/my-playlist",
+        component: "my-playlist",
+        title: "我的歌单",
+        parentKey: MenuKeyEnum.MY_MUSIC
+      },
+
       {
         path: "/test",
         component: "test",

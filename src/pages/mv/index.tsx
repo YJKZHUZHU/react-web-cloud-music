@@ -101,7 +101,7 @@ const Mv: FC = () => {
                 key={item.id}
                 span={6}
                 className={styles.item}
-                onClick={() => history.push(`/mv-detail?mvid=${item?.id}&type=${0}`)}>
+                onClick={() => history.push(`/mv-detail/${item?.id}`)}>
                 <div className={styles.img}>
                   <img src={item?.cover} />
                   <span className={styles.durationms}>{Utils.formatSeconds(item?.duration)}</span>

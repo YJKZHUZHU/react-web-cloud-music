@@ -77,9 +77,8 @@ const Search = () => {
   const onKeyDown: React.KeyboardEventHandler<HTMLDivElement> = (e) => {
     if (e.key.toLocaleLowerCase() === "enter") {
       setOpen(false)
-      updateSearchHistoryList([...searchHistoryList, keywords])
-
       history.push(`/search-detail/${1}?keywords=${keywords || placeholder}`)
+      updateSearchHistoryList([...searchHistoryList, keywords || placeholder])
       getDefaultSearch()
     }
   }
@@ -185,9 +184,10 @@ const Search = () => {
               {searchHistoryList?.map((item) => {
                 return (
                   <Tag
+                    title={item}
                     color="green"
                     closable
-                    className=" cursor-pointer"
+                    className=" cursor-pointer w-[80px] hidden break-words text-ellipsis whitespace-nowrap"
                     key={item}
                     onClick={() => onHistory(item)}
                     onClose={() =>

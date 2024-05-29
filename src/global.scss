@@ -76,21 +76,20 @@ em {
   // overflow: hidden;
   // height: 370px;
   // position: relative;
-  mask-image: linear-gradient(180deg,
-      hsla(0, 0%, 100%, 0) 0,
-      hsla(0, 0%, 100%, 0.6) 15%,
-      #fff 25%,
-      #fff 75%,
-      hsla(0, 0%, 100%, 0.6) 85%,
-      hsla(0, 0%, 100%, 0));
-
+  mask-image: linear-gradient(
+    180deg,
+    hsla(0, 0%, 100%, 0) 0,
+    hsla(0, 0%, 100%, 0.6) 15%,
+    #fff 25%,
+    #fff 75%,
+    hsla(0, 0%, 100%, 0.6) 85%,
+    hsla(0, 0%, 100%, 0)
+  );
 
   .bscroll-indicator {
     border: none !important;
     background: var(--scrollbar-color) !important;
   }
-
-
 }
 
 // 滚动条
@@ -105,7 +104,7 @@ em {
 // }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #00A799;
+  background-color: #00a799;
 }
 
 ::-webkit-scrollbar {
@@ -121,7 +120,7 @@ em {
   border: none !important;
 }
 
-.ant-table-small>.ant-table-content>.ant-table-body {
+.ant-table-small > .ant-table-content > .ant-table-body {
   margin: 0 !important;
 }
 
@@ -130,20 +129,23 @@ em {
   background: var(--font-color) !important; //自定义颜色
 }
 
-.ant-descriptions-item-label {
-  flex: none !important;
-}
+// .ant-descriptions-item-label {
+//   flex: none !important;
+// }
 
-.video-react {
-  border-radius: 5px;
-}
+// .video-react {
+//   border-radius: 5px;
+// }
 
-.video-react-control-bar {
-  border-radius: 5px;
-}
+// .video-react-control-bar {
+//   border-radius: 5px;
+// }
 
-.video-react .video-react-volume-level {
-  left: -2px !important;
+// .video-react .video-react-volume-level {
+//   left: -2px !important;
+// }
+.video-react-video {
+  border-radius: 15px !important;
 }
 
 .ant-menu-vertical .ant-menu-item,

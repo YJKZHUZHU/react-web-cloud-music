@@ -26,7 +26,8 @@ enum FetchEnum {
   userPlaylist = "/user/playlist",
   userRecord = "/user/record",
   daily_signin = "/daily_signin",
-  userSubcount = "/user/subcount"
+  userSubcount = "/user/subcount",
+  follow = "/follow"
 }
 
 interface ILoginRes {
@@ -83,4 +84,8 @@ export const userSubcount = () => {
   return service<ISubCountInfo>(FetchEnum.userSubcount, {
     cookie: getItem(EnumLocalStorage.cookie)
   })
+}
+
+export const follow = (data: {id: string | number; t: 0 | 1}) => {
+  return service<ISubCountInfo>(FetchEnum.follow, data)
 }

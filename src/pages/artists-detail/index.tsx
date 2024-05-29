@@ -2,22 +2,12 @@
 
 import {useState, useEffect, FC, createContext} from "react"
 import {history} from "@umijs/max"
-import {Tabs, Radio, Button, message, Flex, Skeleton, TabsProps} from "antd"
-import {
-  BorderInnerOutlined,
-  UnorderedListOutlined,
-  PicLeftOutlined,
-  FolderAddOutlined,
-  UserOutlined,
-  CheckOutlined
-} from "@ant-design/icons"
-import {Artist, artistAlbum, artistSub} from "@/api/singer"
+import {Tabs, Button, Flex, Skeleton, TabsProps, message} from "antd"
+import {FolderAddOutlined, UserOutlined, CheckOutlined} from "@ant-design/icons"
+import {artistDetail as artistDetailApi} from "@/api/singer"
 import {Image} from "@/components"
-import {useRequest} from "ahooks"
-import {SingerDetail, SimilarSinger, Mv} from "./components"
-import API from "@/api"
+import {SingerDetail, SimilarSinger, Mv, Album} from "./components"
 import {useQuery, useVirtualListHeight} from "@/hooks"
-import {LayoutType} from "./album"
 
 interface IArtistsDetailContext {
   total: number
@@ -43,98 +33,72 @@ enum TabEnmu {
   show = "show"
 }
 
+interface IArtistDetail {
+  name: string
+  picUrl: string
+  alias: string[]
+  id: string | number
+  musicSize: number
+  albumSize: number
+  mvSize: number
+}
+
 const ArtistsDetail: FC = () => {
   const {id, name} = useQuery<{id: number; name: string; source: string}>()
 
   const [tabKey, setTabKey] = useState(TabEnmu.album)
 
   const [collect, setCollect] = useState(false)
-  const [extraType, setExtraType] = useState<LayoutType>("card")
 
-  const [artistDetail, setArtistDetail] = useState<Artist>({} as Artist)
+  const [artistDetail, setArtistDetail] = useState<IArtistDetail>({
+    name: "",
+    picUrl: "",
+    alias: [],
+    id: "",
+    musicSize: 0,
+    albumSize: 0,
+    mvSize: 0
+  })
 
   const [loading, setLoading] = useState(false)
 
   const virtualListHeight = useVirtualListHeight(100)
 
-  const getArtistAlbum = async () => {
+  const getDetail = async () => {
     try {
       setLoading(true)
-      const res = await artistAlbum({id, limit: 0})
-      setArtistDetail(res.data.artist)
-      setCollect(res.data.artist.followed)
+      const res = await artistDetailApi({id})
+      setArtistDetail({
+        name: res.data.artist?.name,
+        picUrl: res.data?.artist?.avatar!,
+        alias: res.data?.artist?.alias,
+        id: res.data?.artist?.id,
+        albumSize: res.data?.artist?.albumSize,
+        musicSize: res.data?.artist?.musicSize,
+        mvSize: res.data?.artist?.mvSize
+      })
+      console.log("res---", res)
       setLoading(false)
     } catch (error) {
-      setLoading(false)
       console.log("error", error)
+      setLoading(false)
     }
   }
 
   const onCollect = async (t: 0 | 1) => {
     try {
-      setLoading(true)
-      const res = await artistSub({id, t})
-      if ((res.code as any) !== 200) {
-        message.info(res.data.blockText)
-        setLoading(false)
-        return
-      }
-      setCollect(true)
-      await getArtistAlbum()
-      setLoading(false)
+      return message.info("开发中...")
     } catch (error) {
       console.log("error", error)
     }
   }
 
-  // const {run: runColect} = useRequest(
-  //   () => API.setArtistsSub({id: data?.id, t: collect ? -1 : 1}),
-  //   {
-  //     manual: true,
-  //     onSuccess: async () => {
-  //       await runSub()
-  //       if (collect) {
-  //         message.success("取消收藏成功")
-  //       } else {
-  //         message.success("收藏成功")
-  //       }
-  //     }
-  //   }
-  // )
-
-  // const {run: runSub} = useRequest(API.artistSublist, {
-  //   manual: true,
-  //   onSuccess: (response) => {
-  //     if (response.data.findIndex((item: any) => +item.id === +query.id) !== -1) {
-  //       setCollect(true)
-  //     } else {
-  //       setCollect(false)
-  //     }
-  //   }
-  // })
-
-  const onTab = (activeKey: any) => {
-    setTabKey(activeKey)
+  const onTab = (activeKey: string) => {
+    setTabKey(activeKey as TabEnmu)
   }
-  const extra = (
-    <Radio.Group
-      value={tabKey === "album" && extraType}
-      buttonStyle="solid"
-      onChange={(e) => setExtraType(e.target.value)}>
-      <Radio.Button value="card">
-        <BorderInnerOutlined />
-      </Radio.Button>
-      <Radio.Button value="table">
-        <UnorderedListOutlined />
-      </Radio.Button>
-      <Radio.Button value="tableCard">
-        <PicLeftOutlined />
-      </Radio.Button>
-    </Radio.Group>
-  )
 
   useEffect(() => {
-    getArtistAlbum()
+    getDetail()
   }, [])
 
   const commonProps = {
@@ -146,7 +110,7 @@ const ArtistsDetail: FC = () => {
     {
       label: "专辑",
       key: TabEnmu.album,
-      children: false
+      children: <Album {...commonProps} />
     },
     {
       label: "MV",
@@ -206,11 +170,12 @@ const ArtistsDetail: FC = () => {
           <Flex gap={8}>
             <span className="text-[#363D62]">单曲数：{artistDetail?.musicSize || 0}</span>
             <span className="text-[#363D62]">专辑数：{artistDetail?.albumSize || 0}</span>
+            <span className="text-[#363D62]">MV数：{artistDetail?.mvSize || 0}</span>
           </Flex>
         </Flex>
       </Flex>
 
-      <Tabs onChange={onTab} items={items} tabBarExtraContent={tabKey === TabEnmu.album && extra} />
+      <Tabs onChange={onTab} items={items} />
     </Flex>
   )
 }

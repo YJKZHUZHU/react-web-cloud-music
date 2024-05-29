@@ -1,60 +1,65 @@
-import { service } from '@/help/server'
-import { BannerItem, IMvItem, INewSongItem, IPrivateContentItem, IRecommendItem } from '@/store/personalRecommendation'
-import { CommentSortTypeEnum, CommentTypeEnum, ICommentItem } from '@/types/comment';
+/** @format */
 
+import {service} from "@/help/server"
+import {
+  BannerItem,
+  IMvItem,
+  INewSongItem,
+  IPrivateContentItem,
+  IRecommendItem
+} from "@/store/personalRecommendation"
+import {CommentSortTypeEnum, CommentTypeEnum, ICommentItem} from "@/types/comment"
 
 enum FetchEnum {
-  commentPlaylist = '/comment/playlist',
+  commentPlaylist = "/comment/playlist",
   /** 热门评论 */
-  commentHot = '/comment/hot',
+  commentHot = "/comment/hot",
   /** 评论 */
-  commentNew = '/comment/new'
+  commentNew = "/comment/new"
 }
 
 interface ICommentPlaylistParams {
   /** 歌单 id */
-  id: number,
+  id: number
   /** 取出评论数量 , 默认为 20 */
-  limit?: number,
+  limit?: number
   /** 偏移数量 , 用于分页 , 如 :( 评论页数 -1)*20, 其中 20 为 limit 的值 */
-  offset?: number,
+  offset?: number
   /** 分页参数,取上一页最后一项的 time 获取下一页数据(获取超过 5000 条评论的时候需要用到) */
   before?: number
 }
 
-
 interface ICommentPlaylistRes {
   // 是否是音乐家，布尔值
-  isMusician: boolean;
+  isMusician: boolean
   // 某个数值，可能是计数或者编号
-  cnum: number;
+  cnum: number
   // 用户ID
-  userId: number;
+  userId: number
   // 顶级评论列表，可能是空数组
-  topComments: ICommentItem[];
+  topComments: ICommentItem[]
   // 是否有更多热门评论，布尔值
-  moreHot: boolean;
+  moreHot: boolean
   // 热门评论列表，可能是空数组
-  hotComments: ICommentItem[];
+  hotComments: ICommentItem[]
   // 评论横幅，可能为null
-  commentBanner: string | null;
+  commentBanner: string | null
   // 响应码，通常是HTTP状态码
-  code: number;
+  code: number
   // 评论列表，可能是空数组
-  comments: ICommentItem[];
+  comments: ICommentItem[]
   // 评论总数
-  total: number;
+  total: number
   // 是否有更多评论，布尔值
-  more: boolean;
+  more: boolean
 }
-
 
 export const commentPlaylist = (data: ICommentPlaylistParams) => {
   return service<ICommentPlaylistRes>(FetchEnum.commentPlaylist, data)
 }
 
 interface ICommentHotParams {
-  id: number,
+  id: number | string
   type: CommentTypeEnum
   /** 取出评论数量 , 默认为 20 */
   limit?: number
@@ -65,9 +70,9 @@ interface ICommentHotParams {
 }
 interface ICommentHotRes {
   topComments: ICommentItem[]
-  hasMore: true,
+  hasMore: true
   hotComments: ICommentItem[]
-  total: number,
+  total: number
   code: number
 }
 export const commentHot = (data: ICommentHotParams) => {
@@ -75,7 +80,7 @@ export const commentHot = (data: ICommentHotParams) => {
 }
 
 interface ICommentNewParams {
-  id: number,
+  id: number | string
   type: CommentTypeEnum
   /** 分页参数,第 N 页,默认为 1 */
   pageNo?: number
@@ -87,41 +92,33 @@ interface ICommentNewParams {
   cursor?: string
 }
 interface ICommentNewRes {
-  commentsTitle: string,
-  comments: ICommentItem[],
-  currentCommentTitle: string,
-  currentComment: null | any,
-  totalCount: number,
-  hasMore: boolean,
-  cursor: string,
-  sortType: number,
+  commentsTitle: string
+  comments: ICommentItem[]
+  currentCommentTitle: string
+  currentComment: null | any
+  totalCount: number
+  hasMore: boolean
+  cursor: string
+  sortType: number
   sortTypeList: {
-    sortType: 99 | 2 | 3,
-    sortTypeName: string,
-    target: "order_by_alg" | 'order_by_hot' | 'order_by_time'
-  }[],
-  style: string,
-  bottomAction: null | any,
+    sortType: 99 | 2 | 3
+    sortTypeName: string
+    target: "order_by_alg" | "order_by_hot" | "order_by_time"
+  }[]
+  style: string
+  bottomAction: null | any
   likeAnimation: {
     animationConfigMap: {
-      EVENT_FEED: [],
-      MOMENT: [],
-      INPUT: [],
+      EVENT_FEED: []
+      MOMENT: []
+      INPUT: []
       COMMENT_AREA: []
-    },
+    }
     version: number
-  },
-  newReplyExpGroupName: string,
+  }
+  newReplyExpGroupName: string
   expandCount: number
 }
 export const commentNew = (data: ICommentNewParams) => {
   return service<ICommentNewRes>(FetchEnum.commentNew, data)
 }
-
-
-
-
-
-
-
-

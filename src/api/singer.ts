@@ -8,7 +8,8 @@ enum FetchEnum {
   artistDesc = "/artist/desc",
   simiArtist = "/simi/artist",
   artistMv = "/artist/mv",
-  artistSub = "/artist/sub"
+  artistSub = "/artist/sub",
+  artistDetail = "/artist/detail"
 }
 
 export interface ArtistInfo {
@@ -92,6 +93,7 @@ export interface ArtistAlbum {
   description: string // 描述
   tags: string // 标签
   name: string // 专辑名称
+  transNames: string[]
   id: number // 专辑ID
   type: string // 类型
   size: number // 大小
@@ -312,4 +314,43 @@ export const artistMv = (data: {id: string | number; limit?: number; offset?: nu
 
 export const artistSub = (data: {id: string | number; t: 0 | 1}) => {
   return service<any>(FetchEnum.artistSub, data)
+}
+
+export interface IArtistDetailRes {
+  videoCount: number // 视频数量
+  identify: {
+    imageUrl?: string | null // 艺人图片链接，可能为空
+    imageDesc: string // 图片描述
+    actionUrl: string // 动作链接
+  }
+  artist: {
+    id: number // 艺人ID
+    cover?: string // 封面图片链接
+    avatar?: string // 头像图片链接
+    name: string // 艺人名字
+    transNames: string[] // 别名列表，可能为空数组
+    alias: string[] // 别名
+    identities: string[] // 身份标识
+    identifyTag?: string | null // 身份标签，可能为空
+    briefDesc: string // 简介描述
+    rank: {
+      rank: number // 排名
+      type: number // 类型
+    }
+    albumSize: number // 专辑数量
+    musicSize: number // 音乐数量
+    mvSize: number // MV数量
+  }
+  blacklist: boolean // 是否黑名单
+  preferShow: number // 优先展示数量
+  showPriMsg: boolean // 是否显示主要消息
+  secondaryExpertIdentiy: Array<{
+    expertIdentiyId: number // 专家身份ID
+    expertIdentiyName: string // 专家身份名称
+    expertIdentiyCount: number // 专家身份计数
+  }> // 次要专家身份列表
+}
+
+export const artistDetail = (data: {id: string | number}) => {
+  return service<IArtistDetailRes>(FetchEnum.artistDetail, data)
 }

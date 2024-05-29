@@ -40,7 +40,7 @@ const SimiDetail = () => {
   const mvBool = +query.type === 0
 
   const onMv = (mvid: any) => {
-    history.push(`/mv-detail?mvid=${mvid}&type=${query.type}`)
+    history.push(`/mv-detail/${mvid}?type=${query.type}`)
   }
   const {data} = useRequest(
     () => (+query.type === 0 ? API.getSimi({...query}) : API.getRelateVedio({id: query.mvid})),

@@ -198,7 +198,7 @@ const Footer = memo(() => {
         </div>
         <div className="flex flex-col flex-1 gap-[15px] justify-center">
           <Flex align="center" gap={5}>
-            <span className="text-[#333333]">{songObj.name}</span>
+            <span className="text-[#333333] line-clamp-1 flex-1">{songObj.name}</span>
             <i className="text-[12px]">-</i>
             <Artists max={2} data={songObj.singerArr!} className=" text-[12px] flex-1" />
           </Flex>

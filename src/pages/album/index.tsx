@@ -114,7 +114,7 @@ const Album = () => {
                       <PlayCircleOutlined
                         onClick={(e) => {
                           e.stopPropagation()
-                          history.push(`/mv-detail?mvid=${item.mv}&type=0`)
+                          history.push(`/mv-detail/${item.mv}`)
                         }}
                         className="text-[#C82D2D]"
                       />

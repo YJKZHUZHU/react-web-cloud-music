@@ -17,7 +17,7 @@ const Tag: FC<Props> = (props) => {
       style={{border: `1px solid ${borderColor}`, color}}
       className={classNames(
         className,
-        "px-[2px] text-[12px] leading-[12px]  rounded-[4px] bg-transparent"
+        " w-max px-[2px] py-[2px] text-[12px] leading-[12px]  rounded-[4px] bg-transparent"
       )}>
       {children}
     </div>

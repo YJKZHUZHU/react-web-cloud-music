@@ -11,7 +11,7 @@ import Utils from "@/help"
 import {Props} from "./index"
 import {CaretRightOutlined} from "@ant-design/icons"
 
-const SimilarSinger = (props: Props) => {
+const Mv = (props: Props) => {
   const {id, virtualListHeight} = props
 
   const [list, setList] = useState<IMVItem[]>([])
@@ -76,7 +76,7 @@ const SimilarSinger = (props: Props) => {
               {source.list.map((item) => {
                 return (
                   <Flex
-                    onClick={() => history.push(`/mv-detail?mvid=${item.id}`)}
+                    onClick={() => history.push(`/mv-detail/${item.id}`)}
                     vertical
                     gap={8}
                     className="cursor-pointer">
@@ -115,4 +115,4 @@ const SimilarSinger = (props: Props) => {
   )
 }
 
-export default SimilarSinger
+export default Mv

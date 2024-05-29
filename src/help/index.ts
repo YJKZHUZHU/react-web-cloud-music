@@ -47,7 +47,7 @@ export interface CatListInterface {
 class Utils {
   /**
    * 数字转整数 如 100000 转为10万
-   * @param {需要转化的数} num
+   * @param { } num
    * @param {需要保留的小数位数} point
    */
   static tranNumber(num: number | undefined, point: number = 2) {
@@ -194,11 +194,11 @@ class Utils {
   //评论时间格式化
   static commentFormatTime(time: any) {
     return dayjs(time).calendar(dayjs(), {
-      sameDay: "[今天] HH:MM:ss",
-      nextDay: "[明天]",
-      nextWeek: "dddd",
-      lastDay: "[昨天] HH:MM:ss",
-      lastWeek: "[上个] dddd HH:MM:ss",
+      sameDay: "HH:MM",
+      // nextDay: "[明天]",
+      // nextWeek: "dddd",
+      lastDay: "[昨天] HH:MM",
+      lastWeek: "[上个] dddd HH:MM",
       sameElse: "YYYY-MM-DD HH:MM"
     })
   }

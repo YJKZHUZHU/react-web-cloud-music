@@ -31,17 +31,19 @@ import {Button, Skeleton, Flex, Empty} from "antd"
 import Utils from "@/help"
 import {Artists, Image, Tag, Comment} from "@/components"
 import {
-  mvUrl,
-  mvDetail,
-  mvDetailInfo as ApiMvDetailInfo,
+  videoDetail,
+  videoDetailInfo,
+  videoUrl,
+  relatedAllvideo,
   IArtistsItem,
   IVideoGroupItem,
   BrlLevelEnum,
-  simiMv,
-  MVItem
-} from "@/api/mv"
+  MVItem,
+  VideoGroupItem
+} from "@/api/video"
 import classNames from "classnames"
 import {CommentTypeEnum} from "@/types/comment"
+import dayjs from "dayjs"
 
 export const MapBrs = new Map<BrlLevelEnum, string>()
   .set(BrlLevelEnum.low, "标清")
@@ -51,12 +53,16 @@ export const MapBrs = new Map<BrlLevelEnum, string>()
 
 interface IDetail {
   img: string
-  artists: IArtistsItem[]
+  artists: {
+    userName?: string
+    userId?: string | number
+  }[]
+  // nickname:string
   name: string
   desc: string
   publishTime: string
   playCount: number
-  videoGroup: IVideoGroupItem[]
+  videoGroup: VideoGroupItem[]
   likedCount: number
   liked: boolean
   shareCount: number
@@ -65,7 +71,7 @@ interface IDetail {
 }
 
 const MvDetail: FC = () => {
-  const {mvid} = useParams()
+  const {vid} = useParams()
   const playRef = useRef<PlayerReference | null>(null)
   const [loading, setLoading] = useState(false)
 
@@ -79,13 +85,15 @@ const MvDetail: FC = () => {
 
   const getMvUrl = async (t?: BrlLevelEnum) => {
     try {
-      const res = await mvUrl({id: mvid!, t})
+      const res = await videoUrl({id: vid!, t})
+      const r = res.data?.urls.at(0)?.r!
+      const url = res.data?.urls.at(0)?.url!
       setMvUrlInfo({
         ...mvUrlInfo,
-        [t || res.data.r]: res.data.url
+        [t || r]: url
       })
 
-      setBr(t || res.data.r)
+      setBr(t || r)
     } catch (error) {
       console.log("error", error)
     }
@@ -93,30 +101,30 @@ const MvDetail: FC = () => {
   const getmvDetail = async () => {
     try {
       setLoading(true)
-      const res = await mvDetail({mvid: mvid!})
-      const countRes = await ApiMvDetailInfo({mvid: mvid!})
-      const simiMvRes = await simiMv({mvid: mvid!})
+      const res = await videoDetail({id: vid!})
+      const countRes = await videoDetailInfo({vid: vid!})
+      const simiMvRes = await relatedAllvideo({id: vid!})
 
-      setMvList(simiMvRes?.data?.mvs)
+      setMvList(simiMvRes?.data || [])
 
       setDetail({
-        img: res.data?.artists?.at(0)?.img1v1Url!,
-        artists: res.data?.artists,
-        name: res.data?.name,
-        desc: res?.data?.desc || "",
-        publishTime: res?.data?.publishTime,
-        playCount: res?.data?.playCount,
+        img: res?.data?.avatarUrl,
+        artists: [{userId: res.data?.creator?.userId, userName: res.data?.creator?.nickname}],
+        name: res.data?.title,
+        desc: res?.data?.description || "",
+        publishTime: dayjs(res?.data?.publishTime).format("YYYY-MM-DD HH:mm:ss"),
+        playCount: res?.data?.playTime,
         videoGroup: res?.data?.videoGroup,
-        subCount: res?.data?.subCount,
+        subCount: res?.data?.subscribeCount,
         likedCount: countRes?.data.likedCount,
         liked: countRes?.data.liked,
         shareCount: countRes?.data.shareCount
       })
 
-      const result = res.data?.brs?.map((item) => {
+      const result = res.data?.resolutions?.map((item) => {
         return {
-          label: MapBrs.get(item.br)!,
-          value: item.br
+          label: MapBrs.get(item.resolution)!,
+          value: item.resolution
         }
       })
       setBrs(result)
@@ -147,11 +155,11 @@ const MvDetail: FC = () => {
   }
 
   useEffect(() => {
-    if (mvid) {
+    if (vid) {
       getMvUrl()
       getmvDetail()
     }
-  }, [mvid])
+  }, [vid])
 
   const renderIcon = () => {
     if (!detail?.desc) return null
@@ -174,13 +182,13 @@ const MvDetail: FC = () => {
   }, [mvUrlInfo, br])
 
   const renderMvList = () => {
-    if (!loading && mvList.length === 0) {
+    if (!loading && mvList?.length === 0) {
       return (
         <Empty
           imageStyle={{display: "flex", justifyContent: "center", paddingRight: 27}}
           style={{height: 620}}
           image={empty}
-          description="暂无相似MV"
+          description="暂无相似视频"
         />
       )
     }
@@ -255,7 +263,7 @@ const MvDetail: FC = () => {
         gap={4}
         onClick={() => history.back()}>
         <LeftOutlined />
-        <span>MV详情</span>
+        <span>视频详情</span>
       </Flex>
 
       <Flex gap={18} justify="space-between">
@@ -303,7 +311,7 @@ const MvDetail: FC = () => {
                   multiple={2}
                   className="w-[50px] h-[50px] rounded-[50%]"
                 />
-                <Artists color="#575757" hoverColor="#2C2D2D" data={detail?.artists!} />
+                <Artists type="user" color="#575757" hoverColor="#2C2D2D" data={detail?.artists!} />
               </Flex>
             )}
             {loading ? (
@@ -342,11 +350,11 @@ const MvDetail: FC = () => {
               </>
             )}
           </Flex>
-          <Comment id={Number(mvid!)} type={CommentTypeEnum.mv} />
+          <Comment id={vid!} type={CommentTypeEnum.video} />
         </Flex>
 
         <Flex flex={1} vertical gap={12}>
-          <span className="text-[#262626]">相似MV</span>
+          <span className="text-[#262626]">相似视频</span>
           {renderMvList()}
         </Flex>
       </Flex>

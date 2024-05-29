@@ -10,7 +10,7 @@ import classNames from "classnames"
 import {RightOutlined} from "@ant-design/icons"
 
 interface Props {
-  id: number
+  id: number | string
   className?: string
   /** 是否立即触发请求 */
   immediate?: boolean
@@ -96,7 +96,7 @@ const Comment: FC<Props> = (props) => {
   }, [id, immediate])
 
   return (
-    <Flex vertical gap={20} className={classNames("mt-[20px]",className)}>
+    <Flex vertical gap={20} className={classNames("mt-[20px]", className)}>
       <Spin className={className} spinning={loading} tip="Loading..." delay={500}>
         {hotComment.length !== 0 && (
           <Flex vertical gap={20}>

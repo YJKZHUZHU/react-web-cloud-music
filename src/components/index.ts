@@ -26,6 +26,9 @@ export {default as Image} from "./Image"
 
 export {default as PlayStatus} from "./PlayStatus"
 export {default as Tag} from "./Tag"
+export {default as HighlightMentions} from "./HighlightMentions"
+
+export {default as PlayVideoIcon} from "./PlayVideoIcon"
 
 interface IUser {
   locationInfo: any
