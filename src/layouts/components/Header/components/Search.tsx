@@ -187,13 +187,15 @@ const Search = () => {
                     title={item}
                     color="green"
                     closable
-                    className=" cursor-pointer w-[80px] hidden break-words text-ellipsis whitespace-nowrap"
+                    className="!flex max-w-[80px]  cursor-pointer"
                     key={item}
                     onClick={() => onHistory(item)}
                     onClose={() =>
                       updateSearchHistoryList(searchHistoryList.filter((d) => d !== item))
                     }>
-                    {item}
+                    <div className=" w-full overflow-hidden  flex-1  break-words text-ellipsis whitespace-nowrap">
+                      {item}
+                    </div>
                   </Tag>
                 )
               })}

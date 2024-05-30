@@ -16,7 +16,6 @@ import {
   useAllCatlist,
   useReduceSubCatlist
 } from "@/store/songList"
-import Skeleton from "react-loading-skeleton"
 import {
   CaretRightOutlined,
   MenuUnfoldOutlined,
@@ -27,6 +26,8 @@ import Utils from "@/help"
 import {useQuery} from "@/hooks"
 
 const {CheckableTag} = Tag
+
+const LIMIT = 30
 
 const SongList = () => {
   const {tag} = useQuery()
@@ -46,7 +47,6 @@ const SongList = () => {
   const getList = async (params: Partial<IPlaylistParams>) => {
     try {
       setLoading(true)
-      // {cat: activeTag, order: "hot", limit: 50, offset}
       const res = await playlist(params)
       setTotal(res.data.total)
       setList(res.data.playlists)
@@ -58,16 +58,15 @@ const SongList = () => {
   }
 
   const onlanguageTag = (item: SongCategory, checked: boolean, close: boolean = false) => {
-    console.log("item--", item, checked)
     close && setVisible(false)
     if (item.name === activeTag) return
     updateActiveTag(item.name === "全部歌单" ? "全部" : item.name)
-    getList({cat: item.name, order: "hot", limit: 50, offset: 0})
+    getList({cat: item.name, order: "hot", limit: LIMIT, offset: 0})
   }
 
   const onPageChange = (page: number) => {
     setCurrent(page)
-    getList({cat: activeTag, order: "hot", limit: 50, offset: (page - 1) * 50})
+    getList({cat: activeTag, order: "hot", limit: LIMIT, offset: (page - 1) * 50})
   }
 
   const content = useMemo(() => {
@@ -80,7 +79,7 @@ const SongList = () => {
               <Flex flex={1} justify="start" wrap gap={2}>
                 {item.list.map((d) => {
                   return (
-                    <div className="basis-[15%]">
+                    <div className="basis-[15%]" key={d.name}>
                       <CheckableTag
                         className="line-clamp-1 "
                         key={d.name}
@@ -119,9 +118,9 @@ const SongList = () => {
                         height={170}
                         width={170}
                         className="w-[170px] h-[170px]"
-                        preview={false}
                         src={item.coverImgUrl}
                         size={[170, 170]}
+                        multiple={2}
                       />
                       <Flex
                         gap={2}
@@ -159,7 +158,7 @@ const SongList = () => {
 
   useEffect(() => {
     tag && updateActiveTag(tag)
-    getList({cat: tag || "全部", order: "hot", limit: 50, offset: 0})
+    getList({cat: tag || "全部", order: "hot", limit: LIMIT, offset: 0})
     init()
   }, [])
 
@@ -211,6 +210,7 @@ const SongList = () => {
           className=" bg-[#ffffff] rounded-[20px] p-[16px] min-h-[300px]">
           <Flex gap={12} justify="space-between">
             <Popover
+              getPopupContainer={(node) => node}
               open={visible}
               onOpenChange={setVisible}
               overlayClassName=" w-[700px]"
@@ -227,7 +227,8 @@ const SongList = () => {
               placement="right"
               trigger="click">
               <Button
-                style={{width: 120}}
+                id="_songListPopoverContainer"
+                className="w-[120px]"
                 iconPosition="end"
                 icon={<RightOutlined />}
                 shape="round">

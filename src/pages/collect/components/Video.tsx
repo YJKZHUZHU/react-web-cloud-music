@@ -103,7 +103,7 @@ const Video = (props: Props) => {
       itemKey="key">
       {(item: {key: number; list: VideoInfo[]}) => {
         return (
-          <Flex gap={12} key={item.key} wrap className=" pb-[12px]">
+          <Flex gap={27} key={item.key} wrap className=" pb-[12px]">
             {item.list.map((item) => {
               return (
                 <Flex onClick={() => onLink(item)} className="w-[200px] cursor-pointer" vertical key={item.vid}>

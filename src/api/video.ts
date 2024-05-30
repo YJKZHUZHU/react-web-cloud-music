@@ -1,12 +1,17 @@
 /** @format */
 
 import {service} from "@/help/server"
+import {IVideoGroupListItem, IVideoListItem} from "@/store/video"
 
 enum FetchEnum {
   videoUrl = "/video/url",
   videoDetail = "/video/detail",
   videoDetailInfo = "/video/detail/info",
-  relatedAllvideo = "/related/allvideo"
+  relatedAllvideo = "/related/allvideo",
+  videoGroupList = "/video/group/list",
+  videoCategoryList = "/video/category/list",
+  videoTimelineAll = "/video/timeline/all",
+  videoGroup = "/video/group"
 }
 
 export enum BrlLevelEnum {
@@ -50,7 +55,6 @@ export interface IArtistsItem {
   img1v1Url: string // 艺术家1v1图片URL
   followed: boolean // 是否已关注
 }
-
 
 export interface IVideoGroupItem {
   id: number // 分组ID
@@ -182,11 +186,29 @@ type Artist = {
   transNames: string[] | null // 艺术家翻译名称，可能为空
 }
 
-type ISimiMvRes = {
-  mvs: MVItem[] // 视频列表
-  code: number // 响应码，200表示成功
-}
-
 export const relatedAllvideo = (data: {id: string | number}) => {
   return service<[]>(FetchEnum.relatedAllvideo, data)
+}
+
+export const videoGroupList = () => {
+  return service<IVideoGroupListItem[]>(FetchEnum.videoGroupList)
+}
+
+export const videoCategoryList = () => {
+  return service<IVideoGroupListItem[]>(FetchEnum.videoCategoryList)
+}
+
+interface IVideoTimelineAllRes {
+  datas: IVideoListItem[]
+  msg: string
+  hasmore: boolean
+  rcmdLimit: number
+  code: number
+}
+export const videoTimelineAll = (data: {offset?: number}) => {
+  return service<IVideoTimelineAllRes>(FetchEnum.videoTimelineAll, data)
+}
+
+export const videoGroup = (data: {offset?: number; id: number | string}) => {
+  return service<IVideoTimelineAllRes>(FetchEnum.videoGroup, data)
 }

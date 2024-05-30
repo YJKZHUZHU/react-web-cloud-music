@@ -79,17 +79,6 @@ Number.prototype.toFixed = function (len: number) {
   }
 }
 
-if (!store.getStorage('theme')) store.setStorage('theme', 'red')
 
-//设置默认音量
-if (!store.getStorage('volume')) store.setValue('volume', 0.5)
-//搜索关键词
-if (!store.getStorage('keywords')) store.setValue('keywords', '')
 
-//搜索历史
-if (!store.getStorage('searchHistory')) store.setValue('searchHistory', [])
-
-//播放历史
-if (!store.getStorage('playHistory')) store.setValue('playHistory', [])
-
-Utils.getTheme()
+// Utils.getTheme()

@@ -1,36 +1,40 @@
 /** @format */
 
-import {history, RequestConfig, RuntimeConfig, RuntimeAntdConfig} from "@umijs/max"
+import {history, RequestConfig, RuntimeConfig, RuntimeAntdConfig, matchRoutes} from "@umijs/max"
 import {message} from "antd"
 import Nprogress from "nprogress"
 import "nprogress/nprogress.css"
 import qs from "qs"
 import zh_cn from "antd/lib/locale/zh_CN"
-import {theme} from "antd"
 import {login} from "./help/cache"
-import {useApp} from "./hooks"
 
 Nprogress.configure({
   showSpinner: false
 })
 
-export function onRouteChange({location, matchedRoutes}: any) {
-  console.log("location.pathname", location)
-  // 已经登录，重定向回首页
+interface IRouteChangeParams {
+  routes: any[]
+  clientRoutes: any[]
+  location: Location
+  action: any
+  basename: string
+  isFirst: boolean
+}
+
+export function onRouteChange({location, clientRoutes, ...rest}: IRouteChangeParams) {
   if (login() && location.pathname === "/login") {
     history.replace("/personal-recommendation")
   }
   Nprogress.start()
-  // const match = useMatch({ path: 'list/search/:type' })
   setTimeout(() => Nprogress.done(), 500)
   if (location.pathname === "/") {
-    history.push("/personal-recommendation")
+    console.log("sss")
+    history.replace("/personal-recommendation")
   }
-  // if (match.length) {
-  //   document.title = match[match.length - 1].route.title || '';
-  // }
-  if (matchedRoutes?.length) {
-    document.title = matchedRoutes[matchedRoutes.length - 1].route.title || ""
+
+  const route = matchRoutes(clientRoutes, location.pathname)?.pop()?.route! as any
+  if (route) {
+    document.title = route.title || ""
   }
 }
 
@@ -40,7 +44,10 @@ const errorHandler = (error: any) => {
   const {status} = response
   //此时表示未登录
   if (code.includes(status)) {
-    return data
+    localStorage.clear()
+    history.push("/login")
+    // return data
+    return
   }
   return Promise.reject(error)
 }
@@ -93,7 +100,6 @@ export const request: RequestConfig = {
       if (response.config.headers?.format) {
         const code = response.data.code || response.data?.data?.code
         const data = response.data || response.data?.data
-        console.log("code--", data, code)
         if (code === 200) {
           return {
             ...response,
@@ -160,6 +166,7 @@ export const antd: RuntimeAntdConfig = (memo) => {
   return memo
 }
 
-// export const render:RuntimeConfig['render'] = (oldRender) => {
-//   useApp()
-// }
+export const render: RuntimeConfig["render"] = (oldRender) => {
+  console.log("渲染几次", oldRender)
+  oldRender()
+}

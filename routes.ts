@@ -18,20 +18,6 @@ interface IRoue {
 }
 
 const routes: IRoue[] = [
-  // {
-  //   path: '/',
-  //   redirect: '/personal-recommendation',
-  // },
-  {
-    path: "/login",
-    component: "login",
-    title: "登录",
-    layout: false // 关闭 layout
-
-    // wrappers: [
-    //   '@/wrappers/Success'
-    // ]
-  },
   {
     path: "/",
     component: "@/layouts",
@@ -56,15 +42,6 @@ const routes: IRoue[] = [
         title: "MV",
         wrappers: ["@/wrappers/Auth"]
       },
-      // {
-      //   path: '/login',
-      //   component: 'login',
-      //   title: "登录",
-      //   // layout: false,// 关闭 layout
-      //   // wrappers: [
-      //   //   '@/wrappers/Success'
-      //   // ]
-      // },
       {
         path: "/top-mv",
         component: "@/pages/top-mv",
@@ -215,6 +192,13 @@ const routes: IRoue[] = [
         title: "测试页面"
       }
     ]
+  },
+
+  {
+    path: "/login",
+    component: "login",
+    title: "登录",
+    layout: false // 关闭 layout
   }
 ]
 

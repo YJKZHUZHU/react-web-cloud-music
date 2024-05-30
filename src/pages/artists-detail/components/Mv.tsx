@@ -76,6 +76,7 @@ const Mv = (props: Props) => {
               {source.list.map((item) => {
                 return (
                   <Flex
+                    key={item.id}
                     onClick={() => history.push(`/mv-detail/${item.id}`)}
                     vertical
                     gap={8}
