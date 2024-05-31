@@ -2,11 +2,12 @@
 import {commentHot} from "@/api/comment"
 import {CommentTypeEnum, ICommentItem} from "@/types/comment"
 import {useParams} from "@umijs/max"
-import {Flex, message, Spin} from "antd"
+import {Empty, Flex, message, Spin} from "antd"
 import {useEffect, useRef, useState} from "react"
 import {CommentItem} from "@/components"
 import VirtualList from "rc-virtual-list"
-import style from "./index.scss"
+import empty from "@/assets/empty.png"
+import {useVirtualListHeight} from "@/hooks"
 
 interface IParams {
   id: number
@@ -21,7 +22,7 @@ const PagehotCommentList = () => {
   const total = useRef(0)
   const before = useRef("")
   const hasMore = useRef(false)
-  const [virtualHeight, setVirtualHeight] = useState(0)
+  const virtualHeight = useVirtualListHeight(50)
 
   const getHotComment = async () => {
     try {
@@ -56,7 +57,7 @@ const PagehotCommentList = () => {
   const onScroll = (e: React.UIEvent<HTMLElement, UIEvent>) => {
     // Refer to: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollHeight#problems_and_solutions
     if (
-      Math.abs(e.currentTarget.scrollHeight - e.currentTarget.scrollTop - virtualHeight) <= 50 &&
+      Math.abs(e.currentTarget.scrollHeight - e.currentTarget.scrollTop - virtualHeight) <= 80 &&
       !loading &&
       hasMore.current
     ) {
@@ -67,28 +68,37 @@ const PagehotCommentList = () => {
 
   useEffect(() => {
     getHotComment()
-    const ele = document.querySelector<HTMLDivElement>("#_contentContainer")
-    if (ele) {
-      setVirtualHeight(ele?.offsetHeight!)
-    }
-  }, [id])
+  }, [])
 
   return (
-    <Flex vertical gap={24} className="" flex={1}>
+    <Flex vertical gap={12} className=" bg-[#ffffff] rounded-[20px] p-[16px]" flex={1}>
       <span className="text-[#0f0f11] text-[16px] font-[600]">精彩评论</span>
-      <Spin spinning={loading} delay={500} tip="Loading...">
-        <VirtualList
-          height={virtualHeight}
-          className={style.virtualList}
-          data={list}
-          styles={{verticalScrollBarThumb: {}}}
-          itemKey="time"
-          onScroll={onScroll}>
-          {(item: ICommentItem, index: number) => (
-            <CommentItem className="bg-[#ffffff] rounded-[12px]" key={index} data={item} />
-          )}
-        </VirtualList>
-      </Spin>
+      {list?.length === 0 && !loading ? (
+        <Empty
+          imageStyle={{display: "flex", justifyContent: "center", paddingRight: 27}}
+          style={{height: virtualHeight}}
+          image={empty}
+          description="暂无热门评论"
+        />
+      ) : (
+        <Spin spinning={loading} delay={500} tip="Loading...">
+          <VirtualList
+            fullHeight
+            height={virtualHeight}
+            itemHeight={80}
+            data={list}
+            styles={{verticalScrollBarThumb: {display: "none"}}}
+            itemKey="commentId"
+            onScroll={onScroll}>
+            {(item: ICommentItem) => (
+              <CommentItem
+                key={item?.commentId}
+                data={item}
+              />
+            )}
+          </VirtualList>
+        </Spin>
+      )}
     </Flex>
   )
 }

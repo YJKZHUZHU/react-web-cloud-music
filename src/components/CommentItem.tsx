@@ -1,17 +1,12 @@
 /** @format */
 
-import {Avatar, Flex} from "antd"
+import {Flex} from "antd"
 import {FC} from "react"
 import {ICommentItem} from "@/types/comment"
-import {
-  CommentOutlined,
-  CustomerServiceOutlined,
-  LikeOutlined,
-  ShareAltOutlined
-} from "@ant-design/icons"
+import {CommentOutlined, LikeOutlined, ShareAltOutlined} from "@ant-design/icons"
 import {history} from "@umijs/max"
 import Utils from "@/help"
-import {WithEmoji} from "@/components"
+import {WithEmoji, Image} from "@/components"
 import classNames from "classnames"
 
 interface Props {
@@ -21,14 +16,16 @@ interface Props {
 const CommentItem: FC<Props> = (props) => {
   const {data, className} = props
   return (
-    <Flex className={classNames("p-[12px]", className)} key={data.time} gap={12}>
-      <Avatar
-        icon={<CustomerServiceOutlined />}
-        size={50}
-        shape="circle"
-        alt="资源加载异常"
-        src={`${data.user.avatarUrl}?param=30y30`}
+    <Flex className={classNames("p-[12px]", className)} key={data.commentId} gap={12}>
+      <Image
+        src={data.user.avatarUrl}
+        size={[30, 30]}
+        multiple={2}
+        width={30}
+        height={30}
+        className="w-[30px] h-[30px] rounded-[50%]"
       />
+
       <Flex flex={1} vertical gap={8}>
         <Flex align="center" gap={4}>
           <span
@@ -40,7 +37,10 @@ const CommentItem: FC<Props> = (props) => {
             <img className="h-[14px]" src={data.user.vipRights?.associator?.iconUrl} />
           )}
         </Flex>
-        <WithEmoji className="text-[#363D62] leading-[20px] text-[14px] flex gap-[4px]" content={data.content} />
+        <WithEmoji
+          className="text-[#363D62] leading-[20px] text-[14px] flex gap-[4px]"
+          content={data.content}
+        />
         {data.beReplied?.length !== 0 && (
           <Flex vertical gap={8}>
             {data.beReplied?.map((items) => (

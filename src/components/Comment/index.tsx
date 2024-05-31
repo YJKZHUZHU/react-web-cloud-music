@@ -34,6 +34,7 @@ const Comment: FC<Props> = (props) => {
   const [pageSize, setPageSize] = useState(50)
   const pageRef = useRef({pageNo: 1, pageSize: 50})
   const cursor = useRef("")
+  const [hasMoreHot, setHasMoreHot] = useState(false)
 
   const getData = async () => {
     try {
@@ -51,6 +52,7 @@ const Comment: FC<Props> = (props) => {
     try {
       const res = await commentHot({id, type, limit: 10})
       setHotComment(res.data.hotComments)
+      setHasMoreHot(res.data.hasMore)
     } catch (error) {
       console.log("error", error)
     }
@@ -100,28 +102,29 @@ const Comment: FC<Props> = (props) => {
       <Spin className={className} spinning={loading} tip="Loading..." delay={500}>
         {hotComment.length !== 0 && (
           <Flex vertical gap={20}>
-            <span className="text-[#7D829E] text-[16px] font-[600]">精彩评论</span>
-            <Flex vertical gap={12}>
+            <span className="text-[#262727] text-[16px] font-[600]">精彩评论</span>
+            <Flex vertical>
               {hotComment.map((item, index) => (
                 <CommentItem key={index} data={item} />
               ))}
             </Flex>
-
-            <Flex align="center" justify="center">
-              <Flex
-                onClick={() => history.push(`/hot-comment-list/${id}/${type}`)}
-                align="center"
-                className="cursor-pointer"
-                gap={4}>
-                <span className="text-[#363D62]">更多精彩评论</span>
-                <RightOutlined className="text-[#363D62]" />
+            {hasMoreHot && (
+              <Flex align="center" justify="center">
+                <Flex
+                  onClick={() => history.push(`/hot-comment-list/${id}/${type}`)}
+                  align="center"
+                  className="cursor-pointer"
+                  gap={4}>
+                  <span className="text-[#363D62]">更多精彩评论</span>
+                  <RightOutlined className="text-[#363D62]" />
+                </Flex>
               </Flex>
-            </Flex>
+            )}
           </Flex>
         )}
         {newCommment.length !== 0 && (
           <Flex vertical gap={20}>
-            <span className="text-[#7D829E] text-[16px] font-[600]">最新评论({total})</span>
+            <span className="text-[#262727] text-[16px] font-[600]">最新评论({total})</span>
             <Flex vertical gap={12}>
               {newCommment.map((item, index) => (
                 <CommentItem key={index} data={item} />

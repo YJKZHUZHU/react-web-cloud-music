@@ -1,13 +1,18 @@
 /** @format */
 
 import {service} from "@/help/server"
+import {IMVAllItem, ITopMvItem} from "@/store/mv"
 
 enum FetchEnum {
   mvUrl = "/mv/url",
   mvDetail = "/mv/detail",
   mvDetailInfo = "/mv/detail/info",
   eventDel = "/event/del",
-  simiMv = "/simi/mv"
+  simiMv = "/simi/mv",
+  mvAll = "/mv/all",
+  mvFirst = "/mv/first",
+  mvExclusiveRcmd = "/mv/exclusive/rcmd",
+  topMv = "/top/mv"
 }
 
 export enum BrlLevelEnum {
@@ -116,32 +121,82 @@ export const mvDetailInfo = (data: {mvid: string | number}) => {
 }
 
 export type MVItem = {
-  id: number; // 视频ID
-  cover: string; // 视频封面图片链接
-  name: string; // 视频名称
-  playCount: number; // 播放次数
-  briefDesc: string | null; // 视频简介，可能为空
-  desc: string | null; // 视频详细描述，可能为空
-  artistName: string; // 艺术家名称
-  artistId: number; // 艺术家ID
-  duration: number; // 视频时长（毫秒）
-  mark: number; // 标记，具体含义未知
-  artists: Artist[]; // 艺术家列表
-  alg: string; // 算法标识，具体含义未知
-};
+  id: number // 视频ID
+  cover: string // 视频封面图片链接
+  name: string // 视频名称
+  playCount: number // 播放次数
+  briefDesc: string | null // 视频简介，可能为空
+  desc: string | null // 视频详细描述，可能为空
+  artistName: string // 艺术家名称
+  artistId: number // 艺术家ID
+  duration: number // 视频时长（毫秒）
+  mark: number // 标记，具体含义未知
+  artists: Artist[] // 艺术家列表
+  alg: string // 算法标识，具体含义未知
+}
 
 type Artist = {
-  id: number; // 艺术家ID
-  name: string; // 艺术家名称
-  alias: string[]; // 艺术家别名列表
-  transNames: string[] | null; // 艺术家翻译名称，可能为空
-};
+  id: number // 艺术家ID
+  name: string // 艺术家名称
+  alias: string[] // 艺术家别名列表
+  transNames: string[] | null // 艺术家翻译名称，可能为空
+}
 
 type ISimiMvRes = {
-  mvs: MVItem[]; // 视频列表
-  code: number; // 响应码，200表示成功
-};
+  mvs: MVItem[] // 视频列表
+  code: number // 响应码，200表示成功
+}
 
 export const simiMv = (data: {mvid: string | number}) => {
   return service<ISimiMvRes>(FetchEnum.simiMv, data)
+}
+
+interface IMvAllParams {
+  /** 地区,可选值为全部,内地,港台,欧美,日本,韩国,不填则为全部 */
+  area: string
+  /** 全部,官方版,原生,现场版,网易出品,不填则为全部 */
+  type: string
+  /** 上升最快,最热,最新,不填则为上升最快 */
+  order: string
+  limit: number
+  offset: number
+}
+
+interface IMvAllRes {
+  count: number
+  hasMore: boolean
+  data: IMVAllItem[]
+  code: number
+  more: boolean
+}
+export const mvAll = (data: Partial<IMvAllParams>) => {
+  return service(FetchEnum.mvAll, data, false, {format: false}) as unknown as IMvAllRes
+}
+
+export const mvFirst = (data: Partial<Pick<IMvAllParams, "area" | "limit">>) => {
+  return service(FetchEnum.mvFirst, data, false, {format: false}) as unknown as Pick<
+    IMvAllRes,
+    "data" | "code"
+  >
+}
+
+export const mvExclusiveRcmd = (data: Partial<Pick<IMvAllParams, "limit" | "offset">>) => {
+  return service(FetchEnum.mvExclusiveRcmd, data, false, {format: false}) as unknown as Pick<
+    IMvAllRes,
+    "data" | "code" | "more"
+  >
+}
+
+interface ITopMvRes {
+  // 响应码，200表示成功
+  code: number
+  // 音乐数据数组
+  data: ITopMvItem[]
+  // 是否还有更多数据
+  hasMore: boolean
+  // 更新时间戳
+  updateTime: number
+}
+export const topMv = (data: Partial<Pick<IMvAllParams, "limit" | "offset" | "area">>) => {
+  return service(FetchEnum.topMv, data, false, {format: false}) as unknown as ITopMvRes
 }

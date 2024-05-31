@@ -43,6 +43,13 @@ const routes: IRoue[] = [
         wrappers: ["@/wrappers/Auth"]
       },
       {
+        path: "/mv-all",
+        component: "@/pages/mv-all",
+        title: "全部MV",
+        wrappers: ["@/wrappers/Auth"]
+      },
+
+      {
         path: "/top-mv",
         component: "@/pages/top-mv",
         title: "MV排行榜",

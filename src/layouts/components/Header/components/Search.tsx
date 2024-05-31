@@ -187,7 +187,7 @@ const Search = () => {
                     title={item}
                     color="green"
                     closable
-                    className="!flex max-w-[80px]  cursor-pointer"
+                    className="!flex max-w-[80px]  cursor-pointer !mb-[8px]"
                     key={item}
                     onClick={() => onHistory(item)}
                     onClose={() =>

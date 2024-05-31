@@ -14,7 +14,7 @@ export const service = <T = any>(
   url: string,
   data?: Record<string, any>,
   cache: boolean = false,
-  headers?: Record<string, string | number | boolean>
+  headers?: {format?: boolean; [props: string]: any}
 ) => {
   return request<IResp<T>>(url, {
     data: {
