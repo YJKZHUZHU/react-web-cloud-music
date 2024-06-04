@@ -24,6 +24,12 @@ import heatUp from "@/assets/heatUp.png"
 import heatDown from "@/assets/heatDown.png"
 import {Top, ITagDataItem, List} from "./components"
 
+enum TagEnum {
+  area = "area",
+  type = "type",
+  order = "order"
+}
+
 export default function () {
   const getNewMvList = useGetNewMvList()
   const newMvList = useNewMvList()
@@ -50,10 +56,23 @@ export default function () {
     type === "top" && getTopMvList(item.id)
   }
 
+  const onLink = (activeTag: string, type: TagEnum) => {
+    if (type === TagEnum.area) {
+      return history.push(`/mv-all?area=${activeTag}`)
+    }
+    if (type === TagEnum.order) {
+      return history.push(`/mv-all?order=最热`)
+    }
+    if (type === TagEnum.type) {
+      return history.push(`/mv-all?type=网易出品`)
+    }
+  }
+
   return (
     <Flex vertical gap={12} flex={1}>
       <Flex gap={12} vertical className=" bg-[#ffffff] rounded-[20px] p-[16px] min-h-[442px]">
         <Top
+          onLink={(activeTag) => onLink(activeTag, TagEnum.area)}
           title="最新MV"
           defauluTag="内地"
           tagData={MV_AREA?.filter((item) => item.id !== "全部")}
@@ -62,11 +81,11 @@ export default function () {
         <List data={newMvList} loading={newMvLoading} />
       </Flex>
       <Flex gap={12} vertical className=" bg-[#ffffff] rounded-[20px] p-[16px] min-h-[442px]">
-        <Top title="热播MV" />
+        <Top title="热播MV" onLink={(activeTag) => onLink(activeTag, TagEnum.order)} />
         <List data={hotMvList} loading={hotMvLoading} />
       </Flex>
       <Flex gap={12} vertical className=" bg-[#ffffff] rounded-[20px] p-[16px] min-h-[442px]">
-        <Top title="网易出品" />
+        <Top title="网易出品" onLink={(activeTag) => onLink(activeTag, TagEnum.type)} />
         <List data={rcmdMvList} loading={rcmdMvLoading} />
       </Flex>
 

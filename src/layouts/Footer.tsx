@@ -10,14 +10,12 @@ import {
   CaretRightOutlined,
   PauseOutlined
 } from "@ant-design/icons"
-import {useBoolean} from "ahooks"
 import {useLocation} from "@umijs/max"
 import classnames from "classnames"
 import {usePlayRecord} from "@/hooks"
 import {Artists, Image} from "@/components"
 import Utils from "@/help"
 import ReactPlayer from "react-player"
-import store from "@/help/localStorage"
 import playList from "@/assets/footer/play-list.png"
 import playListActive from "@/assets/footer/play-list_active.png"
 import volumIcon from "@/assets/footer/volum.png"
@@ -51,10 +49,6 @@ import {
   useActiveLyric
 } from "@/store/player"
 import {MAP_PALYER_MODE, MAP_PALYER_MODE_NEXT, MAP_PALYER_MODE_TIP} from "@/constants/layout"
-import cycle from "@/assets/footer/cycle.png"
-import listCycle from "@/assets/footer/list-cycle.png"
-import order from "@/assets/footer/order.png"
-import random from "@/assets/footer/random.png"
 import style from "./index.scss"
 
 enum PLAY_TYPE_ENUM {
@@ -62,7 +56,12 @@ enum PLAY_TYPE_ENUM {
   next
 }
 
-const Footer = memo(() => {
+interface Props {
+  className?: string
+}
+
+const Footer = memo((props: Props) => {
+  const {className} = props
   const location = useLocation()
   const playRef = useRef<ReactPlayer>(null)
   const list = usePlayRecord()
@@ -217,11 +216,8 @@ const Footer = memo(() => {
     playRef.current.seekTo(value)
   }
 
-  // 视频播放隐藏
-  if (location.pathname === "/mv-detail") return null
-
   return (
-    <footer className={style._footer} id="_footer">
+    <footer className={classnames(style._footer, className)} id="_footer">
       {renderMusicInfo(!!Object.keys(songObj).length)}
 
       <div className="flex-1 flex gap-[16px]">

@@ -1,8 +1,8 @@
 /** @format */
 
-import React, {useEffect, useMemo, useState} from "react"
+import {useEffect, useMemo, useState} from "react"
 import {history} from "@umijs/max"
-import {Row, Col, Spin, Pagination, Flex, Button, Popover, Tag, Divider} from "antd"
+import {Spin, Pagination, Flex, Button, Popover, Tag, Divider} from "antd"
 import {IPlaylistParams, playlist} from "@/api/songList"
 import {Image} from "@/components"
 import {
@@ -170,7 +170,6 @@ const SongList = () => {
           className=" cursor-pointer relative p-[20px] rounded-[12px] overflow-hidden">
           <Flex gap={12} className=" z-[1]">
             <Image
-              preview={false}
               width={140}
               height={140}
               className="w-[140px] h-[140px]"

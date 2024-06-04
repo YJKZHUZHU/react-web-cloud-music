@@ -62,8 +62,8 @@ const routes: IRoue[] = [
         wrappers: ["@/wrappers/Auth"]
       },
       {
-        path: "/friend",
-        component: "@/pages/friend",
+        path: "/attention",
+        component: "@/pages/attention",
         title: "朋友",
         wrappers: ["@/wrappers/Auth"]
       },
@@ -140,19 +140,19 @@ const routes: IRoue[] = [
         title: "专辑"
       },
       {
-        path: "/care/dynamic",
+        path: "/care/dynamic/:uid",
         component: "care/dynamic",
         title: "动态",
         wrappers: ["@/wrappers/Auth"]
       },
       {
-        path: "/care/follows",
+        path: "/care/follows/:uid",
         component: "care/follows",
         title: "关注",
         wrappers: ["@/wrappers/Auth"]
       },
       {
-        path: "/care/fan",
+        path: "/care/fan/:uid",
         component: "care/fan",
         title: "粉丝",
         wrappers: ["@/wrappers/Auth"]
@@ -192,7 +192,11 @@ const routes: IRoue[] = [
         title: "我的歌单",
         parentKey: MenuKeyEnum.MY_MUSIC
       },
-
+      {
+        path: "/recently-played",
+        component: "recently-played",
+        title: "最近播放"
+      },
       {
         path: "/test",
         component: "test",

@@ -25,7 +25,7 @@ const useVirtualListHeight = (extraHeight: number = 0, selector: string = "#_con
       const heightWithoutPaddingAndBorder =
         rect.height - paddingTop - paddingBottom - borderTopWidth - borderBottomWidth - extraHeight
 
-      console.log("heightWithoutPaddingAndBorder", heightWithoutPaddingAndBorder)
+      console.log("容器高度", heightWithoutPaddingAndBorder)
       return heightWithoutPaddingAndBorder
     }
     return 0

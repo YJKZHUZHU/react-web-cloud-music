@@ -7,18 +7,18 @@ import {
   ShareAltOutlined,
   CheckOutlined,
   EditOutlined,
-  CustomerServiceOutlined,
   CaretDownOutlined,
   CaretUpOutlined
 } from "@ant-design/icons"
-import {Button, Tabs, Avatar, Flex, Tag, Divider, Tooltip, Modal, Checkbox} from "antd"
+import {Button, Tabs, Flex, Tag, Divider, Tooltip, Modal, Checkbox} from "antd"
 import {history, useParams} from "@umijs/max"
-import {Comment} from "@/components"
+import {Comment, Image} from "@/components"
 import dayjs from "dayjs"
-import {ListTable, Collection} from "./components"
 import Utils from "@/help"
 import classNames from "classnames"
 import {useGetDetail, useLoading, usePlayListDetailData} from "@/store/playlistDetail"
+import {ListTable, Collection} from "./components"
+
 import {
   useGetSongInfo,
   usePlayRecord,
@@ -27,8 +27,6 @@ import {
   useSetPlayHistory,
   usePlayHistory,
   ISongsItem,
-  useOpenPalyAllModal,
-  useSetOpenPalyAllModal,
   useIsRemind,
   useSetIsRemind
 } from "@/store/player"
@@ -133,13 +131,15 @@ const PlayList = () => {
       gap={24}
       className={classNames("bg-[#ffffff] rounded-[20px] p-[16px]", styles._playList)}>
       <Flex gap={16}>
-        <Avatar
-          icon={<CustomerServiceOutlined />}
-          size={200}
-          shape="square"
-          alt="资源加载异常"
-          src={`${playListDetail?.playlist.creator.backgroundUrl}?param=200y200`}
+        <Image
+          size={[200, 200]}
+          multiple={2}
+          src={playListDetail?.playlist.creator.backgroundUrl}
+          width={200}
+          height={200}
+          className="w-[200px] h-[200px]"
         />
+
         <Flex flex={1} vertical gap={12}>
           <Flex gap={4} align="center">
             <Tag color="red" bordered={false}>
@@ -156,13 +156,15 @@ const PlayList = () => {
             )}
           </Flex>
           <Flex gap={4} align="center">
-            <Avatar
-              icon={<CustomerServiceOutlined />}
-              size={30}
-              shape="circle"
-              alt="资源加载异常"
-              src={`${playListDetail?.playlist?.creator.avatarUrl}?param=40y40`}
+            <Image
+              size={[40, 40]}
+              multiple={2}
+              src={playListDetail?.playlist?.creator.avatarUrl}
+              width={40}
+              height={40}
+              className="w-[40px] h-[40px] rounded-[50%]"
             />
+
             <span
               className="cursor-pointer text-[#40699F]"
               onClick={() => history.push(`/homepage/${playListDetail?.playlist?.userId}`)}>
@@ -224,22 +226,28 @@ const PlayList = () => {
               </span>
             </Flex>
           </Flex>
+
           <Flex align="center" gap={12}>
             <Flex>
               <span className="text-[#363D62]">简&emsp;介：</span>
-              <Flex flex={1} align="center" gap={4}>
-                <span
-                  className={classNames("text-[#BABABD], leading-[20px]", {
-                    "line-clamp-1": !showAll
-                  })}>
-                  {playListDetail?.playlist?.description}
-                </span>
-                {showAll ? (
-                  <CaretUpOutlined className="cursor-pointer" onClick={() => setShowAll(false)} />
-                ) : (
-                  <CaretDownOutlined className="cursor-pointer" onClick={() => setShowAll(true)} />
-                )}
-              </Flex>
+              {playListDetail?.playlist?.description && (
+                <Flex flex={1} align="center" gap={4}>
+                  <span
+                    className={classNames("text-[#BABABD], leading-[20px]", {
+                      "line-clamp-1": !showAll
+                    })}>
+                    {playListDetail?.playlist?.description}
+                  </span>
+                  {showAll ? (
+                    <CaretUpOutlined className="cursor-pointer" onClick={() => setShowAll(false)} />
+                  ) : (
+                    <CaretDownOutlined
+                      className="cursor-pointer"
+                      onClick={() => setShowAll(true)}
+                    />
+                  )}
+                </Flex>
+              )}
             </Flex>
           </Flex>
         </Flex>

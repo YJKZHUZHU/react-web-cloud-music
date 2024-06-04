@@ -33,7 +33,12 @@ import {BScrollConstructor} from "@better-scroll/core/dist/types/BScroll"
 BScroll.use(ScrollBar)
 BScroll.use(MouseWheel)
 
-const PlayerLayout = () => {
+interface Props {
+  className?: string
+}
+
+const PlayerLayout = (props: Props) => {
+  const {className} = props
   const showPlayer = useShowPlayer()
   const isPlay = useIsPlay()
   const songObj = useSongObj()
@@ -117,7 +122,8 @@ const PlayerLayout = () => {
       vertical
       className={classnames(
         "pb-[20px] fixed top-[60px] bottom-[75px] left-0 right-0 px-[24px] bg-[#f9f9f9] z-[1000] overflow-x-hidden overflow-y-scroll transition-transform ",
-        showPlayer ? "transform-none" : "translate-y-[120%]"
+        showPlayer ? "transform-none" : "translate-y-[120%]",
+        className
       )}>
       <Flex justify="space-between" gap={48}>
         <div className="pt-[80px] flex justify-center relative">

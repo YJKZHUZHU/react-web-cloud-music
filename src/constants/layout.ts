@@ -7,20 +7,23 @@ import order from "@/assets/footer/order.png"
 import random from "@/assets/footer/random.png"
 import {PlayerModeEnum} from "@/store/player"
 
-/** @format */
 type MenuItem = Required<MenuProps>["items"][number]
 
 export enum MenuKeyEnum {
   FIND_MUSIC = "findMusic",
   VIDEO = "video",
   MY_MUSIC = "myMusic",
-  MY_SONG_LIST = "songList"
+  MY_SONG_LIST = "songList",
+  RECENTLY_PLAYED = "recentlyPlayed",
+  ATTENTION='attention'
 }
 export const MAP_MENU_PATH = new Map<MenuKeyEnum, string>()
   .set(MenuKeyEnum.FIND_MUSIC, "/personal-recommendation")
   .set(MenuKeyEnum.VIDEO, "/video")
   .set(MenuKeyEnum.MY_MUSIC, "/collect")
   .set(MenuKeyEnum.MY_SONG_LIST, "/collect-song-list")
+  .set(MenuKeyEnum.RECENTLY_PLAYED, "/recently-played")
+  .set(MenuKeyEnum.ATTENTION, "/attention")
 
 export interface ITagItem {
   label: string
@@ -92,33 +95,10 @@ export const VIDEO: ITagItem[] = [
   }
 ]
 
-export const MAP_TAGS_VIEWS = new Map()
+export const MAP_TAGS_VIEWS = new Map<MenuKeyEnum, ITagItem[]>()
   .set(MenuKeyEnum.FIND_MUSIC, FIND_MUSIC_TAGS)
   .set(MenuKeyEnum.MY_MUSIC, MY_MUSIC)
   .set(MenuKeyEnum.VIDEO, VIDEO)
-
-export const menuList: MenuItem[] = [
-  {
-    label: "发现音乐",
-    key: MenuKeyEnum.FIND_MUSIC
-    // icon:
-  },
-  {
-    label: "精彩视频",
-    key: MenuKeyEnum.VIDEO
-    // icon:
-  },
-  {
-    label: "我的音乐",
-    key: MenuKeyEnum.MY_MUSIC
-    // icon:
-  },
-  // {
-  //   label: "我的歌单",
-  //   key: MenuKeyEnum.MY_SONG_LIST
-  //   // icon:
-  // }
-]
 
 export const MAP_PALYER_MODE = new Map<PlayerModeEnum, string>()
   .set(PlayerModeEnum.order, order)

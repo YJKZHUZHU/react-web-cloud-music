@@ -37,8 +37,8 @@ export const MV_TYPE = [
     value: "官方版"
   },
   {
-    id: "原生",
-    value: "原生"
+    id: "原声",
+    value: "原声"
   },
   {
     id: "现场版",

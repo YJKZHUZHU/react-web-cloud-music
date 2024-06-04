@@ -11,7 +11,8 @@ enum FetchEnum {
   videoGroupList = "/video/group/list",
   videoCategoryList = "/video/category/list",
   videoTimelineAll = "/video/timeline/all",
-  videoGroup = "/video/group"
+  videoGroup = "/video/group",
+  personalizedPrivatecontentList = "/personalized/privatecontent/list"
 }
 
 export enum BrlLevelEnum {
@@ -211,4 +212,27 @@ export const videoTimelineAll = (data: {offset?: number}) => {
 
 export const videoGroup = (data: {offset?: number; id: number | string}) => {
   return service<IVideoTimelineAllRes>(FetchEnum.videoGroup, data)
+}
+
+export interface IIPersonalizedPrivatecontentListItem {
+  id: number
+  url: string
+  picUrl: string
+  sPicUrl: string
+  type: number
+  copywriter: string
+  name: string
+  time: number
+  videoId: number
+}
+
+interface IPersonalizedPrivatecontentListRes {
+  code: number
+  result: IIPersonalizedPrivatecontentListItem[]
+  more: boolean
+  offset: number
+}
+
+export const personalizedPrivatecontentList = (data: {offset: number; limit: number}) => {
+  return service<IPersonalizedPrivatecontentListRes>(FetchEnum.personalizedPrivatecontentList, data)
 }

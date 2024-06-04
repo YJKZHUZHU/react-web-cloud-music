@@ -1,8 +1,8 @@
 /** @format */
 
 import {create} from "zustand"
-import {devtools} from "zustand/middleware"
-import {userRecord, userSubcount} from "@/api/user"
+import {createJSONStorage, devtools, persist} from "zustand/middleware"
+import {userPlaylist, userRecord, userSubcount} from "@/api/user"
 import {EnumLocalStorage, getItem} from "@/help/cache"
 
 export interface IUserInfo {
@@ -502,13 +502,14 @@ interface Props {
   playRecordLoading: boolean
   isSignIn: boolean
   subCountInfo: Partial<ISubCountInfo>
+  songListLoading: boolean
 }
 
 interface Actions {
   setAccountInfo: (accountInfo: IAccountInfo) => void
   setUserInfo: (userInfo: IUserInfo) => void
   setVipInfo: (vipInfo: IVipInfo) => void
-  setSongList: (songList: ISongListItem[]) => void
+  getSongList: (userId: number) => void
   setAllPlayRecord: () => void
   setIsSignIn: (signIn: boolean) => void
   setSubCountInfo: () => void
@@ -519,6 +520,7 @@ const initialState: Props = {
   userInfo: {},
   vipInfo: {},
   songList: [],
+  songListLoading: false,
   allPlayRecord: [],
   playRecordLoading: false,
   isSignIn: false,
@@ -527,39 +529,59 @@ const initialState: Props = {
 
 export const useUserStore = create<Props & Actions>()(
   devtools(
-    (set, get) => ({
-      ...initialState,
-      setAccountInfo: (accountInfo) => set({accountInfo}, false, "设置账户信息"),
-      setUserInfo: (userInfo) => {
-        set({userInfo, isSignIn: userInfo.pcSign}, false, "设置用户信息")
-      },
-      setVipInfo: (vipInfo) => set({vipInfo}, false, "设置vip信息"),
-      setSongList: (songList) => set({songList}, false, "设置用户歌单信息"),
-      setAllPlayRecord: async () => {
-        try {
-          set({playRecordLoading: true}, false, "Loading...")
-          const uid = getItem(EnumLocalStorage.userId) as string
-          if (!uid) return
-          const res = await userRecord({uid, type: 0})
-          console.log("===播放列表获取成功===")
-          set({allPlayRecord: res.data.allData}, false, "获取播放列表")
-          set({playRecordLoading: false}, false, "Loading...")
-        } catch (error) {
-          console.log("error", error)
+    persist(
+      (set, get) => ({
+        ...initialState,
+        setAccountInfo: (accountInfo) => set({accountInfo}, false, "设置账户信息"),
+        setUserInfo: (userInfo) => {
+          set({userInfo, isSignIn: userInfo.pcSign}, false, "设置用户信息")
+        },
+        setVipInfo: (vipInfo) => set({vipInfo}, false, "设置vip信息"),
+        getSongList: async (userId) => {
+          try {
+            get().songList.length === 0 && set({songListLoading: true}, false, "Loading...")
+            const res = await userPlaylist({uid: String(userId)})
+            set({songListLoading: false, songList: res.data.playlist}, false, "设置用户歌单信息")
+          } catch (error) {
+            set({songListLoading: false}, false, "Loading...")
+            console.log("error", error)
+          }
+        },
+        setAllPlayRecord: async () => {
+          try {
+            set({playRecordLoading: true}, false, "Loading...")
+            const uid = getItem(EnumLocalStorage.userId) as string
+            if (!uid) return
+            const res = await userRecord({uid, type: 0})
+            console.log("===播放列表获取成功===")
+            set({allPlayRecord: res.data.allData}, false, "获取播放列表")
+            set({playRecordLoading: false}, false, "Loading...")
+          } catch (error) {
+            console.log("error", error)
+          }
+        },
+        setIsSignIn: (signIn) => {
+          set({isSignIn: signIn}, false, "设置是否签到")
+        },
+        setSubCountInfo: async () => {
+          try {
+            const res = await userSubcount()
+            set({subCountInfo: res.data}, false, "获取用户信息 , 歌单，收藏，mv, dj 数量")
+          } catch (error) {
+            console.log("error", error)
+          }
         }
-      },
-      setIsSignIn: (signIn) => {
-        set({isSignIn: signIn}, false, "设置是否签到")
-      },
-      setSubCountInfo: async () => {
-        try {
-          const res = await userSubcount()
-          set({subCountInfo: res.data}, false, "获取用户信息 , 歌单，收藏，mv, dj 数量")
-        } catch (error) {
-          console.log("error", error)
-        }
+      }),
+      {
+        name: "userStore",
+        storage: createJSONStorage(() => localStorage), // (optional) by default, 'localStorage' is used
+        // partialize(state) {
+        //   return {
+        //     songList: state.songList
+        //   }
+        // }
       }
-    }),
+    ),
     {
       name: "userStore"
     }
@@ -567,6 +589,8 @@ export const useUserStore = create<Props & Actions>()(
 )
 
 export const useUserInfo = () => useUserStore((state) => state.userInfo)
+
+export const useVipInfo = () => useUserStore((state) => state.vipInfo)
 
 export const useAvatarUrl = () => useUserStore((state) => state.accountInfo.profile?.avatarUrl)
 
@@ -588,6 +612,10 @@ export const useFollowed = () => useUserStore((state) => state.userInfo.profile?
 export const useIsSignIn = () => useUserStore((state) => state.isSignIn)
 
 export const useSetIsSignIn = () => useUserStore((state) => state.setIsSignIn)
+
+export const useGetSongList = () => useUserStore((state) => state.getSongList)
+
+export const useSongListLoading = () => useUserStore((state) => state.songListLoading)
 
 // 用户创建的歌单
 export const useCreatorSongList = () =>

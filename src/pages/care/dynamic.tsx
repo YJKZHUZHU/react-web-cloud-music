@@ -3,14 +3,14 @@
 import React, {FC, useEffect, useRef, useState} from "react"
 import {CaretRightOutlined, DeleteOutlined, LikeOutlined, UserOutlined} from "@ant-design/icons"
 import {List, Avatar, Divider, message, Flex, Empty, Spin} from "antd"
-import {Link} from "@umijs/max"
+import {useParams} from "@umijs/max"
 import classnames from "classnames"
 import Utils from "@/help/index"
 import API from "@/api"
 import styles from "@/pages/care/index.scss"
 import {EnumLocalStorage, getItem} from "@/help/cache"
 import {useNickName} from "@/store/login"
-import {useVirtualListHeight} from "@/hooks"
+import {useQuery, useVirtualListHeight} from "@/hooks"
 import VirtualList from "rc-virtual-list"
 import {FollowItem, userFollows, userEvent, IEventItem, EnumEventType, eventDel} from "@/api/care"
 import {history} from "@umijs/max"
@@ -29,12 +29,14 @@ const MapText = new Map()
   .set(EnumEventType.publishDynamic, "发布动态")
 
 const Dynamic: FC = () => {
+  const defaultNickName = useNickName()
+  const {nickName = defaultNickName} = useQuery<{nickName: string}>()
+  const {uid} = useParams()
   const [list, setList] = useState<IEventItem[]>([])
   const [loading, setLoading] = useState(false)
   const pageRef = useRef({limit: 30, lasttime: -1})
   const hasMoreRef = useRef(false)
   const virtualListHeight = useVirtualListHeight(50)
-  const nickName = useNickName()
 
   const commentLike = async (info: any, t: number) => {
     const Ret: any = await API.commentLike({
@@ -63,7 +65,7 @@ const Dynamic: FC = () => {
     try {
       setLoading(true)
       const res = await userEvent({
-        uid: getItem(EnumLocalStorage.userId) as string,
+        uid: Number(uid),
         ...pageRef.current
       })
       pageRef.current.lasttime = res.data.lasttime
@@ -92,8 +94,8 @@ const Dynamic: FC = () => {
   }
 
   useEffect(() => {
-    getData()
-  }, [])
+    uid && getData()
+  }, [uid])
 
   const renderMv = (item: IEventItem) => {
     const info = JSON.parse(item.json)
@@ -298,7 +300,7 @@ const Dynamic: FC = () => {
             data={list}
             styles={{verticalScrollBarThumb: {display: "none"}}}
             height={virtualListHeight}>
-            {(item: IEventItem) => {
+            {(item: IEventItem, index) => {
               const info = JSON.parse(item.json)
               return (
                 <Flex
@@ -332,7 +334,7 @@ const Dynamic: FC = () => {
 
                           <span className="text-[#262626]">
                             {MapText.get(item.type)}
-                            {item.type}
+                            {/* {item.type} */}
                           </span>
                         </Flex>
                         <span className="text-[#868787] text-[14px]">
@@ -344,7 +346,7 @@ const Dynamic: FC = () => {
 
                         <Flex align="center" gap={4}>
                           {item.bottomActivityInfos &&
-                            item.bottomActivityInfos.map((item: any) => {
+                            item.bottomActivityInfos?.map((item) => {
                               return (
                                 <span
                                   className="text-[14px] text-[#406A9F] cursor-pointer hover:text-[#0E43A1]"
@@ -381,7 +383,7 @@ const Dynamic: FC = () => {
 
                     <DeleteOutlined onClick={() => onDel(item.actId.toString())} />
                   </Flex>
-                  <Divider className=" !mb-0 !mt-0" />
+                  {index !== list.length - 1 && <Divider className=" !mb-0 !mt-0" />}
                 </Flex>
               )
             }}

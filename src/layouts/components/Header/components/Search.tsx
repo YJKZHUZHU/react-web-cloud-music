@@ -78,7 +78,7 @@ const Search = () => {
     if (e.key.toLocaleLowerCase() === "enter") {
       setOpen(false)
       history.push(`/search-detail/${1}?keywords=${keywords || placeholder}`)
-      updateSearchHistoryList([...searchHistoryList, keywords || placeholder])
+      updateSearchHistoryList([keywords || placeholder, ...searchHistoryList])
       getDefaultSearch()
     }
   }
@@ -95,14 +95,14 @@ const Search = () => {
   const onTopLink = (item: SearchResponse) => {
     setOpen(false)
     updateKeywords(item.searchWord)
-    updateSearchHistoryList([...searchHistoryList, item.searchWord])
+    updateSearchHistoryList([item.searchWord, ...searchHistoryList])
     history.push(`/search-detail/${1}?keywords=${item.searchWord}`)
     getDefaultSearch()
   }
 
   const onSuggestLink = (searchType: SEARCH_TYPE_ENUM, name: string, id: string | number) => {
     setOpen(false)
-    updateSearchHistoryList([...searchHistoryList, keywords])
+    updateSearchHistoryList([keywords, ...searchHistoryList])
 
     if (searchType == SEARCH_TYPE_ENUM.single) {
       return getSongInfo(Number(id))

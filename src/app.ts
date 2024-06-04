@@ -5,6 +5,7 @@ import {message} from "antd"
 import Nprogress from "nprogress"
 import "nprogress/nprogress.css"
 import qs from "qs"
+import {useHistoryStore, historyList, unsub, unsub2} from "@/store/history"
 import zh_cn from "antd/lib/locale/zh_CN"
 import {login} from "./help/cache"
 
@@ -22,15 +23,26 @@ interface IRouteChangeParams {
 }
 
 export function onRouteChange({location, clientRoutes, ...rest}: IRouteChangeParams) {
+  console.log("clientRoutes", historyList, location, clientRoutes, rest)
+
   if (login() && location.pathname === "/login") {
     history.replace("/personal-recommendation")
   }
   Nprogress.start()
   setTimeout(() => Nprogress.done(), 500)
   if (location.pathname === "/") {
-    console.log("sss")
     history.replace("/personal-recommendation")
   }
+  // if (
+  //   useHistoryStore.getState().historyList.find((item) => item.pathname === location.pathname) ===
+  //   undefined
+  // ) {
+  //   useHistoryStore.setState({historyList: [...useHistoryStore.getState().historyList, location]})
+  // }
+  useHistoryStore.setState({historyList: [...useHistoryStore.getState().historyList, location]})
+
+  unsub2()
+  // unsub()
 
   const route = matchRoutes(clientRoutes, location.pathname)?.pop()?.route! as any
   if (route) {
@@ -164,9 +176,4 @@ export const antd: RuntimeAntdConfig = (memo) => {
   }
 
   return memo
-}
-
-export const render: RuntimeConfig["render"] = (oldRender) => {
-  console.log("渲染几次", oldRender)
-  oldRender()
 }

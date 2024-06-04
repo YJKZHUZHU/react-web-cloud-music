@@ -11,13 +11,8 @@ import {useShallow} from "zustand/react/shallow"
 const useApp = () => {
   const update = useLoginStore((state) => state.update)
 
-  const [setAccountInfo, setUserInfo, setVipInfo, setSongList] = useUserStore(
-    useShallow((state) => [
-      state.setAccountInfo,
-      state.setUserInfo,
-      state.setVipInfo,
-      state.setSongList
-    ])
+  const [setAccountInfo, setUserInfo, setVipInfo] = useUserStore(
+    useShallow((state) => [state.setAccountInfo, state.setUserInfo, state.setVipInfo])
   )
 
   const isVip = useIsVip()
@@ -54,21 +49,6 @@ const useApp = () => {
       console.log("==vip信息==", res)
       if (res.success) {
         setVipInfo(res.data)
-      }
-    } catch (error) {
-      console.log("error", error)
-    }
-  }
-
-  // 用户歌单信息
-  const getUserSongList = async (userId: number) => {
-    try {
-      const res = await userPlaylist({uid: String(userId)})
-      console.log("歌单==", res)
-      if (res.success) {
-        setSongList(res.data.playlist)
-        // const target =
-        // setMenu(target)
       }
     } catch (error) {
       console.log("error", error)

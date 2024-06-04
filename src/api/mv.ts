@@ -151,7 +151,7 @@ export const simiMv = (data: {mvid: string | number}) => {
   return service<ISimiMvRes>(FetchEnum.simiMv, data)
 }
 
-interface IMvAllParams {
+export interface IMvAllParams {
   /** 地区,可选值为全部,内地,港台,欧美,日本,韩国,不填则为全部 */
   area: string
   /** 全部,官方版,原生,现场版,网易出品,不填则为全部 */

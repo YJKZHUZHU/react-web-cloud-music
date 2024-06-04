@@ -166,7 +166,7 @@ export interface IEventItem {
   question: any | null // 问题
   voice: any | null // 声音
   topActivityInfos: any | null // 顶部活动信息
-  bottomActivityInfos: any | null // 底部活动信息
+  bottomActivityInfos: {id: string | number; name: string}[] | null // 底部活动信息
   h5Target: any | null // H5目标
   more: boolean // 是否还有更多
   logInfo: any | null // 日志信息

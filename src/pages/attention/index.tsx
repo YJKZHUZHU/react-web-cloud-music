@@ -10,7 +10,7 @@ import HotTopic from "./components/HotTopic"
 import Dynamic from "./components/Dynamic"
 import styles from "./index.scss"
 
-const Friend: FC = (props) => {
+export default function () {
   const dynamicRef = useRef(null)
 
   const {data, loading, reload, loadingMore} = useRequest(
@@ -58,5 +58,3 @@ const Friend: FC = (props) => {
     </div>
   )
 }
-
-export default Friend

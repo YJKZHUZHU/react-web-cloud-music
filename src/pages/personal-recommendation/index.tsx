@@ -224,7 +224,7 @@ const PersonalRecommendation = () => {
           </Flex>
         </Card>
       </Flex>
-      <Card title="推荐MV" link="/find-music/song-list">
+      <Card title="推荐MV" link="/mv">
         <Flex gap={32} wrap className={styles.mv}>
           {mv.map((item) => {
             return (

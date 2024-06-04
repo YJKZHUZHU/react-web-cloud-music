@@ -1,159 +1,133 @@
 /** @format */
 
-import React, {useEffect} from "react"
+import React, {useEffect, useState} from "react"
 import {useRequest} from "ahooks"
 import {useQuery} from "@/hooks"
-import {useParams} from "@umijs/max"
+import {useParams, history} from "@umijs/max"
 import API from "@/api"
-import {Space, Avatar} from "antd"
+import {userDetail, vipGrowthpoint} from "@/api/user"
+import {Space, Avatar, Flex, Divider} from "antd"
 import {CustomerServiceOutlined, ManOutlined, WomanOutlined} from "@ant-design/icons"
+import {IUserInfo, IVipInfo, useUserInfo, useVipInfo} from "@/store/user"
+import {EnumLocalStorage, getItem} from "@/help/cache"
+import {Image} from "@/components"
+import man from "@/assets/man.png"
+import woman from "@/assets/woman.png"
+import Utils from "@/help"
 
-interface IAllAuthTypes {
-  desc: string
-  tags: any
-  type: number
-  [props: string]: any
-}
-interface IAvatarDetail {
-  userType: any
-  identityLevel: number
-  identityIconUrl: string
-  [props: string]: any
-}
-
-interface IProfile {
-  accountStatus: number
-  allAuthTypes: IAllAuthTypes[]
-  allSubscribedCount: number
-  artistIdentity: any[]
-  authStatus: number
-  authority: number
-  avatarDetail: IAvatarDetail
-  avatarImgId: number
-  avatarImgIdStr: string
-  avatarImgId_str: string
-  avatarUrl: string
-  backgroundImgId: number
-  backgroundImgIdStr: string
-  backgroundUrl: string
-  birthday: number
-  blacklist: boolean
-  cCount: number
-  city: number
-  createTime: number
-  defaultAvatar: boolean
-  description: string
-  detailDescription: string
-  djStatus: number
-  eventCount: number
-  expertTags: any
-  experts: any
-  followMe: boolean
-  followTime: any
-  followed: boolean
-  followeds: number
-  follows: number
-  gender: number
-  mainAuthType: IAllAuthTypes
-  mutual: boolean
-  newFollows: number
-  nickname: string
-  playlistBeSubscribedCount: number
-  playlistCount: number
-  province: number
-  remarkName: any
-  sCount: number
-  sDJPCount: number
-  signature: string
-  userId: number
-  userType: number
-  vipType: number
-  [props: string]: any
-}
-
-interface IBindings {
-  bindingTime: number
-  expired: boolean
-  expiresIn: number
-  id: number
-  refreshTime: number
-  tokenJsonStr: any
-  type: number
-  url: string
-  userId: number
-  [props: string]: any
-}
-
-interface IIdentify {
-  imageUrl: string
-  imageDesc: string
-  actionUrl: any
-  [props: string]: any
-}
-
-interface IUserInfo {
-  adValid: boolean
-  bindings: IBindings[]
-  code: number
-  createDays: number
-  createTime: number
-  identify: IIdentify
-  level: number
-  listenSongs: number
-  mobileSign: boolean
-  pcSign: boolean
-  peopleCanSeeMyPlayRecord: boolean
-  profile: IProfile
-  userPoint: {
-    balance: number
-    blockBalance: number
-    status: number
-    updateTime: number
-    userId: number
-    version: number
-    [props: string]: any
-  }
-  [props: string]: any
-}
-
-const HomePage = () => {
+export default function () {
   const {uid} = useParams() as {uid: string}
   console.log("uid--", uid)
-  const {data, run, loading} = useRequest<IUserInfo>(() => API.useInfo({uid}), {
-    manual: true
-  })
+  const [useDetail, setUserDetail] = useState<Partial<IUserInfo>>()
+  const [loading, setLoading] = useState(false)
+  const [vipInfo, setVipInfo] = useState<Partial<IVipInfo>>()
+  const userInfo = useUserInfo()
+  const vipDetail = useVipInfo()
+
+  const init = async () => {
+    try {
+      if (uid === getItem(EnumLocalStorage.userId)) {
+        setUserDetail(userInfo)
+        setVipInfo(vipDetail)
+        return
+      }
+      setLoading(true)
+      const res = await userDetail({uid})
+      const vipRes = await vipGrowthpoint()
+      vipRes.success && setVipInfo(vipRes.data)
+      setUserDetail(res.data)
+      setLoading(false)
+    } catch (error) {
+      setLoading(false)
+      console.log("error", error)
+    }
+  }
+
+  const vipLevel = vipInfo?.userLevel?.level
 
   useEffect(() => {
-    run()
-  }, [])
-  return (
-    <div>
-      <Space>
-        <Space size={20}>
-          <Avatar
-            icon={<CustomerServiceOutlined />}
-            size={200}
-            alt="资源加载异常"
-            src={`${data?.profile?.avatarUrl}?param=200y200`}
-          />
-        </Space>
-        <Space>
-          <Space>
-            <span>{data?.profile?.nickname}</span>
-            <span></span>
-          </Space>
+    uid && init()
+  }, [uid])
 
-          <Space>
-            <span>
-              lv{data?.level}
-              {data?.profile?.gender === 1 ? <ManOutlined /> : null}
-              {data?.profile?.gender === 2 ? <WomanOutlined /> : null}
-            </span>
-          </Space>
-        </Space>
-      </Space>
-    </div>
+  console.log("useDetail", useDetail, vipInfo)
+
+  return (
+    <Flex vertical gap={12} flex={1}>
+      <Flex gap={24} className=" bg-[#ffffff] rounded-[20px] p-[16px]" flex={1}>
+        <Image
+          src={useDetail?.profile?.avatarUrl}
+          width={150}
+          height={150}
+          size={[150, 150]}
+          className="w-[150px] h-[150px] rounded-[50%]"
+        />
+
+        <Flex flex={1} vertical gap={12}>
+          <span>{useDetail?.profile?.nickname}</span>
+          <Flex align="center" gap={6}>
+            {vipLevel && (
+              <img
+                alt=""
+                className="rounded-[16px]"
+                width={48}
+                height={16}
+                src={require(`../../assets/musicVip/${vipLevel}.png`)}
+              />
+            )}
+            <div className=" bg-[#EBECEC] text-[#262626] text-[14px] px-[8px] py-[2px]  rounded-[20px] flex justify-center items-center">
+              Lv{useDetail?.level}
+            </div>
+            <img width={16} alt="" src={useDetail?.profile?.gender === 1 ? man : woman} />
+          </Flex>
+          <Divider className="!my-0" />
+          <Flex gap={12}>
+            <Flex
+              vertical
+              gap={8}
+              align="center"
+              onClick={() =>
+                history.push(
+                  `/care/dynamic/${useDetail?.userPoint?.userId}?nickName=${useDetail?.profile?.nickname}`
+                )
+              }>
+              <span className="text-[#262727] cursor-pointer text-[18px]">
+                {useDetail?.profile?.eventCount}
+              </span>
+              <span className="text-[#535353] hover:text-[#262626] hover:cursor-pointer">动态</span>
+            </Flex>
+            <Divider className="!h-full" type="vertical" />
+            <Flex
+              vertical
+              gap={8}
+              align="center"
+              onClick={() =>
+                history.push(
+                  `/care/follows/${useDetail?.userPoint?.userId}?nickName=${useDetail?.profile?.nickname}`
+                )
+              }>
+              <span className="text-[#262727] cursor-pointer text-[18px]">
+                {useDetail?.profile?.follows}
+              </span>
+              <span className="text-[#535353] hover:text-[#262626] hover:cursor-pointer">关注</span>
+            </Flex>
+            <Divider className="!h-full" type="vertical" />
+            <Flex
+              vertical
+              gap={8}
+              align="center"
+              onClick={() =>
+                history.push(
+                  `/care/fan/${useDetail?.userPoint?.userId}?nickName=${useDetail?.profile?.nickname}`
+                )
+              }>
+              <span className="text-[#262727] cursor-pointer text-[18px]">
+                {Utils.tranNumber(useDetail?.profile?.followeds, 2)}
+              </span>
+              <span className="text-[#535353] hover:text-[#262626] hover:cursor-pointer">粉丝</span>
+            </Flex>
+          </Flex>
+        </Flex>
+      </Flex>
+    </Flex>
   )
 }
-
-export default HomePage

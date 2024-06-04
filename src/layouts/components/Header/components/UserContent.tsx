@@ -2,6 +2,7 @@
 
 import {
   CaretDownOutlined,
+  CaretRightOutlined,
   CarryOutOutlined,
   CustomerServiceOutlined,
   RightOutlined,
@@ -10,7 +11,7 @@ import {
   UserOutlined
 } from "@ant-design/icons"
 import {Divider, Avatar, Button, Space, Popover, message, Flex} from "antd"
-import {login} from "@/help/cache"
+import {EnumLocalStorage, getItem, login} from "@/help/cache"
 import {history} from "@umijs/max"
 import {useBoolean, useRequest} from "ahooks"
 import {useLogout} from "@/hooks"
@@ -94,17 +95,26 @@ const UserContent = () => {
             </Button>
           </Flex>
           <Flex align="center" justify="space-between">
-            <Flex vertical className=" cursor-pointer" onClick={() => onLink("/care/dynamic")}>
+            <Flex
+              vertical
+              className=" cursor-pointer"
+              onClick={() => onLink(`/care/dynamic/${getItem(EnumLocalStorage.userId)}`)}>
               <span className="self-center">{eventCount}</span>
               <span>动态</span>
             </Flex>
             <Divider type="vertical" />
-            <Flex vertical className=" cursor-pointer" onClick={() => onLink("/care/follows")}>
+            <Flex
+              vertical
+              className=" cursor-pointer"
+              onClick={() => onLink(`/care/follows/${getItem(EnumLocalStorage.userId)}`)}>
               <span className="self-center">{follows}</span>
               <span>关注</span>
             </Flex>
             <Divider type="vertical" />
-            <Flex vertical className=" cursor-pointer" onClick={() => onLink("/care/fan")}>
+            <Flex
+              vertical
+              className=" cursor-pointer"
+              onClick={() => onLink(`/care/fan/${getItem(EnumLocalStorage.userId)}`)}>
               <span className="self-center">{followeds}</span>
               <span>粉丝</span>
             </Flex>
@@ -158,27 +168,32 @@ const UserContent = () => {
   if (login())
     return (
       <Popover
+        placement="right"
         open={visible}
         onOpenChange={visibleToggle}
         content={renderContent()}
         overlayStyle={{width: 300}}
         overlayInnerStyle={{padding: 0}}
         trigger="click">
-        <Flex justify="end" align="center" className=" cursor-pointer" gap={4}>
-          <Avatar alt="" src={avatarUrl} icon={<UserOutlined />} />
+        <Flex align="center" className=" cursor-pointer" gap={4}>
+          <Avatar
+            onClick={(e) => {
+              e?.stopPropagation()
+              history.push(`/homepage/${getItem(EnumLocalStorage.userId)}`)
+            }}
+            alt=""
+            src={avatarUrl}
+            icon={<UserOutlined />}
+          />
           <span>{nickName || "游客"}</span>
-          <CaretDownOutlined />
+          <CaretRightOutlined />
+          {/* <CaretDownOutlined /> */}
         </Flex>
       </Popover>
     )
 
   return (
-    <Flex
-      onClick={() => history.push("/login")}
-      justify="end"
-      align="center"
-      className=" cursor-pointer"
-      gap={4}>
+    <Flex onClick={() => history.push("/login")} align="center" className="cursor-pointer" gap={4}>
       <Avatar icon={<UserOutlined />} />
       <span>游客</span>
     </Flex>

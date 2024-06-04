@@ -27,7 +27,7 @@ const Top = (props: Props) => {
 
   const onTop = () => {
     if (onLink) return onLink(activeTag!)
-    history.push(`/mv-all?area=${activeTag}`)
+    // history.push(`/mv-all?area=${activeTag}`)
   }
 
   return (

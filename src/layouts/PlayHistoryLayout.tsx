@@ -1,6 +1,11 @@
 /** @format */
 
-import {FileAddOutlined, PauseOutlined} from "@ant-design/icons"
+import {
+  FileAddOutlined,
+  PauseOutlined,
+  PlayCircleOutlined,
+  RightSquareOutlined
+} from "@ant-design/icons"
 import {Divider, Flex, message} from "antd"
 import Utils from "@/help/index"
 import classnames from "classnames"
@@ -15,7 +20,7 @@ import {
 import classNames from "classnames"
 import {useEffect} from "react"
 import {history} from "@umijs/max"
-import {Artists} from "@/components"
+import {Artists, Tag} from "@/components"
 
 const PlayHistoryLayout = () => {
   const showPlayRecord = useShowPlayRecord()
@@ -45,6 +50,8 @@ const PlayHistoryLayout = () => {
     })
   }, [])
 
+  console.log("playHistory", playHistory)
+
   return (
     <Flex
       id="_PlayHistoryLayout"
@@ -55,7 +62,7 @@ const PlayHistoryLayout = () => {
         !showPlayRecord ? "transform-none" : "translate-x-[-640px]"
       )}>
       <Flex vertical gap={18} className="px-[24px]">
-        <span className="text-[#272728] text-[20px] font-[600] pt-[20px]">当前播放</span>
+        <span className="text-[#272728] text-[20px] font-[600]">当前播放</span>
         <Flex justify="space-between">
           <span className="text-[#AFB0B0]">共{playHistory.length}首</span>
           <Flex gap={12}>
@@ -76,7 +83,7 @@ const PlayHistoryLayout = () => {
             </span>
           </Flex>
         </Flex>
-        <Divider className=" my-0 " />
+        <Divider className=" !my-0 " />
       </Flex>
 
       <Flex vertical flex={1}>
@@ -103,6 +110,7 @@ const PlayHistoryLayout = () => {
                 <Flex
                   onDoubleClick={() => getSongInfo(item.id)}
                   gap={12}
+                  align="center"
                   justify="space-between"
                   key={item.id}
                   className={classNames(
@@ -113,40 +121,35 @@ const PlayHistoryLayout = () => {
                     "hover:bg-[#F0F0F1]"
                   )}>
                   {isActive && (
-                    <PauseOutlined className="text-[#C52727] text-[12px] absolute left-[10px] top-[10px]" />
+                    <PauseOutlined className="text-[#C52727] text-[12px] absolute left-[10px] top-[12px]" />
                   )}
-
-                  <span
-                    className={classNames("flex-1 text-[#292929] hover:text-[#080909]", {
-                      "text-[#C52727]": isActive,
-                      "hover:text-[#C52727]": isActive
-                    })}>
-                    {item.name}
-                  </span>
-                  <Artists className="w-[200px] text-[#515252] hover:text-[#232323] line-clamp-1" data={item.ar} />
-                  <Flex
-                    align="center"
-                    gap={2}
-                    className="w-[200px] text-[#515252] hover:text-[#232323] line-clamp-1">
-                    {item.ar.map((d, i) => {
-                      return (
-                        <span
-                          key={d.id}
-                          onClick={() => {
-                            setShowPlayRecord(false)
-                            history.push(`/artists-detail?id=${d.id}&name=${d.name}`)
-                          }}
-                          className={classNames("text-[#515252] cursor-pointer", {
-                            "text-[#C52727]": isActive,
-                            "hover:text-[#C52727]": isActive
-                          })}>
-                          {d.name}
-                          {i + 1 === item.ar.length ? "" : "/"}
-                        </span>
-                      )
-                    })}
+                  <Flex align="center" gap={4} className="w-[350px]">
+                    <span
+                      className={classNames(" line-clamp-1 text-[#292929] hover:text-[#080909]", {
+                        "text-[#C52727]": isActive,
+                        "hover:text-[#C52727]": isActive
+                      })}>
+                      {item.name}
+                    </span>
+                    {item.tns && item.tns.length !== 0 && (
+                      <span className="text-[#ABABAC]">({item.tns.join()})</span>
+                    )}
+                    {item?.sq && (
+                      <Tag color="#C52627" borderColor="#C52627">
+                        SQ
+                      </Tag>
+                    )}
+                    {item.mv !== 0 && (
+                      <PlayCircleOutlined
+                        onClick={() => history.push(`/mv-detail/${item.mv}`)}
+                        className="text-[#C52626]"
+                      />
+                    )}
                   </Flex>
-                  <span className="text-[#A8A8A9] hover:text-[#232323]">
+
+                  <Artists className="flex-1" max={2} data={item.ar} />
+
+                  <span className="w-[50px] text-left text-[#A8A8A9] hover:text-[#232323]">
                     {Utils.formatSeconds(item.dt)}
                   </span>
                 </Flex>

@@ -102,7 +102,7 @@ export default function () {
                   <span className=" line-clamp-1 cursor-pointer text-[#262727] hover:text-[#101010]">
                     {item?.mv?.title}
                   </span>
-                  <Artists color="#262727" hoverColor="#0B0B0B" data={item?.artists} />
+                  <Artists max={2} color="#262727" hoverColor="#0B0B0B" data={item?.artists} />
                 </Flex>
               </Flex>
             )

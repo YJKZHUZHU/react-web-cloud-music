@@ -4,9 +4,9 @@ import React, {useEffect, useRef, useState} from "react"
 import VirtualList from "rc-virtual-list"
 import {FollowItem, userFollows} from "@/api/care"
 import {EnumLocalStorage, getItem} from "@/help/cache"
-import {useVirtualListHeight} from "@/hooks"
+import {useQuery, useVirtualListHeight} from "@/hooks"
 import {Empty, Flex, Spin} from "antd"
-import {history} from "@umijs/max"
+import {history, useParams} from "@umijs/max"
 import {Image} from "@/components"
 import empty from "@/assets/empty.png"
 import {useNickName} from "@/store/login"
@@ -14,21 +14,24 @@ import classNames from "classnames"
 import Utils from "@/help"
 
 export default function () {
+  const defaultNickName = useNickName()
+  const {nickName = defaultNickName} = useQuery<{nickName: string}>()
+
+  const {uid} = useParams()
   const [list, setList] = useState<FollowItem[]>([])
   const [loading, setLoading] = useState(false)
   const pageRef = useRef({limit: 30, offset: 0})
   const hasMoreRef = useRef(false)
   const virtualListHeight = useVirtualListHeight(50)
-  const nickName = useNickName()
 
   const getList = async () => {
     try {
       setLoading(true)
       const res = await userFollows({
-        uid: getItem(EnumLocalStorage.userId) as string,
+        uid: uid!,
         ...pageRef.current
       })
-      setList(res.data.follow)
+      setList([...list, ...res.data.follow])
       hasMoreRef.current = res.data.more
       setLoading(false)
     } catch (error) {
@@ -37,8 +40,8 @@ export default function () {
     }
   }
   useEffect(() => {
-    getList()
-  }, [])
+    uid && getList()
+  }, [uid])
   const onScroll = (e: React.UIEvent<HTMLElement, UIEvent>) => {
     // Refer to: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollHeight#problems_and_solutions
     if (
@@ -62,6 +65,7 @@ export default function () {
       />
     )
   }
+  console.log("nickName", nickName)
   return (
     <Flex
       style={{minHeight: virtualListHeight + 30}}
