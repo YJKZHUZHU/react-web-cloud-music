@@ -574,12 +574,7 @@ export const useUserStore = create<Props & Actions>()(
       }),
       {
         name: "userStore",
-        storage: createJSONStorage(() => localStorage), // (optional) by default, 'localStorage' is used
-        // partialize(state) {
-        //   return {
-        //     songList: state.songList
-        //   }
-        // }
+        storage: createJSONStorage(() => localStorage) // (optional) by default, 'localStorage' is used
       }
     ),
     {

@@ -7,7 +7,6 @@ import styles from "./index.scss"
 import {history} from "@umijs/max"
 import {FormInstance} from "antd/lib/form"
 import API from "@/api"
-import {GlobalContext} from "@/layouts"
 import {EDIT_SONG_LIST} from "@/help/map"
 import {useBoolean} from "ahooks"
 import {useQuery} from "@/hooks"
@@ -108,7 +107,6 @@ const Label: FC<ILabel> = ({form}) => {
 
 const EditSongList: FC = () => {
   const creator = useCreatorSongList()
-  const {reloadMenu} = useContext(GlobalContext)
   const query = useQuery()
   const [form] = Form.useForm()
   const {setFieldsValue} = form
@@ -131,7 +129,6 @@ const EditSongList: FC = () => {
       if (Ret.code !== 200) {
         return message.info("稍后再试哦")
       }
-      reloadMenu && (await reloadMenu())
       message.success("歌单编辑成功")
       return history.push(`/playList/${id}?listId=${id}`)
     } catch (error) {

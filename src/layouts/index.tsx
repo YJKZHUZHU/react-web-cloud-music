@@ -7,33 +7,20 @@ import {useApp} from "@/hooks"
 import {useSetIsPlay} from "@/store/player"
 import classNames from "classnames"
 import {MAP_MENU_PATH, MenuKeyEnum} from "@/constants/layout"
+import {useActiveMenu, useSetActiveMenu} from "@/store/app"
 import PlayHistoryLayout from "./PlayHistoryLayout"
 import Footer from "./Footer"
 import PlayerLayout from "./PlayerLayout"
 import {Header, Aside, TagsView} from "./components"
 
-interface IGlobalContext {
-  reloadMenu?: () => void
-}
-export const GlobalContext = createContext<IGlobalContext>({
-  reloadMenu: undefined
-})
 const BasicLayout: FC = () => {
   useApp()
   const setIsPlay = useSetIsPlay()
   const {pathname} = useLocation()
   const routeProps = useRouteProps()
-  const [selectKeys, setSelectKeys] = useState<MenuKeyEnum[]>([
-    routeProps.parentKey || MenuKeyEnum.FIND_MUSIC
-  ])
+  const setActiveMenu = useSetActiveMenu()
 
   const showFooter = !pathname.startsWith("/mv-detail") && !pathname.startsWith("/video-detail")
-
-  const onMenuItem = ({item, key, keyPath, domEvent}: any) => {
-    setSelectKeys([key])
-    const pathKey = key as unknown as MenuKeyEnum
-    MAP_MENU_PATH.has(pathKey) && history.push(MAP_MENU_PATH.get(pathKey)!)
-  }
 
   useEffect(() => {
     if (!showFooter) {
@@ -41,13 +28,17 @@ const BasicLayout: FC = () => {
     }
   }, [showFooter])
 
+  useEffect(() => {
+    setActiveMenu(routeProps.parentKey || "")
+  }, [routeProps])
+
   return (
     <Flex vertical className={classNames("h-[100vh] min-w-[1280px] overflow-y-hidden")}>
       <Header>
-        <TagsView selectKeys={selectKeys} />
+        <TagsView />
       </Header>
       <Flex flex={1} className="bg-[#F2F1F6]">
-        <Aside selectKeys={selectKeys} onMenuItem={onMenuItem} visible={showFooter} />
+        <Aside visible={showFooter} />
         <div
           id="_contentContainer"
           className={classNames(

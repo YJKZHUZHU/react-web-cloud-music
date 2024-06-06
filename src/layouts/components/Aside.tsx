@@ -1,93 +1,102 @@
 /** @format */
 
 import {Menu, MenuProps} from "antd"
+import {history} from "@umijs/max"
 import {FC} from "react"
-import {MenuKeyEnum} from "@/constants/layout"
+import {MAP_MENU_PATH, MenuKeyEnum} from "@/constants/layout"
 import {UserContent} from "./Header/components"
 import classNames from "classnames"
 import findMusic from "@/assets/menu/findMusic.png"
 import findMusicActive from "@/assets/menu/findMusic_active.png"
 import video from "@/assets/menu/video.png"
 import videoActive from "@/assets/menu/video_Active.png"
-import myMusic from "@/assets/menu/myMusic.png"
-import myMusic_Active from "@/assets/menu/myMusic_Active.png"
-import recentlyPlayed_active from "@/assets/menu/recentlyPlayed_active.png"
+import playList from "@/assets/menu/myPlayList.png"
+import myCollect from "@/assets/menu/myCollect.png"
+import myLoveMusic from "@/assets/menu/myLoveMusic.png"
+import myLoveMusicActive from "@/assets/menu/myLoveMusic_active.png"
+import myCollectActive from "@/assets/menu/myCollect_active.png"
+import playListActive from "@/assets/menu/myPlaylist_active.png"
+import recentlyPlayedActive from "@/assets/menu/recentlyPlayed_active.png"
 import recentlyPlayed from "@/assets/menu/recentlyPlayed.png"
 import attention from "@/assets/menu/attention.png"
 import attentionActive from "@/assets/menu/attention_active.png"
+import {useActiveMenu, useSetActiveMenu} from "@/store/app"
 
 interface IProps {
   visible: boolean
-  selectKeys: string[]
-  onMenuItem: (item: any) => void
+  // onMenuItem: (item: {key: string; keyPath: string[]}) => void
 }
 type MenuItem = Required<MenuProps>["items"][number]
 
-const Aside: FC<IProps> = ({visible, selectKeys, onMenuItem}) => {
+const Aside: FC<IProps> = ({visible}) => {
+  const activeMenu = useActiveMenu()
+
+  const renderIcon = (key: MenuKeyEnum, icon: string, activeIcon: string) => {
+    const active = activeMenu?.includes(key)
+    return (
+      <div>
+        <img
+          className={classNames(active ? "inline-block" : "hidden")}
+          alt=""
+          src={activeIcon}
+          width={16}
+        />
+        <img
+          className={classNames(!active ? "inline-block" : "hidden")}
+          alt=""
+          src={icon}
+          width={16}
+        />
+      </div>
+    )
+  }
+
   const menuList: MenuItem[] = [
     {
       label: "发现音乐",
       key: MenuKeyEnum.FIND_MUSIC,
-      icon: (
-        <div>
-          {selectKeys.includes(MenuKeyEnum.FIND_MUSIC) && (
-            <img alt="" src={findMusicActive} width={16} />
-          )}
-          {!selectKeys.includes(MenuKeyEnum.FIND_MUSIC) && (
-            <img alt="" src={findMusic} width={16} />
-          )}
-        </div>
-      )
+      icon: renderIcon(MenuKeyEnum.FIND_MUSIC, findMusic, findMusicActive)
     },
     {
       label: "精彩视频",
       key: MenuKeyEnum.VIDEO,
-      icon: (
-        <div>
-          {selectKeys.includes(MenuKeyEnum.VIDEO) && <img alt="" src={videoActive} width={16} />}
-          {!selectKeys.includes(MenuKeyEnum.VIDEO) && <img alt="" src={video} width={16} />}
-        </div>
-      )
-    },
-    {
-      label: "我的音乐",
-      key: MenuKeyEnum.MY_MUSIC,
-      icon: (
-        <div>
-          {selectKeys.includes(MenuKeyEnum.MY_MUSIC) && (
-            <img alt="" src={myMusic_Active} width={16} />
-          )}
-          {!selectKeys.includes(MenuKeyEnum.MY_MUSIC) && <img alt="" src={myMusic} width={16} />}
-        </div>
-      )
+      icon: renderIcon(MenuKeyEnum.VIDEO, video, videoActive)
     },
     {
       label: "最近播放",
       key: MenuKeyEnum.RECENTLY_PLAYED,
-      icon: (
-        <div>
-          {selectKeys.includes(MenuKeyEnum.RECENTLY_PLAYED) && (
-            <img alt="" src={recentlyPlayed_active} width={16} />
-          )}
-          {!selectKeys.includes(MenuKeyEnum.RECENTLY_PLAYED) && (
-            <img alt="" src={recentlyPlayed} width={16} />
-          )}
-        </div>
-      )
+      icon: renderIcon(MenuKeyEnum.RECENTLY_PLAYED, recentlyPlayed, recentlyPlayedActive)
     },
     {
       label: "关注",
       key: MenuKeyEnum.ATTENTION,
-      icon: (
-        <div>
-          {selectKeys.includes(MenuKeyEnum.ATTENTION) && (
-            <img alt="" src={attentionActive} width={16} />
-          )}
-          {!selectKeys.includes(MenuKeyEnum.ATTENTION) && <img alt="" src={attention} width={16} />}
-        </div>
-      )
+      icon: renderIcon(MenuKeyEnum.ATTENTION, attention, attentionActive)
+    },
+    {
+      label: "我的歌单",
+      key: MenuKeyEnum.MY_PLAYLIST,
+      icon: renderIcon(MenuKeyEnum.MY_PLAYLIST, playList, playListActive)
+    },
+    {
+      label: "我的收藏",
+      key: MenuKeyEnum.COLLECT,
+      icon: renderIcon(MenuKeyEnum.COLLECT, myCollect, myCollectActive)
+    },
+    {
+      label: "我喜欢的音乐",
+      key: MenuKeyEnum.MY_LOVE_MUSIC,
+      icon: renderIcon(MenuKeyEnum.MY_LOVE_MUSIC, myLoveMusic, myLoveMusicActive)
     }
   ]
+  const setActiveMenu = useSetActiveMenu()
+
+  const onMenuItem = (item: {key: string; keyPath: string[]}) => {
+    console.log("item--", item)
+    const pathKey = item.key as unknown as MenuKeyEnum
+    setActiveMenu(pathKey)
+    const path = MAP_MENU_PATH.get(pathKey)
+    history.push(path!)
+  }
 
   return (
     <aside
@@ -101,7 +110,7 @@ const Aside: FC<IProps> = ({visible, selectKeys, onMenuItem}) => {
 
       <Menu
         className="flex-1 overflow-scroll"
-        selectedKeys={selectKeys}
+        selectedKeys={[activeMenu!]}
         onClick={onMenuItem}
         mode="inline"
         style={{width: 220, borderInlineEndColor: "#ffffff"}}

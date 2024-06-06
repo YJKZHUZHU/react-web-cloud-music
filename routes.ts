@@ -4,7 +4,13 @@ enum MenuKeyEnum {
   FIND_MUSIC = "findMusic",
   VIDEO = "video",
   MY_MUSIC = "myMusic",
-  MY_SONG_LIST = "songList"
+  MY_SONG_LIST = "songList",
+  RECENTLY_PLAYED = "recentlyPlayed",
+  ATTENTION = "attention",
+  COLLECT = "collect",
+  MY_PLAYLIST = "my-playlist",
+  MY_LOVE_MUSIC = "my-love-music",
+  EXCLUSIVE_BROADCAST = "exclusive-broadcast"
 }
 interface IRoue {
   component?: string | undefined
@@ -40,7 +46,8 @@ const routes: IRoue[] = [
         path: "/mv",
         component: "@/pages/mv",
         title: "MV",
-        wrappers: ["@/wrappers/Auth"]
+        wrappers: ["@/wrappers/Auth"],
+        parentKey: MenuKeyEnum.VIDEO
       },
       {
         path: "/mv-all",
@@ -65,7 +72,8 @@ const routes: IRoue[] = [
         path: "/attention",
         component: "@/pages/attention",
         title: "朋友",
-        wrappers: ["@/wrappers/Auth"]
+        wrappers: ["@/wrappers/Auth"],
+        parentKey: MenuKeyEnum.ATTENTION
       },
       {
         path: "/cloud",
@@ -80,10 +88,40 @@ const routes: IRoue[] = [
         parentKey: MenuKeyEnum.MY_MUSIC
       },
       {
+        path: "/collect-album",
+        component: "collect-album",
+        title: "收藏的专辑",
+        parentKey: MenuKeyEnum.COLLECT
+      },
+      {
+        path: "/collect-singer",
+        component: "collect-singer",
+        title: "收藏的歌手",
+        parentKey: MenuKeyEnum.COLLECT
+      },
+      {
+        path: "/collect-video",
+        component: "collect-video",
+        title: "收藏的视频",
+        parentKey: MenuKeyEnum.COLLECT
+      },
+      {
+        path: "/collect-special-column",
+        component: "collect-special-column",
+        title: "收藏的专栏",
+        parentKey: MenuKeyEnum.COLLECT
+      },
+      {
         path: "/find-music/song-list",
         component: "song-list",
         title: "歌单",
         parentKey: MenuKeyEnum.FIND_MUSIC
+      },
+      {
+        path: "/my-love-music",
+        component: "my-love-music",
+        title: "我喜欢的音乐",
+        parentKey: MenuKeyEnum.MY_LOVE_MUSIC
       },
       {
         path: "/find-music/quality-play-list/:id",
@@ -161,7 +199,7 @@ const routes: IRoue[] = [
         path: "/exclusive-broadcast",
         component: "exclusive-broadcast",
         title: "独家放送",
-        parentKey: MenuKeyEnum.FIND_MUSIC
+        parentKey: MenuKeyEnum.EXCLUSIVE_BROADCAST
       },
       {
         path: "/homepage/:uid",
@@ -190,12 +228,13 @@ const routes: IRoue[] = [
         path: "/my-playlist",
         component: "my-playlist",
         title: "我的歌单",
-        parentKey: MenuKeyEnum.MY_MUSIC
+        parentKey: MenuKeyEnum.MY_PLAYLIST
       },
       {
         path: "/recently-played",
         component: "recently-played",
-        title: "最近播放"
+        title: "最近播放",
+        parentKey: MenuKeyEnum.RECENTLY_PLAYED
       },
       {
         path: "/test",

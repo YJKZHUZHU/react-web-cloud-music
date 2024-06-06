@@ -1,39 +1,40 @@
 /** @format */
 
-import {Flex, Tag} from "antd"
+import {Button, Flex} from "antd"
 import {FC, useEffect, useState} from "react"
 import {useLocation, history} from "@umijs/max"
-import {ITagItem, MAP_TAGS_VIEWS, MenuKeyEnum} from "@/constants/layout"
+import {ITagItem, MAP_TAGS_VIEWS, MenuKeyEnum, TAG_LIST} from "@/constants/layout"
 import classNames from "classnames"
+import {useActiveMenu} from "@/store/app"
+import {EditOutlined} from "@ant-design/icons"
 
-interface IProps {
-  selectKeys: MenuKeyEnum[]
-}
-const TagsView: FC<IProps> = ({selectKeys}) => {
-  const selectKey = selectKeys[0] || ""
+const TagsView: FC = () => {
   const location = useLocation()
   const [tagsData, setTagsData] = useState<ITagItem[]>([])
+  const activeMenu = useActiveMenu()
 
   const [selectedTag, setSelectedTag] = useState<string>(location.pathname)
+
   const handleChange = (tag: ITagItem) => {
     if (tag.key === selectedTag) return
     setSelectedTag(tag.path)
     history.push(tag.path)
   }
-  useEffect(() => {
-    setTagsData(MAP_TAGS_VIEWS.get(selectKey) || [])
-  }, [selectKey])
 
   useEffect(() => {
-    console.log("location", location.pathname)
-    // if (tagsData.find((item) => item.path === location.pathname) === undefined) {
-    //   setTagsData([])
-    // } else {
-    //   setSelectedTag(location.pathname)
-    // }
-    setSelectedTag(location.pathname)
-  }, [location.pathname])
-  if (tagsData.length === 0) return <></>
+    const result = TAG_LIST.filter((item) => item.parentKey === activeMenu)
+    setTagsData(result)
+    if (result.length !== 0) {
+      if (location.pathname === result.at(0)?.path) {
+        setSelectedTag(result.at(0)?.path!)
+      } else {
+        setSelectedTag(location.pathname)
+      }
+    }
+  }, [activeMenu])
+
+  // if (tagsData.length === 0) return <></>
+
   return (
     <Flex className="h-[60px] ml-[24px]" flex={1} gap={20} wrap="nowrap" align="center">
       {tagsData?.map((item) => {
@@ -51,15 +52,11 @@ const TagsView: FC<IProps> = ({selectKeys}) => {
           </div>
         )
       })}
-      {/* {tagsData.map<React.ReactNode>((tag) => (
-        <Tag.CheckableTag
-          className="w-[100px] !h-[34px] !rounded-[1000px] !leading-[34px] !text-center"
-          key={tag.path}
-          checked={tag.path === selectedTag}
-          onChange={() => handleChange(tag)}>
-          {tag.label}
-        </Tag.CheckableTag>
-      ))} */}
+      {selectedTag === "/attention" && (
+        <Button type="primary" shape="round" icon={<EditOutlined />}>
+          发动态
+        </Button>
+      )}
     </Flex>
   )
 }
