@@ -1,32 +1,19 @@
 /** @format */
 
-import React, {FC, useEffect, useRef, useState} from "react"
+import {useEffect, useRef, useState} from "react"
 import {UserOutlined} from "@ant-design/icons"
-import {Col, Row, Avatar, Pagination, message, Spin, Flex} from "antd"
-import {useQuery} from "@/hooks"
+import {Avatar, Pagination, message, Spin, Flex} from "antd"
 import {history} from "@umijs/max"
 import {playlistSubscribers} from "@/api/playlistDetail"
 import {ISubscriber} from "@/types/playlistDetails"
 import man from "@/assets/man.png"
 import woman from "@/assets/woman.png"
 
-interface CollectionProps {
-  subscribedCount?: number
+interface Props {
+  id: number
 }
-
-interface ItemInterface {
-  userId: string | number
-  avatarUrl: string
-  nickname: string | number
-}
-
-interface ParamInterface {
-  id: string | number
-  limit?: number
-  offset?: number
-}
-const Collection = () => {
-  const {listId} = useQuery<{listId: number}>()
+const Collection = (props: Props) => {
+  const {id} = props
   const [loading, setLoading] = useState(false)
   const [total, setTotal] = useState(0)
   const [current, setCurrent] = useState(1)
@@ -37,7 +24,7 @@ const Collection = () => {
   const getList = async () => {
     try {
       setLoading(true)
-      const res = await playlistSubscribers({id: listId, ...pageRef.current})
+      const res = await playlistSubscribers({id, ...pageRef.current})
       setLoading(false)
       setList(res.data.subscribers)
       setTotal(res.data.total)
@@ -55,8 +42,8 @@ const Collection = () => {
   }
 
   useEffect(() => {
-    getList()
-  }, [])
+    id && getList()
+  }, [id])
 
   return (
     <Spin spinning={loading} tip="Loading..." delay={500}>
@@ -73,10 +60,12 @@ const Collection = () => {
                 />
                 <Flex vertical gap={4}>
                   <Flex align="center" gap={4}>
-                    <span onClick={() => history.push(`/homepage/${item.userId}`)} className="cursor-pointer text-[#262626] hover:text-[#000000] text-[16px]">
+                    <span
+                      onClick={() => history.push(`/homepage/${item.userId}`)}
+                      className="cursor-pointer text-[#262626] hover:text-[#000000] text-[16px]">
                       {item.nickname}
                     </span>
-                    <img className="h-[16]" src={item.gender === 1 ? man : woman} />
+                    <img className="h-[16px]" src={item.gender === 1 ? man : woman} />
                   </Flex>
                   <span className="text-[#939393] text-[14px]">{item.signature || "无"}</span>
                 </Flex>

@@ -16,7 +16,13 @@ import {Comment, Image} from "@/components"
 import dayjs from "dayjs"
 import Utils from "@/help"
 import classNames from "classnames"
-import {useGetDetail, useLoading, usePlayListDetailData} from "@/store/playlistDetail"
+import {
+  useGetDetail,
+  useGetLikelist,
+  useLikelist,
+  useLoading,
+  usePlayListDetailData
+} from "@/store/playlistDetail"
 import {ListTable, Collection} from "./components"
 import {
   useGetSongInfo,
@@ -38,10 +44,11 @@ const PlayList = () => {
   const {id} = useParams() as unknown as {id: string}
   const getSongInfo = useGetSongInfo()
   const playHistory = usePlayHistory()
+  const getLikelist = useGetLikelist()
+
   const setPlayHistory = useSetPlayHistory()
   const playListDetail = usePlayListDetailData(Number(id))!
   const getDetail = useGetDetail()
-  const virtualListHeight = useVirtualListHeight(0)
   const playRecord = usePlayRecord()
   const setPlayRecord = useSetPlayRecord()
   const setPlayRecordTip = useSetPlayRecordTip()
@@ -53,6 +60,7 @@ const PlayList = () => {
   const loading = useLoading()
 
   useEffect(() => {
+    getLikelist()
     getDetail(Number(id))
   }, [id])
 
@@ -99,8 +107,6 @@ const PlayList = () => {
     setPlayRecordTip("已添加到播放列表")
   }
 
-  console.log("playListDetail", playListDetail)
-
   const items = [
     {
       label: "歌曲列表",
@@ -121,7 +127,7 @@ const PlayList = () => {
       key: "3",
       children: (
         <div className=" min-h-[200px]">
-          <Collection />
+          <Collection id={Number(id)} />
         </div>
       )
     }

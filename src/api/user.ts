@@ -27,7 +27,9 @@ enum FetchEnum {
   userRecord = "/user/record",
   daily_signin = "/daily_signin",
   userSubcount = "/user/subcount",
-  follow = "/follow"
+  follow = "/follow",
+  likelist = "/likelist",
+  like = "/like"
 }
 
 interface ILoginRes {
@@ -88,4 +90,18 @@ export const userSubcount = () => {
 
 export const follow = (data: {id: string | number; t: 0 | 1}) => {
   return service<ISubCountInfo>(FetchEnum.follow, data)
+}
+
+// 喜欢的音乐列表
+interface ILikelistItem {
+  ids: number[]
+  checkPoint: number
+  code: number
+}
+export const likelist = () => {
+  return service<ILikelistItem>(FetchEnum.likelist, {uid: getItem(EnumLocalStorage.userId)})
+}
+
+export const like = (data: {id: number | string; like: boolean}) => {
+  return service<any>(FetchEnum.like, data)
 }

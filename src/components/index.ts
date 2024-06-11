@@ -42,6 +42,8 @@ export {default as Layout} from "./Layout"
 
 export {default as ImageCard} from "./ImageCard/index"
 
+export {default as Like} from "./Like"
+
 interface IUser {
   locationInfo: any
   liveInfo: any

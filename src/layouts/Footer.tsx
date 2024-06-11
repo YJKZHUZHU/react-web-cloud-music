@@ -1,7 +1,7 @@
 /** @format */
 
-import {useState, useRef, memo, useMemo} from "react"
-import {Slider, Tooltip, Dropdown, MenuProps, message, Flex} from "antd"
+import {useRef, memo, useMemo} from "react"
+import {Slider, Tooltip, message, Flex} from "antd"
 import {
   FullscreenOutlined,
   FullscreenExitOutlined,
@@ -13,7 +13,7 @@ import {
 import {useLocation} from "@umijs/max"
 import classnames from "classnames"
 import {usePlayRecord} from "@/hooks"
-import {Artists, Image} from "@/components"
+import {Artists, Image, Like} from "@/components"
 import Utils from "@/help"
 import ReactPlayer from "react-player"
 import playList from "@/assets/footer/play-list.png"
@@ -223,6 +223,7 @@ const Footer = memo((props: Props) => {
       <div className="flex-1 flex gap-[16px]">
         <div className="flex flex-col w-[650px]">
           <div className="flex items-center gap-[60px] self-center">
+            <Like id={songId} />
             <StepBackwardOutlined
               className="text-[30px]"
               onClick={() => onPlay(PLAY_TYPE_ENUM.prev)}

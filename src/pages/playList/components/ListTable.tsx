@@ -1,9 +1,8 @@
 /** @format */
 
 import {FC} from "react"
-import {HeartOutlined} from "@ant-design/icons"
 import {Flex, Spin} from "antd"
-import {Artists, Empty, PlayStatus, Tag, VideoIcon} from "@/components"
+import {Artists, Empty, PlayStatus, Tag, VideoIcon, Like} from "@/components"
 import Utils from "@/help"
 import {history} from "@umijs/max"
 import {useGetSongInfo} from "@/store/player"
@@ -52,8 +51,7 @@ const TableList: FC<TableListProps> = (props) => {
                     <span className="flex-1">{Utils.generateIndex(index)}</span>
                   </PlayStatus>
                 </div>
-
-                <HeartOutlined />
+                <Like id={item.id} />
               </Flex>
               <Flex className="flex-1 line-clamp-1" gap={4} align="center">
                 <span>{item.name}</span>
@@ -77,7 +75,10 @@ const TableList: FC<TableListProps> = (props) => {
                 <Artists color="#515151" hoverColor="#242425" data={item.ar} />
               </div>
               <div
-                onClick={() => history.push(`/album/${item?.al?.id}`)}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  history.push(`/album/${item?.al?.id}`)
+                }}
                 className="w-[200px] text-[#515151] hover:text-[#242425] cursor-pointer">
                 {item?.al?.name}
               </div>

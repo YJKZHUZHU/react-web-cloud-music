@@ -14,7 +14,7 @@ import {useParams, history} from "@umijs/max"
 import dayjs from "dayjs"
 import {album, dynamic, Song, AlbumInfo, IDynamicRes, subAlbum} from "@/api/album"
 import coverall from "@/assets/coverall.png"
-import {Artists, Image, Comment, PlayStatus} from "@/components"
+import {Artists, Image, Comment, PlayStatus, Like} from "@/components"
 import Utils from "@/help"
 import classNames from "classnames"
 import {CommentTypeEnum} from "@/types/comment"
@@ -94,7 +94,7 @@ const Album = () => {
                   <PlayStatus id={item.id} className=" pl-[12px]">
                     <span className="pl-[12px]">{Utils.generateIndex(index)}</span>
                   </PlayStatus>
-                  <HeartOutlined />
+                  <Like id={item.id} />
                 </Flex>
                 <Flex gap={4} align="center" className=" w-[50%]">
                   <span className="">{item.name}</span>
@@ -124,7 +124,7 @@ const Album = () => {
                 <div className="w-[20%]">
                   <Artists data={item?.ar} />
                 </div>
-                <div className=" w-[20%] text-[#525353] hover:text-[#252526] cursor-pointer">
+                <div className=" w-[20%] text-[#525353] hover:text-[#252526] cursor-pointer line-clamp-1">
                   {item?.al?.name}
                 </div>
                 <div className="w-[5%] text-[#ADADAE]">{Utils.formatSeconds(item?.dt)}</div>
