@@ -231,9 +231,27 @@ const routes: IRoue[] = [
         parentKey: MenuKeyEnum.MY_PLAYLIST
       },
       {
-        path: "/recently-played",
-        component: "recently-played",
-        title: "最近播放",
+        path: "/recently-played-single",
+        component: "recently-played-single",
+        title: "最近播放-歌曲",
+        parentKey: MenuKeyEnum.RECENTLY_PLAYED
+      },
+      {
+        path: "/recently-played-video",
+        component: "recently-played-video",
+        title: "最近播放-视频",
+        parentKey: MenuKeyEnum.RECENTLY_PLAYED
+      },
+      {
+        path: "/recently-played-playlist",
+        component: "recently-played-playlist",
+        title: "最近播放-歌单",
+        parentKey: MenuKeyEnum.RECENTLY_PLAYED
+      },
+      {
+        path: "/recently-played-album",
+        component: "recently-played-album",
+        title: "最近播放-专辑",
         parentKey: MenuKeyEnum.RECENTLY_PLAYED
       },
       {

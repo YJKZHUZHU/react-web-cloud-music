@@ -4,7 +4,7 @@ import store from "./localStorage"
 import dayjs from "dayjs"
 import calendar from "dayjs/plugin/calendar"
 import {IAllPlayRecordItem} from "@/store/user"
-import {IPlayHistoryItem, ISongsItem, PlayerModeEnum} from "@/store/player"
+import {PlayerModeEnum} from "@/store/player"
 
 dayjs.extend(calendar)
 

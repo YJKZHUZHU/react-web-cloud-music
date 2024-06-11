@@ -197,9 +197,9 @@ const Footer = memo((props: Props) => {
         </div>
         <div className="flex flex-col flex-1 gap-[15px] justify-center">
           <Flex align="center" gap={5}>
-            <span className="text-[#333333] line-clamp-1 flex-1">{songObj.name}</span>
+            <span className="text-[#333333] line-clamp-1">{songObj.name}</span>
             <i className="text-[12px]">-</i>
-            <Artists max={2} data={songObj.singerArr!} className=" text-[12px] flex-1" />
+            <Artists max={2} data={songObj.singerArr!} className=" text-[12px]" />
           </Flex>
           <Flex align="center" gap={5} className=" text-[12px] self-baseline">
             <span>{Utils.formatSeconds(playRef.current?.getCurrentTime()! * 1000)}</span>
@@ -297,7 +297,7 @@ const Footer = memo((props: Props) => {
             title={
               <Slider
                 tooltip={{open: false}}
-                className="h-[100px]"
+                className="!h-[100px]"
                 vertical
                 onChange={onVolume}
                 value={volum}

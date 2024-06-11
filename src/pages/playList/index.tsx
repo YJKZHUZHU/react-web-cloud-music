@@ -18,7 +18,6 @@ import Utils from "@/help"
 import classNames from "classnames"
 import {useGetDetail, useLoading, usePlayListDetailData} from "@/store/playlistDetail"
 import {ListTable, Collection} from "./components"
-
 import {
   useGetSongInfo,
   usePlayRecord,
@@ -32,7 +31,7 @@ import {
 } from "@/store/player"
 import {MouseEventHandler, useEffect, useMemo, useState} from "react"
 import {CommentTypeEnum} from "@/types/comment"
-import styles from "./index.scss"
+import {useVirtualListHeight} from "@/hooks"
 
 const PlayList = () => {
   const [showAll, setShowAll] = useState(false)
@@ -42,6 +41,7 @@ const PlayList = () => {
   const setPlayHistory = useSetPlayHistory()
   const playListDetail = usePlayListDetailData(Number(id))!
   const getDetail = useGetDetail()
+  const virtualListHeight = useVirtualListHeight(0)
   const playRecord = usePlayRecord()
   const setPlayRecord = useSetPlayRecord()
   const setPlayRecordTip = useSetPlayRecordTip()
@@ -99,6 +99,8 @@ const PlayList = () => {
     setPlayRecordTip("已添加到播放列表")
   }
 
+  console.log("playListDetail", playListDetail)
+
   const items = [
     {
       label: "歌曲列表",
@@ -127,17 +129,19 @@ const PlayList = () => {
 
   return (
     <Flex
+      flex={1}
       vertical
       gap={24}
-      className={classNames("bg-[#ffffff] rounded-[20px] p-[16px]", styles._playList)}>
+      // style={{minHeight: virtualListHeight}}
+      className={classNames("bg-[#ffffff] rounded-[20px] p-[16px] ")}>
       <Flex gap={16}>
         <Image
-          size={[200, 200]}
+          size={[212, 212]}
           multiple={2}
           src={playListDetail?.playlist.creator.backgroundUrl}
-          width={200}
-          height={200}
-          className="w-[200px] h-[200px]"
+          width={212}
+          height={212}
+          className="w-[212px] h-[212px]"
         />
 
         <Flex flex={1} vertical gap={12}>
@@ -228,12 +232,12 @@ const PlayList = () => {
           </Flex>
 
           <Flex align="center" gap={12}>
-            <Flex>
+            <Flex align="center">
               <span className="text-[#363D62]">简&emsp;介：</span>
               {playListDetail?.playlist?.description && (
                 <Flex flex={1} align="center" gap={4}>
                   <span
-                    className={classNames("text-[#BABABD], leading-[20px]", {
+                    className={classNames("text-[#535353], leading-[20px]", {
                       "line-clamp-1": !showAll
                     })}>
                     {playListDetail?.playlist?.description}
@@ -252,7 +256,7 @@ const PlayList = () => {
           </Flex>
         </Flex>
       </Flex>
-      <Tabs defaultActiveKey="1" className={styles.tabs} tabBarStyle={{margin: 0}} items={items} />
+      <Tabs defaultActiveKey="1" tabBarStyle={{margin: 0}} items={items} />
       <Modal
         width={400}
         classNames={{header: "text-center text-[#272828] font-[600] ", body: "flex justify-center"}}

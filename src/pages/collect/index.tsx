@@ -3,6 +3,7 @@
 import {useState, FC} from "react"
 import {Tabs, Spin, Flex, TabsProps} from "antd"
 import {useVirtualListHeight} from "@/hooks"
+import {Layout} from "@/components"
 import {TabEnum, MapTab} from "@/constants/collect"
 import {Album, Singer, Video} from "./components"
 

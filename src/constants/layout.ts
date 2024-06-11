@@ -26,7 +26,7 @@ export const MAP_MENU_PATH = new Map<MenuKeyEnum, string>()
   .set(MenuKeyEnum.VIDEO, "/video")
   .set(MenuKeyEnum.MY_PLAYLIST, "/my-playlist")
   .set(MenuKeyEnum.MY_LOVE_MUSIC, "/my-love-music")
-  .set(MenuKeyEnum.RECENTLY_PLAYED, "/recently-played")
+  .set(MenuKeyEnum.RECENTLY_PLAYED, "/recently-played-single")
   .set(MenuKeyEnum.ATTENTION, "/attention")
   .set(MenuKeyEnum.COLLECT, "/collect-album")
 
@@ -141,9 +141,27 @@ export const TAG_LIST: ITagItem[] = [
     parentKey: MenuKeyEnum.ATTENTION
   },
   {
-    label: "最近播放",
-    path: "/recently-played",
-    key:  "/recently-played",
+    label: "歌曲",
+    path: "/recently-played-single",
+    key:  "/recently-played-single",
+    parentKey: MenuKeyEnum.RECENTLY_PLAYED
+  },
+  {
+    label: "视频",
+    path: "/recently-played-video",
+    key:  "/recently-played-video",
+    parentKey: MenuKeyEnum.RECENTLY_PLAYED
+  },
+  {
+    label: "歌单",
+    path: "/recently-played-playlist",
+    key:  "/recently-played-playlist",
+    parentKey: MenuKeyEnum.RECENTLY_PLAYED
+  },
+  {
+    label: "专辑",
+    path: "/recently-played-album",
+    key:  "/recently-played-album",
     parentKey: MenuKeyEnum.RECENTLY_PLAYED
   },
   {

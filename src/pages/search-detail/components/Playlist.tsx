@@ -52,7 +52,7 @@ const SongList = (props: ComponentProps<MusicPlaylist>) => {
 
             <Flex align="center" className="text-[#B0B2B2] mr-[12px] w-[150px]" gap={4}>
               <span>by</span>
-              <span>{item?.creator?.nickname}</span>
+              <span className=" line-clamp-1">{item?.creator?.nickname}</span>
             </Flex>
           </Flex>
         )

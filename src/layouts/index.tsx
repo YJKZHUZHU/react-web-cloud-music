@@ -1,13 +1,12 @@
 /** @format */
 
-import {createContext, FC, useEffect, useState} from "react"
+import {FC, useEffect} from "react"
 import {Flex} from "antd"
-import {useLocation, history, useRouteProps, Outlet} from "@umijs/max"
+import {useLocation, useRouteProps, Outlet} from "@umijs/max"
 import {useApp} from "@/hooks"
 import {useSetIsPlay} from "@/store/player"
 import classNames from "classnames"
-import {MAP_MENU_PATH, MenuKeyEnum} from "@/constants/layout"
-import {useActiveMenu, useSetActiveMenu} from "@/store/app"
+import {useSetActiveMenu} from "@/store/app"
 import PlayHistoryLayout from "./PlayHistoryLayout"
 import Footer from "./Footer"
 import PlayerLayout from "./PlayerLayout"

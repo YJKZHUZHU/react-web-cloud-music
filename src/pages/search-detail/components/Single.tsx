@@ -15,8 +15,6 @@ import {ComponentProps} from "./index"
 const Single = (props: ComponentProps<ISearchSongItem>) => {
   const {data, height = 0, onScroll, keywords} = props
 
-  console.log("heoght", height)
-
   const getSongInfo = useGetSongInfo()
 
   return (
