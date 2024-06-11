@@ -105,7 +105,7 @@ const PlayList = () => {
     {
       label: "歌曲列表",
       key: "1",
-      children: <ListTable data={playListDetail?.playlist.tracks!} loading={loading} />
+      children: <ListTable data={playListDetail?.playlist.tracks! || []} loading={loading} />
     },
     {
       label: commentTabContent,

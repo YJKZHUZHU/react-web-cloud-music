@@ -16,7 +16,7 @@ interface TableListProps {
 }
 
 const TableList: FC<TableListProps> = (props) => {
-  const {data, loading} = props
+  const {data = [], loading} = props
   const getSongInfo = useGetSongInfo()
 
   return (
