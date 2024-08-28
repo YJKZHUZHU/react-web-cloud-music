@@ -79,7 +79,7 @@ const TableList: FC<TableListProps> = (props) => {
                   e.stopPropagation()
                   history.push(`/album/${item?.al?.id}`)
                 }}
-                className="w-[200px] text-[#515151] hover:text-[#242425] cursor-pointer">
+                className="w-[200px] text-[#515151] hover:text-[#242425] cursor-pointer line-clamp-1">
                 {item?.al?.name}
               </div>
               <div className="w-[80px] text-[#B6B6B6]">{Utils.formatSeconds(item?.dt)}</div>

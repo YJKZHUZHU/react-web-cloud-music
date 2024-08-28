@@ -27,8 +27,6 @@ export default function () {
     }
   }, [uid])
   const renderList = (source: ISongListItem[]) => {
-    const data = Utils.chunkArray(source, 6)
-
     return (
       <Flex wrap gap={21}>
         {source.map((item) => {
@@ -36,7 +34,7 @@ export default function () {
             <Flex
               className="w-[170px]"
               key={item.id}
-              onClick={() => history.push(`/playList/${item.id}?listId=${item.id}`)}
+              onClick={() => history.push(`/playList/${item.id}`)}
               vertical
               gap={8}>
               <div className=" relative cursor-pointer ">

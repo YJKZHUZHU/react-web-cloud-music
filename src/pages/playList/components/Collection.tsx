@@ -4,6 +4,7 @@ import {useEffect, useRef, useState} from "react"
 import {UserOutlined} from "@ant-design/icons"
 import {Avatar, Pagination, message, Spin, Flex} from "antd"
 import {history} from "@umijs/max"
+import {Empty} from "@/components"
 import {playlistSubscribers} from "@/api/playlistDetail"
 import {ISubscriber} from "@/types/playlistDetails"
 import man from "@/assets/man.png"
@@ -44,6 +45,10 @@ const Collection = (props: Props) => {
   useEffect(() => {
     id && getList()
   }, [id])
+
+  if (!loading && list.length === 0) {
+    return <Empty desc="暂无收藏者" />
+  }
 
   return (
     <Spin spinning={loading} tip="Loading..." delay={500}>

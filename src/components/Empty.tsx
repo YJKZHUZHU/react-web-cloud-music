@@ -11,7 +11,7 @@ const Empty = (props: Props) => {
   return (
     <Flex flex={1} vertical gap={8} align="center" justify="center">
       <img src={empty} width={100} />
-      <span className="w-[100px] text-center text-[#535454]">{desc}</span>
+      <span className="min-w-[100px] text-center text-[#535454]">{desc}</span>
     </Flex>
   )
 }

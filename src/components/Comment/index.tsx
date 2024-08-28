@@ -5,7 +5,7 @@ import {commentHot, commentNew} from "@/api/comment"
 import {FC, useEffect, useRef, useState} from "react"
 import {CommentSortTypeEnum, CommentTypeEnum, ICommentItem} from "@/types/comment"
 import {history} from "@umijs/max"
-import {CommentItem} from "@/components"
+import {CommentItem, Empty} from "@/components"
 import classNames from "classnames"
 import {RightOutlined} from "@ant-design/icons"
 
@@ -97,8 +97,12 @@ const Comment: FC<Props> = (props) => {
     immediate && getData()
   }, [id, immediate])
 
+  if (!loading && hotComment.length === 0 && newCommment.length === 0) {
+    return <Empty desc="还没有评论，快来抢沙发吧" />
+  }
+
   return (
-    <Flex vertical gap={20} className={classNames("mt-[20px]", className)}>
+    <Flex flex={1} vertical gap={20} className={classNames("mt-[20px]", className)}>
       <Spin className={className} spinning={loading} tip="Loading..." delay={500}>
         {hotComment.length !== 0 && (
           <Flex vertical gap={20}>

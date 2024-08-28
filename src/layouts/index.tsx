@@ -11,6 +11,7 @@ import PlayHistoryLayout from "./PlayHistoryLayout"
 import Footer from "./Footer"
 import PlayerLayout from "./PlayerLayout"
 import {Header, Aside, TagsView} from "./components"
+import {MenuKeyEnum} from "@/constants/layout"
 
 const BasicLayout: FC = () => {
   useApp()
@@ -28,7 +29,12 @@ const BasicLayout: FC = () => {
   }, [showFooter])
 
   useEffect(() => {
-    setActiveMenu(routeProps.parentKey || "")
+    console.log("routeProps", routeProps, pathname)
+    if (pathname === "/playList/2130937924") {
+      setActiveMenu(MenuKeyEnum.MY_LOVE_MUSIC)
+    } else {
+      setActiveMenu(routeProps.parentKey || "")
+    }
   }, [routeProps])
 
   return (

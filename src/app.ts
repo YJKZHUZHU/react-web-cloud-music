@@ -23,7 +23,7 @@ interface IRouteChangeParams {
 }
 
 export function onRouteChange({location, clientRoutes, ...rest}: IRouteChangeParams) {
-  console.log("clientRoutes", historyList, location, clientRoutes, rest)
+  // console.log("clientRoutes", historyList, location, clientRoutes, rest)
 
   if (login() && location.pathname === "/login") {
     history.replace("/personal-recommendation")
@@ -138,7 +138,6 @@ export const request: RequestConfig = {
 }
 
 export const antd: RuntimeAntdConfig = (memo) => {
-  console.log("memp", memo)
   memo.locale = zh_cn
 
   memo.input ??= {

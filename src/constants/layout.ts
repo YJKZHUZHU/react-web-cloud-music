@@ -21,11 +21,13 @@ export enum MenuKeyEnum {
   MY_LOVE_MUSIC = "my-love-music",
   EXCLUSIVE_BROADCAST = "exclusive-broadcast"
 }
+///playList/2130937924
 export const MAP_MENU_PATH = new Map<MenuKeyEnum, string>()
   .set(MenuKeyEnum.FIND_MUSIC, "/personal-recommendation")
   .set(MenuKeyEnum.VIDEO, "/video")
   .set(MenuKeyEnum.MY_PLAYLIST, "/my-playlist")
-  .set(MenuKeyEnum.MY_LOVE_MUSIC, "/my-love-music")
+  // .set(MenuKeyEnum.MY_LOVE_MUSIC, "/my-love-music")
+  .set(MenuKeyEnum.MY_LOVE_MUSIC, "/playList/2130937924")
   .set(MenuKeyEnum.RECENTLY_PLAYED, "/recently-played-single")
   .set(MenuKeyEnum.ATTENTION, "/attention")
   .set(MenuKeyEnum.COLLECT, "/collect-album")
